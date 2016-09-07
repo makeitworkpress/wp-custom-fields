@@ -1,0 +1,464 @@
+// out: ../css/admin.min.css, compress: true
+
+/**
+ * All CSS for displaying (additional) admin sections
+ *
+ * @package Divergent
+ * @since 1.0.0
+ * @author Michiel
+ */
+ 
+/**
+ * Admin Attributes
+ * ----------------------------------
+ */
+@grid-space: 24px;
+
+@white: #fff;
+@light-white: rgba(255, 255, 255, 0.7);
+@dark-white: #f5f5f5;
+@light-grey: #e5e5e5;
+@divergent: #f07;
+
+@wp-greyborder: #999;
+@wp-blueborder: #0E3950;
+@wp-darkblue: #0073AA;
+@wp-blue: #0091CD;
+@wp-lightblue: #00A0D2;
+@wp-black: #23282d;
+@wp-grey: #f1f1f1;
+@wp-greyer: #eee;
+@wp-red: #dd3d36;
+@wp-boxshadow: 0 1px 0 @light-white inset, 0 1px 0 rgba(0, 0, 0, 0.08);
+@wp-boxshadow-hover: 0 1px 0 @light-white inset;
+
+@base-radius: 3px;
+@base-transition: all 300ms ease-out;
+
+.wp-input {
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+    background-color: #fff;
+    outline: 0; 
+    margin: 1px;
+    padding: 3px 5px;    
+}
+
+.hidden {
+    display: none;
+}
+
+/**
+ * Framework Grid
+ * ----------------------------------
+ */
+@import 'grid.less';
+
+/**
+ * Framework Layout
+ * ----------------------------------
+ */
+.divergent-framework {
+    header {
+        background: @wp-black;   
+        border-radius: @base-radius @base-radius 0 0;
+        padding: @grid-space @grid-space 0 @grid-space;
+        h2 {
+            color: @white;
+            margin-bottom: 10px;
+        }
+    }
+    .button {
+        margin-right: 5px;
+    }
+    a, i {
+        text-decoration: none;
+        transition: all 350ms ease-in-out;
+    }
+    footer {
+        background: @wp-black;   
+        border-radius: 0 0 @base-radius @base-radius;        
+        padding: @grid-space;
+    }
+    input, select, textarea {
+        max-width: 100%;
+        vertical-align: top;
+    }
+    label {
+        clear: both;
+        display: block;
+        margin: 7px 0;
+    }
+}
+.divergent-tabs {
+    margin: @grid-space 0 0 0;
+    li {
+        display: inline-block;
+        margin: 0;
+        a {
+            background-color: @wp-blue;
+            color: @white;
+            display: block;
+            font-size: 14px;
+            padding: 12px 20px;
+            transition: @base-transition;
+            .fa {
+                margin-right: 7px;
+            }
+            &.active, &:hover {
+                background-color: @white;
+                color: @wp-black;
+            }
+            &:focus {
+                box-shadow: none;
+                outline: none;
+            }
+        }
+    }
+    .divergent-metaboxes & {
+        li a {
+            border: 1px solid @wp-blue;
+            border-bottom: none;
+            &.active, &:hover {
+                border: 1px solid @wp-greyer;
+                border-bottom: none;               
+            }
+            margin-bottom: -1px;
+        }
+    }
+}
+.divergent-sections {
+    background: #fff;
+    overflow: hidden;
+    padding: 10px 40px 40px 40px; 
+    .divergent-metaboxes & {
+        border: 1px solid @wp-greyer;
+        padding: 10px @grid-space @grid-space @grid-space; 
+    }
+}
+.divergent-section {
+    display: none;
+    &.active {
+        display: block;
+    }
+}
+.divergent-option-field {
+    padding-bottom: 20px;
+}
+.divergent-field-context {
+    border-bottom: 1px solid @light-grey;
+    h4 {
+        font-size: 1.1em;
+        margin: 0;
+    }
+}
+.divergent-field-input {
+    margin: 20px 0;
+    .error {
+        border: 1px solid @wp-red;
+    }
+    label.error {
+        background: lighten(@wp-red, 30); 
+        display: block;
+        margin: 10px 1px 0 1px;
+        padding: 3px 5px;
+        position: relative;
+        &:before {
+            border-bottom: 7px solid @wp-red;
+            border-left: 7px solid transparent; 
+            border-right: 7px solid transparent; 
+            content: '';
+            display: block;
+            height: 0;
+            left: 5px;
+            position: absolute;
+            top: -7px;
+            width: 0;
+        }
+    }    
+}
+
+/**
+ * Framework Fields
+ * ----------------------------------
+ */
+
+
+/**
+ * Floating Fields
+ */
+.divergent-field-left {
+    display: inline-block;
+    margin-right: @grid-space;
+    vertical-align: top;
+}
+
+/* Uploader */
+.divergent-upload-wrapper {
+    clear: both;
+    overflow: hidden;
+}
+.divergent-single-media {
+    box-sizing: border-box;
+    float: left;  
+    display: block;
+    height: 150px;
+    margin-right: 7px;
+    position: relative; 
+    text-align: center;    
+    width: 150px;
+    i {
+        font-size: 16px;  
+    }
+    img {
+        height: auto;
+        max-width: 100%;
+    }
+    .divergent-upload-remove {
+        color: @wp-red; 
+        padding: 7px;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        &:hover {
+            color: @wp-blue;
+        }
+    }
+    .divergent-upload-add {
+        left: 50%;
+        margin-left: -60px;
+        position: absolute;
+        top: 44%;
+        width: 120px;
+    }
+    &.empty {
+        border: 3px dashed @wp-grey;
+    }
+}
+.divergent-media-url {
+    bottom: 0;
+    height: 27px;
+    left: 0;
+    padding: 3px;
+    position: absolute;
+    i {
+        background-color: @wp-greyer;
+        border: 1px solid #ddd;
+        border-right: none;
+        height: 25px;
+        line-height: 25px; 
+        width: 18px;
+    }
+    input {
+        border-left: none;
+        bottom: 3px;
+        left: 22px;        
+        margin: 0;
+        max-width: 125px;
+        position: absolute;
+        &:focus {
+            border-color: #ddd;
+            box-shadow: none;
+        }
+    }
+}
+
+.divergent-background-attributes .divergent-select {
+    display: block;
+    min-width: 190px;
+}
+
+/* Colorpicker */
+.divergent-colorpicker-wrapper {
+    margin-top: 3px;
+    overflow: hidden;
+}
+
+/* Repeatable */
+.divergent-repeatable-group {
+    background-color: @white;
+    border: 1px solid @light-grey;
+    border-radius: @base-radius;
+    margin-bottom: 10px;
+    > h4 {
+        border-bottom: 1px solid @light-grey;
+        font-size: 1.2em;
+        margin-bottom: 0;
+        padding: 0 @grid-space 1.33em @grid-space;
+    }
+    ~ .button {
+        float: right;
+    }
+}
+.divergent-repeatable-group-fields {
+    padding: @grid-space @grid-space 0 @grid-space;
+}
+.divergent-repeatable-toggle {
+    float: right;
+    &:focus {
+        box-shadow: none;
+        outline: none;
+    }
+}
+
+/* Boxshadow */
+.divergent-boxshadow {
+    overflow: hidden;
+}
+.divergent-boxshadow-field {
+    float: left;
+    margin-right: 20px;
+    min-width: 240px;
+}
+
+/* Buttonset */
+.buttonset {
+    label {
+        background-color: #f5f5f5;        
+        border: 1px solid @wp-grey;
+        float: left;
+        margin: 0;
+        padding: 14px 20px;
+        transition: @base-transition;
+    }
+    input:checked + label, label:hover {
+        background-color: #fff;
+        font-weight: bold;
+    }
+    input {
+        height: 0;
+        margin: 0;
+        min-width: 0;
+        visibility: hidden;
+        width: 0;        
+    }
+}
+
+/* Slider */
+.divergent-slider {
+    background: @dark-white;
+    border: 1px solid @wp-grey;
+    border-radius: @base-radius;
+    height: 10px;
+    float: left;
+    margin: 7px 10px 7px 0;
+    max-width: 140px;
+    min-width: 60px;
+    position: relative;
+    width: 80%;
+    .ui-slider-handle {
+        background:@wp-lightblue;
+        box-shadow: @wp-boxshadow;
+        border: 1px solid @light-grey;
+        border-radius: @base-radius;
+        display: block;
+        height: 14px;
+        margin: -3px 0 0 -7px;
+        position: absolute;
+        width: 14px;
+        &:after {
+            border-left: 1px solid @light-white;
+            border-right: 1px solid @light-white;
+            content: '';
+            display: block;
+            height: 8px;
+            margin: 3px 4px;
+            width: 4px;
+            
+        }       
+        &:hover, &:focus {
+            background: @wp-blue; 
+            box-shadow: @wp-boxshadow-hover;
+        }
+    }
+}
+.divergent-slider-wrapper label {
+    color: @wp-greyborder;  
+    position: relative;
+    top: -3px;
+}
+.divergent-slider-value {
+    max-width: 140px;
+    min-width: 70px;
+    width: 20%;
+}
+
+/* Location Field */
+.divergent-map-canvas {
+    height: 360px;
+    margin: 20px 0;
+    width: 100%;
+}
+
+/* Icon Field */
+.divergent-icons {
+    border: 1px solid @wp-grey;
+    max-height: 240px;
+    overflow: scroll;
+}
+.divergent-icons-title, .divergent-typography-title {
+    border-bottom: 1px solid @wp-grey;
+    margin: 0;
+    padding: @grid-space/2;
+}
+.divergent-icons-icon, .divergent-typography-font {
+    border-bottom: 1px solid @wp-grey;
+    border-right: 1px solid @wp-grey; 
+    float: left;
+    height: @grid-space * 1.5;
+    width: @grid-space * 1.5;
+    label {
+        font-size: 18px;
+        height: @grid-space * 1.5;
+        i {
+            line-height: @grid-space * 1.5;
+        }
+        margin: 0;
+        text-align: center;
+    }
+    input {
+        display: none;
+    }
+    input:checked ~ label, label:hover {
+        background-color: @wp-blue;
+        color: @white;
+    }
+}
+
+/* Typography Field */
+.divergent-typography-fonts {
+    border: 1px solid @wp-grey;
+    max-height: 168px;
+    max-width: 240px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.divergent-typography-font {
+    float: none;
+    height: auto;
+    width: auto;
+    &.selected, label:hover, input:checked ~ label {
+        img {
+            border-bottom: 2px solid @wp-blue;
+        }
+    }    
+}
+
+.divergent-icon-list {
+    display: block;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Dimensions Field */
+.divergent-dimensions-input {
+    input {
+        max-width: 120px;
+    }
+    i {
+        height: 28px;
+        line-height: 30px;
+        text-align: center;
+    }
+}
