@@ -29,7 +29,7 @@ class Divergent_Field_Typography implements Divergent_Field {
                         $weights = isset($font['weights']) ? ' data-weights="' . implode(',', $font['weights']) . '"' : '';
                         $styles = isset($font['styles']) ? ' data-styles="' . implode(',', $font['styles']) . '"' : ''; 
 
-                        $output .= '<p class="divergent-typography-title"><strong>' . __('Selected Font:', DIVERGENT_LANGUAGE) . '</strong></p>';    
+                        $output .= '<p class="divergent-typography-title"><strong>' . __('Selected Font:', 'divergent') . '</strong></p>';    
                         $output .= '<div class="divergent-typography-set">';                    
                         $output .= '    <div class="divergent-typography-font selected"' . $weights . $styles . '>';           
                         $output .= '        <img src="' . $font_display . '" />';              
@@ -69,7 +69,7 @@ class Divergent_Field_Typography implements Divergent_Field {
         $output .= '<div class="divergent-typography-styles divergent-field-left">';
         
         // Text Dimensions
-        $dimensions = array('size' => __('Font-Size', DIVERGENT_LANGUAGE), 'line_spacing' => __('Line-Height', DIVERGENT_LANGUAGE));
+        $dimensions = array('size' => __('Font-Size', 'divergent'), 'line_spacing' => __('Line-Height', 'divergent'));
         
         foreach($dimensions as $key => $label) {
             $icon = 'format_' . $key;

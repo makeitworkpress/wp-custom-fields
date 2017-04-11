@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     die; 
 } 
 
+namespace Controllers;
+
 abstract class Divergent_Abstract {
     
     /**
@@ -28,7 +30,12 @@ abstract class Divergent_Abstract {
     /**
      * Holds the actions registered in a class
      */
-    protected $actions;    
+    protected $actions;
+    
+    /**
+     * Holds the additional parameters as added by a child class
+     */
+    protected $actions;      
     
     /** 
      * Constructor. This allows the boot class to be only initialized once.
@@ -40,14 +47,15 @@ abstract class Divergent_Abstract {
      *
      * @param array $params Obtional parameters which can be passed to the class
      */
-    public static function instance(Array $params = array()) {
+    public static function instance( Array $params = array() ) {
         
         $c = get_called_class();
         if ( !isset( self::$instance[$c] ) ) {
             self::$instance[$c] = new $c();
-            self::$instance[$c]->initialize($params);
-            self::$instance[$c]->register_hooks();
-            self::$instance[$c]->add_hooks();
+            self::$instance[$c]->params = $params;
+            self::$instance[$c]->initialize();
+            self::$instance[$c]->registerHooks();
+            self::$instance[$c]->addHooks();
         }
 
         return self::$instance[$c];
@@ -56,7 +64,7 @@ abstract class Divergent_Abstract {
     /**
      * Adds registered hooks
      */
-    private function add_hooks() {
+    private function addHooks() {
         
         // Filters
         if( isset($this->filters) && is_array($this->filters) )  {
@@ -82,9 +90,9 @@ abstract class Divergent_Abstract {
     /**
      * Determines the use of an initialize function
      *
-     * @param array $params Optional parameters which can be passed to the class     
+     * @param array $params Optional parameters whichare passed to the class     
      */
-    abstract protected function initialize(Array $params);
+    abstract protected function initialize( Array $params );
     
     /**
      * Holds the function for registering custom action and filter hooks.
@@ -94,6 +102,6 @@ abstract class Divergent_Abstract {
      *      array('string filter_or_action_name', 'string method_or_function', 'int priority', 'int number_of_arguments')
      * )
      */
-    abstract protected function register_hooks();    
+    abstract protected function registerHooks();    
 
 }

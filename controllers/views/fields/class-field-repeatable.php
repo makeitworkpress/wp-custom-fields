@@ -12,8 +12,8 @@ class Divergent_Field_Repeatable implements Divergent_Field {
     
     public static function render($field = array()) {
         
-        $add = isset($field['add']) ? $field['add'] : __('Add Group', DIVERGENT_LANGUAGE);
-        $remove = isset($field['remove']) ? $field['remove'] : __('Remove Group', DIVERGENT_LANGUAGE);
+        $add = isset($field['add']) ? $field['add'] : __('Add Group', 'divergent');
+        $remove = isset($field['remove']) ? $field['remove'] : __('Remove Group', 'divergent');
         $fields = isset($field['fields']) ? $field['fields'] : array();
         $field['values'] = empty($field['values']) ? array() : $field['values'];
         $arrow = isset($field['closed']) ? '  fa-rotate-180' : '';   

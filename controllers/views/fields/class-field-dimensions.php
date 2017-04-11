@@ -20,10 +20,10 @@ class Divergent_Field_Dimensions implements Divergent_Field {
         if($border == 'all') {
             
             $sides = array(
-                'top' => __('Top', DIVERGENT_LANGUAGE), 
-                'right' => __('Right', DIVERGENT_LANGUAGE), 
-                'bottom' => __('Bottom', DIVERGENT_LANGUAGE), 
-                'left' => __('Left', DIVERGENT_LANGUAGE)
+                'top' => __('Top', 'divergent'), 
+                'right' => __('Right', 'divergent'), 
+                'bottom' => __('Bottom', 'divergent'), 
+                'left' => __('Left', 'divergent')
             );
             
             foreach($sides as $key => $side) {

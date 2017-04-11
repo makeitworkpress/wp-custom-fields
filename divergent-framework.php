@@ -1,11 +1,9 @@
 <?php 
 /**
- *  Plugin Name: Divergent Framework
- *  Plugin URI:  #
  *  Description: The Divergent Framework is a very extensive options framework for generating option pages, metaboxes, category metaboxes and custom user meta fields
- *  Version:     0.0.1
+ *  Version:     1.0.0
  *  Author:      Make it WorkPress
- *  Author URI:  http://www.makeitworkpress.com
+ *  Author URI:  https://www.makeitworkpress.com
  *  Domain Path: /languages
  *  Text Domain: divergent
  */
@@ -16,27 +14,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 } 
 
 /**
+ * Registers the function for autoloading this framework
+ */
+spl_autoload_register( function($classname) {
+
+    $class     = str_replace( '\\', DIRECTORY_SEPARATOR, str_replace( '_', '-', strtolower($classname) ) );
+    
+    $file_path = plugin_dir_path( __FILE__ ) . DIRECTORY_SEPARATOR . 'class-' . $class . '.php';
+    
+    if ( file_exists( $file_path ) ) {
+        require_once $file_path;
+    }    
+} );
+
+/**
  * Initializes the plugin
  */
 if( ! class_exists( 'Divergent' ) ) {
     
     /*
-     * Defines Plugin Constants
+     * Define Constants
      */
-    defined( 'DIVERGENT_LANGUAGE' ) or define( 'DIVERGENT_LANGUAGE', 'divergent' );
-    defined( 'DIVERGENT_CONFIG_PATH' ) or define( 'DIVERGENT_CONFIG_PATH', plugin_dir_path( __FILE__ ) . 'configurations/' );
-    defined( 'DIVERGENT_INCLUDES_PATH' ) or define( 'DIVERGENT_INCLUDES_PATH', plugin_dir_path( __FILE__ ) . 'classes/' );
     defined( 'DIVERGENT_ASSETS_URL' ) or define( 'DIVERGENT_ASSETS_URL', plugin_dir_url( __FILE__ ) . 'assets/' );
     defined( 'DIVERGENT_PATH' ) or define( 'DIVERGENT_PATH', plugin_dir_path( __FILE__ ) );
 
     /**
-     * Include required assets and boot the plugin
+     * Boot our application
      */
-    require_once( DIVERGENT_INCLUDES_PATH . 'class-divergent-abstract.php');
-    require_once( DIVERGENT_INCLUDES_PATH . 'class-divergent-helpers.php');
-    require_once( DIVERGENT_INCLUDES_PATH . 'class-divergent.php');
-    require_once( DIVERGENT_CONFIG_PATH . 'configurations.php');
-
-    $divergent = Divergent::instance();
+    $divergent = Controllers\Divergent::instance();
 
 }

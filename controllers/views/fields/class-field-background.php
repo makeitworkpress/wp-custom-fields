@@ -19,8 +19,8 @@ class Divergent_Field_Background implements Divergent_Field {
 
         // Media Upload
         $upload_custom['subtype']   = 'image';
-        $upload_custom['button']    = __('Add Background', DIVERGENT_LANGUAGE);
-        $upload_custom['title']     = __('Select a Background', DIVERGENT_LANGUAGE);
+        $upload_custom['button']    = __('Add Background', 'divergent');
+        $upload_custom['title']     = __('Select a Background', 'divergent');
         $upload_custom['multiple']  = false; 
         $upload_custom['id']        = $field['id'] . '-upload';
         $upload_custom['name']      = $field['name'] . '[upload]';
@@ -37,44 +37,44 @@ class Divergent_Field_Background implements Divergent_Field {
         // Background Select Attributes
         $background_attributes = array(
             'repeat' => array(
-                'placeholder' => __('Repeat', DIVERGENT_LANGUAGE),
+                'placeholder' => __('Repeat', 'divergent'),
                 'options'  => array(
-                    'no-repeat' => __('No Repeat', DIVERGENT_LANGUAGE),
-                    'repeat' => __('Repeat', DIVERGENT_LANGUAGE),
-                    'repeat-x' => __('Repeat Horizontally', DIVERGENT_LANGUAGE),
-                    'repeat-y' => __('Repeat Vertically', DIVERGENT_LANGUAGE),
-                    'inherit' => __('Inherit', DIVERGENT_LANGUAGE)
+                    'no-repeat' => __('No Repeat', 'divergent'),
+                    'repeat' => __('Repeat', 'divergent'),
+                    'repeat-x' => __('Repeat Horizontally', 'divergent'),
+                    'repeat-y' => __('Repeat Vertically', 'divergent'),
+                    'inherit' => __('Inherit', 'divergent')
                 )
             ),
             'attachment' => array(
-                'placeholder' => __('Attachment', DIVERGENT_LANGUAGE),
+                'placeholder' => __('Attachment', 'divergent'),
                 'options'  => array(
-                    'fixed' => __('Fixed', DIVERGENT_LANGUAGE),
-                    'scroll' => __('Scroll', DIVERGENT_LANGUAGE),
-                    'inherit' => __('Inherit', DIVERGENT_LANGUAGE) 
+                    'fixed' => __('Fixed', 'divergent'),
+                    'scroll' => __('Scroll', 'divergent'),
+                    'inherit' => __('Inherit', 'divergent') 
                 )
             ),
             'size' => array(
-                'placeholder' => __('Size', DIVERGENT_LANGUAGE),
+                'placeholder' => __('Size', 'divergent'),
                 'options'  => array(
-                    'cover' => __('Cover', DIVERGENT_LANGUAGE),
-                    'contain' => __('Contain', DIVERGENT_LANGUAGE),
-                    '100%' => __('100%', DIVERGENT_LANGUAGE),
-                    'inherit' => __('Inherit', DIVERGENT_LANGUAGE)
+                    'cover' => __('Cover', 'divergent'),
+                    'contain' => __('Contain', 'divergent'),
+                    '100%' => __('100%', 'divergent'),
+                    'inherit' => __('Inherit', 'divergent')
                 )
             ),            
             'position' => array(
-                'placeholder' => __('Position', DIVERGENT_LANGUAGE),
+                'placeholder' => __('Position', 'divergent'),
                 'options'  => array(
-                    'center top' => __('Center Top', DIVERGENT_LANGUAGE),
-                    'center center' => __('Center Center', DIVERGENT_LANGUAGE),
-                    'center bottom' => __('Center Bottom', DIVERGENT_LANGUAGE),
-                    'left top' => __('Left Top', DIVERGENT_LANGUAGE),
-                    'left center' => __('Left Center', DIVERGENT_LANGUAGE),   
-                    'left bottom' => __('Left Bottom', DIVERGENT_LANGUAGE), 
-                    'right top' => __('Right Top', DIVERGENT_LANGUAGE), 
-                    'right center' => __('Right Center', DIVERGENT_LANGUAGE), 
-                    'right bottom' => __('Right Bottom', DIVERGENT_LANGUAGE)
+                    'center top' => __('Center Top', 'divergent'),
+                    'center center' => __('Center Center', 'divergent'),
+                    'center bottom' => __('Center Bottom', 'divergent'),
+                    'left top' => __('Left Top', 'divergent'),
+                    'left center' => __('Left Center', 'divergent'),   
+                    'left bottom' => __('Left Bottom', 'divergent'), 
+                    'right top' => __('Right Top', 'divergent'), 
+                    'right center' => __('Right Center', 'divergent'), 
+                    'right bottom' => __('Right Bottom', 'divergent')
                 )
             )
         );        

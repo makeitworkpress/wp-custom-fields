@@ -10,9 +10,11 @@
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) { 
     die; 
-} 
+}
 
-class Divergent_Validate {
+namespace Controllers;
+
+trait Divergent_Validate {
     
     /**
      * Sanitizes input

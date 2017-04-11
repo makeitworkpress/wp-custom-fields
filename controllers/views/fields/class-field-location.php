@@ -26,19 +26,19 @@ class Divergent_Field_Location implements Divergent_Field {
         $location_fields = array(
             array(
                 'id'    => 'street',
-                'label' => __('Street Address', DIVERGENT_LANGUAGE)
+                'label' => __('Street Address', 'divergent')
             ),
             array(
                 'id'    => 'number',
-                'label' => __('Street Number', DIVERGENT_LANGUAGE)
+                'label' => __('Street Number', 'divergent')
             ),
             array(
                 'id'    => 'postal_code',
-                'label' => __('Postal Code', DIVERGENT_LANGUAGE)
+                'label' => __('Postal Code', 'divergent')
             ),
             array(
                 'id'    => 'city',
-                'label' => __('City', DIVERGENT_LANGUAGE)
+                'label' => __('City', 'divergent')
             ),            
         );
         

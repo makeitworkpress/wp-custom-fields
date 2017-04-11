@@ -15,12 +15,12 @@ class Divergent_Field_Boxshadow implements Divergent_Field {
         $output = '<div class="divergent-boxshadow">';
         
         $output .= '<div class="divergent-boxshadow-dimensions divergent-boxshadow-field">';
-        $output .= '<label>' . __('Boxshadow Offset, blur and spread', DIVERGENT_LANGUAGE) . '</label>';
+        $output .= '<label>' . __('Boxshadow Offset, blur and spread', 'divergent') . '</label>';
         $pixel_values = array(
-            array('id' => 'x',      'placeholder' => __('x-offset', DIVERGENT_LANGUAGE) ),
-            array('id' => 'y',      'placeholder' => __('y-offset', DIVERGENT_LANGUAGE) ),
-            array('id' => 'blur',   'placeholder' => __('blur', DIVERGENT_LANGUAGE) ),
-            array('id' => 'spread', 'placeholder' => __('spread', DIVERGENT_LANGUAGE) )
+            array('id' => 'x',      'placeholder' => __('x-offset', 'divergent') ),
+            array('id' => 'y',      'placeholder' => __('y-offset', 'divergent') ),
+            array('id' => 'blur',   'placeholder' => __('blur', 'divergent') ),
+            array('id' => 'spread', 'placeholder' => __('spread', 'divergent') )
         );
         
         foreach($pixel_values as $el) {
@@ -30,19 +30,19 @@ class Divergent_Field_Boxshadow implements Divergent_Field {
         $output .= '</div>';
         
         $output .= '<div class="divergent-boxshadow-color divergent-boxshadow-field">';
-        $output .= '<label>' . __('Boxshadow Color', DIVERGENT_LANGUAGE) . '</label>';
+        $output .= '<label>' . __('Boxshadow Color', 'divergent') . '</label>';
         $output .= Divergent_Field_Colorpicker::render($field);
         $output .= '</div>';
         
         $output .= '<div class="divergent-boxshadow-color divergent-boxshadow-field">';
-        $output .= '<label>' . __('Boxshadow Style', DIVERGENT_LANGUAGE) . '</label>';
+        $output .= '<label>' . __('Boxshadow Style', 'divergent') . '</label>';
         
         // Add select field for the boxshadow
         $select_field = array(             
-            'placeholder' => __('Select Type', DIVERGENT_LANGUAGE),
+            'placeholder' => __('Select Type', 'divergent'),
             'options'  => array(
-                '' => __('Default', DIVERGENT_LANGUAGE),
-                'inset' => __('Inset', DIVERGENT_LANGUAGE)
+                '' => __('Default', 'divergent'),
+                'inset' => __('Inset', 'divergent')
             )
         );
         $select_field['values'] = isset($field['values']['type']) ? $field['values']['type'] : ''; 

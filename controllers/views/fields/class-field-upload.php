@@ -15,8 +15,8 @@ class Divergent_Field_Upload implements Divergent_Field {
     public static function render($field = array()) {
         
         $type = isset($field['subtype']) ? $field['subtype'] : '';
-        $button = isset($field['button']) ? $field['button'] : __('Insert', DIVERGENT_LANGUAGE);
-        $title = isset($field['title']) ? $field['title'] : __('Add Media', DIVERGENT_LANGUAGE);
+        $button = isset($field['button']) ? $field['button'] : __('Insert', 'divergent');
+        $title = isset($field['title']) ? $field['title'] : __('Add Media', 'divergent');
         $multiple = isset($field['multiple']) ? $field['multiple'] : true;
         $url = isset($field['url']) ? $field['url'] : false;
         $media = ! empty($field['values']) ? explode(',', rtrim($field['values'], ',')) : array();
@@ -37,7 +37,7 @@ class Divergent_Field_Upload implements Divergent_Field {
             }
         }
         $output .= '    <div class="divergent-single-media empty">';
-        $output .= '        <a href="#" class="divergent-upload-add"><i class="fa fa-plus-circle"></i> ' . __('Add', DIVERGENT_LANGUAGE) . '</a>'; 
+        $output .= '        <a href="#" class="divergent-upload-add"><i class="fa fa-plus-circle"></i> ' . __('Add', 'divergent') . '</a>'; 
         $output .= '    </div>';
         $output .= '    <input id="' . $field['id'] . '" name="' . $field['name']  . '" class="divergent-upload-value" type="hidden" value="' . $field['values'] . '" />'; 
         $output .= '</div>';

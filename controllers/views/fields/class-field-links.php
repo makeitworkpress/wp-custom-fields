@@ -15,10 +15,10 @@ class Divergent_Field_Links implements Divergent_Field {
         $output = '';
         
         $link_states = array(
-            'link' => __('Default Link Color', DIVERGENT_LANGUAGE),
-            'hover' => __('Hover Link Color', DIVERGENT_LANGUAGE),
-            'visited' => __('Visited Link Color', DIVERGENT_LANGUAGE),
-            'active' => __('Selected Link Color', DIVERGENT_LANGUAGE)
+            'link' => __('Default Link Color', 'divergent'),
+            'hover' => __('Hover Link Color', 'divergent'),
+            'visited' => __('Visited Link Color', 'divergent'),
+            'active' => __('Selected Link Color', 'divergent')
         );
                         
         // Background Colorpicker

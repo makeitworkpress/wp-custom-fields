@@ -17,11 +17,11 @@ class Divergent_Field_Export implements Divergent_Field {
         $options = $screen->parent_file == 'edit.php' ? get_post_meta($post->ID, $field['option_id'], true) : get_option($field['option_id']);
         
         $output = '<div class="divergent-export">';
-        $output .= '    <label for="' . $field['id'] . '-export">' . __('Exportable Settings', DIVERGENT_LANGUAGE) . '</label>';
+        $output .= '    <label for="' . $field['id'] . '-export">' . __('Exportable Settings', 'divergent') . '</label>';
         $output .= '    <textarea id="' . $field['id'] . '-export">' . base64_encode(serialize(get_option($id))) . '</textarea>';      
-        $output .= '    <label for="' . $field['id'] . '-import">' . __('Import Settings', DIVERGENT_LANGUAGE) . '</label>';        
+        $output .= '    <label for="' . $field['id'] . '-import">' . __('Import Settings', 'divergent') . '</label>';        
         $output .= '    <textarea id="' . $field['id'] . '-import" name="import_value">' . base64_encode(serialize($options)) . '</textarea>';
-        $output .= '    <input id="' . $field['id'] . '-import" name="import_submit" class="button divergent-import-settings" type="submit" value="' . __('Import', DIVERGENT_LANGUAGE) . '" />'; 
+        $output .= '    <input id="' . $field['id'] . '-import" name="import_submit" class="button divergent-import-settings" type="submit" value="' . __('Import', 'divergent') . '" />'; 
         $output .= '</div>';
         
         return $output;    
