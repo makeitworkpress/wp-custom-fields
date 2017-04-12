@@ -76,7 +76,7 @@ class Divergent_Options extends Divergent_Abstract {
                 continue;                
 
             // Add the settings sections. We use a custom function for displaying the sections
-            add_settings_section( $section['id'], $section['title'], '', $this->optionPage['id'] );
+            add_settings_section( $section['id'], $section['title'], array($this, 'renderSection'), $this->optionPage['id'] );
 
             // Add the settings per field
             foreach($section['fields'] as $field) {
@@ -84,7 +84,7 @@ class Divergent_Options extends Divergent_Abstract {
                 if( ! isset($field['id']) )
                     continue;
 
-                add_settings_field( $field['id'], isset($field['title']) ? $field['title'] : '', '', $this->optionPage['id'], $section['id'] );
+                add_settings_field( $field['id'], isset($field['title']) ? $field['title'] : '', array($this, 'renderField'), $this->optionPage['id'], $section['id'] );
 
             }                        
 
@@ -129,22 +129,35 @@ class Divergent_Options extends Divergent_Abstract {
         // Setting Fields
         ob_start();
         settings_fields( $pageID . '_group' );
-        $frame->settingFields   = ob_get_clean();              
+        $frame->settingsFields  = ob_get_clean();              
 
         // Render our options page;
         $frame->render();
         
         return; 
  
-    }       
+    }   
     
     /**
      * Function for sanitizing saved data
      *
      * @param $output The output from the saved form. 
      */
-    public function save( $output ) {                    
-        return Divergent_Validate::format( $this->optionPage, $output, 'Options' );
-    } 
+    public function save( $output ) {
+        
+        $output = Divergent_Validate::format( $this->optionPage, $_POST, 'Options' );
+        
+        return $output;
+    }
+    
+    /**
+     * Renders a section, as possible callback for do_settings_sections
+     */
+    public function renderSection() {}
+    
+    /**
+     * Renders a field, as possible callback for do_settings_fields
+     */
+    public function renderField() {}     
     
 }

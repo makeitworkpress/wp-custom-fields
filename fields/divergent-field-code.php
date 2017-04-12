@@ -12,11 +12,11 @@ class Divergent_Field_Code implements Divergent_Field {
     
     public static function render($field = array()) {
         
-        $add_js     = apply_filters('divergent_code_field_js', true);
+        $addJS      = apply_filters('divergent_code_field_js', true);
         $mode       = isset($field['mode']) ? $field['mode'] : 'htmlmixed';
         $field_id   = $field['id'];
         
-        if( $add_js && ! wp_script_is('mirror-js', 'enqueued') )
+        if( $addJS && ! wp_script_is('mirror-js', 'enqueued') )
             wp_enqueue_script('mirror-js');
         
         add_action('admin_print_footer_scripts', function() use ($field_id, $mode) {

@@ -39,44 +39,43 @@ class Divergent_Field_Border implements Divergent_Field {
             
             foreach($sides as $key => $side) {
 
-                $output                    .= '<div class="divergent-single-border">';
+                $output             .= '<div class="divergent-single-border">';
 
                 
                 // Dimensions
-                $dimension                  = array();
-                $dimension['icon']          = 'border_' . $key; 
-                $dimension['id']            = $field['id'] . '-' . $key. '-width'; 
-                $dimension['name']          = $field['name'] . '[' . $key . '][width]'; 
-                $dimension['placeholder']   = $side; 
-                $dimension['values']        = isset($field['values'][$key]['width']) ? $field['values'][$key]['width'] : array();  
-
-                $output                    .= ' <div class="divergent-field-left">';
-                $output                    .= Divergent_Field_Dimension::render( $dimension );
-                $output                    .= ' </div>';
+                $output             .= ' <div class="divergent-field-left">';
+                $output             .= Divergent_Field_Dimension::render( array(
+                    'icon'           => 'border_' . $key,
+                    'id'             => $field['id'] . '-' . $key . '-width',
+                    'name'           => $field['name'] . '[' . $key . '][width]',
+                    'placeholder'    => $side,
+                    'values'         => isset($field['values'][$key]['width']) ? $field['values'][$key]['width'] : array()               
+                ) );
+                $output                 .= ' </div>';
 
                 
                 // Border Type
-                $type['id']                 = $field['id']  . '-' . $key. '-style';
-                $type['name']               = $field['name'] . '[' . $key . '][style]';
-                $type['values']             = isset($field['values'][$key]['style']) ? $field['values'][$key]['style'] : '';
-                $type['placeholder']        = __('Border Style', 'divergent');
+                $type['id']             = $field['id']  . '-' . $key. '-style';
+                $type['name']           = $field['name'] . '[' . $key . '][style]';
+                $type['values']         = isset($field['values'][$key]['style']) ? $field['values'][$key]['style'] : '';
+                $type['placeholder']    = __('Border Style', 'divergent');
                 
-                $output                    .= ' <div class="divergent-field-left">';
-                $output                    .= Divergent_Field_Select::render($type);
-                $output                    .= ' </div>';
+                $output                .= ' <div class="divergent-field-left">';
+                $output                .= Divergent_Field_Select::render($type);
+                $output                .= ' </div>';
                 
                 
                 // Colorpicker
-                $colorpicker['values']      = isset($field['values'][$key]['color']) ? $field['values'][$key]['color'] : '';
-                $colorpicker['id']          = $field['id'] . '-' . $key . '-color';
-                $colorpicker['name']        = $field['name']. '[' . $key . '][color]';
+                $colorpicker['values']  = isset($field['values'][$key]['color']) ? $field['values'][$key]['color'] : '';
+                $colorpicker['id']      = $field['id'] . '-' . $key . '-color';
+                $colorpicker['name']    = $field['name']. '[' . $key . '][color]';
                 
-                $output                    .= ' <div class="divergent-field-left">';
-                $output                    .= Divergent_Field_Colorpicker::render($colorpicker);                
-                $output                    .= ' </div>';
+                $output                .= ' <div class="divergent-field-left">';
+                $output                .= Divergent_Field_Colorpicker::render($colorpicker);                
+                $output                .= ' </div>';
                 
                 
-                $output                    .= '</div><!-- .divergent-single-border -->';
+                $output                .= '</div><!-- .divergent-single-border -->';
                 
             }
             

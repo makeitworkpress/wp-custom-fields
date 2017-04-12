@@ -27,7 +27,7 @@ class Divergent_Frame {
         $this->values   = $values;  
         
         // Default public variables
-        $this->class            = '';
+        $this->class            = isset($frame['class']) ? $frame['class'] : '';
         $this->errors           = '';
         $this->id               = $frame['id'];
         $this->resetButton      = '';
@@ -57,19 +57,19 @@ class Divergent_Frame {
         if( ! isset($this->frame['sections']) || ! is_array($this->frame['sections']) )
             return;
         
-          
         // Current section
         $transient              = get_transient( 'divergent_current_section_' . $this->frame['id'] );
-        $this->currentSection  = ! empty( $transient ) ? $transient : $this->frame['sections'][0]['id'];        
+        $this->currentSection   = ! empty( $transient ) ? $transient : $this->frame['sections'][0]['id'];        
         
         // Loop through our sections
         foreach( $this->frame['sections'] as $key => $section ) {
             
             $this->sections[$key]                  = $section;
-            $this->sections[$key]['active']        = $this->currentSection == $section['id'] ? 'active' : '';
-            $this->sections[$key]['icon']          = ! empty( $section['icon'] ) ? $section['icon'] : false;
+            $this->sections[$key]['active']        = $this->currentSection == $section['id']    ? 'active'          : '';
+            $this->sections[$key]['fields']        = array();
+            $this->sections[$key]['icon']          = ! empty( $section['icon'] )                ? $section['icon']  : false;
             
-            foreach( $section['fields'] as $key => $field) {
+            foreach( $section['fields'] as $field) {
                 $this->sections[$key]['fields'][]  = $this->populateField( $field );
             }
                 
@@ -106,10 +106,10 @@ class Divergent_Frame {
         $field['values']        = isset( $this->values[$field['id']] )  ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
         
         // Render our field form
-        $class                  = 'Fields\Divergent_Field_' . ucfirst( $field['type'] );
+        $class                  = 'Classes\Divergent\Fields\Divergent_Field_' . ucfirst( $field['type'] );
         
-        if( class_exists('Divergent_Field_' . ucfirst( $field['type'] ) ) )
-            $field['form']      = $class::render($field);
+        if( class_exists($class) )
+            $field['form']      = apply_filters('divergent_field', $class::render($field), $field);
         
         return $field;
         
@@ -128,6 +128,7 @@ class Divergent_Frame {
         
         // Cast the object to the frame variable.
         $frame = $this;
+
         
         // Render the frame
         require_once( DIVERGENT_PATH . '/templates/frame.php' );

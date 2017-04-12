@@ -13,24 +13,28 @@
 
                 <header class="divergent-header">
 
-                    <h2><?php echo $frame->title; ?></h2>
+                    <?php if( $frame->type == 'Options' ) { ?>
+                        <h2><?php echo $frame->title; ?></h2>
+                    <?php } ?>
                     
-                    <?php 
-                        // Displays any errors
-                        echo $frame->errors; 
-                        echo $frame->saveButton; 
-                        echo $frame->restoreButton;
-                    ?>
+                    <div class="divergent-buttons">
+                        <?php 
+                            // Displays any errors
+                            echo $frame->errors; 
+                            echo $frame->restoreButton;
+                            echo $frame->saveButton; 
+                        ?>
+                    </div>
                     
                     <ul class="divergent-tabs">
                     
                         <?php foreach( $frame->sections as $key => $section ) { ?>
-                            <li class="divergent-tab <?php echo $section['active']; ?>">
+                            <li>
                                 
-                                <a href="#<?php echo $section['id']; ?>">
+                                <a class="divergent-tab <?php echo $section['active']; ?>" href="#<?php echo $section['id']; ?>">
                                     
                                     <?php if( $section['icon'] ) { ?>
-                                        <i class="divergent-icon <?php echo $section['icon'] ; ?>"></i>
+                                        <i class="divergent-icon material-icons"><?php echo $section['icon'] ; ?></i>
                                     <?php } ?>
                                     
                                     <?php echo $section['title']; ?>
@@ -52,7 +56,7 @@
                             
                             <h3 class="divergent-section-title"><?php echo $section['title']; ?></h3>
 
-                            <?php foreach( $section['fields'] as $key => $field ) ?>
+                            <?php foreach( $section['fields'] as $key => $field ) { ?>
                                 
                                 <div class="divergent-option-field <?php echo $field['column']; ?> 'field-'<?php echo $field['type']; ?>">
 
@@ -89,11 +93,11 @@
                     
                 </div> 
                 
-                <footer>
+                <footer class="divergent-buttons">
                     <?php 
-                        echo $frame->saveButton; 
-                        echo $frame->restoreButton;
                         echo $frame->resetButton;
+                        echo $frame->restoreButton;
+                        echo $frame->saveButton; 
                     ?>                
                 </footer>
 
@@ -103,7 +107,7 @@
                 /**
                  * Echo settings fields, such as those that are rendered by the options page or the nonce fields for meta boxe pages
                  */
-                echo $frame->settingFields; 
+                echo $frame->settingsFields; 
             ?>
             
             <input type="hidden" name="divergentSection" id="divergentSection_<?php echo $frame->id; ?>" value="<?php echo $frame->currentSection; ?>" />

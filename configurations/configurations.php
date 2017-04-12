@@ -83,7 +83,7 @@ $scripts[] = array(
 
 $scripts[] = array(
     'handle'    => 'google-maps-js',
-    'src'       => 'https://maps.googleapis.com/maps/api/js?libraries=places',
+    'src'       => 'https://maps.googleapis.com/maps/api/js?libraries=places&key=' . GOOGLE_MAPS_KEY,
     'deps'      => null,
     'ver'       => '3',
     'in_footer' => true,  
@@ -186,7 +186,7 @@ $fonts = array(
 $iconsFile          = json_decode( file_get_contents(DIVERGENT_ASSETS_URL . 'js/vendor/material-icons.json'), true );
 
 foreach( $iconsFile['icons'] as $key => $icon ) {
-    $material[]     = str_replace(' ', '_', strtolower($icon['name']));       
+    $material[$key]     = str_replace(' ', '_', strtolower($icon['name']));       
 }
 
 $icons['material']  = $material;

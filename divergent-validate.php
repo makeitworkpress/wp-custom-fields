@@ -1,6 +1,6 @@
 <?php
 /**
- * Container class that contains helper functions for validating user input.
+ * Container class that contains helper functions for validating and saving user input.
  *
  * @author Michiel
  * @package Divergent
@@ -18,13 +18,13 @@ trait Divergent_Validate {
      * Formats the output by sanitizing and validating
      *
      * @param array $frame   The frame to format
-     * @param array $output  The post output generated
+     * @param array $input   The $_Post $input generated
      * @param array $type    The type to format for
      */
-    public static function format( $frame, $output, $type = '' ) {
+    public static function format( $frame, $input, $type = '' ) {
         
         // Checks in which tab we are
-        $currentTab = strip_tags( $_POST['divergentSection'] );
+        $currentTab = strip_tags( $input['divergentSection'] );
         
         // Sets the transient for the current section
         set_transient('divergent_current_section_' . $frame['id'], $currentTab, 10);
@@ -32,7 +32,7 @@ trait Divergent_Validate {
         /**
          * Restore the fields for a current section
          */
-        if( isset($_POST[$frame['id'] . '_restore']) ) {
+        if( isset($output[$frame['id'] . '_restore']) ) {
                                           
             foreach( $frame['sections'] as $section ) { 
                 
@@ -40,7 +40,7 @@ trait Divergent_Validate {
                 if( $section['id'] !== $currentTab ) {
                     
                     foreach($section['fields'] as $field) {
-                        $output[$field['id']] = self::sanitize( $output[$field['id']], $field );
+                        $output[$field['id']] = self::sanitize( $input[$field['id']], $field );
                     } 
                     
                     continue;
@@ -67,7 +67,7 @@ trait Divergent_Validate {
         /**
          * Restore the complete section
          */
-        if( isset($_POST['divergent_options_reset']) ) {
+        if( isset($output['divergent_options_reset']) ) {
             
             foreach($frame['sections'] as $section) {
                 
@@ -90,9 +90,9 @@ trait Divergent_Validate {
         /**
          * Import data
          */
-        if( isset($_POST['import_submit']) ) {
+        if( isset($output['import_submit']) ) {
             
-            $output = unserialize( base64_decode($_POST['import_value']) );
+            $output = unserialize( base64_decode($input['import_value']) );
             
             if( $type = 'Options' )
                 add_settings_error( $frame['id'], 'divergent-notification', __('Settings Imported!', 'divergent'), 'update' );
@@ -106,15 +106,15 @@ trait Divergent_Validate {
         foreach( $frame['sections'] as $section ) {
 
             foreach($section['fields'] as $field) {
-                
-                $output[$field['id']] = self::sanitize($output[$field['id']], $field);
+
+                $output[$field['id']] = self::sanitize( $input[$field['id']], $field );
                 
             }
             
         }
         
         if( $type = 'Options' )
-            add_settings_error( $frame['id'], 'divergent-notification', __('Settings saved!', 'divergent'), 'update' ); 
+            add_settings_error( $frame['id'], 'divergent-notification', __('Settings saved!', 'divergent'), 'update' );
         
         return $output;
         
@@ -123,15 +123,18 @@ trait Divergent_Validate {
     /**
      * Sanitizes input
      *
-     * @param string $field The field type provided by the field
+     * @param array     $input The input data for the field
+     * @param string    $field The field array
+     *
+     * @todo Improve sanitization for borders and special types
      */
-    private static function sanitize( $field ) {
+    private static function sanitize( $input, $field ) {
         
         global $allowedposttags;
             
         $field_type     = $field['type'];
         $field_subtype  = isset($field['subtype']) ? $field['subtype'] : '';
-        $field_value    = $field['values'];
+        $field_value    = $input;
         
         $return_value = '';
         
@@ -182,7 +185,6 @@ trait Divergent_Validate {
                 $return_value = is_numeric($field_value) ? floatval($field_value) : '';  
                 break;
             // Repeatable sanitization
-            // @todo Improve sanitization for borders and special types
             case 'repeatable':
                 $return_value = $field_value; 
                 break;
@@ -197,40 +199,6 @@ trait Divergent_Validate {
         
         return apply_filters('divergent_sanitized_value', $return_value, $field_value, $field);
         
-    }     
-    
-    /**
-     * Validates input
-     *
-     * @param array $field The field array
-     */    
-    private static function validate( $field ) {
-        
-        $response   = true;
-        $validation = isset( $field['validation'] ) ? $field['validation'] : '';
-            
-        switch( $validation ) {
-            // E-mail validation
-            case 'email':
-                if ( ! is_email( $field['values'] ) ) {
-                    $response = __( 'Please enter a valid e-mail address.', 'divergent' );
-                }
-                break;
-            case 'numeric':
-                if ( ! is_numeric( $field['values'] ) ) {
-                    $response = __( 'Please enter a valid number.', 'divergent' );  
-                }
-                break;
-            case 'required':
-                if ( empty( $field['values'] ) ) {
-                    $response = __( 'This field is required.', 'divergent' );  
-                }
-                break;
-        }
-        
-        // If there is a response, return it, otherwise return true
-        return $response;
-        
-    }  
+    }
    
 }

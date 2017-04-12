@@ -6,6 +6,7 @@
  * @since 1.0.0
  */
 jQuery(document).ready(function ($) {
+    
     'use strict';
     
     /**
@@ -20,17 +21,18 @@ jQuery(document).ready(function ($) {
         
         e.preventDefault();
         
-        var section = $(this).data('section');
+        var activeTab = $(this).attr("href"),
+            section = activeTab.replace('#', '');
         
-        $('input[name="divergent-current-section"]').val(section);
+        // Change our active section
+        $('input[name="divergentSection"]').val(section);
 		
+        // Remove current active classes
         $(".divergent-tabs a").removeClass("active");
         $(".divergent-section").removeClass("active");
         
-        $(this).addClass("active");
-
-        var activeTab = $(this).attr("href");
-                
+        // Add active class to our new things
+        $(this).addClass("active");      
         $(activeTab).addClass("active");
 
 	});
@@ -73,7 +75,7 @@ jQuery(document).ready(function ($) {
         });
         
         /**
-         * Adds jQuery UI Sliders
+         * Adds Google Maps
          */
         $(this).find('.divergent-location').each(function (index) {
             var searchInput = $('.divergent-map-search', this).get(0),
@@ -258,7 +260,6 @@ jQuery(document).ready(function ($) {
     /**
      * Enables instant Validation
      */
-    // Validation of metaboxes
     $("#post").validate();
 
     // Validation of options page
@@ -284,7 +285,7 @@ jQuery(document).ready(function ($) {
             return oldGroup.replace(/\[\d\]/g, '[' + length + ']').replace(/\-\d\-/g, '-' + length + '-');
         });
         
-        // Redo the elements
+        // Redraw the elements
         newGroup.divergentInit();
                 
         // Finally, insert the newGroup after the current group

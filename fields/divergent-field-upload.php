@@ -29,15 +29,21 @@ class Divergent_Field_Upload implements Divergent_Field {
 
                 if( $url ) {
                     $attachment_url = wp_get_attachment_url( $medium );
-                    $output .= '        <div class="divergent-media-url"><i class="fa fa-chain"></i><input type="text" readonly="readonly" value="' . $attachment_url . '" /></div>';              
+                    $output .= '        <div class="divergent-media-url">';
+                    $output .= '            <i class="material-icons">link</i>';
+                    $output .= '            <input type="text" readonly="readonly" value="' . $attachment_url . '" />';
+                    $output .= '        </div>';              
                 }
 
-                $output .= '        <a href="#" class="divergent-upload-remove"><i class="fa fa-times-circle"></i></a>'; 
+                $output .= '        <a href="#" class="divergent-upload-remove"><i class="material-icons">clear</i></a>'; 
                 $output .= '    </div>';
             }
         }
         $output .= '    <div class="divergent-single-media empty">';
-        $output .= '        <a href="#" class="divergent-upload-add"><i class="fa fa-plus-circle"></i> ' . __('Add', 'divergent') . '</a>'; 
+        $output .= '        <a href="#" class="divergent-upload-add">';
+        $output .= '            <i class="material-icons">add</i> ';
+        $output .=              __('Add', 'divergent');
+        $output .=          '</a>'; 
         $output .= '    </div>';
         $output .= '    <input id="' . $field['id'] . '" name="' . $field['name']  . '" class="divergent-upload-value" type="hidden" value="' . $field['values'] . '" />'; 
         $output .= '</div>';

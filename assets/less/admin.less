@@ -28,6 +28,7 @@
 @wp-black: #23282d;
 @wp-grey: #f1f1f1;
 @wp-greyer: #eee;
+@wp-lightborder: #e5e5e5;
 @wp-red: #dd3d36;
 @wp-boxshadow: 0 1px 0 @light-white inset, 0 1px 0 rgba(0, 0, 0, 0.08);
 @wp-boxshadow-hover: 0 1px 0 @light-white inset;
@@ -59,25 +60,23 @@
  * ----------------------------------
  */
 .divergent-framework {
-    header {
-        background: @wp-black;   
-        border-radius: @base-radius @base-radius 0 0;
+    background: @wp-black;
+    border: 1px solid @wp-lightborder;
+    .button {
+        margin-right: 5px;
+    }
+    header { 
         padding: @grid-space @grid-space 0 @grid-space;
         h2 {
             color: @white;
-            margin-bottom: 10px;
+            margin-bottom: @grid-space;
         }
-    }
-    .button {
-        margin-right: 5px;
     }
     a, i {
         text-decoration: none;
         transition: all 350ms ease-in-out;
     }
-    footer {
-        background: @wp-black;   
-        border-radius: 0 0 @base-radius @base-radius;        
+    footer {      
         padding: @grid-space;
     }
     input, select, textarea {
@@ -90,8 +89,25 @@
         margin: 7px 0;
     }
 }
+
+.divergent-buttons {
+    clear: both;
+    margin-bottom: @grid-space;
+    text-align: right;
+}
+
 .divergent-tabs {
-    margin: @grid-space 0 0 0;
+    margin: 0;
+    .tabs-left & {
+        float: left;
+        margin-left: -@grid-space;
+        li {
+            display: block;
+            a {
+                padding: @grid-space/2 @grid-space;
+            }
+        }
+    }
     li {
         display: inline-block;
         margin: 0;
@@ -100,10 +116,13 @@
             color: @white;
             display: block;
             font-size: 14px;
-            padding: 12px 20px;
+            padding: @grid-space/2;
             transition: @base-transition;
-            .fa {
-                margin-right: 7px;
+            i {
+                font-size: 18px;
+                margin-right: 3px;
+                position: relative;
+                top: 3px;
             }
             &.active, &:hover {
                 background-color: @white;
@@ -115,27 +134,17 @@
             }
         }
     }
-    .divergent-metaboxes & {
-        li a {
-            border: 1px solid @wp-blue;
-            border-bottom: none;
-            &.active, &:hover {
-                border: 1px solid @wp-greyer;
-                border-bottom: none;               
-            }
-            margin-bottom: -1px;
-        }
-    }
 }
+
 .divergent-sections {
     background: #fff;
     overflow: hidden;
-    padding: 10px 40px 40px 40px; 
-    .divergent-metaboxes & {
-        border: 1px solid @wp-greyer;
-        padding: 10px @grid-space @grid-space @grid-space; 
-    }
+    padding: @grid-space/2 @grid-space; 
+    .tabs-left & {
+        border-left: 1px solid @wp-lightborder;
+    }    
 }
+
 .divergent-section {
     display: none;
     &.active {
@@ -198,6 +207,7 @@
     clear: both;
     overflow: hidden;
 }
+
 .divergent-single-media {
     box-sizing: border-box;
     float: left;  
@@ -208,33 +218,47 @@
     text-align: center;    
     width: 150px;
     i {
-        font-size: 16px;  
+        font-size: 16px;
+        line-height: @grid-space;
     }
     img {
         height: auto;
         max-width: 100%;
     }
     .divergent-upload-remove {
+        background: #fff;
+        border-radius: 50%;
         color: @wp-red; 
-        padding: 7px;
+        height: @grid-space;
         position: absolute;
-        top: 0px;
-        right: 0px;
+        text-align: center;
+        top: 7px;
+        right: 7px;
+        width: @grid-space;
         &:hover {
             color: @wp-blue;
         }
     }
     .divergent-upload-add {
+        box-sizing: border-box;
+        font-size: 16px;
         left: 50%;
-        margin-left: -60px;
+        margin: -30px 0 0 -60px;
+        padding: @grid-space/2;
         position: absolute;
-        top: 44%;
+        top: 50%;
         width: 120px;
+        i {
+            left: -6px;
+            position: relative;
+            top: 3px;
+        }
     }
     &.empty {
         border: 3px dashed @wp-grey;
     }
 }
+
 .divergent-media-url {
     bottom: 0;
     height: 27px;
@@ -397,15 +421,17 @@
     overflow: scroll;
 }
 .divergent-icons-title, .divergent-typography-title {
-    border-bottom: 1px solid @wp-grey;
+    color: @wp-greyborder;
+    font-size: 12px;
     margin: 0;
-    padding: @grid-space/2;
+    padding: @grid-space/4 @grid-space/2 0 @grid-space/2;
 }
 .divergent-icons-icon, .divergent-typography-font {
     border-bottom: 1px solid @wp-grey;
     border-right: 1px solid @wp-grey; 
     float: left;
     height: @grid-space * 1.5;
+    margin: 0;
     width: @grid-space * 1.5;
     label {
         font-size: 18px;
@@ -428,7 +454,7 @@
 /* Typography Field */
 .divergent-typography-fonts {
     border: 1px solid @wp-grey;
-    max-height: 168px;
+    max-height: 171px;
     max-width: 240px;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -442,7 +468,11 @@
         img {
             border-bottom: 2px solid @wp-blue;
         }
-    }    
+    }
+}
+
+.divergent-typography-styles > * {
+    margin-bottom: @grid-space/2;
 }
 
 .divergent-icon-list {

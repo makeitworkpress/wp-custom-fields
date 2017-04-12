@@ -35,12 +35,20 @@ class Divergent extends Divergent_Abstract {
      */
     protected function initialize() {
         
-        // Set our parameters as frames.
-        $this->frames = $this->params;
+        $defaults = array(
+            'google_maps_key' => ''
+        );
+        
+        // Merge params with the defaults
+        $this->params = wp_parse_args( $this->params, $defaults );
+        
+        // Set the folder for the framework, assuming it will be within wp-content.
+        $folder = wp_normalize_path( substr( dirname(__FILE__), strpos(__FILE__, 'wp-content') + strlen('wp-content') ) );      
         
         // Define Constants
-        defined( 'DIVERGENT_ASSETS_URL' ) or define( 'DIVERGENT_ASSETS_URL', dirname( __FILE__ ) . '/assets/' );
+        defined( 'DIVERGENT_ASSETS_URL' ) or define( 'DIVERGENT_ASSETS_URL', content_url() . $folder . '/assets/' );
         defined( 'DIVERGENT_PATH' ) or define( 'DIVERGENT_PATH', plugin_dir_path( __FILE__ ) );
+        defined( 'GOOGLE_MAPS_KEY' ) or define( 'GOOGLE_MAPS_KEY', $this->params['google_maps_key'] );
         
     }
     
@@ -50,7 +58,8 @@ class Divergent extends Divergent_Abstract {
     protected function registerHooks() {           
         $this->actions = array(
             array( 'after_setup_theme', 'setup', 20 ),
-            array( 'admin_enqueue_scripts', 'enqueue' )
+            array( 'admin_enqueue_scripts', 'enqueue' ),
+            array( 'wp_head', 'styling' ),
         );
     }
     
@@ -66,22 +75,16 @@ class Divergent extends Divergent_Abstract {
         
         // Setup our framework
         if( is_admin() )
-            $this->frame(); 
+            $this->frame();
+
         
     }
     
     /**
-     * Enqueues our scripts and styles
+     * Adds custom inline styling if defined within the option fields
      */
-    final public function enqueue() {
-
-        foreach( $this->styles as $style )
-            wp_enqueue_style( $style['handle'], $style['src'], $style['deps'], $style['ver'], $style['media'] );     
-        
-        foreach( $this->scripts as $script ) {
-            $action = 'wp_' . $script['action'] . '_script';
-            $action( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );    
-        }
+    final public function styling() {    
+        new Divergent_Styling( $this->frames );
     }
     
     /**
@@ -95,15 +98,15 @@ class Divergent extends Divergent_Abstract {
         $this->scripts          = $scripts;
         $this->styles           = $styles;
         
-        self::$icons            = apply_filters( 'divergentIcons', $icons );
-        self::$fonts            = apply_filters( 'divergentFonts', $fonts );        
+        self::$icons            = apply_filters( 'divergent_icons', $icons );
+        self::$fonts            = apply_filters( 'divergent_fonts', $fonts );        
                 
         // Setup the supported datatypes
-        $types = apply_filters('divergentFrames', array('Meta', 'Options') );
+        $types                  = apply_filters('divergent_frames', array('meta', 'options') );
         
         // Adds filterable data for the various types.
         foreach($types as $type) {
-            $this->frames[$type]  = apply_filters( 'divergent' . $type, isset($this->frames[$type]) ? $this->frames[$type] : array() );
+            $this->frames[$type]  = apply_filters( 'divergent_frame_' . $type, isset($this->frames[$type]) ? $this->frames[$type] : array() );
         }
         
     }
@@ -122,14 +125,28 @@ class Divergent extends Divergent_Abstract {
             
             // Create a new instance
             foreach( $optionsGroups as $group ) {
-                $class    = 'Classes\Divergent\Divergent_' . $frame;
+                $class    = 'Classes\Divergent\Divergent_' . ucfirst( $frame );
                 $instance = $class::instance( $group );
             }
             
         }      
 
-    } 
-                       
+    }     
+    
+    /**
+     * Enqueues our scripts and styles
+     */
+    final public function enqueue() {
+
+        foreach( $this->styles as $style )
+            wp_enqueue_style( $style['handle'], $style['src'], $style['deps'], $style['ver'], $style['media'] );     
+        
+        foreach( $this->scripts as $script ) {
+            $action = 'wp_' . $script['action'] . '_script';
+            $action( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );    
+        }
+    }
+                
     /**
      * Retrieves certain configurations
      *
@@ -149,6 +166,6 @@ class Divergent extends Divergent_Abstract {
      */
     public function add( $type, $values ) {
         $this->frames[$type][] = $values;    
-    }    
+    }     
        
 }

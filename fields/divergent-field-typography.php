@@ -3,7 +3,7 @@
   * Displays a typography input field
   */
 namespace Classes\Divergent\Fields;
-use Classes\Divergent as Divergent;
+use Classes\Divergent\Divergent as Divergent;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
@@ -30,7 +30,7 @@ class Divergent_Field_Typography implements Divergent_Field {
                         $weights = isset($font['weights']) ? ' data-weights="' . implode(',', $font['weights']) . '"' : '';
                         $styles = isset($font['styles']) ? ' data-styles="' . implode(',', $font['styles']) . '"' : ''; 
 
-                        $output .= '<p class="divergent-typography-title"><strong>' . __('Selected Font:', 'divergent') . '</strong></p>';    
+                        $output .= '<p class="divergent-typography-title">' . __('Selected Font:', 'divergent') . '</p>';    
                         $output .= '<div class="divergent-typography-set">';                    
                         $output .= '    <div class="divergent-typography-font selected"' . $weights . $styles . '>';           
                         $output .= '        <img src="' . $font_display . '" />';              
@@ -44,7 +44,7 @@ class Divergent_Field_Typography implements Divergent_Field {
         
         // Loop through the sets
         foreach($fonts as $fontspace => $types) {
-            $output .= '    <p class="divergent-typography-title"><strong>' . ucfirst($fontspace) . ':</strong></p>';    
+            $output .= '    <p class="divergent-typography-title">' . ucfirst($fontspace) . ':</p>';    
             $output .= '    <ul class="divergent-typography-set">';
             
             foreach($types as $key => $font) {
@@ -73,9 +73,15 @@ class Divergent_Field_Typography implements Divergent_Field {
         $dimensions = array('size' => __('Font-Size', 'divergent'), 'line_spacing' => __('Line-Height', 'divergent'));
         
         foreach($dimensions as $key => $label) {
-            $icon = 'format_' . $key;
-            $value = isset($field['values'][$key]) ? $field['values'][$key] : '';
-            $output .= Divergent_Fields::dimension_field($field['id'] . '-' . $key, $field['name'] . '[' . $key . ']', $value, '', $label, $icon);
+         
+            $output .= Divergent_Field_Dimension::render( array(
+                'icon'          => 'format_' . $key,
+                'id'            => $field['id'],
+                'name'          => $field['name'] . '[' . $key . ']',
+                'placeholder'   => $label,
+                'values'        => isset($field['values'][$key]) ? $field['values'][$key] : ''
+            ) );
+            
         }        
         
         // Display font characteristics

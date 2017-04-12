@@ -3,13 +3,13 @@
   * Displays a text input field
   */
 namespace Classes\Divergent\Fields;
-use Classes\Divergent as Divergent;
+use Classes\Divergent\Divergent as Divergent;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Divergent_Field_Icon implements Divergent_Field {
+class Divergent_Field_Icons implements Divergent_Field {
     
     public static function render($field = array()) {
         
@@ -20,7 +20,7 @@ class Divergent_Field_Icon implements Divergent_Field {
         $output = '<div class="divergent-icons">';
 
         foreach($iconsets as $set => $icons) {
-            $output .= '    <p class="divergent-icons-title"><strong>' . $set . '</strong></p>';
+            $output .= '    <p class="divergent-icons-title">' . $set . '</p>';
             $output .= '    <ul class="divergent-icons-set">';
             
             // Loop through icons of a set

@@ -22,6 +22,7 @@ class Divergent_Meta extends Divergent_Abstract {
      * Constructor
      */    
     protected function initialize() {
+        
         $this->metaBox  = $this->params;
         $this->type     = isset( $this->metaBox['type'] ) ? $this->metaBox['type'] : 'post';
     }   
@@ -55,7 +56,7 @@ class Divergent_Meta extends Divergent_Abstract {
     public function add() {
         
         // We should have an id
-        if( ! isset($metabox['id']) )
+        if( ! isset($this->metaBox['id']) )
             return;
         
         // Post type metabox
@@ -64,10 +65,9 @@ class Divergent_Meta extends Divergent_Abstract {
                 $this->metaBox['id'], 
                 $this->metaBox['title'], 
                 array( $this, 'render' ), 
-                $this->metaBox['post_type'], 
+                $this->metaBox['screen'], 
                 $this->metaBox['context'], 
-                $this->metaBox['priority'], 
-                $this->metaBox
+                $this->metaBox['priority']
             );
         }
         
@@ -77,15 +77,15 @@ class Divergent_Meta extends Divergent_Abstract {
      * Callback for rendering the specific metaboxes, using any of the specified classes.
      *
      * @param object    $object     The post, term or user object for the current post type
-     * @param array     $metabox    The array passed through the callback function in $this->add
      */
-    public function render( $object, $metabox ) {
-        
-        $values                 = get_post_meta($post->ID, $metabox['id'], true);
+    public function render( $object ) {
+
+        $values                 = get_metadata( $this->type,  $object->ID, $this->metaBox['id'], true );
         
         $frame                  = new Divergent_Frame( $this->metaBox, $values );
         $frame->settingsFields  = wp_nonce_field( 'divergent-metaboxes', 'divergent-metaboxes-nonce', true, false );
         
+        // Render our output
         $frame->render();
         
         return;
@@ -104,7 +104,7 @@ class Divergent_Meta extends Divergent_Abstract {
             return $id; 
 
         // Check our user capabilities
-        if ( ! current_user_can( 'edit_posts', $post_id ) || ! current_user_can( 'edit_page', $post_id ) )
+        if ( ! current_user_can( 'edit_posts', $id ) || ! current_user_can( 'edit_page', $id ) )
             return $id;
          
         // Check our nonces
