@@ -2,19 +2,19 @@
  /** 
   * Displays a location field, including a google map
   */
+namespace Classes\Divergent\Fields;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-}
+if ( ! defined( 'ABSPATH' ) )
+    die;
 
 class Divergent_Field_Location implements Divergent_Field {
     
     public static function render($field = array()) {
         
-        $add_js = apply_filters('divergent_location_field_js', true);
+        $addJS = apply_filters('divergent_location_field_js', true);
         
-        if($add_js && ! wp_script_is('google-maps-js', 'enqueued') )
+        if($addJS && ! wp_script_is('google-maps-js', 'enqueued') )
             wp_enqueue_script('google-maps-js');
         
         $output = '<div class="divergent-location">';
@@ -42,7 +42,7 @@ class Divergent_Field_Location implements Divergent_Field {
             ),            
         );
         
-        foreach($location_fields as $loc) {
+        foreach( $location_fields as $loc ) {
             $output .= '<div class="divergent-field-left">';
             $output .= '    <label for="' . $field['id'] . '-' . $loc['id'] . '">' . $loc['label'] . '</label><br />';
             $output .= '    <input type="text" class="regular-text '.$loc['id'].'" id="'.$field['id'].'-'.$loc['id'].'" name="'.$field['name'].'['.$loc['id'].']" value="'.$field['values'][$loc['id']].'"  />';

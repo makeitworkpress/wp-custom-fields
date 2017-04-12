@@ -2,11 +2,11 @@
  /** 
   * Displays a location field, including a google map
   */
+namespace Classes\Divergent\Fields;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-}
+if ( ! defined( 'ABSPATH' ) )
+    die;
 
 class Divergent_Field_Boxshadow implements Divergent_Field {
     

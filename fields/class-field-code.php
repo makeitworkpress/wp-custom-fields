@@ -2,19 +2,19 @@
  /** 
   * Displays a location field, including a google map
   */
+namespace Classes\Divergent\Fields;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-}
+if ( ! defined( 'ABSPATH' ) )
+    die;
 
 class Divergent_Field_Code implements Divergent_Field {
     
     public static function render($field = array()) {
         
-        $add_js = apply_filters('divergent_code_field_js', true);
-        $mode = isset($field['mode']) ? $field['mode'] : 'htmlmixed';
-        $field_id = $field['id'];
+        $add_js     = apply_filters('divergent_code_field_js', true);
+        $mode       = isset($field['mode']) ? $field['mode'] : 'htmlmixed';
+        $field_id   = $field['id'];
         
         if( $add_js && ! wp_script_is('mirror-js', 'enqueued') )
             wp_enqueue_script('mirror-js');

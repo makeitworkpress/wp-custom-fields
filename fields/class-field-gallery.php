@@ -2,11 +2,11 @@
  /** 
   * Displays a gallery edit field;
   */
+namespace Classes\Divergent\Fields;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-}
+if ( ! defined( 'ABSPATH' ) )
+    die;
 
 class Divergent_Field_Gallery implements Divergent_Field {
     

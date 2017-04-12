@@ -1,5 +1,4 @@
 <?php
-
 /**
  *  Description: The Divergent Framework is a slim options framework for generating option pages, metaboxes, category metaboxes and custom user meta fields
  *  Version:     1.0.0
@@ -8,13 +7,11 @@
  *  Domain Path: /languages
  *  Text Domain: divergent
  */
+namespace Classes\Divergent;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-}
-
-namespace Classes;
+if ( ! defined( 'ABSPATH' ) ) 
+    die;
 
 class Divergent extends Divergent_Abstract {
 
@@ -38,9 +35,12 @@ class Divergent extends Divergent_Abstract {
      */
     protected function initialize() {
         
+        // Set our parameters as frames.
+        $this->frames = $this->params;
+        
         // Define Constants
-        defined( 'DIVERGENT_ASSETS_URL' ) or define( 'DIVERGENT_ASSETS_URL', plugin_dir_url( __FILE__ ) . 'assets/' );
-        defined( 'DIVERGENT_PATH' ) or define( 'DIVERGENT_PATH', plugin_dir_path( __FILE__ ) );        
+        defined( 'DIVERGENT_ASSETS_URL' ) or define( 'DIVERGENT_ASSETS_URL', dirname( __FILE__ ) . '/assets/' );
+        defined( 'DIVERGENT_PATH' ) or define( 'DIVERGENT_PATH', plugin_dir_path( __FILE__ ) );
         
     }
     
@@ -79,7 +79,7 @@ class Divergent extends Divergent_Abstract {
             wp_enqueue_style( $style['handle'], $style['src'], $style['deps'], $style['ver'], $style['media'] );     
         
         foreach( $this->scripts as $script ) {
-            $action = 'wp_' . $script['context'] . '_script';
+            $action = 'wp_' . $script['action'] . '_script';
             $action( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );    
         }
     }
@@ -90,7 +90,7 @@ class Divergent extends Divergent_Abstract {
     final private function addConfigurations() {
         
         // Load our configurations
-        require_once( DIVERGENT_PATH . 'configurations.php' );
+        require_once( DIVERGENT_PATH . 'configurations/configurations.php' );
         
         $this->scripts          = $scripts;
         $this->styles           = $styles;
@@ -122,7 +122,8 @@ class Divergent extends Divergent_Abstract {
             
             // Create a new instance
             foreach( $optionsGroups as $group ) {
-                $instance = ${'Divergent_' . $frame}::instance( $group );
+                $class    = 'Classes\Divergent\Divergent_' . $frame;
+                $instance = $class::instance( $group );
             }
             
         }      
@@ -135,7 +136,7 @@ class Divergent extends Divergent_Abstract {
      * @param string $type The kind of configurations to get
      * @return array $configurations The array of configurations for the respective type
      */
-    public function get($type) {
+    public function get( $type ) {
         return $this->frames[$type];
     }     
         
@@ -143,10 +144,10 @@ class Divergent extends Divergent_Abstract {
      * Allows to adds certain data, such as data for fields. 
      * If hooked late on after_setup_theme but before init, this will add fields.
      *
-     * @param string $type The type to which you want to add values
-     * @param array $values The respective values in form of an associative array;
+     * @param string    $type   The type to which you want to add values, Meta or Options
+     * @param array     $values The respective values in form of an associative array
      */
-    public function set($type, $values) {
+    public function add( $type, $values ) {
         $this->frames[$type][] = $values;    
     }    
        

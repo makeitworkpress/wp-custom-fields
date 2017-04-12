@@ -6,13 +6,11 @@
  * @since 1.0.0
  * @todo Add function for adding data
  */
+namespace Classes\Divergent;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) ) 
     die; 
-} 
-
-namespace Divergent;
 
 abstract class Divergent_Abstract {
     
@@ -40,7 +38,7 @@ abstract class Divergent_Abstract {
     /**
      * Holds the additional parameters as added by a child class
      */
-    protected $actions;      
+    protected $params;      
     
     /** 
      * Constructor. This allows the boot class to be only initialized once.
@@ -97,7 +95,7 @@ abstract class Divergent_Abstract {
      *
      * @param array $params Optional parameters whichare passed to the class     
      */
-    abstract protected function initialize( Array $params );
+    abstract protected function initialize();
     
     /**
      * Holds the function for registering custom action and filter hooks.

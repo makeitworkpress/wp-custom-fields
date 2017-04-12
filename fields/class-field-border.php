@@ -2,11 +2,11 @@
  /** 
   * Displays a border field
   */
+namespace Classes\Divergent\Fields;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-} 
+if ( ! defined( 'ABSPATH' ) )
+    die;
 
 class Divergent_Field_Border implements Divergent_Field {
     
@@ -39,74 +39,81 @@ class Divergent_Field_Border implements Divergent_Field {
             
             foreach($sides as $key => $side) {
 
-                $output .= '<div class="divergent-single-border">';
+                $output                    .= '<div class="divergent-single-border">';
 
-                // Dimensions
-                $borderwidth[$key] = isset($field['values'][$key]['width']) ? $field['values'][$key]['width'] : ''; 
-                $icon              = 'border_' . $key;
-
-                $output .= '<div class="divergent-field-left">';
-                $output .= Divergent_Fields::dimension_field( 
-                    $field['id'] . '-' . $key. '-width' , 
-                    $field['name'] . '[' . $key . '][width]', 
-                    $borderwidth[$key], 
-                    '',
-                    __('Border Width', 'divergent'),
-                    $icon
-                );
-                $output .= '</div>';
-
-                // Border Type
-                $type['id']          = $field['id']  . '-' . $key. '-style';
-                $type['name']        = $field['name'] . '[' . $key . '][style]';
-                $type['values']      = isset($field['values'][$key]['style']) ? $field['values'][$key]['style'] : '';
-                $type['placeholder'] = __('Border Style', 'divergent');
                 
-                $output .= '<div class="divergent-field-left">';
-                $output .= Divergent_Field_Select::render($type);
-                $output .= '</div>';
+                // Dimensions
+                $dimension                  = array();
+                $dimension['icon']          = 'border_' . $key; 
+                $dimension['id']            = $field['id'] . '-' . $key. '-width'; 
+                $dimension['name']          = $field['name'] . '[' . $key . '][width]'; 
+                $dimension['placeholder']   = $side; 
+                $dimension['values']        = isset($field['values'][$key]['width']) ? $field['values'][$key]['width'] : array();  
+
+                $output                    .= ' <div class="divergent-field-left">';
+                $output                    .= Divergent_Field_Dimension::render( $dimension );
+                $output                    .= ' </div>';
+
+                
+                // Border Type
+                $type['id']                 = $field['id']  . '-' . $key. '-style';
+                $type['name']               = $field['name'] . '[' . $key . '][style]';
+                $type['values']             = isset($field['values'][$key]['style']) ? $field['values'][$key]['style'] : '';
+                $type['placeholder']        = __('Border Style', 'divergent');
+                
+                $output                    .= ' <div class="divergent-field-left">';
+                $output                    .= Divergent_Field_Select::render($type);
+                $output                    .= ' </div>';
+                
                 
                 // Colorpicker
-                $colorpicker['values']  = isset($field['values'][$key]['color']) ? $field['values'][$key]['color'] : '';
-                $colorpicker['id']      = $field['id'] . '-' . $key . '-color';
-                $colorpicker['name']    = $field['name']. '[' . $key . '][color]';
+                $colorpicker['values']      = isset($field['values'][$key]['color']) ? $field['values'][$key]['color'] : '';
+                $colorpicker['id']          = $field['id'] . '-' . $key . '-color';
+                $colorpicker['name']        = $field['name']. '[' . $key . '][color]';
                 
-                $output .= '<div class="divergent-field-left">';
-                $output .= Divergent_Field_Colorpicker::render($colorpicker);                
-                $output .= '</div>';
+                $output                    .= ' <div class="divergent-field-left">';
+                $output                    .= Divergent_Field_Colorpicker::render($colorpicker);                
+                $output                    .= ' </div>';
                 
-                $output .= '</div><!-- .divergent-single-border -->';
+                
+                $output                    .= '</div><!-- .divergent-single-border -->';
+                
             }
             
         // One control
         } else {
-
-            // Colorpicker
-            $colorpicker['values']  = isset($field['values']['color']) ? $field['values']['color'] : '';
-            $colorpicker['id']      = $field['id'] . '-color';
-            $colorpicker['name']    = $field['name'] . '[color]';            
-            
+          
             // Dimensions       
-            $borderwidth = isset($field['values']['width']) ? $field['values']['width'] : ''; 
-            $icon        = 'border_outer';
+            $dimension['icon']          = 'border_outer'; 
+            $dimension['id']            = $field['id'] . '-width'; 
+            $dimension['name']          = $field['name'] . '[width]'; 
+            $dimension['placeholder']   = __('Border Width', 'divergent'); 
+            $dimension['values']        = isset($field['values']['width']) ? $field['values']['width'] : array();            
             
-            $output .= '<div class="divergent-field-left">';
-            $output .= Divergent_Fields::dimension_field( $field['id'] . '-border', $field['name'] . '[width]', $borderwidth, '', __('Border Width', 'divergent'), $icon);
-            $output .= '</div>';
+            $output                    .= '<div class="divergent-field-left">';
+            $output                    .= Divergent_Field_Dimension::render( $dimension );
+            $output                    .= '</div>';
+            
             
             // Border Type
-            $type['id']          = $field['id']  . '-style'; 
-            $type['name']        = $field['name'] . '[style]'; 
-            $type['values']      = isset($field['values']['style']) ? $field['values']['style'] : ''; 
-            $type['placeholder'] = __('Border Style', 'divergent');       
+            $type['id']                 = $field['id']  . '-style'; 
+            $type['name']               = $field['name'] . '[style]'; 
+            $type['values']             = isset($field['values']['style']) ? $field['values']['style'] : ''; 
+            $type['placeholder']        = __('Border Style', 'divergent');       
             
-            $output .= '<div class="divergent-field-left">';
-            $output .= Divergent_Field_Select::render($type);   
-            $output .= '</div>';
+            $output                    .= '<div class="divergent-field-left">';
+            $output                    .= Divergent_Field_Select::render($type);   
+            $output                    .= '</div>';
             
-            $output .= '<div class="divergent-field-left">';
-            $output .= Divergent_Field_Colorpicker::render($colorpicker);
-            $output .= '</div>';                 
+
+            // Colorpicker
+            $colorpicker['values']      = isset($field['values']['color']) ? $field['values']['color'] : '';
+            $colorpicker['id']          = $field['id'] . '-color';
+            $colorpicker['name']        = $field['name'] . '[color]';              
+            
+            $output                    .= '<div class="divergent-field-left">';
+            $output                    .= Divergent_Field_Colorpicker::render($colorpicker);
+            $output                    .= '</div>';                 
 
         }
         

@@ -2,11 +2,11 @@
  /** 
   * Displays a text input field
   */
+namespace Classes\Divergent\Fields;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-}
+if ( ! defined( 'ABSPATH' ) )
+    die;
 
 class Divergent_Field_Input implements Divergent_Field {
     

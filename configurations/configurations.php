@@ -60,7 +60,7 @@ $scripts[] = array(
     'deps'      => array('jquery'),
     'ver'       => null,
     'in_footer' => true,  
-    'context'   => 'enqueue'
+    'action'    => 'register'
 );
 
 $scripts[] = array(
@@ -69,7 +69,7 @@ $scripts[] = array(
     'deps'      => array( 'jquery', 'wp-color-picker' ),
     'ver'       => '',
     'in_footer' => 'true', 
-    'context'   => 'enqueue',
+    'action'    => 'register',
 );      
 
 $scripts[] = array(
@@ -78,7 +78,7 @@ $scripts[] = array(
     'deps'      => array('jquery', 'alpha-color-picker'),
     'ver'       => null,
     'in_footer' => true,  
-    'context'   => 'enqueue'
+    'action'    => 'register'
 );  
 
 $scripts[] = array(
@@ -87,7 +87,6 @@ $scripts[] = array(
     'deps'      => null,
     'ver'       => '3',
     'in_footer' => true,  
-    'context'   => 'admin',
     'action'    => 'register'
 ); 
 
@@ -97,7 +96,6 @@ $scripts[] = array(
     'deps'      => null,
     'ver'       => null,
     'in_footer' => true,  
-    'context'   => 'admin',
     'action'    => 'register'
 );
 
@@ -185,7 +183,7 @@ $fonts = array(
 /**
  * Retrieve our icons
  */
-$iconsFile          = json_decode( file_get_contents(DIVERGENT_ASSETS_URL . 'js/vendor/material-icons.js'), true );
+$iconsFile          = json_decode( file_get_contents(DIVERGENT_ASSETS_URL . 'js/vendor/material-icons.json'), true );
 
 foreach( $iconsFile['icons'] as $key => $icon ) {
     $material[]     = str_replace(' ', '_', strtolower($icon['name']));       

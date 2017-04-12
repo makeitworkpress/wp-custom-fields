@@ -2,8 +2,12 @@
 /**
  * Creates the variable values for a new options frame
  */
-namespace Divergent;
+namespace Classes\Divergent;
 use stdClass as stdClass;
+
+// Bail if accessed directly
+if ( ! defined( 'ABSPATH' ) ) 
+    die;
 
 class Divergent_Frame {
     
@@ -16,7 +20,7 @@ class Divergent_Frame {
      * @param array $frames The array with option frames, such as option pages or metaboxes
      * @param array $values The array with values for the option fields
      */
-    public function __construct( Array $frame, Array $values ) {
+    public function __construct( Array $frame, $values = '' ) {
         
         // Our frame and values
         $this->frame    = $frame;  
@@ -33,6 +37,12 @@ class Divergent_Frame {
         $this->settingFields    = '';
         $this->title            = $frame['title'];
         $this->type             = '';
+
+        // Include our scripts and media      
+        wp_enqueue_script('jquery-validate');
+        wp_enqueue_script('alpha-color-picker');
+        wp_enqueue_script('admin-js');
+        wp_enqueue_media();           
         
         // Populate Variables
         $this->populateSections();
@@ -55,12 +65,12 @@ class Divergent_Frame {
         // Loop through our sections
         foreach( $this->frame['sections'] as $key => $section ) {
             
-            $frame->sections[$key]                  = $section;
-            $frame->sections[$key]['active']        = $frame->currentSection == $section['id'] ? 'active' : '';
-            $frame->sections[$key]['icon']          = ! empty( $section['icon'] ) ? $section['icon'] : false;
+            $this->sections[$key]                  = $section;
+            $this->sections[$key]['active']        = $this->currentSection == $section['id'] ? 'active' : '';
+            $this->sections[$key]['icon']          = ! empty( $section['icon'] ) ? $section['icon'] : false;
             
             foreach( $section['fields'] as $key => $field) {
-                $frame->sections[$key]['fields'][]  = $this->populateField( $field );
+                $this->sections[$key]['fields'][]  = $this->populateField( $field );
             }
                 
         }
@@ -70,30 +80,30 @@ class Divergent_Frame {
     /**
      * Populates the fields. Is executed by $this->populateSections
      *
-     * @param array $fields The array with a single field
+     * @param array $fields The array from a single field
      */
     private function populateField( Array $field = array() ) {
         
         // We should have a field type
-        if( isset($field['type']) )
+        if( ! isset($field['type']) )
             return $field;
         
         // Populate our variables
         $field                  = $field;
-        $field['column']        = isset($field['columns'])          ? ' column ' . $field['columns']    : '';
+        $field['column']        = isset($field['columns'])              ? ' column ' . $field['columns']    : '';
         $field['form']          = __('We are sorry, the given field class does not exist', 'divergent');
         
         // Make sure our IDs do not contain brackets
         $field['id']            = str_replace('[', '_', $field['id']); 
         $field['id']            = str_replace(']', '', $field['id']); 
-        $field['name']          = isset( $field['name'] )           ? $field['name']                    : $field['id'];
+        $field['name']          = isset( $field['name'] )               ? $field['name']                    : $field['id'];
         
-        $field['placeholder']   = isset( $field['placeholder'] )    ? $field['placeholder']             : '';
-        $field['titleTag']      = $field['type'] == 'heading' ? 'h2' : 'h4';
+        $field['placeholder']   = isset( $field['placeholder'] )        ? $field['placeholder']             : '';
+        $field['titleTag']      = $field['type'] == 'heading'           ? 'h2'                              : 'h4';
         
         // Check if there is a default value set up, and whether there is a value already stored for the specific field
-        $default                = isset( $field['default'] )        ? $field['default'] : '';
-        $field['values']        = isset( $field['values'] )         ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
+        $default                = isset( $field['default'] )            ? $field['default'] : '';
+        $field['values']        = isset( $this->values[$field['id']] )  ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
         
         // Render our field form
         $class                  = 'Fields\Divergent_Field_' . ucfirst( $field['type'] );
@@ -114,13 +124,7 @@ class Divergent_Frame {
         if( empty($this->sections) ) {
             require_once( DIVERGENT_PATH . '/templates/nothing.php' );
             return;
-        }
-        
-        
-        // Include our media      
-        add_action('admin_enqueue_scripts', function () {
-            wp_enqueue_media();    
-        });
+        } 
         
         // Cast the object to the frame variable.
         $frame = $this;

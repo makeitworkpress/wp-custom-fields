@@ -2,11 +2,11 @@
  /** 
   * Displays a dimensions field
   */
+namespace Classes\Divergent\Fields;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
+if ( ! defined( 'ABSPATH' ) )
     die; 
-} 
 
 class Divergent_Field_Dimensions implements Divergent_Field {
     

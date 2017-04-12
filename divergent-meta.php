@@ -5,13 +5,11 @@
  * @author Michiel
  * @since 1.0.0
  */
+namespace Classes\Divergent;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-} 
-
-namespace Divergent;
+if ( ! defined( 'ABSPATH' ) ) 
+    die;
 
 class Divergent_Meta extends Divergent_Abstract {    
     

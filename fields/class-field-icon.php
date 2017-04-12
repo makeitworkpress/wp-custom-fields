@@ -2,19 +2,20 @@
  /** 
   * Displays a text input field
   */
+namespace Classes\Divergent\Fields;
+use Classes\Divergent as Divergent;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-}
+if ( ! defined( 'ABSPATH' ) )
+    die;
 
 class Divergent_Field_Icon implements Divergent_Field {
     
     public static function render($field = array()) {
         
-        $iconsets = Divergent_Fields::get('icons');
-        $iconsets = apply_filters('divergent_icons', $iconsets);
-        $type = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio';
+        $iconsets   = Divergent::$icons;
+        $iconsets   = apply_filters('divergent_icons', $iconsets);
+        $type       = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio';
         
         $output = '<div class="divergent-icons">';
 

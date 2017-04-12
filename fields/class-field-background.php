@@ -2,11 +2,11 @@
  /** 
   * Displays a background input field
   */
+namespace Classes\Divergent\Fields;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-} 
+if ( ! defined( 'ABSPATH' ) ) 
+    die;
 
 class Divergent_Field_Background implements Divergent_Field {
     

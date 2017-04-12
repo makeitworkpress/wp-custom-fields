@@ -5,14 +5,11 @@
  * @author Michiel
  * @since 1.0.0
  */
+namespace Classes\Divergent;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-} 
-
-namespace Divergent;
-use stdClass as stdClass;
+if ( ! defined( 'ABSPATH' ) )
+    die;
 
 class Divergent_Options extends Divergent_Abstract {    
     
@@ -71,7 +68,7 @@ class Divergent_Options extends Divergent_Abstract {
             return;
 
         // Register the setting so it can be retrieved under a single option name. Sanitization is done on field level and executed by the sanitize method.
-        register_setting( $this->optionPage['id'] . '_group', $this->optionPage['id'], array($this, 'sanitize') );  
+        register_setting( $this->optionPage['id'] . '_group', $this->optionPage['id'], array($this, 'save') );  
 
         foreach( $this->optionPage['sections'] as $section ) {
 
@@ -126,7 +123,7 @@ class Divergent_Options extends Divergent_Abstract {
 
         // Restore Button
         ob_start();
-        submit_button( __( 'Restore Section', 'divergent' ), 'delete divergent-reset-section', $pageID . '_restore', false )
+        submit_button( __( 'Restore Section', 'divergent' ), 'delete divergent-reset-section', $pageID . '_restore', false );
         $frame->restoreButton   = ob_get_clean();
 
         // Setting Fields
@@ -146,7 +143,7 @@ class Divergent_Options extends Divergent_Abstract {
      *
      * @param $output The output from the saved form. 
      */
-    public function sanitize( $output ) {                    
+    public function save( $output ) {                    
         return Divergent_Validate::format( $this->optionPage, $output, 'Options' );
     } 
     

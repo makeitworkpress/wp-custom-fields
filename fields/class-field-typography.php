@@ -2,11 +2,12 @@
  /** 
   * Displays a typography input field
   */
+namespace Classes\Divergent\Fields;
+use Classes\Divergent as Divergent;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) { 
-    die; 
-}
+if ( ! defined( 'ABSPATH' ) ) 
+    die;
 
 class Divergent_Field_Typography implements Divergent_Field {
     
@@ -14,7 +15,7 @@ class Divergent_Field_Typography implements Divergent_Field {
         
         $type = isset($field['subtype']) ? $field['subtype'] : 'text';
         
-        $fonts = Divergent_Fields::get('fonts');
+        $fonts = Divergent::$fonts;
         
         // Display the fonts
         $output = '<div class="divergent-typography-fonts divergent-field-left">';
