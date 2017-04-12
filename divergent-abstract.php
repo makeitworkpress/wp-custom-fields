@@ -12,9 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) {
     die; 
 } 
 
-namespace Controllers;
+namespace Divergent;
 
 abstract class Divergent_Abstract {
+    
+    /**
+     * Use our validation functions
+     */
+    use Divergent_Validate;    
     
     /**
      * Determines whether a class has already been instanciated.

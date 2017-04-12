@@ -1,9 +1,12 @@
 <?php
+
 /**
- * This is the container class for the plugin, containing all necessary configuration
- *
- * @package Divergent
- * @author Michiel Tramper 
+ *  Description: The Divergent Framework is a slim options framework for generating option pages, metaboxes, category metaboxes and custom user meta fields
+ *  Version:     1.0.0
+ *  Author:      Make it WorkPress
+ *  Author URI:  https://www.makeitworkpress.com
+ *  Domain Path: /languages
+ *  Text Domain: divergent
  */
 
 // Bail if accessed directly
@@ -11,32 +14,43 @@ if ( ! defined( 'ABSPATH' ) ) {
     die; 
 }
 
-namespace Controllers;
+namespace Classes;
 
 class Divergent extends Divergent_Abstract {
-    
-    /**
-     * Use our validation functions
-     */
-    use Divergent_Validate;
 
-    /**
-     * These properties hold all configurations for the custom fields for each frame.
-     */
+    // These properties hold all configurations for the custom fields for each frame.
     protected $frames; 
+    
+    // Contains icons available in the frame
+    public static $icons;
+    
+    // Contains the fonts available in the frame
+    public static $fonts; 
+    
+    // Contains the styles that need to be enqueued
+    private $styles;
+    
+    // Contains the scripts  that need to be enqueued
+    private $scripts;      
     
     /**
      * Initializes the plugin 
      */
-    protected function initialize() {}
+    protected function initialize() {
+        
+        // Define Constants
+        defined( 'DIVERGENT_ASSETS_URL' ) or define( 'DIVERGENT_ASSETS_URL', plugin_dir_url( __FILE__ ) . 'assets/' );
+        defined( 'DIVERGENT_PATH' ) or define( 'DIVERGENT_PATH', plugin_dir_path( __FILE__ ) );        
+        
+    }
     
     /**
      * Adds functions to WordPress hooks - is automatically performed at a new instance
      */
     protected function registerHooks() {           
         $this->actions = array(
-            array('after_setup_theme', 'setup', 20),
-            array('admin_enqueue_scripts', 'enqueue')
+            array( 'after_setup_theme', 'setup', 20 ),
+            array( 'admin_enqueue_scripts', 'enqueue' )
         );
     }
     
@@ -60,24 +74,32 @@ class Divergent extends Divergent_Abstract {
      * Enqueues our scripts and styles
      */
     final public function enqueue() {
-        require_once(DIVERGENT_PATH . 'configurations.php');
-        
-        foreach( $styles as $style )
+
+        foreach( $this->styles as $style )
             wp_enqueue_style( $style['handle'], $style['src'], $style['deps'], $style['ver'], $style['media'] );     
         
-        foreach( $scripts as $script ) {
+        foreach( $this->scripts as $script ) {
             $action = 'wp_' . $script['context'] . '_script';
             $action( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );    
         }
     }
     
     /**
-     * Adds necessary filters for adjusting configurations
+     * Adds necessary filters for adjusting configurations and load our basic configurations
      */
     final private function addConfigurations() {
+        
+        // Load our configurations
+        require_once( DIVERGENT_PATH . 'configurations.php' );
+        
+        $this->scripts          = $scripts;
+        $this->styles           = $styles;
+        
+        self::$icons            = apply_filters( 'divergentIcons', $icons );
+        self::$fonts            = apply_filters( 'divergentFonts', $fonts );        
                 
         // Setup the supported datatypes
-        $types = apply_filters('divergentFrames', array('meta', 'options') );
+        $types = apply_filters('divergentFrames', array('Meta', 'Options') );
         
         // Adds filterable data for the various types.
         foreach($types as $type) {
@@ -91,12 +113,18 @@ class Divergent extends Divergent_Abstract {
      */
     final private function frame() {
         
-        global $pagenow;
-        
         // Initiates the various option or meta types
-        foreach( $this->frames as $frame => $values) {
-            if( ! empty($frame) )
-                $instance = ${'Divergent_' . ucfirst($frame)}::instance( $values );
+        foreach( $this->frames as $frame => $optionsGroups) {
+            
+            // We should have something defined
+            if( empty($optionsGroups) )
+                continue;
+            
+            // Create a new instance
+            foreach( $optionsGroups as $group ) {
+                $instance = ${'Divergent_' . $frame}::instance( $group );
+            }
+            
         }      
 
     } 

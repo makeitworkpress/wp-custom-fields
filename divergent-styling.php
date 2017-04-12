@@ -3,7 +3,7 @@
  * Converts setting values with a style attribute to inline styling on the frontend
  */
 
-namespace Controllers;
+namespace Divergent;
 
 class Divergent_Styling extends Divergent {
     

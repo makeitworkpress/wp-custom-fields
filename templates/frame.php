@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php if( $frame->type == 'optionsPage' ) { ?>
+<?php if( $frame->type == 'Options' ) { ?>
     <div class="wrap">
         <form method="post" action="options.php" enctype="multipart/form-data"> 
 <?php } ?>
@@ -51,14 +51,37 @@
                         <section id="<?php echo $section['id']; ?>" class="divergent-section <?php echo $section['active']; ?>">
                             
                             <h3 class="divergent-section-title"><?php echo $section['title']; ?></h3>
+
+                            <?php foreach( $section['fields'] as $key => $field ) ?>
+                                
+                                <div class="divergent-option-field <?php echo $field['column']; ?> 'field-'<?php echo $field['type']; ?>">
+
+                                    <div class="divergent-field-context">
+                                        <?php 
+                                            /**
+                                             * Echo the title for the field
+                                             */
+                                            if( isset($field['title']) )              
+                                                echo '<'.$field['titleTag'].'>' . $field['title'] . '</' . $field['titleTag'] .'>';
+                                        ?>
+
+                                        <?php 
+                                            /**
+                                             * Echo the description for the field
+                                             */
+                                            if( isset($field['description']) )              
+                                                echo '<p>' . $field['description'] . '</p>';
+                                        ?>
+
+                                    </div>
+
+                                    <div class="divergent-field-input">
+                                        <?php echo $field['form']; ?>
+                                    </div>
+
+                                </div>
                             
-                            <?php 
-                                /**
-                                 * Display our fields
-                                 */
-                                $fields = $section['fields'];
-                                require_once('fields.php');
-                            ?>
+                            <?php } ?>
                         
                         </section>
                     
@@ -85,7 +108,7 @@
             
             <input type="hidden" name="divergentSection" id="divergentSection_<?php echo $frame->id; ?>" value="<?php echo $frame->currentSection; ?>" />
 
-<?php if( $frame->type == 'optionsPage' ) { ?>
+<?php if( $frame->type == 'Options' ) { ?>
         </form>
     </div>
 <?php } ?>
