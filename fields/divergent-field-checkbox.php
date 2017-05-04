@@ -12,8 +12,8 @@ class Divergent_Field_Checkbox implements Divergent_Field {
     
     public static function render($field = array()) {
         
-        $options = isset($field['options']) ? $field['options'] : array();
-        $style = isset($field['style']) ? $field['style'] : '';
+        $options    = isset($field['options']) ? $field['options'] : array();
+        $style      = isset($field['style']) ? $field['style'] : '';
         
         $output = '<div class="divergent-field-checkbox-wrapper ' . $style . '">';
         

@@ -10,16 +10,16 @@ namespace Classes\Divergent\Fields;
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Divergent_Field_Upload implements Divergent_Field {
+class Divergent_Field_Media implements Divergent_Field {
     
     public static function render($field = array()) {
         
-        $type = isset($field['subtype']) ? $field['subtype'] : '';
-        $button = isset($field['button']) ? $field['button'] : __('Insert', 'divergent');
-        $title = isset($field['title']) ? $field['title'] : __('Add Media', 'divergent');
-        $multiple = isset($field['multiple']) ? $field['multiple'] : true;
-        $url = isset($field['url']) ? $field['url'] : false;
-        $media = ! empty($field['values']) ? explode(',', rtrim($field['values'], ',')) : array();
+        $type           = isset($field['subtype']) ? $field['subtype'] : '';
+        $button         = isset($field['button']) ? $field['button'] : __('Insert', 'divergent');
+        $title          = isset($field['title']) ? $field['title'] : __('Add Media', 'divergent');
+        $multiple       = isset($field['multiple']) ? $field['multiple'] : true;
+        $url            = isset($field['url']) ? $field['url'] : false;
+        $media          = ! empty($field['values']) ? explode(',', rtrim($field['values'], ',')) : array();
         
         $output = '<div class="divergent-upload-wrapper" data-type="' . $type . '" data-button="' . $button . '" data-title="' . $title . '" data-multiple="' . $multiple . '">';
         foreach($media as $medium) {

@@ -98,6 +98,7 @@ class Divergent_Meta extends Divergent_Abstract {
      * @param int $id The id for the current object we are saving
      */      
     public function save( $id ) {
+
     
         // Do not save on autosaves
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 

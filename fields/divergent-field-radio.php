@@ -12,8 +12,8 @@ class Divergent_Field_Radio implements Divergent_Field {
     
     public static function render($field = array()) {
         
-        $options = isset($field['options']) ? $field['options'] : array();
-        $style = isset($field['style']) ? $field['style'] : '';
+        $options    = isset($field['options']) ? $field['options'] : array();
+        $style      = isset($field['style']) ? $field['style'] : '';
         
         $output = '<div class="divergent-field-checkbox-wrapper ' . $style . '">';
         
@@ -28,8 +28,8 @@ class Divergent_Field_Radio implements Divergent_Field {
             }
             
             // Check label
-            $label = isset($option['label']) ? $option['label'] : '';
-            $icon = isset($option['icon']) ? '<i class="fa fa-' . $option['icon'] . '"></i> ' : '';
+            $label  = isset($option['label']) ? $option['label'] : '';
+            $icon   = isset($option['icon']) ? '<i class="fa fa-' . $option['icon'] . '"></i> ' : '';
             
             // Output of form
             $output .= '<input type="radio" id="' . $field['id'] .  $option['id'] . '" name="' . $field['name'] . '" value="' . $option['id'] . '" ' . $checked . ' />';

@@ -76,6 +76,9 @@ class Divergent extends Divergent_Abstract {
         // Setup our framework
         if( is_admin() )
             $this->frame();
+        
+        // Execute other necessary things
+        add_theme_support( 'customize-selective-refresh-widgets' );
 
         
     }
@@ -102,7 +105,7 @@ class Divergent extends Divergent_Abstract {
         self::$fonts            = apply_filters( 'divergent_fonts', $fonts );        
                 
         // Setup the supported datatypes
-        $types                  = apply_filters('divergent_frames', array('meta', 'options') );
+        $types                  = apply_filters('divergent_frames', array('meta', 'options', 'customizer') );
         
         // Adds filterable data for the various types.
         foreach($types as $type) {
@@ -114,7 +117,7 @@ class Divergent extends Divergent_Abstract {
     /**
      * Set-up the option pages for the framework
      */
-    final private function frame() {
+    private function frame() {
         
         // Initiates the various option or meta types
         foreach( $this->frames as $frame => $optionsGroups) {
