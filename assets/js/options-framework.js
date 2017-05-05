@@ -224,7 +224,7 @@ jQuery(document).ready(function ($) {
                             src = attachment.icon;
                         }
                         
-                        add_wrap.before('<div class="divergent-single-media" data-id="' + attachment.id + '"><img src="' + src + '" /><a href="#" class="divergent-upload-remove"><i class="fa fa-times-circle"></i></a></div>');
+                        add_wrap.before('<div class="divergent-single-media" data-id="' + attachment.id + '"><img src="' + src + '" /><a href="#" class="divergent-upload-remove"><i class="material-icons">clear</i></a></div>');
                     });
 
                     value_input.val(attachment_ids);
@@ -306,7 +306,12 @@ jQuery(document).ready(function ($) {
     
     $('.divergent-repeatable-toggle').live('click', function (e) {
         e.preventDefault();
-        $(this).find('.fa').toggleClass('fa-rotate-180');
+        
+        if( $(this).find('i').text() === 'arrow_drop_down' ) {
+            $(this).find('i').text('arrow_drop_up');        
+        } else if( $(this).find('i').text() === 'arrow_drop_up' ) {
+            $(this).find('i').text('arrow_drop_down');    
+        }
         $(this).closest('h4').next('.divergent-repeatable-group-fields').slideToggle('closed');
     });
     

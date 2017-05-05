@@ -33,7 +33,7 @@ class Divergent extends Divergent_Abstract {
     /**
      * Initializes the plugin 
      */
-    protected function initialize() {
+    protected function initialize() {        
         
         $defaults = array(
             'google_maps_key' => ''
@@ -59,7 +59,7 @@ class Divergent extends Divergent_Abstract {
         $this->actions = array(
             array( 'after_setup_theme', 'setup', 20 ),
             array( 'admin_enqueue_scripts', 'enqueue' ),
-            array( 'wp_head', 'styling' ),
+            array( 'wp_head', 'styling', 100 ),
         );
     }
     
@@ -74,8 +74,7 @@ class Divergent extends Divergent_Abstract {
         $this->addConfigurations();
         
         // Setup our framework
-        if( is_admin() )
-            $this->frame();
+        $this->frame();
         
         // Execute other necessary things
         add_theme_support( 'customize-selective-refresh-widgets' );
@@ -93,7 +92,7 @@ class Divergent extends Divergent_Abstract {
     /**
      * Adds necessary filters for adjusting configurations and load our basic configurations
      */
-    final private function addConfigurations() {
+    private function addConfigurations() {
         
         // Load our configurations
         require_once( DIVERGENT_PATH . 'configurations/configurations.php' );
@@ -126,7 +125,13 @@ class Divergent extends Divergent_Abstract {
             if( empty($optionsGroups) )
                 continue;
             
-            // Create a new instance
+            if( ! is_admin() && ($frame == 'meta' || $frame == 'options') )
+                continue;
+            
+            if( ! is_customize_preview() && $frame == 'customizer' )
+                continue;            
+            
+            // Create a new instance for each group
             foreach( $optionsGroups as $group ) {
                 $class    = 'Classes\Divergent\Divergent_' . ucfirst( $frame );
                 $instance = $class::instance( $group );
@@ -168,7 +173,7 @@ class Divergent extends Divergent_Abstract {
      * @param array     $values The respective values in form of an associative array
      */
     public function add( $type, $values ) {
-        $this->frames[$type][] = $values;    
+        $this->frames[$type][] = $values;
     }     
        
 }

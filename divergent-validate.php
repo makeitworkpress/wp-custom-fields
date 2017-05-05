@@ -135,8 +135,7 @@ trait Divergent_Validate {
         $field_type     = $field['type'];
         $field_subtype  = isset($field['subtype']) ? $field['subtype'] : '';
         $field_value    = $input;
-        
-        $return_value = '';
+        $return_value   = '';
         
         // Switch for various field types
         switch($field_type) {
@@ -177,7 +176,7 @@ trait Divergent_Validate {
             case 'border':
             case 'colorpicker':
             case 'dimensions':
-            case 'links':
+            case 'dimension':
                 $return_value = $field_value;
                 break;
             // Slider

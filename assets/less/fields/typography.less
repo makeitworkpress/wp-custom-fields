@@ -1,0 +1,34 @@
+/* Typography Field */
+.divergent-typography-fonts {
+    border: 1px solid @wp-grey;
+    max-height: 212px;
+    max-width: 295px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.divergent-typography-font {
+    float: none;
+    height: auto;
+    width: auto;
+    label {
+        height: auto; 
+        img {
+            border-bottom: 2px solid transparent;
+        }
+    }
+    &.selected, label:hover, input:checked ~ label {
+        img {
+            border-bottom: 2px solid @wp-blue;
+        }
+    }
+}
+
+.divergent-typography-properties > * {
+    margin-bottom: @grid-space/2;
+}
+
+.divergent-icon-list {
+    overflow: hidden;
+    margin-top: 0;
+}

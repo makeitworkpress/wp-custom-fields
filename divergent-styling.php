@@ -26,6 +26,13 @@ class Divergent_Styling {
         // Examine for CSS related functions
         $this->examine();
         
+        // We should have fields with styles
+        if( ! isset($this->fields) )
+            return;       
+        
+        // Examines our custom fonts and enqueues them
+        $this->customFonts();
+        
         // Create our output
         $this->output();
         
@@ -100,35 +107,34 @@ class Divergent_Styling {
                         $field['values'] = $customizerValues[$field['id']];                     
 
                     if( isset( $metaValues[$field['id']] ) && $metaValues[$field['id']] )
-                        $field['values'] = $metaValues[$field['id']];                  
+                        $field['values'] = $metaValues[$field['id']];
+                    
+                    // Because we loop through all our frames looking for values, we might add the same field twice. 
+                    if( isset($this->fields[$field['id']]) )
+                        continue;
 
                     // Now, if the field has values, we add it to the array.
-                    if( isset($field['values']) )
-                        $this->fields[] = $field;
+                    if( isset($field['values']) && $field['values'] )
+                        $this->fields[$field['id']] = $field;
 
                 }                 
                     
             }
             
         }
-       
-        
+ 
     } 
     
     /**
      * Retrieve values if we have css fields for them.
      */
     private function output() {
-        
-        // We should have fields with styles
-        if( ! isset($this->fields) )
-            return;
              
         $style = '';
         
         // Loop through our fields that have CSS attributes and values
         foreach( $this->fields as $field ) {
-            $style.= $field['css'] . '{' . $this->formatField( $field['type'], $field['values'], $field['css'] ) . '}';    
+            $style.= isset($field['css']['class']) ? $field['css']['class'] : $field['css'] . '{' . $this->formatField( $field ) . '}';    
         }
         
         $style = $style ? '<style type="text/css">' . $style . '</style>' : '';
@@ -140,20 +146,180 @@ class Divergent_Styling {
     /**
      * Formats the css based upon a fields type values
      *
-     * @param string    $type   The field type
-     * @param array     $values The field values
-     * @param string    $css    The fields CSS target
+     * @param array    $field   The field type, including its values
      */
-    private function formatField($type, $values, $css) {
-        $style = '';
+    private function formatField( $field ) {
         
-        switch($type) {
+        // Default values;
+        $properties = array();
+        $style      = '';
+        $value      = array(); 
+        
+        // Switch types
+        switch( $field['type'] ) {
+                
+            // Background field
             case 'background':
+                
+                foreach( $field['values'] as $key => $content  ) {
+                    if( ! $field['values'][$key] || $key == 'upload' )
+                        continue;
+                    
+                    $properties[]                   = 'background-' . $key;
+                    $value['background-' . $key]    = $content;
+                }
+                
+                if( $field['values']['upload'] ) {
+                    
+                    // Only uses the first one as media
+                    $media  = explode( ',', $field['values']['upload'] );
+                    $src    = wp_get_attachment_image_url( $media[0], isset($field['css']['size']) ? $field['css']['size'] : 'full' );
+                
+                    $properties[]               = 'background-image';
+                    $value['background-image']  = 'url("' . $src . '")';
+                    
+                }
+                
                 break;
-            case
+                
+            // Boxshadow field    
+            case 'boxshadow':
+                
+                $shadow             = $field['values'];
+                $properties[]       = 'boxshadow';
+                $value['boxshadow'] = $shadow['x'] . 'px ' . $shadow['y'] . 'px ' . $shadow['blur'] . 'px ' . $shadow['spread'] . 'px ' . $shadow['type'];
+                
+                break; 
+                
+            // Border field 
+            case 'border':
+                
+                if( isset($field['borders']) ) {
+                    
+                    foreach( $field['values'] as $key => $values ) {
+                        $properties[]   = $key;
+                        $value[$key]    = $values['width']['amount'].$values['width']['unit'] . ' ' . $values['style'] . ' ' . $values['color'];
+                    }
+                    
+                } else {
+                    $properties[]       = 'border';
+                    $value['border']    = $field['values']['width']['amount'].$field['values']['width']['unit'] . ' ' . $field['values']['style'] . ' ' . $field['values']['color'];
+                }
+                
+                break;
+                
+            // Dimensions field
+            case 'dimensions':
+                
+                $properties[]       = 'padding';
+                
+                if( isset($field['borders']) ) {
+                    
+                    $value['padding'] = '';
+                    
+                    foreach( $field['values'] as $key => $values ) {
+                        $value['padding'] .= $values['amount'].$values['unit'] . ' ';
+                    }
+                    
+                    $value['padding'] = rtrim($value['padding']);
+                    
+                } else {
+                    $value['padding']    = $field['values']['amount'].$field['values']['unit'];
+                }                
+                break;
+                
+            // Color picker field (including customizer)    
+            case 'colorpicker':
+                $properties[]    = 'color';
+                $value['color']  = $field['values'];
+                break;
+            
+            // Media field (customizer)
+            case 'media':
+                
+                // Only uses the first one as media
+                $media  = explode( ',', $field['values'] );
+                $src    = wp_get_attachment_image_url( $media[0], isset($field['css']['size']) ? $field['css']['size'] : 'full' );
+                
+                $properties[]               = 'background-image';
+                $value['background-image']  = 'url("' . $src . '")';                
+                break;
+           
+            // Upload field (customizer)
+            case 'upload':
+                $properties[]               = 'background-image';
+                $value['background-image']  = 'url("' . $src . '")';
+                break;
+                
+            // Typographic field
+            case 'typography':
+                
+                $properties[]           = 'font-family';
+                $value['font-family']   = $field['values']['font'];
+                
+                // Add additional properties
+                if( $field['values']['size'] ) {
+                    $properties[]           = 'font-family';
+                    $value['font-family']   = $field['values']['size']['amount'] . $field['values']['size']['unit'];
+                }
+                
+                if( $field['values']['line_spacing'] ) {
+                    $properties[]           = 'line-height';
+                    $value['line-height']   = $field['values']['line_spacing']['amount'] . $field['values']['line_spacing']['unit'];
+                }
+                
+                if( $field['values']['font_weight'] ) {
+                    $properties[]           = 'font-weight';
+                    $value['font-weight']   = $field['values']['font_weight'];
+                }
+                
+                // Text styles
+                $styles = array(
+                    'italic'        => 'font-style', 
+                    'line-through'  => 'text-decoration', 
+                    'underline'     => 'text-decoration', 
+                    'uppercase'     => 'text-transform', 
+                    'text-align'    => 'text-align'
+                );
+                
+                foreach( $styles as $key => $property ) {
+                    
+                    if( ! isset($field['values'][$key]) )
+                        continue;
+                    
+                    $properties[]       = $property;
+                    $value[$property]   = $field['values'][$key];
+                    
+                }
+                
+                break;
+               
         }
         
-        return $style;
+        // If we have a custom property for the CSS
+        $properties  = isset($field['css']['properties']) ? $field['css']['properties'] : $properties;
+        
+        // Only add the style if we have values for it
+        if( $value && $properties ) {
+            
+            $properties = array_unique($properties);
+            
+            foreach( $properties as $property ) {
+                $content = isset($field['css']['properties']) ? implode('', $value) : $value[$property];
+                $style  .= $property . ':' . $content . ';';
+            }
+            
+        }
+        
+        return apply_filters('divergent_css', $style, $field);
+        
+    }
+    
+    /**
+     * Determine our custom fonts
+     */
+    private function customFonts() {
+     
     }
     
 }

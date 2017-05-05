@@ -1,0 +1,61 @@
+/**
+ * Framework Fields
+ * ----------------------------------
+ */
+@import 'fields/boxshadow.less';
+@import 'fields/colorpicker.less';
+@import 'fields/dimensions.less';
+@import 'fields/icons.less';
+@import 'fields/media.less';
+@import 'fields/radio.less';
+@import 'fields/repeatable.less';
+@import 'fields/slider.less';
+@import 'fields/typography.less';
+
+
+/**
+ * General Field sTyling
+ */
+.divergent-field-left {
+    display: inline-block;
+    margin-right: @grid-space;
+    vertical-align: top;
+}
+
+.divergent-option-field {
+    padding-bottom: 20px;
+}
+
+.divergent-field-context {
+    border-bottom: 1px solid @light-grey;
+    h4 {
+        font-size: 1.1em;
+        margin: 0;
+    }
+}
+
+.divergent-field-input {
+    margin: 20px 0;
+    .error {
+        border: 1px solid @wp-red;
+    }
+    label.error {
+        background: lighten(@wp-red, 30); 
+        display: block;
+        margin: 10px 1px 0 1px;
+        padding: 3px 5px;
+        position: relative;
+        &:before {
+            border-bottom: 7px solid @wp-red;
+            border-left: 7px solid transparent; 
+            border-right: 7px solid transparent; 
+            content: '';
+            display: block;
+            height: 0;
+            left: 5px;
+            position: absolute;
+            top: -7px;
+            width: 0;
+        }
+    }    
+}

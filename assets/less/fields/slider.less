@@ -1,0 +1,48 @@
+/* Slider */
+.divergent-slider {
+    background: @dark-white;
+    border: 1px solid @wp-grey;
+    border-radius: @base-radius;
+    height: 10px;
+    float: left;
+    margin: 7px 10px 7px 0;
+    max-width: 140px;
+    min-width: 60px;
+    position: relative;
+    width: 80%;
+    .ui-slider-handle {
+        background:@wp-lightblue;
+        box-shadow: @wp-boxshadow;
+        border: 1px solid @light-grey;
+        border-radius: @base-radius;
+        display: block;
+        height: 14px;
+        margin: -3px 0 0 -7px;
+        position: absolute;
+        width: 14px;
+        &:after {
+            border-left: 1px solid @light-white;
+            border-right: 1px solid @light-white;
+            content: '';
+            display: block;
+            height: 8px;
+            margin: 3px 4px;
+            width: 4px;
+            
+        }       
+        &:hover, &:focus {
+            background: @wp-blue; 
+            box-shadow: @wp-boxshadow-hover;
+        }
+    }
+}
+.divergent-slider-wrapper label {
+    color: @wp-greyborder;  
+    position: relative;
+    top: -3px;
+}
+.divergent-slider-value {
+    max-width: 140px;
+    min-width: 70px;
+    width: 20%;
+}

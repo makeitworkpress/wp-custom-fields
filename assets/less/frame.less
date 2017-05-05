@@ -1,0 +1,96 @@
+/**
+ * Framework Layout
+ * ----------------------------------
+ */
+.divergent-framework {
+    background: @wp-black;
+    border: 1px solid @wp-lightborder;
+    .button {
+        margin-right: 5px;
+    }
+    header { 
+        padding: @grid-space @grid-space 0 @grid-space;
+        h2 {
+            color: @white;
+            margin-bottom: @grid-space;
+        }
+    }
+    a, i {
+        text-decoration: none;
+        transition: all 350ms ease-in-out;
+    }
+    footer {      
+        padding: @grid-space;
+    }
+    input, select, textarea {
+        max-width: 100%;
+        vertical-align: top;
+    }
+    label {
+        clear: both;
+        display: block;
+        margin: 7px 0;
+    }
+}
+
+.divergent-buttons {
+    clear: both;
+    margin-bottom: @grid-space;
+    text-align: right;
+}
+
+.divergent-tabs {
+    margin: 0;
+    .tabs-left & {
+        float: left;
+        margin-left: -@grid-space;
+        li {
+            display: block;
+            a {
+                padding: @grid-space/2 @grid-space;
+            }
+        }
+    }
+    li {
+        display: inline-block;
+        margin: 0;
+        a {
+            background-color: @wp-blue;
+            color: @white;
+            display: block;
+            font-size: 14px;
+            padding: @grid-space/2;
+            transition: @base-transition;
+            i {
+                font-size: 18px;
+                margin-right: 3px;
+                position: relative;
+                top: 3px;
+            }
+            &.active, &:hover {
+                background-color: @white;
+                color: @wp-black;
+            }
+            &:focus {
+                box-shadow: none;
+                outline: none;
+            }
+        }
+    }
+}
+
+.divergent-sections {
+    background: #fff;
+    overflow: hidden;
+    padding: @grid-space/2 @grid-space; 
+    .tabs-left & {
+        border-left: 1px solid @wp-lightborder;
+    }    
+}
+
+.divergent-section {
+    display: none;
+    &.active {
+        display: block;
+    }
+}

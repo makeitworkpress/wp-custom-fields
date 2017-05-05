@@ -10,10 +10,10 @@ if ( ! defined( 'ABSPATH' ) )
 
 class Divergent_Field_Background implements Divergent_Field {
     
-    public static function render($field = array()) {
+    public static function render( $field = array() ) {
              
         // Background Colorpicker
-        $colorpicker['values'] = isset($field['values']['color']) ? $field['values']['color'] : '';
+        $colorpicker['values'] = isset( $field['values']['color'] ) ? $field['values']['color'] : '';
         $colorpicker['name']   = $field['name'] . '[color]';
         $colorpicker['id']     = $field['id'] . '-color';
 
@@ -27,12 +27,12 @@ class Divergent_Field_Background implements Divergent_Field {
         $upload_custom['values']    = isset($field['values']['upload']) ? $field['values']['upload'] : '';
         
         $output = '<div class="divergent-background-image divergent-field-left">';
-        $output .=  Divergent_Field_Upload::render($upload_custom);        
+        $output .=  Divergent_Field_Media::render( $upload_custom );        
         $output .= '</div>';
 
         
         $output .= '<div class="divergent-background-attributes divergent-field-left">';         
-        $output .=  Divergent_Field_Colorpicker::render($colorpicker);
+        $output .=  Divergent_Field_Colorpicker::render( $colorpicker );
         
         // Background Select Attributes
         $background_attributes = array(

@@ -14,8 +14,9 @@ class Divergent_Field_Boxshadow implements Divergent_Field {
         
         $output = '<div class="divergent-boxshadow">';
         
-        $output .= '<div class="divergent-boxshadow-dimensions divergent-boxshadow-field">';
-        $output .= '<label>' . __('Boxshadow Offset, blur and spread', 'divergent') . '</label>';
+        // Dimensions
+        $output .= '<div class="divergent-boxshadow-dimensions divergent-field-left">';
+        $output .= '<label>' . __('Boxshadow Offset, Blur and Spread', 'divergent') . '</label>';
         $pixel_values = array(
             array('id' => 'x',      'placeholder' => __('x-offset', 'divergent') ),
             array('id' => 'y',      'placeholder' => __('y-offset', 'divergent') ),
@@ -25,30 +26,31 @@ class Divergent_Field_Boxshadow implements Divergent_Field {
         
         foreach($pixel_values as $el) {
             $el_value = isset($field['values'][$el['id']]) ? $field['values'][$el['id']] : '';
-            $output .= '<input class="small-text" id="' . $field['id'].'-'.$el['id'] . '" name="' . $field['name']  . '['.$el['id'].']" type="text" placeholder="' . $el['placeholder'] . '" value="' . $el_value . '" />';
+            $output .= '<input id="' . $field['id'].'-'.$el['id'] . '" name="' . $field['name']  . '['.$el['id'].']" type="number" placeholder="' . $el['placeholder'] . '" value="' . $el_value . '" />';
         }
         $output .= '</div>';
         
-        $output .= '<div class="divergent-boxshadow-color divergent-boxshadow-field">';
+        // Color
+        $output .= '<div class="divergent-boxshadow-color divergent-field-left">';
         $output .= '<label>' . __('Boxshadow Color', 'divergent') . '</label>';
-        $output .= Divergent_Field_Colorpicker::render($field);
+        $output .= Divergent_Field_Colorpicker::render( array(
+            'id'     => $field['id'] . '-color',   
+            'name'   => $field['name'] . '[color]',
+            'values' => isset($field['values']['color']) ? $field['values']['color'] : ''     
+        ) );
         $output .= '</div>';
         
-        $output .= '<div class="divergent-boxshadow-color divergent-boxshadow-field">';
+        // Type of boxshadow
+        $output .= '<div class="divergent-boxshadow-type divergent-field-left">';
         $output .= '<label>' . __('Boxshadow Style', 'divergent') . '</label>';
+        $output .= Divergent_Field_Select::render( array(
+            'id'        => $field['id']  . '-type',
+            'name'      => $field['name']. '[type]',
+            'options'  => array( '' => __('Default', 'divergent'), 'inset' => __('Inset', 'divergent') ),             
+            'placeholder' => __('Select Type', 'divergent'),         
+            'values'    => isset($field['values']['type']) ? $field['values']['type'] : ''
         
-        // Add select field for the boxshadow
-        $select_field = array(             
-            'placeholder' => __('Select Type', 'divergent'),
-            'options'  => array(
-                '' => __('Default', 'divergent'),
-                'inset' => __('Inset', 'divergent')
-            )
-        );
-        $select_field['values'] = isset($field['values']['type']) ? $field['values']['type'] : ''; 
-        $select_field['id']     = $field['id']  . '-type';
-        $select_field['name']   = $field['name']. '[type]';
-        $output .= Divergent_Field_Select::render($select_field); 
+        ) ); 
         $output .= '</div>';
         
         $output .= '</div>';

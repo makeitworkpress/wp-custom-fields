@@ -91,7 +91,7 @@ class Divergent_Frame {
         
         // Populate our variables
         $field                  = $field;
-        $field['column']        = isset($field['columns'])              ? ' column ' . $field['columns']    : '';
+        $field['column']        = isset($field['columns'])              ?  $field['columns'] : 'full';
         $field['form']          = __('We are sorry, the given field class does not exist', 'divergent');
         
         // Make sure our IDs do not contain brackets

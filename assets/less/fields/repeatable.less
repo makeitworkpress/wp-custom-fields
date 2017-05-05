@@ -1,0 +1,26 @@
+/* Repeatable */
+.divergent-repeatable-group {
+    background-color: @white;
+    border: 1px solid @light-grey;
+    border-radius: @base-radius;
+    margin-bottom: 10px;
+    > h4 {
+        border-bottom: 1px solid @light-grey;
+        font-size: 1.2em;
+        margin-bottom: 0;
+        padding: 0 @grid-space 1.33em @grid-space;
+    }
+    ~ .button {
+        float: right;
+    }
+}
+.divergent-repeatable-group-fields {
+    padding: @grid-space @grid-space 0 @grid-space;
+}
+.divergent-repeatable-toggle {
+    float: right;
+    &:focus {
+        box-shadow: none;
+        outline: none;
+    }
+}

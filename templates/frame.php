@@ -55,37 +55,41 @@
                         <section id="<?php echo $section['id']; ?>" class="divergent-section <?php echo $section['active']; ?>">
                             
                             <h3 class="divergent-section-title"><?php echo $section['title']; ?></h3>
-
-                            <?php foreach( $section['fields'] as $key => $field ) { ?>
-                                
-                                <div class="divergent-option-field <?php echo $field['column']; ?> 'field-'<?php echo $field['type']; ?>">
-
-                                    <div class="divergent-field-context">
-                                        <?php 
-                                            /**
-                                             * Echo the title for the field
-                                             */
-                                            if( isset($field['title']) )              
-                                                echo '<'.$field['titleTag'].'>' . $field['title'] . '</' . $field['titleTag'] .'>';
-                                        ?>
-
-                                        <?php 
-                                            /**
-                                             * Echo the description for the field
-                                             */
-                                            if( isset($field['description']) )              
-                                                echo '<p>' . $field['description'] . '</p>';
-                                        ?>
-
-                                    </div>
-
-                                    <div class="divergent-field-input">
-                                        <?php echo $field['form']; ?>
-                                    </div>
-
-                                </div>
                             
-                            <?php } ?>
+                            <div class="divergent-fields grid flex wrap">
+
+                                <?php foreach( $section['fields'] as $key => $field ) { ?>
+
+                                    <div class="divergent-option-field <?php echo $field['column']; ?> field-<?php echo $field['type']; ?>">
+
+                                        <div class="divergent-field-context">
+                                            <?php 
+                                                /**
+                                                 * Echo the title for the field
+                                                 */
+                                                if( isset($field['title']) )              
+                                                    echo '<'.$field['titleTag'].'>' . $field['title'] . '</' . $field['titleTag'] .'>';
+                                            ?>
+
+                                            <?php 
+                                                /**
+                                                 * Echo the description for the field
+                                                 */
+                                                if( isset($field['description']) )              
+                                                    echo '<p>' . $field['description'] . '</p>';
+                                            ?>
+
+                                        </div>
+
+                                        <div class="divergent-field-input">
+                                            <?php echo $field['form']; ?>
+                                        </div>
+
+                                    </div>
+
+                                <?php } ?>
+                                
+                            </div>
                         
                         </section>
                     

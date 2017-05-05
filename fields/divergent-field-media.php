@@ -22,23 +22,27 @@ class Divergent_Field_Media implements Divergent_Field {
         $media          = ! empty($field['values']) ? explode(',', rtrim($field['values'], ',')) : array();
         
         $output = '<div class="divergent-upload-wrapper" data-type="' . $type . '" data-button="' . $button . '" data-title="' . $title . '" data-multiple="' . $multiple . '">';
+        
         foreach($media as $medium) {
-            if( ! empty($medium) ) {
-                $output .= '    <div class="divergent-single-media" data-id="' . $medium . '">';
-                $output .= wp_get_attachment_image($medium, 'thumbnail', true);
+            if( empty($medium) )
+                continue;
+            
+            $output .= '    <div class="divergent-single-media" data-id="' . $medium . '">';
+            $output .= wp_get_attachment_image($medium, 'thumbnail', true);
 
-                if( $url ) {
-                    $attachment_url = wp_get_attachment_url( $medium );
-                    $output .= '        <div class="divergent-media-url">';
-                    $output .= '            <i class="material-icons">link</i>';
-                    $output .= '            <input type="text" readonly="readonly" value="' . $attachment_url . '" />';
-                    $output .= '        </div>';              
-                }
-
-                $output .= '        <a href="#" class="divergent-upload-remove"><i class="material-icons">clear</i></a>'; 
-                $output .= '    </div>';
+            if( $url ) {
+                $attachment_url = wp_get_attachment_url( $medium );
+                $output .= '        <div class="divergent-media-url">';
+                $output .= '            <i class="material-icons">link</i>';
+                $output .= '            <input type="text" readonly="readonly" value="' . $attachment_url . '" />';
+                $output .= '        </div>';              
             }
+
+            $output .= '        <a href="#" class="divergent-upload-remove"><i class="material-icons">clear</i></a>'; 
+            $output .= '    </div>';
+            
         }
+        
         $output .= '    <div class="divergent-single-media empty">';
         $output .= '        <a href="#" class="divergent-upload-add">';
         $output .= '            <i class="material-icons">add</i> ';
