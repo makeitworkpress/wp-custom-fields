@@ -28,7 +28,7 @@ class Divergent_Field_Border implements Divergent_Field {
         $type['placeholder'] = __('Border Style', 'divergent');
         
         // Control each side of the box
-        if($border == 'all') {
+        if( $border == 'all' ) {
             
             $sides = array(
                 'top'       => __('Top', 'divergent'), 

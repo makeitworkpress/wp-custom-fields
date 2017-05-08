@@ -1,22 +1,38 @@
 /* Buttonset in Radio Buttons */
-.buttonset {
+.field-radio, .field-checkbox {
+    i {
+        font-size: @wp-font-size;  
+        position: relative;
+        top: 2px;
+    }    
+    input, label {
+        display: inline-block;
+        margin: 0;
+        vertical-align: top;
+    }
     label {
-        background-color: #f5f5f5;        
-        border: 1px solid @wp-grey;
-        float: left;
-        margin: 0;
-        padding: 14px 20px;
-        transition: @base-transition;
+        margin: 0 @grid-space/2 0 @grid-space/8;
     }
-    input:checked + label, label:hover {
-        background-color: #fff;
-        font-weight: bold;
-    }
-    input {
-        height: 0;
-        margin: 0;
-        min-width: 0;
-        visibility: hidden;
-        width: 0;        
-    }
+    .buttonset {
+        label {
+            background-color: #f5f5f5;        
+            border: 1px solid @wp-grey;
+            clear: none;
+            float: left;
+            margin: 0;
+            padding: 14px 20px;
+            transition: @base-transition;
+        }
+        input:checked + label, label:hover {
+            background-color: #fff;
+            font-weight: bold;
+        }
+        input {
+            height: 0;
+            margin: 0;
+            min-width: 0;
+            visibility: hidden;
+            width: 0;        
+        }
+    }    
 }

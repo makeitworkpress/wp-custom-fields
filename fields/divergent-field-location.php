@@ -21,25 +21,13 @@ class Divergent_Field_Location implements Divergent_Field {
         $output .= '<input class="regular-text divergent-map-search" type="text" />';
         $output .= '<div class="divergent-map-canvas"></div>';        
         $output .= '<input class="latitude" id="' . $field['id'] . '-lat" name="' . $field['name']  . '[lat]" type="hidden" value="' . $field['values']['lat'] . '" />';
-        $output .= '<input class="longitude" id="' . $field['id'] . '-long" name="' . $field['name']  . '[long]" type="hidden" value="' . $field['values']['long'] . '" />';
+        $output .= '<input class="longitude" id="' . $field['id'] . '-long" name="' . $field['name']  . '[lng]" type="hidden" value="' . $field['values']['lng'] . '" />';
         
         $location_fields = array(
-            array(
-                'id'    => 'street',
-                'label' => __('Street Address', 'divergent')
-            ),
-            array(
-                'id'    => 'number',
-                'label' => __('Street Number', 'divergent')
-            ),
-            array(
-                'id'    => 'postal_code',
-                'label' => __('Postal Code', 'divergent')
-            ),
-            array(
-                'id'    => 'city',
-                'label' => __('City', 'divergent')
-            ),            
+            'street'        => __('Street Address', 'divergent'),
+            'number'        => __('Street Number', 'divergent'),
+            'postal_code'   => __('Postal Code', 'divergent'),
+            'city'          => __('City', 'divergent')          
         );
         
         foreach( $location_fields as $loc ) {

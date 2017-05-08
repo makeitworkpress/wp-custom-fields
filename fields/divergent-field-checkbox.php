@@ -21,15 +21,12 @@ class Divergent_Field_Checkbox implements Divergent_Field {
         foreach($options as $option) {
             
             // Determine if a box should be checked
-            if($field['values'][$option['id']] == true) {
-                $checked = 'checked="checked"';
-            } else {
-                $checked = '';
-            }
+            $checked = isset($field['values'][$option['id']]) && $field['values'][$option['id']] == true ? 'checked="checked"' : '';
+
             
             // Check label
             $label = isset($option['label']) ? $option['label'] : '';
-            $icon = isset($option['icon']) ? '<i class="fa fa-' . $option['icon'] . '"></i> ' : '';
+            $icon = isset($option['icon']) ? '<i class="material-icons">' . $option['icon']  . '</i> ' : '';
             
             // Output of form
             $output .= '<input type="checkbox" id="' . $field['id'] . '_' . $option['id'] . '" name="' . $field['name'] . '[' . $option['id'] . ']" ' . $checked . ' />';

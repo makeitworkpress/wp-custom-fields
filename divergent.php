@@ -49,7 +49,7 @@ class Divergent extends Divergent_Abstract {
         defined( 'DIVERGENT_ASSETS_URL' ) or define( 'DIVERGENT_ASSETS_URL', content_url() . $folder . '/assets/' );
         defined( 'DIVERGENT_PATH' ) or define( 'DIVERGENT_PATH', plugin_dir_path( __FILE__ ) );
         defined( 'GOOGLE_MAPS_KEY' ) or define( 'GOOGLE_MAPS_KEY', $this->params['google_maps_key'] );
-        
+
     }
     
     /**
@@ -59,8 +59,13 @@ class Divergent extends Divergent_Abstract {
         $this->actions = array(
             array( 'after_setup_theme', 'setup', 20 ),
             array( 'admin_enqueue_scripts', 'enqueue' ),
-            array( 'wp_head', 'styling', 100 ),
+            array( 'customize_controls_enqueue_scripts', 'customizerStyling')
         );
+        
+        // Setup our styling
+        if( ! is_admin() || is_customize_preview() )
+            Divergent_Styling::instance( array() ); 
+        
     }
     
     /**
@@ -70,23 +75,17 @@ class Divergent extends Divergent_Abstract {
      */
     final public function setup() {
         
-        // Add our configurations
+        // Add our configurations arrays
         $this->addConfigurations();
         
         // Setup our framework
-        $this->frame();
-        
+        if( is_admin() || is_customize_preview() )
+            $this->frame();
+
         // Execute other necessary things
         add_theme_support( 'customize-selective-refresh-widgets' );
 
         
-    }
-    
-    /**
-     * Adds custom inline styling if defined within the option fields
-     */
-    final public function styling() {    
-        new Divergent_Styling( $this->frames );
     }
     
     /**
@@ -125,11 +124,13 @@ class Divergent extends Divergent_Abstract {
             if( empty($optionsGroups) )
                 continue;
             
+            // Option and meta pages are only visible on admin
             if( ! is_admin() && ($frame == 'meta' || $frame == 'options') )
                 continue;
             
+            // And our customizer only on preview
             if( ! is_customize_preview() && $frame == 'customizer' )
-                continue;            
+                continue;
             
             // Create a new instance for each group
             foreach( $optionsGroups as $group ) {
@@ -162,7 +163,7 @@ class Divergent extends Divergent_Abstract {
      * @return array $configurations The array of configurations for the respective type
      */
     public function get( $type ) {
-        return $this->frames[$type];
+        return $type == 'all' ? $this->frames : $this->frames[$type];
     }     
         
     /**

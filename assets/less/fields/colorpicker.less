@@ -1,5 +1,12 @@
 /* Colorpicker */
 .divergent-colorpicker-wrapper {
-    margin-top: 3px;
-    overflow: hidden;
+    margin: 3px;
+    .wp-picker-container {
+        padding-bottom: @grid-space/8;
+        position: relative;
+    }
+    .wp-picker-holder {
+        position: absolute;
+        z-index: 9;
+    }
 }

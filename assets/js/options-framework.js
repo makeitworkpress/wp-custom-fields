@@ -258,14 +258,6 @@ jQuery(document).ready(function ($) {
     }
     
     /**
-     * Enables instant Validation
-     */
-    $("#post").validate();
-
-    // Validation of options page
-    $("#divergent-options-page").validate();
-    
-    /**
      * Repeatable Groups 
      *
      * @todo Add function to reset fields to default value

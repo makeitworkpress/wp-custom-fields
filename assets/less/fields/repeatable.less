@@ -10,17 +10,33 @@
         margin-bottom: 0;
         padding: 0 @grid-space 1.33em @grid-space;
     }
-    ~ .button {
+  
+}
+
+.divergent-repeatable-container {
+    .button {
         float: right;
-    }
+        margin: 0 0 0 5px;
+        i {
+            font-size: @wp-font-size;
+            position: relative;
+            top: 2px;
+        }
+    }     
 }
-.divergent-repeatable-group-fields {
-    padding: @grid-space @grid-space 0 @grid-space;
+
+.divergent-repeatable-fields {
+    padding: @grid-space;
 }
+
 .divergent-repeatable-toggle {
     float: right;
     &:focus {
         box-shadow: none;
         outline: none;
+    }
+    i {
+        position: relative;
+        top: -2px;
     }
 }

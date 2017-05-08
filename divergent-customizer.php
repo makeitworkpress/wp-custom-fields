@@ -61,11 +61,11 @@ class Divergent_Customizer extends Divergent_Abstract {
         foreach( $panel['sections'] as $section ) {
 
             // Check
-            if( ! isset($section['id']) )
+            if( ! isset($section['id']) || ! isset($section['title']) )
                 continue;
 
             $sectionArgs = array(
-                'description'   => $section['description'], 
+                'description'   => isset($section['description']) ? $section['description'] : '', 
                 'panel'         => $panel['id'], 
                 'title'         => $section['title']                    
             );
@@ -86,6 +86,10 @@ class Divergent_Customizer extends Divergent_Abstract {
                     'default' => $field['default'],
                     'type'    => isset( $panel['option'] ) ? $panel['option'] : 'theme_mod'
                 );
+                
+                // Transport our updates with partial refresh
+                if( isset($field['transport']) )
+                    $settingArgs['transport']             = $field['transport'];                
 
                 if( isset($field['sanitize']) )
                     $settingArgs['sanitize_callback']     = $field['sanitize'];
@@ -96,29 +100,38 @@ class Divergent_Customizer extends Divergent_Abstract {
                 // Add our settings
                 $wp_customize->add_setting( $panel['id'] . '[' . $field['id'] . ']', $settingArgs );
 
-                $controlArgs['section'] = $section['id'];
-                $controlArgs['label']   = $field['title'];
+                // Define our arguments for the controls
+                $controlArgs['section']     = $section['id'];
+                $controlArgs['label']       = $field['title'];
+                $controlArgs['settings']    = $panel['id'] . '[' . $field['id'] . ']'; // This is required for custom classes
                 
-                $controls = array('type', 'description', 'label', 'input_attrs', 'settings', 'choices', 'height', 'width');
+                // Define our additional control arguments
+                $controls = array('description', 'input_attrs', 'settings', 'choices', 'height', 'width', 'mime_type');
                 
                 foreach( $controls as $type ) {
                     if( isset($field[$type]) ) 
                         $controlArgs[$type] = $field[$type];
                 }
-
-                // Add several types controls. Might DRY this up someday.
-                if( $field['type'] == 'media' ) {
-                    $wp_customize->add_control( new WP_Customize_Media_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );    
-                } elseif( $field['type'] == 'colorpicker' ) {
-                    $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );    
-                } elseif( $field['type'] == 'image' ) {
-                    $wp_customize->add_control( new WP_Customize_Cropped_Image_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );    
-                } elseif( $field['type'] == 'upload' ) {
-                    $wp_customize->add_control( new WP_Customize_Upload_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );    
-                } elseif( $field['type'] == 'custom' && isset($field['custom']) && class_exists($field['custom']) ) {
-                    $wp_customize->add_control( new $field['custom']($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );    
-                } else {
-                    $wp_customize->add_control( $panel['id'] . '[' . $field['id'] . ']', $controlArgs );
+                
+                // Custom types
+                switch( $field['type'] ) {
+                    case 'colorpicker':
+                        $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
+                        break;                    
+                    case 'image':
+                        $wp_customize->add_control( new WP_Customize_Cropped_Image_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
+                        break;                    
+                    case 'media':
+                        $wp_customize->add_control( new WP_Customize_Media_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        break;                    
+                    case 'upload':
+                        $wp_customize->add_control( new WP_Customize_Upload_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        break;                    
+                    case 'custom':
+                        $wp_customize->add_control( new $field['custom']($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
+                        break;
+                    default:
+                        $wp_customize->add_control( $panel['id'] . '[' . $field['id'] . ']', $controlArgs );
                 }
 
                 // Register our partials
@@ -138,7 +151,7 @@ class Divergent_Customizer extends Divergent_Abstract {
      * @parram array $validity  The The validity of the setting
      * @parram array $value     The value passed
      */
-    public function validateField(  $validity, $value ) {
+    public function validateCustomizerField( $validity, $value ) {
         
     }
     
@@ -147,7 +160,7 @@ class Divergent_Customizer extends Divergent_Abstract {
      * 
      * @parram array $value     The value passed
      */
-    public function sanitizeField(  $value ) {
+    public function sanitizeCustomizerField( $value ) {
 
     }
     

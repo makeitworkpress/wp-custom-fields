@@ -56,7 +56,7 @@
                             
                             <h3 class="divergent-section-title"><?php echo $section['title']; ?></h3>
                             
-                            <div class="divergent-fields grid flex wrap">
+                            <div class="divergent-fields grid flex">
 
                                 <?php foreach( $section['fields'] as $key => $field ) { ?>
 

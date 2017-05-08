@@ -17,16 +17,16 @@ class Divergent_Field_Boxshadow implements Divergent_Field {
         // Dimensions
         $output .= '<div class="divergent-boxshadow-dimensions divergent-field-left">';
         $output .= '<label>' . __('Boxshadow Offset, Blur and Spread', 'divergent') . '</label>';
-        $pixel_values = array(
-            array('id' => 'x',      'placeholder' => __('x-offset', 'divergent') ),
-            array('id' => 'y',      'placeholder' => __('y-offset', 'divergent') ),
-            array('id' => 'blur',   'placeholder' => __('blur', 'divergent') ),
-            array('id' => 'spread', 'placeholder' => __('spread', 'divergent') )
+        $pixels  = array(
+            'x'         => __('x-offset', 'divergent'),
+            'y'         => __('y-offset', 'divergent'),
+            'blur'      => __('blur', 'divergent'),
+            'spread'    => __('spread', 'divergent')
         );
         
-        foreach($pixel_values as $el) {
-            $el_value = isset($field['values'][$el['id']]) ? $field['values'][$el['id']] : '';
-            $output .= '<input id="' . $field['id'].'-'.$el['id'] . '" name="' . $field['name']  . '['.$el['id'].']" type="number" placeholder="' . $el['placeholder'] . '" value="' . $el_value . '" />';
+        foreach( $pixels as $key => $h ) {
+            $n = isset($field['values'][$key]) ? $field['values'][$key] : '';
+            $output .= '<input id="' . $field['id'] . '-' . $key . '" name="' . $field['name']  . '['.$key.']" type="number" placeholder="' . $h  . '" value="' . $n . '" />';
         }
         $output .= '</div>';
         

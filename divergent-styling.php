@@ -1,6 +1,9 @@
 <?php
 /**
  * Converts setting values with a style attribute to inline styling on the frontend
+ *
+ * @todo Too much responsibility. Split up classes according to their responsibilities in the WP Customizer and normal front-end.
+ * @todo Might merge $value and $properties into one variable in the formatField method
  */
 namespace Classes\Divergent;
 
@@ -8,7 +11,7 @@ namespace Classes\Divergent;
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Divergent_Styling {
+class Divergent_Styling extends Divergent_Abstract {
     
     /**
      * Contains our fields that have CSS selectors
@@ -16,32 +19,42 @@ class Divergent_Styling {
     private $fields;
     
     /**
-     * Constructor
-     *
-     * @param array $frames The array with frames
+     * Contains our option frames
      */
-    public function __construct( Array $frames = array() ) {
-        $this->frames = $frames;  
-        
-        // Examine for CSS related functions
-        $this->examine();
-        
-        // We should have fields with styles
-        if( ! isset($this->fields) )
-            return;       
-        
-        // Examines our custom fonts and enqueues them
-        $this->customFonts();
-        
-        // Create our output
-        $this->output();
-        
+    private $frames;   
+    
+    /**
+     * Contains our custom fonts
+     */
+    private $fonts;        
+    
+    /**
+     * Constructor
+     */
+    public function initialize() {}
+    
+    /**
+     * Adds functions to WordPress hooks - is automatically performed at a new instance
+     */
+    protected function registerHooks() {           
+        $this->actions = array(
+            array( 'wp_head', 'examine' ),
+            array( 'wp_head', 'output' ),
+            array( 'wp_enqueue_scripts', 'customFonts' ),
+            array( 'customize_preview_init', 'customizerJS' )
+        );
     }
     
     /**
      * Examines the frames for CSS related suggestions
      */
-    private function examine() {
+    public function examine() {
+        
+        $this->frames = Divergent::instance()->get('all');
+        
+        // We don't have any frames
+        if( ! $this->frames )
+            return;
 
         foreach( $this->frames as $frame => $fieldGroups ) {
             
@@ -63,9 +76,11 @@ class Divergent_Styling {
 
                         // Save the id per group so we can retrieve the values later.
                         $cssFields[] = array(
-                            'css'   => $field['css'],
-                            'id'    => $field['id'],
-                            'type'  => $field['type']
+                            'css'       => $field['css'],
+                            'group'     => $group['id'],
+                            'id'        => $field['id'],
+                            'transport' => isset($field['transport']) ? true : false,
+                            'type'      => $field['type']
                         );
 
                     }
@@ -91,8 +106,7 @@ class Divergent_Styling {
 
                 // Retrieve customizer values
                 if( $frame == 'customizer' )
-                    $customizerValues = get_option( isset($group['option']) ? $group['option'] : 'theme_mod' )[$group['id']];
-                
+                    $customizerValues = isset($group['option']) ? get_option($group['option']) : get_theme_mod($group['id']);
 
                 /**
                  * Loop again through our fields and see if we have values. 
@@ -128,13 +142,29 @@ class Divergent_Styling {
     /**
      * Retrieve values if we have css fields for them.
      */
-    private function output() {
+    public function output() {
+        
+        // We should have fields with styles
+        if( ! isset($this->fields) )
+            return;            
              
         $style = '';
         
         // Loop through our fields that have CSS attributes and values
-        foreach( $this->fields as $field ) {
-            $style.= isset($field['css']['class']) ? $field['css']['class'] : $field['css'] . '{' . $this->formatField( $field ) . '}';    
+        foreach( $this->fields as $key => $field ) {
+            
+            // Some fields are used in the customizer to update content. Those are skipped here.
+            if( isset($field['css']['content']) )
+                continue;
+            
+            // Load our fonts if we have a fonts field
+            if( $field['type'] == 'typography' && ! isset($this->fonts) )
+                $this->fonts = Divergent::$fonts;
+            
+            // Add our styling accordingly.
+            $selector   = isset( $field['css']['selector'] ) ? $field['css']['selector'] : $field['css'];
+            $formatted  = $this->formatField( $field );
+            $style     .= $selector . '{' . $formatted['style'] . '}';    
         }
         
         $style = $style ? '<style type="text/css">' . $style . '</style>' : '';
@@ -153,7 +183,7 @@ class Divergent_Styling {
         // Default values;
         $properties = array();
         $style      = '';
-        $value      = array(); 
+        $value      = array();
         
         // Switch types
         switch( $field['type'] ) {
@@ -255,12 +285,15 @@ class Divergent_Styling {
             case 'typography':
                 
                 $properties[]           = 'font-family';
-                $value['font-family']   = $field['values']['font'];
+                
+                foreach( $this->fonts as $set ) {
+                    $value['font-family']   = isset($set[$field['values']['font']]['family']) ? $set[$field['values']['font']]['family'] : 'sans-serif';
+                }
                 
                 // Add additional properties
                 if( $field['values']['size'] ) {
-                    $properties[]           = 'font-family';
-                    $value['font-family']   = $field['values']['size']['amount'] . $field['values']['size']['unit'];
+                    $properties[]           = 'font-size';
+                    $value['font-size']     = $field['values']['size']['amount'] . $field['values']['size']['unit'];
                 }
                 
                 if( $field['values']['line_spacing'] ) {
@@ -273,6 +306,11 @@ class Divergent_Styling {
                     $value['font-weight']   = $field['values']['font_weight'];
                 }
                 
+                if( $field['values']['color'] ) {
+                    $properties[]           = 'color';
+                    $value['color']         = $field['values']['color'];
+                }                
+                
                 // Text styles
                 $styles = array(
                     'italic'        => 'font-style', 
@@ -284,7 +322,7 @@ class Divergent_Styling {
                 
                 foreach( $styles as $key => $property ) {
                     
-                    if( ! isset($field['values'][$key]) )
+                    if( ! $field['values'][$key] )
                         continue;
                     
                     $properties[]       = $property;
@@ -306,20 +344,113 @@ class Divergent_Styling {
             
             foreach( $properties as $property ) {
                 $content = isset($field['css']['properties']) ? implode('', $value) : $value[$property];
-                $style  .= $property . ':' . $content . ';';
+                $style  .= $property . ':' . $content . ';';   
             }
+            
+                            
+            // Save the final properties for our customizer preview    
+            $this->fields[$field['id']]['properties'] = $properties;  
             
         }
         
-        return apply_filters('divergent_css', $style, $field);
+        // And save our styles.
+        $this->fields[$field['id']]['style'] = apply_filters('divergent_css', $style, $field);
+        
+        // Returns our field
+        return $this->fields[$field['id']];
         
     }
     
     /**
-     * Determine our custom fonts
+     * Determine the enqueueing of our custom fonts
      */
-    private function customFonts() {
+    public function customFonts() {
+        
+        // We should have fields with styles
+        if( ! isset($this->fields) )
+            return;
+        
+        $styles = array();
+        $weights = array();
+        
+        // Build our styles.
+        foreach( $this->fields as $field ) {
+            
+            if( $field['type'] != 'typography')
+                continue;
+            
+            foreach( $this->fonts as $key => $set ) {
+                
+                if( ! isset($set[$field['values']['font']]) )
+                    continue;
+                
+                // Google fonts. Supports multiple fonts.
+                if( $key == 'google' ) {
+                    
+                    // Font weights
+                    if( $field['values']['font_weight'] && in_array($field['values']['font_weight'], $set[$field['values']['font']]['weights']) ) {
+                        $italic = $field['values']['italic'] && in_array('italic', $set[$field['values']['font']]['styles']) ? 'i' : '';
+                        $weights[$field['values']['font']][] = $field['values']['font_weight'] . $italic;
+                    } else {
+                        $weights[$field['values']['font']][] = 400;    
+                    }
+                    
+                    // Our definite url
+                    $variants = implode(',', $weights[$field['values']['font']]);
+                    $styles[$field['values']['font']] = 'https://fonts.googleapis.com/css?family=' . $set[$field['values']['font']]['name'] . ':' . $variants;
+                 
+                // Custom urls    
+                } elseif( isset($set['url']) ) {    
+                    $styles[$field['values']['font']] = $set['url'];
+                }
+            }
+            
+        }
+        
+        // Enqueue the styles. @todo We might merge google fonts into one request using the pipe character.
+        foreach($styles as $key => $url) {
+            wp_enqueue_style($key, $url);
+        }
      
     }
+    
+    /**
+     * Custom Javascript for Transported fields. For now, only works for fields with single values. 
+     */
+    public function customizerJS() {
+        
+        // We should have fields with styles
+        if( ! isset($this->fields) || ! is_customize_preview() )
+            return; 
+        
+        add_action('wp_footer', function() {
+        
+            $script = '';
+
+            // Format our fields
+            foreach( $this->fields as $field ) {
+                
+                if( ! $field['transport'] )
+                    continue;
+
+                $formatted = $this->formatField( $field );
+                $selector  = isset( $field['css']['selector'] ) ? $field['css']['selector'] : $field['css'];
+                $target    = isset( $field['css']['content'] ) ? 'html(newValue)' : 'css("' . $formatted['properties'][0] . '", newValue)';
+
+                $script .= 'wp.customize( "' . $field['group'] . '[' . $field['id'] . ']' . '", function( value ) {
+                      value.bind( function( newValue ) {
+                         $("' . $selector . '").' . $target . ';
+                      } );
+                } );';
+
+            }
+
+            // Our bindings script
+            if( $script )
+                echo '<script type="text/javascript">( function( $ ) {' . $script . '} )( jQuery );</script>';
+            
+        }, 100);
+     
+    }    
     
 }

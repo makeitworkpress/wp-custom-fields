@@ -27,7 +27,7 @@ class Divergent_Field_Typography implements Divergent_Field {
                 
                 foreach( $types as $key => $font ) {
                     
-                    if($font['family'] != $field['values']['font'])
+                    if( $key != $field['values']['font'] )
                         continue;
                     
                     $font_display = isset($font['example']) ? $font['example'] : DIVERGENT_ASSETS_URL . 'img/' . $key . '.png';
@@ -58,10 +58,10 @@ class Divergent_Field_Typography implements Divergent_Field {
                 $font_display   = isset($font['example']) ? $font['example'] : DIVERGENT_ASSETS_URL . 'img/' . $key . '.png';
                 $weights        = isset($font['weights']) ? ' data-weights="' . implode(',', $font['weights']) . '"' : '';
                 $styles         = isset($font['styles']) ? ' data-styles="' . implode(',', $font['styles']) . '"' : '';
-                $selected       = isset($field['values']['font']) && $font['family'] == $field['values']['font'] ? ' checked="checked" ' : '';
+                $selected       = isset($field['values']['font']) && $key == $field['values']['font'] ? ' checked="checked" ' : '';
                 
                 $output .= '    <li class="divergent-typography-font"' . $weights . $styles . '>';
-                $output .= '        <input type="radio" name="' . $field['name'] . '[font]" id="' . $field['id'] . '-' . $key . '" value="' . $font['family'] . '"' . $selected . '/>';               
+                $output .= '        <input type="radio" name="' . $field['name'] . '[font]" id="' . $field['id'] . '-' . $key . '" value="' . $key . '"' . $selected . '/>';
                 $output .= '        <label for="' . $field['id'] . '-' . $key . '">';
                 $output .= '            <img src="' . $font_display . '" />';
                 $output .= '        </label>';                
@@ -113,6 +113,10 @@ class Divergent_Field_Typography implements Divergent_Field {
             'values'        => isset($field['values']['font_weight']) ? $field['values']['font_weight'] : 400
         ) );
         
+        $output .= '</div><!-- .divergent-typography-properties -->';
+        
+        $output .= '<div class="divergent-typography-appearance divergent-field-left">';
+      
         // Display font characteristics
         $styles = array(
             'styles'     => array(
@@ -145,7 +149,14 @@ class Divergent_Field_Typography implements Divergent_Field {
             $output .= '    </ul>';
         }
         
-        $output .= '</div><!-- .divergent-typography-styles -->';
+        // Font-color
+        $output .=  Divergent_Field_Colorpicker::render( array(
+            'values' => isset( $field['values']['color'] ) ? $field['values']['color'] : '',
+            'name'   => $field['name'] . '[color]',
+            'id'     => $field['id'] . '-color'        
+        ) );        
+        
+        $output .= '</div><!-- .divergent-typography-appearance -->';
         
         return $output;    
     }
