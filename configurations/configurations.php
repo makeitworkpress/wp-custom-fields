@@ -65,7 +65,7 @@ $scripts[] = array(
 
 $scripts[] = array(
     'handle'    => 'admin-js',
-    'src'       => DIVERGENT_ASSETS_URL . 'js/options-framework.js',
+    'src'       => DIVERGENT_ASSETS_URL . 'js/divergent.js',
     'deps'      => array('jquery', 'alpha-color-picker'),
     'ver'       => null,
     'in_footer' => true,  

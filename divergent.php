@@ -58,8 +58,7 @@ class Divergent extends Divergent_Abstract {
     protected function registerHooks() {           
         $this->actions = array(
             array( 'after_setup_theme', 'setup', 20 ),
-            array( 'admin_enqueue_scripts', 'enqueue' ),
-            array( 'customize_controls_enqueue_scripts', 'customizerStyling')
+            array( 'admin_enqueue_scripts', 'enqueue' )
         );
         
         // Setup our styling

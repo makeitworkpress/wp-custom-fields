@@ -32,7 +32,7 @@ trait Divergent_Validate {
         /**
          * Restore the fields for a current section
          */
-        if( isset($output[$frame['id'] . '_restore']) ) {
+        if( isset($input[$frame['id'] . '_restore']) ) {
                                           
             foreach( $frame['sections'] as $section ) { 
                 
@@ -67,7 +67,7 @@ trait Divergent_Validate {
         /**
          * Restore the complete section
          */
-        if( isset($output['divergent_options_reset']) ) {
+        if( isset($input['divergent_options_reset']) ) {
             
             foreach($frame['sections'] as $section) {
                 
