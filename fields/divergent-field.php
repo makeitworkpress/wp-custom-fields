@@ -2,7 +2,7 @@
 /** 
  * Determines the implementation of setting input fields
  */
-namespace Classes\Divergent\Fields;
+namespace Divergent\Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 

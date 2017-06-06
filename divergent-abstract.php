@@ -6,7 +6,7 @@
  * @since 1.0.0
  * @todo Add function for adding data
  */
-namespace Classes\Divergent;
+namespace Divergent;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 

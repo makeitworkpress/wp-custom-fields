@@ -3,7 +3,7 @@
  * Creates the variable values for a new options frame
  * This acts as the main controller for passing data to a template.
  */
-namespace Classes\Divergent;
+namespace Divergent;
 use stdClass as stdClass;
 
 // Bail if accessed directly
@@ -107,7 +107,7 @@ class Divergent_Frame {
         $field['values']        = isset( $this->values[$field['id']] )  ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
         
         // Render our field form, allow custom fields to be filtered.
-        $class                  = apply_filters('divergent_field_class', 'Classes\Divergent\Fields\Divergent_Field_' . ucfirst( $field['type'] ), $field );
+        $class                  = apply_filters('divergent_field_class', 'Divergent\Fields\Divergent_Field_' . ucfirst( $field['type'] ), $field );
         
         if( class_exists($class) )
             $field['form']      = apply_filters('divergent_field_form', $class::render($field), $field);

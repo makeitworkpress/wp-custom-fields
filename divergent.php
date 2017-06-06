@@ -7,7 +7,7 @@
  *  Domain Path: /languages
  *  Text Domain: divergent
  */
-namespace Classes\Divergent;
+namespace Divergent;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
@@ -133,7 +133,7 @@ class Divergent extends Divergent_Abstract {
             
             // Create a new instance for each group
             foreach( $optionsGroups as $group ) {
-                $class    = 'Classes\Divergent\Divergent_' . ucfirst( $frame );
+                $class    = 'Divergent\Divergent_' . ucfirst( $frame );
                 $instance = $class::instance( $group );
             }
             

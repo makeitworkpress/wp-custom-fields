@@ -2,7 +2,7 @@
  /** 
   * Displays a repeatable field group
   */
-namespace Classes\Divergent\Fields;
+namespace Divergent\Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
@@ -61,7 +61,7 @@ class Divergent_Field_Repeatable implements Divergent_Field {
                 $subfield['name']     = $field['name'] . '[' . $key . ']' . '[' . $subfield['id'] . ']';
                 $subfield['id']       = $field['id'] . '-' . $key  . '-' . $subfield['id'];
                 
-                $class                = 'Classes\Divergent\Fields\Divergent_Field_' . ucfirst( $subfield['type'] );
+                $class                = 'Divergent\Fields\Divergent_Field_' . ucfirst( $subfield['type'] );
                 
                 if( class_exists($class) )
                     $output .= $class::render($subfield);

@@ -6,7 +6,7 @@
  * @package Divergent
  * @since 1.0.0
  */
-namespace Classes\Divergent;
+namespace Divergent;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )

@@ -2,7 +2,7 @@
  /** 
   * Displays a single dimension field
   */
-namespace Classes\Divergent\Fields;
+namespace Divergent\Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )

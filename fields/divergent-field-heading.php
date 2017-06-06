@@ -2,7 +2,7 @@
  /** 
   * The heading display is determined in the class-views-fields.php file. Hence, this file is empty.
   */
-namespace Classes\Divergent\Fields;
+namespace Divergent\Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )

@@ -5,7 +5,7 @@
  * @author Michiel
  * @since 1.0.0
  */
-namespace Classes\Divergent;
+namespace Divergent;
 use WP_Customize_Color_Control as WP_Customize_Color_Control;
 use WP_Customize_Cropped_Image_Control as WP_Customize_Cropped_Image_Control;
 use WP_Customize_Media_Control as WP_Customize_Media_Control;

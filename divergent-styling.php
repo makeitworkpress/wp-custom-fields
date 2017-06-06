@@ -5,7 +5,7 @@
  * @todo Too much responsibility. Split up classes according to their responsibilities in the WP Customizer and normal front-end.
  * @todo Might merge $value and $properties into one variable in the formatField method
  */
-namespace Classes\Divergent;
+namespace Divergent;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 

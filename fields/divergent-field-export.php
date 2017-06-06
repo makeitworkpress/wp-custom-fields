@@ -2,7 +2,7 @@
 /**
  * Displays an importer and exporter of saved option data 
  */
-namespace Classes\Divergent\Fields;
+namespace Divergent\Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )

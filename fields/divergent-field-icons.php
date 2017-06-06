@@ -2,8 +2,8 @@
  /** 
   * Displays a text input field
   */
-namespace Classes\Divergent\Fields;
-use Classes\Divergent\Divergent as Divergent;
+namespace Divergent\Fields;
+use Divergent\Divergent as Divergent;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
