@@ -66,9 +66,10 @@ class Divergent_Frame {
         foreach( $this->frame['sections'] as $key => $section ) {
             
             $this->sections[$key]                  = $section;
-            $this->sections[$key]['active']        = $this->currentSection == $section['id']    ? 'active'          : '';
+            $this->sections[$key]['active']        = $this->currentSection == $section['id'] ? 'active'          : '';
+            $this->sections[$key]['description']   = isset( $section['description'] ) ? $section['description'] : '';
             $this->sections[$key]['fields']        = array();
-            $this->sections[$key]['icon']          = ! empty( $section['icon'] )                ? $section['icon']  : false;
+            $this->sections[$key]['icon']          = ! empty( $section['icon'] ) ? $section['icon']  : false;
             
             foreach( $section['fields'] as $field) {
                 $this->sections[$key]['fields'][]  = $this->populateField( $field );
