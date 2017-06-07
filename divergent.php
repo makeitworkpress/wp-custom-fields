@@ -24,6 +24,9 @@ class Divergent extends Divergent_Abstract {
     // Contains the fonts available in the frame
     public static $fonts; 
     
+    // Contains the frame types
+    private $types;    
+    
     // Contains the styles that need to be enqueued
     private $styles;
     
@@ -49,6 +52,9 @@ class Divergent extends Divergent_Abstract {
         defined( 'DIVERGENT_ASSETS_URL' ) or define( 'DIVERGENT_ASSETS_URL', content_url() . $folder . '/assets/' );
         defined( 'DIVERGENT_PATH' ) or define( 'DIVERGENT_PATH', plugin_dir_path( __FILE__ ) );
         defined( 'GOOGLE_MAPS_KEY' ) or define( 'GOOGLE_MAPS_KEY', $this->params['google_maps_key'] );
+        
+        // Our default types
+        $this->types = array('meta', 'options', 'customizer');
 
     }
     
@@ -83,7 +89,6 @@ class Divergent extends Divergent_Abstract {
 
         // Execute other necessary things
         add_theme_support( 'customize-selective-refresh-widgets' );
-
         
     }
     
@@ -102,10 +107,10 @@ class Divergent extends Divergent_Abstract {
         self::$fonts            = apply_filters( 'divergent_fonts', $fonts );        
                 
         // Setup the supported datatypes
-        $types                  = apply_filters('divergent_frames', array('meta', 'options', 'customizer') );
+        $this->types                  = apply_filters('divergent_frames',  $this->types);
         
         // Adds filterable data for the various types.
-        foreach($types as $type) {
+        foreach($this->types as $type) {
             $this->frames[$type]  = apply_filters( 'divergent_frame_' . $type, isset($this->frames[$type]) ? $this->frames[$type] : array() );
         }
         
@@ -118,6 +123,10 @@ class Divergent extends Divergent_Abstract {
         
         // Initiates the various option or meta types
         foreach( $this->frames as $frame => $optionsGroups) {
+            
+            // Only predefined frames are allowed            
+            if( ! in_array($frame, $this->types) )
+                continue;
             
             // We should have something defined
             if( empty($optionsGroups) )
@@ -173,7 +182,13 @@ class Divergent extends Divergent_Abstract {
      * @param array     $values The respective values in form of an associative array
      */
     public function add( $type, $values ) {
+        
+        // Only predefined frames are allowed            
+        if( ! in_array($type, $this->types) )
+            return;
+        
         $this->frames[$type][] = $values;
+        
     }     
        
 }
