@@ -14,7 +14,7 @@ class Divergent_Field_Repeatable implements Divergent_Field {
         
         $add                = isset($field['add'])      ? $field['add']     : __('Add Group', 'divergent');
         $remove             = isset($field['remove'])   ? $field['remove']  : __('Remove Group', 'divergent');
-        $display            = isset($field['closed']) && $field['closed'] ? ' hidden'         : '';
+        $display            = isset($field['closed']) && $field['closed']   ? ' hidden'         : '';
         
         // Prepare the array with data
         if( empty($field['values']) ) {
@@ -42,16 +42,7 @@ class Divergent_Field_Repeatable implements Divergent_Field {
         foreach( $groups as $key => $fields) {
 
             $output .= '<div class="divergent-repeatable-group">';
-
-            // Title of the field
-            if( isset($field['title']) ) {             
-                $output .= '<h4>'; 
-                $output .=      $field['title'] . ' - '. __('Group', 'divergent');
-                $output .=      ' <span>' . $key . '</span>';
-                $output .=      '<a class="divergent-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>';
-                $output .= '</h4>'; 
-            }
-
+            $output .= '<a class="divergent-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>';
             $output .= '<div class="divergent-repeatable-fields grid-flex' . $display . '">';
 
             // Loop through each of the saved fields

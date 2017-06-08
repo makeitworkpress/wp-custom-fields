@@ -280,15 +280,17 @@ module.exports.repeatable = function(framework) {
         }
     });
     
-    jQuery('.divergent-repeatable-toggle').live('click', function (e) {
+    jQuery('body').on('click', '.divergent-repeatable-toggle', function (e) {
         e.preventDefault();
+        
+        console.log('YUP');
         
         if( jQuery(this).find('i').text() === 'arrow_drop_down' ) {
             jQuery(this).find('i').text('arrow_drop_up');        
         } else if( jQuery(this).find('i').text() === 'arrow_drop_up' ) {
             jQuery(this).find('i').text('arrow_drop_down');    
         }
-        jQuery(this).closest('h4').next('.divergent-repeatable-fields').slideToggle('closed');
+        jQuery(this).closest('.divergent-repeatable-group').find('.divergent-repeatable-fields').slideToggle('closed');
     });
     
 }

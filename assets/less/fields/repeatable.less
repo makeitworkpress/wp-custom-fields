@@ -3,14 +3,9 @@
     background-color: @white;
     border: 1px solid @light-grey;
     border-radius: @base-radius;
-    margin-bottom: 10px;
-    > h4 {
-        border-bottom: 1px solid @light-grey;
-        font-size: 1.2em;
-        margin-bottom: 0;
-        padding: 0 @grid-space 1.33em @grid-space;
-    }
-  
+    margin-bottom: 10px; 
+    min-height: @grid-space;
+    position: relative;
 }
 
 .divergent-repeatable-container {
@@ -30,7 +25,9 @@
 }
 
 .divergent-repeatable-toggle {
-    float: right;
+    position: absolute;
+    right: 1px;
+    top: 1px;
     &:focus {
         box-shadow: none;
         outline: none;
@@ -42,6 +39,11 @@
 }
 
 .divergent-repeatable-field {
+    &:first-child {
+        h5 {
+            margin-top: 0;
+        }
+    }
     h5 {
         margin-bottom: 0.25em;
     }

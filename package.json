@@ -10,6 +10,6 @@
     },
     "scripts": {
         "build-js": "browserify assets/js/app.js -o assets/js/divergent.js && uglifyjs assets/js/divergent.js -o assets/js/divergent.min.js -c -m",
-        "watch-js": "watchify assets/js/app.js -o assets/js/divergent.js && uglifyjs assets/js/divergent.js -o assets/js/divergent.min.js -c -m"
+        "watch-js": "watchify assets/js/app.js -o assets/js/divergent.js -v"
     }    
 }
