@@ -101,6 +101,7 @@ class Divergent_Customizer extends Divergent_Abstract {
                 $wp_customize->add_setting( $panel['id'] . '[' . $field['id'] . ']', $settingArgs );
 
                 // Define our arguments for the controls
+                $controlArgs                = array();
                 $controlArgs['section']     = $section['id'];
                 $controlArgs['label']       = $field['title'];
                 $controlArgs['settings']    = $panel['id'] . '[' . $field['id'] . ']'; // This is required for custom classes
