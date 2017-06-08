@@ -52,19 +52,29 @@ class Divergent_Field_Repeatable implements Divergent_Field {
                 $output .= '</h4>'; 
             }
 
-            $output .= '<div class="divergent-repeatable-fields' . $display . '">';
+            $output .= '<div class="divergent-repeatable-fields grid-flex' . $display . '">';
 
             // Loop through each of the saved fields
             foreach($fields as $subkey => $subfield) {
 
                 // Render each field based upon the values
+                $subfield['columns']  = isset($subfield['columns']) ? $subfield['columns'] : 'full';
+                $subfield['values']   = isset($subfield['values']) ? $subfield['values'] : '';
                 $subfield['name']     = $field['name'] . '[' . $key . ']' . '[' . $subfield['id'] . ']';
                 $subfield['id']       = $field['id'] . '-' . $key  . '-' . $subfield['id'];
                 
                 $class                = 'Divergent\Fields\Divergent_Field_' . ucfirst( $subfield['type'] );
                 
-                if( class_exists($class) )
-                    $output .= $class::render($subfield);
+                if( class_exists($class) ) {
+                    $output .= '<div class="divergent-repeatable-field' . $subfield['columns'] . '">';
+                        $output .= '<h5>' . $subfield['title'] . '</h5>';
+
+                        if( isset($subfield['description']) ) 
+                            $output .= '<p>' . $subfield['description'] . '</p>';
+
+                        $output .= $class::render($subfield);
+                    $output .= '</div>';
+                }
 
             }
         
