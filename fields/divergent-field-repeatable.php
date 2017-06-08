@@ -43,7 +43,7 @@ class Divergent_Field_Repeatable implements Divergent_Field {
 
             $output .= '<div class="divergent-repeatable-group">';
             $output .= '<a class="divergent-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>';
-            $output .= '<div class="divergent-repeatable-fields grid-flex' . $display . '">';
+            $output .= '<div class="divergent-repeatable-fields grid flex' . $display . '">';
 
             // Loop through each of the saved fields
             foreach($fields as $subkey => $subfield) {
