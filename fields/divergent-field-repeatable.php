@@ -66,7 +66,7 @@ class Divergent_Field_Repeatable implements Divergent_Field {
                 $class                = 'Divergent\Fields\Divergent_Field_' . ucfirst( $subfield['type'] );
                 
                 if( class_exists($class) ) {
-                    $output .= '<div class="divergent-repeatable-field' . $subfield['columns'] . '">';
+                    $output .= '<div class="divergent-repeatable-field divergent-option-field ' . $subfield['columns'] . '">';
                         $output .= '<h5>' . $subfield['title'] . '</h5>';
 
                         if( isset($subfield['description']) ) 
