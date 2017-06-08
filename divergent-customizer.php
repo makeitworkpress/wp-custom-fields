@@ -106,7 +106,7 @@ class Divergent_Customizer extends Divergent_Abstract {
                 $controlArgs['settings']    = $panel['id'] . '[' . $field['id'] . ']'; // This is required for custom classes
                 
                 // Define our additional control arguments
-                $controls = array('description', 'input_attrs', 'settings', 'choices', 'height', 'width', 'mime_type');
+                $controls = array('choices', 'description', 'height', 'input_attrs', 'mime_type', 'settings', 'type', 'width');
                 
                 foreach( $controls as $type ) {
                     if( isset($field[$type]) ) 
@@ -116,6 +116,7 @@ class Divergent_Customizer extends Divergent_Abstract {
                 // Custom types
                 switch( $field['type'] ) {
                     case 'colorpicker':
+                        unset($controlArgs['type']); // Having a defined type breaks the color picker somehow
                         $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
                         break;                    
                     case 'image':

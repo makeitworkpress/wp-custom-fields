@@ -301,10 +301,11 @@ class Divergent_Styling extends Divergent_Abstract {
                 $properties['background-image'] = 'url("' . $src . '")';               
                 break;
            
-            // Upload field (customizer)
-            case 'upload':
-                $properties['background-image'] = 'url("' . $src . '")';
-                break;
+            // Upload or image field (customizer)
+            case 'upload':              
+            case 'image':   
+                $properties['background-image'] = 'url("' . $field['values'] . '")';
+                break;            
                 
             // Typographic field
             case 'typography':
