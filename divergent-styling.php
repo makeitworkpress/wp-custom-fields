@@ -67,13 +67,14 @@ class Divergent_Styling extends Divergent_Abstract {
                 foreach( $group['sections'] as $section ) {
                     
                     if( ! isset($section['id']) )
-                        continue;                    
+                        continue;  
                 
                     // Loop through our fields and see if some have a CSS target defined
                     foreach( $section['fields'] as $field ) {
 
                         if( ! isset($field['css']) )
                             continue;
+
 
                         // Save the id per group so we can retrieve the values later.
                         $cssFields[] = array(
@@ -88,9 +89,9 @@ class Divergent_Styling extends Divergent_Abstract {
                     
                 }
                 
-                // Now, retrieve our values from the database, but only if we have values
+                // Now, retrieve our values from the database, but only if we have values for the given frame
                 if( ! isset($cssFields) )
-                    return;
+                    continue;
 
                 // Retrieve options
                 if( $frame == 'options' )
@@ -431,6 +432,11 @@ class Divergent_Styling extends Divergent_Abstract {
             return; 
         
         add_action('wp_footer', function() {
+            
+                    
+                
+                    
+            var_dump($this->fields);
             
             // We should have fields
             if( ! isset($this->fields) )
