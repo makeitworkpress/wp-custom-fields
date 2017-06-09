@@ -433,11 +433,6 @@ class Divergent_Styling extends Divergent_Abstract {
         
         add_action('wp_footer', function() {
             
-                    
-                
-                    
-            var_dump($this->fields);
-            
             // We should have fields
             if( ! isset($this->fields) )
                 return;
