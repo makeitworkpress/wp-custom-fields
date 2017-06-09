@@ -445,10 +445,13 @@ class Divergent_Styling extends Divergent_Abstract {
                 if( ! $field['transport'] )
                     continue;
                 
+                // Reset our target for each field
+                $targetProperty = false;
+                
                 // Get the first field property
                 foreach( $field['properties'] as $property => $value ) {
                     
-                    if( isset($targetProperty) )
+                    if( $targetProperty )
                         break;
                     
                     $targetProperty = $property;     
