@@ -230,21 +230,27 @@ class Divergent_Styling extends Divergent_Abstract {
             // Background field
             case 'background':
                 
-                foreach( $field['values'] as $key => $content  ) {
-                    if( ! isset($field['values'][$key]) || ! $field['values'][$key] || $key == 'upload' )
-                        continue;
-                    
-                    $properties['background-' . $key] = $content;
-                }
+                if( $field['values'] ) {
                 
-                if( isset($field['values']['upload']) && $field['values']['upload'] ) {
+                    foreach( $field['values'] as $key => $content  ) {
+                        if( ! isset($field['values'][$key]) || ! $field['values'][$key] || $key == 'upload' )
+                            continue;
+
+                        $properties['background-' . $key] = $content;
+                    }
+
+                    if( isset($field['values']['upload']) && $field['values']['upload'] ) {
+
+                        // Only uses the first one as media
+                        $media  = explode( ',', $field['values']['upload'] );
+                        $src    = wp_get_attachment_image_url( $media[0], isset($field['css']['size']) ? $field['css']['size'] : 'full' );
+
+                        $properties['background-image'] = 'url("' . $src . '")';
+
+                    }
                     
-                    // Only uses the first one as media
-                    $media  = explode( ',', $field['values']['upload'] );
-                    $src    = wp_get_attachment_image_url( $media[0], isset($field['css']['size']) ? $field['css']['size'] : 'full' );
-                
-                    $properties['background-image'] = 'url("' . $src . '")';
-                    
+                } else {
+                    $properties['background'] = $field['values'];
                 }
                 
                 break;
