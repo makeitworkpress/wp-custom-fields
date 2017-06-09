@@ -129,9 +129,7 @@ class Divergent_Styling extends Divergent_Abstract {
                     if( isset($this->fields[$field['id']]) )
                         continue;
 
-                    // Now, if the field has values, we add it to the array.
-                    if( isset($field['values']) && $field['values'] )
-                        $this->fields[$field['id']] = $field;
+                    $this->fields[$field['id']] = $field;
 
                 }                 
                     
@@ -142,7 +140,7 @@ class Divergent_Styling extends Divergent_Abstract {
     } 
 
     /**
-     * Format our fields
+     * Format our fields with the right properties
      */   
     public function properties() {
         
@@ -179,6 +177,10 @@ class Divergent_Styling extends Divergent_Abstract {
             
             // Some fields are used in the customizer to update content. Those are skipped here.
             if( isset($field['css']['content']) )
+                continue;
+            
+            // Some fields do not have values. We skip those
+            if( ! isset($field['values']) || ! $field['values'] )
                 continue;
 
             // Only add the style if we have values for it 
@@ -219,7 +221,8 @@ class Divergent_Styling extends Divergent_Abstract {
     private function formatField( $field ) {
         
         // Default values;
-        $properties = array();
+        $properties         = array();
+        $field['values']    = isset($field['values']) && $field['values'] ? $field['values'] : '';
         
         // Switch types
         switch( $field['type'] ) {
@@ -228,13 +231,13 @@ class Divergent_Styling extends Divergent_Abstract {
             case 'background':
                 
                 foreach( $field['values'] as $key => $content  ) {
-                    if( ! $field['values'][$key] || $key == 'upload' )
+                    if( ! isset($field['values'][$key]) || ! $field['values'][$key] || $key == 'upload' )
                         continue;
                     
                     $properties['background-' . $key] = $content;
                 }
                 
-                if( $field['values']['upload'] ) {
+                if( isset($field['values']['upload']) && $field['values']['upload'] ) {
                     
                     // Only uses the first one as media
                     $media  = explode( ',', $field['values']['upload'] );
@@ -249,47 +252,61 @@ class Divergent_Styling extends Divergent_Abstract {
             // Boxshadow field    
             case 'boxshadow':
                 
-                $shadow                     = $field['values'];
-                $properties['boxshadow']    = $shadow['x'] . 'px ' . $shadow['y'] . 'px ' . $shadow['blur'] . 'px ' . $shadow['spread'] . 'px ' . $shadow['type'];
+                $shadow                  = $field['values'];
+                $properties['boxshadow'] = $shadow ? $shadow['x'] . 'px ' . $shadow['y'] . 'px ' . $shadow['blur'] . 'px ' . $shadow['spread'] . 'px ' . $shadow['type'] : '';
                 
                 break; 
                 
             // Border field 
             case 'border':
                 
-                if( isset($field['borders']) ) {
-                    
-                    foreach( $field['values'] as $key => $values ) {
-                        $properties[$key] = $values['width']['amount'].$values['width']['unit'] . ' ' . $values['style'] . ' ' . $values['color'];
+                if( ! $field['values'] ) {
+                    $properties['border'] = '';
+                } else {
+                
+                    if( isset($field['borders']) ) {
+
+                        foreach( $field['values'] as $key => $values ) {
+                            $properties[$key] = $values['width']['amount'] . $values['width']['unit'] . ' ' . $values['style'] . ' ' . $values['color'];
+                        }
+
+                    } else {
+                        $properties['border'] = $field['values']['width']['amount'] . $field['values']['width']['unit'] . ' ' . $field['values']['style'] . ' ' . $field['values']['color'];
                     }
                     
-                } else {
-                    $properties['border'] = $field['values']['width']['amount'].$field['values']['width']['unit'] . ' ' . $field['values']['style'] . ' ' . $field['values']['color'];
                 }
                 
                 break;
+                    
+            // Color picker field (including customizer)    
+            case 'colorpicker':
+                
+                $properties['color'] = $field['values'];
+                break;               
                 
             // Dimensions field
             case 'dimensions':
                 
                 $properties['padding'] = '';
                 
-                if( isset($field['borders']) ) {
-                    
-                    foreach( $field['values'] as $key => $values ) {
-                        $properties['padding'] .= $values['amount'].$values['unit'] . ' ';
-                    }
-                    
-                    $properties['padding'] = rtrim($properties['padding']);
-                    
+                if( ! $field['values'] ) {
+                    $properties['border'] = '';
                 } else {
-                    $properties['padding'] = $field['values']['amount'].$field['values']['unit'];
-                }                
-                break;
                 
-            // Color picker field (including customizer)    
-            case 'colorpicker':
-                $properties['color'] = $field['values'];
+                    if( isset($field['borders']) ) {
+
+                        foreach( $field['values'] as $key => $values ) {
+                            $properties['padding'] .= $values['amount'].$values['unit'] . ' ';
+                        }
+
+                        $properties['padding'] = rtrim($properties['padding']);
+
+                    } else {
+                        $properties['padding'] = $field['values']['amount'].$field['values']['unit'];
+                    }  
+                    
+                }
+                
                 break;
             
             // Media field (customizer)
@@ -311,42 +328,48 @@ class Divergent_Styling extends Divergent_Abstract {
             // Typographic field
             case 'typography':
                 
-                foreach( $this->fonts as $set ) {
-                    $properties['font-family']   = isset($set[$field['values']['font']]['family']) ? $set[$field['values']['font']]['family'] : 'sans-serif';
-                }
+                if( ! $field['values'] ) {
+                    $properties['font-family'] = '';
+                } else {
                 
-                // Add additional properties
-                if( $field['values']['size'] ) {
-                    $properties['font-size']     = $field['values']['size']['amount'] . $field['values']['size']['unit'];
-                }
-                
-                if( $field['values']['line_spacing'] ) {
-                    $properties['line-height']   = $field['values']['line_spacing']['amount'] . $field['values']['line_spacing']['unit'];
-                }
-                
-                if( $field['values']['font_weight'] ) {
-                    $properties['font-weight']   = $field['values']['font_weight'];
-                }
-                
-                if( $field['values']['color'] ) {
-                    $properties['color']         = $field['values']['color'];
-                }                
-                
-                // Text styles
-                $styles = array(
-                    'italic'        => 'font-style', 
-                    'line-through'  => 'text-decoration', 
-                    'underline'     => 'text-decoration', 
-                    'uppercase'     => 'text-transform', 
-                    'text-align'    => 'text-align'
-                );
-                
-                foreach( $styles as $key => $property ) {
-                    
-                    if( ! $field['values'][$key] )
-                        continue;
+                    foreach( $this->fonts as $set ) {
+                        $properties['font-family']   = isset($set[$field['values']['font']]['family']) ? $set[$field['values']['font']]['family'] : 'sans-serif';
+                    }
 
-                    $properties[$property] = $field['values'][$key];
+                    // Add additional properties
+                    if( $field['values']['size'] ) {
+                        $properties['font-size']     = $field['values']['size']['amount'] . $field['values']['size']['unit'];
+                    }
+
+                    if( $field['values']['line_spacing'] ) {
+                        $properties['line-height']   = $field['values']['line_spacing']['amount'] . $field['values']['line_spacing']['unit'];
+                    }
+
+                    if( $field['values']['font_weight'] ) {
+                        $properties['font-weight']   = $field['values']['font_weight'];
+                    }
+
+                    if( $field['values']['color'] ) {
+                        $properties['color']         = $field['values']['color'];
+                    }                
+
+                    // Text styles
+                    $styles = array(
+                        'italic'        => 'font-style', 
+                        'line-through'  => 'text-decoration', 
+                        'underline'     => 'text-decoration', 
+                        'uppercase'     => 'text-transform', 
+                        'text-align'    => 'text-align'
+                    );
+
+                    foreach( $styles as $key => $property ) {
+
+                        if( ! $field['values'][$key] )
+                            continue;
+
+                        $properties[$property] = $field['values'][$key];
+
+                    }
                     
                 }
                 
@@ -354,7 +377,10 @@ class Divergent_Styling extends Divergent_Abstract {
                
         }
         
-        // If we have a custom single property for the CSS
+        /**
+         * If we have a custom single property for the CSS, we us it with the values from the properties
+         * This thus only works with some of the fields which have single properties (box-shadow, colorpicker, media, image, upload) and not all fields
+         */
         if( isset($field['css']['property']) ) {
             $values     = implode('', $properties);
             $properties = array();
@@ -364,7 +390,7 @@ class Divergent_Styling extends Divergent_Abstract {
         // Only unique properties
         $properties = array_unique($properties);        
 
-        // Save the final properties
+        // Save the final properties to the fields array
         $this->fields[$field['id']]['properties'] = $properties;
         
     }
