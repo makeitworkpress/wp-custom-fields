@@ -99,10 +99,13 @@ class Divergent_Meta extends Divergent_Abstract {
      */      
     public function save( $id ) {
 
-    
         // Do not save on autosaves
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
             return $id; 
+        
+        // Some pages do not have the nonce
+        if( ! isset($_POST['divergent-metaboxes-nonce']) )
+            return $id;
 
         // Check our user capabilities
         if ( ! current_user_can( 'edit_posts', $id ) || ! current_user_can( 'edit_page', $id ) )
