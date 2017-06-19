@@ -343,7 +343,7 @@ class Divergent_Styling extends Divergent_Abstract {
                     }
 
                     // Add additional properties
-                    if( $field['values']['size'] ) {
+                    if( $field['values']['size'] && $field['values']['size']['amount'] ) {
                         $properties['font-size']     = $field['values']['size']['amount'] . $field['values']['size']['unit'];
                     }
 
