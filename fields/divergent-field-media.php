@@ -24,6 +24,7 @@ class Divergent_Field_Media implements Divergent_Field {
         $output = '<div class="divergent-upload-wrapper" data-type="' . $type . '" data-button="' . $button . '" data-title="' . $title . '" data-multiple="' . $multiple . '">';
         
         foreach($media as $medium) {
+            
             if( empty($medium) )
                 continue;
             

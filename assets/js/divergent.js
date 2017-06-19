@@ -149,6 +149,10 @@ module.exports.media = function(framework) {
             add_wrap = jQuery(this).find('.divergent-single-media.empty'),
             initator = this,
             frame;
+        
+        // Hide if we already have a value
+        if( value_input.val() && ! multiple )
+            add_wrap.hide();
 
         // Click function
         add_media.live('click', function (e) {
@@ -203,6 +207,9 @@ module.exports.media = function(framework) {
 
                     add_wrap.before('<div class="divergent-single-media" data-id="' + attachment.id + '"><img src="' + src + '" /><a href="#" class="divergent-upload-remove"><i class="material-icons">clear</i></a></div>');
                 });
+                
+                if( ! multiple )
+                    add_wrap.hide();
 
                 value_input.val(attachment_ids);
 
@@ -225,6 +232,9 @@ module.exports.media = function(framework) {
                 new_values = current_values.replace(target_id + ',', '');
 
             target.remove();
+            
+            if( ! multiple )
+                add_wrap.fadeIn();            
 
             value_input.val(new_values);
 
