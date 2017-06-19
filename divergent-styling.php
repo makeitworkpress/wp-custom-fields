@@ -347,7 +347,7 @@ class Divergent_Styling extends Divergent_Abstract {
                         $properties['font-size']     = $field['values']['size']['amount'] . $field['values']['size']['unit'];
                     }
 
-                    if( $field['values']['line_spacing'] ) {
+                    if( $field['values']['line_spacing'] && $field['values']['line_spacing']['amount'] ) {
                         $properties['line-height']   = $field['values']['line_spacing']['amount'] . $field['values']['line_spacing']['unit'];
                     }
 
