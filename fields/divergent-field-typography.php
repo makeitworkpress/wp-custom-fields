@@ -84,6 +84,7 @@ class Divergent_Field_Typography implements Divergent_Field {
         foreach($dimensions as $key => $label) {
          
             $output .= Divergent_Field_Dimension::render( array(
+                'step'          => 0.01,
                 'icon'          => 'format_' . $key,
                 'id'            => $field['id'] . '_' . $key,
                 'name'          => $field['name'] . '[' . $key . ']',
@@ -110,7 +111,7 @@ class Divergent_Field_Typography implements Divergent_Field {
                 900 => __('900 (Black)', 'divergent') 
             ),
             'placeholder'   => __('Font-Weight', 'divergent'),
-            'values'        => isset($field['values']['font_weight']) ? $field['values']['font_weight'] : 400
+            'values'        => isset($field['values']['font_weight']) ? $field['values']['font_weight'] : ''
         ) );
         
         $output .= '</div><!-- .divergent-typography-properties -->';

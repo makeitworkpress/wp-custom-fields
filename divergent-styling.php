@@ -338,8 +338,17 @@ class Divergent_Styling extends Divergent_Abstract {
                     $properties['font-family'] = '';
                 } else {
                 
-                    foreach( $this->fonts as $set ) {
-                        $properties['font-family']   = isset($set[$field['values']['font']]['family']) ? $set[$field['values']['font']]['family'] : 'sans-serif';
+                    foreach( $this->fonts as $fonts ) {
+                        
+                        foreach( $fonts as $family => $font ) {
+                            
+                            // Family found!
+                            if( $properties['font-family'] )
+                                break;
+                            
+                            $properties['font-family'] = $family == $field['values']['font'] ? $font['family'] : '';   
+                        }
+                       
                     }
 
                     // Add additional properties

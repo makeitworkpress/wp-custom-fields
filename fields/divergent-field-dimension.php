@@ -14,7 +14,7 @@ class Divergent_Field_Dimension implements Divergent_Field {
         
         $amount         = isset($field['values']['amount']) ? $field['values']['amount'] : '';
         $measure        = isset($field['values']['unit']) ? $field['values']['unit'] : '';        
-        $name           = ! empty($name) ? $name : '';
+        $step           = isset($field['step']) ? floatval($field['step']) : 1;
         $placeholder    = ! empty($field['placeholder']) ? ' placeholder="' . $field['placeholder'] . '"' : '';
         
         $measurements   =  array('px', 'em', '%', 'rem', 'vh', 'vw');
@@ -22,7 +22,7 @@ class Divergent_Field_Dimension implements Divergent_Field {
         $output         = '<div class="divergent-dimensions-input">';
         $output        .= ! empty( $field['label'] )    ? '    <label for="' . $field['id'] . '">' . $field['label'] . '</label>'   : '';    
         $output        .= ! empty( $field['icon'] )     ? '     <i class="material-icons">' . $field['icon'] . '</i>'               : '';    
-        $output        .= '    <input id="' . $field['id'] . '" type="number" name="' . $field['name']  . '[amount]" value="' . $amount . '"' . $placeholder . '>';
+        $output        .= '    <input id="' . $field['id'] . '" type="number" name="' . $field['name']  . '[amount]" value="' . $amount . '"' . $placeholder . ' step="' . $step . '">';
         $output        .= '    <select name="' . $field['name'] . '[unit]">';
         
         foreach( $measurements as $measurement ) {

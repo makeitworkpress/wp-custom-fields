@@ -30,6 +30,7 @@ class Divergent_Field_Dimensions implements Divergent_Field {
              
                 $output            .= '<div class="divergent-field-left">';
                 $output            .= Divergent_Field_Dimension::render( array(
+                    'step'          => isset($field['step']) ? $field['step'] : 1,
                     'icon'          => 'border_' . $key,
                     'id'            => $field['id'] . '-' . $key,
                     'name'          => $field['name'] . '[' . $key . ']',
@@ -49,6 +50,7 @@ class Divergent_Field_Dimensions implements Divergent_Field {
             $dimension['values'] = isset($field['values']) ? $field['values'] : array();
             
             $output             .= Divergent_Field_Dimension::render( array(
+                'step'      => isset($field['step']) ? $field['step'] : 1,
                 'icon'      => 'border_outer',
                 'id'        => $field['id'],
                 'name'      => $field['name'],
