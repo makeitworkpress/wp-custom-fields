@@ -28,12 +28,19 @@ class Divergent_Field_Checkbox implements Divergent_Field {
             $label = isset($option['label']) ? $option['label'] : '';
             $icon = isset($option['icon']) ? '<i class="material-icons">' . $option['icon']  . '</i> ' : '';
             
+            if( ! $icon )
+                $output .= '<div class="divergent-field-checkbox-input">';
+            
             // Output of form
             $output .= '<input type="checkbox" id="' . $field['id'] . '_' . $option['id'] . '" name="' . $field['name'] . '[' . $option['id'] . ']" ' . $checked . ' />';
             
             if( ! empty($label) ) {
                 $output .= '<label for="' . $field['id'] . '_' . $option['id'] . '">' . $icon . $label . '</label>';
             }
+            
+            if( ! $icon )
+                $output .= '</div>';            
+            
         }
         
         $output .= '</div>';
