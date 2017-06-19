@@ -343,10 +343,11 @@ class Divergent_Styling extends Divergent_Abstract {
                         foreach( $fonts as $family => $font ) {
                             
                             // Family found!
-                            if( $properties['font-family'] )
+                            if( isset($properties['font-family']) && $properties['font-family'] )
                                 break;
                             
-                            $properties['font-family'] = $family == $field['values']['font'] ? $font['family'] : '';   
+                            $properties['font-family'] = $family == $field['values']['font'] ? $font['family'] : '';
+                            
                         }
                        
                     }
