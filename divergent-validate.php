@@ -343,7 +343,7 @@ trait Divergent_Validate {
                 }
 
                 // Font-weight
-                $return_value['font_weight']        = is_numeric( $field_value[$size]['font_weight'] ) ? intval( $field_value['font_weight'] ) : '';
+                $return_value['font_weight']        = is_numeric( $field_value['font_weight'] ) ? intval( $field_value['font_weight'] ) : '';
                 $return_value['color']              = sanitize_text_field( $field_value['color'] );
                 
                 // Styles
