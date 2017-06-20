@@ -431,7 +431,7 @@ class Divergent_Styling extends Divergent_Abstract {
             
             foreach( $this->fonts as $key => $set ) {
                 
-                if( ! isset($set[$field['values']['font']]) )
+                if( ! isset($field['values']['font']) || ! isset($set[$field['values']['font']]) )
                     continue;
                 
                 // Google fonts. Supports multiple fonts.
@@ -450,8 +450,8 @@ class Divergent_Styling extends Divergent_Abstract {
                     $styles[$field['values']['font']] = 'https://fonts.googleapis.com/css?family=' . $set[$field['values']['font']]['name'] . ':' . $variants;
                  
                 // Custom urls    
-                } elseif( isset($set['url']) ) {    
-                    $styles[$field['values']['font']] = $set['url'];
+                } elseif( isset($set[$field['values']['font']]['url']) ) {    
+                    $styles[$field['values']['font']] = $set[$field['values']['font']]['url'];
                 }
             }
             
