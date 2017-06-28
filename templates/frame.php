@@ -12,18 +12,25 @@
             <div class="divergent-framework <?php echo $frame->class; ?>">
 
                 <header class="divergent-header">
-
-                    <?php if( $frame->type == 'Options' ) { ?>
-                        <h2><?php echo $frame->title; ?></h2>
-                    <?php } ?>
                     
-                    <div class="divergent-buttons">
-                        <?php 
-                            // Displays any errors
-                            echo $frame->errors; 
-                            echo $frame->restoreButton;
-                            echo $frame->saveButton; 
-                        ?>
+                                                        
+                    <div class="divergent-notifications">
+
+                        <?php if( $frame->type == 'Options' ) { ?>
+                            <h2><?php echo $frame->title; ?></h2>
+                        <?php } ?>
+                    
+                        <?php if( $frame->restoreButton || $frame->saveButton ) { ?>
+                            <div class="divergent-buttons">
+                                <?php 
+                                    // Displays any errors
+                                    echo $frame->errors; 
+                                    echo $frame->restoreButton;
+                                    echo $frame->saveButton; 
+                                ?>
+                            </div>
+                        <?php } ?>
+                    
                     </div>
                     
                     <ul class="divergent-tabs">

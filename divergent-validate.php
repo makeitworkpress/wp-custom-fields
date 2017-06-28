@@ -128,8 +128,6 @@ trait Divergent_Validate {
      */
     private static function sanitizeFields( $input, $field ) {
         
-        $return = '';
-        
         if( $field['type'] == 'repeatable' ) {
             
             foreach( $input as $key => $groupValues ) {
@@ -161,7 +159,6 @@ trait Divergent_Validate {
         $field_type     = $field['type'];
         $field_subtype  = isset($field['subtype']) ? $field['subtype'] : '';
         $field_value    = $input;
-        $return_value   = '';
         
         // Switch for various field types
         switch($field_type) {

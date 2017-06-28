@@ -25,7 +25,7 @@ class Divergent_Frame {
         
         // Our frame and values
         $this->frame    = $frame;  
-        $this->values   = $values;  
+        $this->values   = $values;
         
         // Default public variables
         $this->class            = isset($frame['class']) ? $frame['class'] : '';
