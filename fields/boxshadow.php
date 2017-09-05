@@ -3,12 +3,13 @@
   * Displays a location field, including a google map
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Divergent_Field_Boxshadow implements Divergent_Field {
+class Boxshadow implements Divergent_Field {
     
     public static function render($field = array()) {
         
@@ -33,7 +34,7 @@ class Divergent_Field_Boxshadow implements Divergent_Field {
         // Color
         $output .= '<div class="divergent-boxshadow-color divergent-field-left">';
         $output .= '<label>' . __('Boxshadow Color', 'divergent') . '</label>';
-        $output .= Divergent_Field_Colorpicker::render( array(
+        $output .= Colorpicker::render( array(
             'id'     => $field['id'] . '-color',   
             'name'   => $field['name'] . '[color]',
             'values' => isset($field['values']['color']) ? $field['values']['color'] : ''     
@@ -43,7 +44,7 @@ class Divergent_Field_Boxshadow implements Divergent_Field {
         // Type of boxshadow
         $output .= '<div class="divergent-boxshadow-type divergent-field-left">';
         $output .= '<label>' . __('Boxshadow Style', 'divergent') . '</label>';
-        $output .= Divergent_Field_Select::render( array(
+        $output .= Select::render( array(
             'id'        => $field['id']  . '-type',
             'name'      => $field['name']. '[type]',
             'options'  => array( '' => __('Default', 'divergent'), 'inset' => __('Inset', 'divergent') ),             

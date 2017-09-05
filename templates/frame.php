@@ -73,7 +73,7 @@
 
                                     <div class="divergent-option-field <?php echo $field['column']; ?> field-<?php echo $field['type']; ?>">
 
-                                        <div class="divergent-field-context">
+                                        <div class="divergent-field-title">
                                             <?php 
                                                 /**
                                                  * Echo the title for the field
@@ -81,7 +81,13 @@
                                                 if( isset($field['title']) )              
                                                     echo '<'.$field['titleTag'].'>' . $field['title'] . '</' . $field['titleTag'] .'>';
                                             ?>
+                                        </div>
 
+                                        <div class="divergent-field-input">
+                                            <?php echo $field['form']; ?>
+                                        </div>
+                                        
+                                        <div class="divergent-field-description">
                                             <?php 
                                                 /**
                                                  * Echo the description for the field
@@ -89,12 +95,7 @@
                                                 if( isset($field['description']) )              
                                                     echo '<p>' . $field['description'] . '</p>';
                                             ?>
-
-                                        </div>
-
-                                        <div class="divergent-field-input">
-                                            <?php echo $field['form']; ?>
-                                        </div>
+                                        </div>                                        
 
                                     </div>
 

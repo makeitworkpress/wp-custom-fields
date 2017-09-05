@@ -3,12 +3,13 @@
   * Displays an editor field
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die; 
 
-class Divergent_Field_Editor implements Divergent_Field {
+class Editor implements Divergent_Field {
     
     public static function render($field = array()) {
         

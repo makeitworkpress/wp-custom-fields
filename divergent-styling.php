@@ -420,8 +420,8 @@ class Divergent_Styling extends Divergent_Abstract {
         if( ! isset($this->fields) )
             return;
         
-        $styles = array();
-        $weights = array();
+        $styles     = array();
+        $weights    = array();
         
         // Build our styles.
         foreach( $this->fields as $field ) {
@@ -436,18 +436,47 @@ class Divergent_Styling extends Divergent_Abstract {
                 
                 // Google fonts. Supports multiple fonts.
                 if( $key == 'google' ) {
-                    
-                    // Font weights
+
+                    // Font weights, grouped per font so we can support multiple fonts settings with the same fonts, but different weights.
                     if( $field['values']['font_weight'] && in_array($field['values']['font_weight'], $set[$field['values']['font']]['weights']) ) {
                         $italic = $field['values']['italic'] && in_array('italic', $set[$field['values']['font']]['styles']) ? 'i' : '';
-                        $weights[$field['values']['font']][] = $field['values']['font_weight'] . $italic;
+                        $weights[$field['values']['font']][] = $field['values']['font_weight'] . $italic; 
                     } else {
                         $weights[$field['values']['font']][] = 400;    
                     }
                     
-                    // Our definite url
-                    $variants = implode(',', $weights[$field['values']['font']]);
-                    $styles[$field['values']['font']] = 'https://fonts.googleapis.com/css?family=' . $set[$field['values']['font']]['name'] . ':' . $variants;
+                    /**
+                     * Include all font weights overwrites previous weights
+                     */
+                    $italics = array();
+                    $normals = array();
+                    
+                    // Normal fonts
+                    if( $field['values']['load']['normal'] ) {
+                        $normals = $set[$field['values']['font']]['weights'];
+                        
+                        // Weights are merged because we might have another italic weight.
+                        $weights[$field['values']['font']] = array_merge( $weights[$field['values']['font']], $normals ); 
+                    }  
+
+                    // Italic fonts, if available
+                    if( $field['values']['load']['italic'] && in_array('italic', $set[$field['values']['font']]['styles']) ) { 
+                        foreach( $set[$field['values']['font']]['weights'] as $weight ) {
+                            $italics[] = $weight . 'i'; 
+                        }
+                        
+                        // Weights are merged because we might have another non-italic weight.
+                        $weights[$field['values']['font']] = array_merge( $weights[$field['values']['font']], $italics ); 
+                    }
+                    
+                    // Merge if we have them both
+                    if( $normals && $italics ) {
+                        $weights[$field['values']['font']] = array_merge( $normals, $italics );       
+                    }
+                    
+                    // Our definite url. Updated if we have more loops....
+                    $variants = implode(',', array_unique($weights[$field['values']['font']]) );
+                    $styles[$field['values']['font']] = $set[$field['values']['font']]['name'] . ':' . $variants;
                  
                 // Custom urls    
                 } elseif( isset($set[$field['values']['font']]['url']) ) {    
@@ -457,10 +486,9 @@ class Divergent_Styling extends Divergent_Abstract {
             
         }
         
-        // Enqueue the styles. @todo We might merge google fonts into one request using the pipe character.
-        foreach($styles as $key => $url) {
-            wp_enqueue_style($key, $url);
-        }
+        // Enqueue the styles.
+        if( $styles )
+            wp_enqueue_style( 'divergent-fonts', 'https://fonts.googleapis.com/css?family=' . implode('|', $styles) );
      
     }
     

@@ -3,12 +3,13 @@
   * Displays a text input field
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Divergent_Field_Checkbox implements Divergent_Field {
+class Checkbox implements Divergent_Field {
     
     public static function render($field = array()) {
         
@@ -18,12 +19,11 @@ class Divergent_Field_Checkbox implements Divergent_Field {
         $output = '<div class="divergent-field-checkbox-wrapper ' . $style . '">';
         
         // This field accepts an array of options
-        foreach($options as $option) {
+        foreach($options as $key => $option) {
             
             // Determine if a box should be checked
-            $checked = isset($field['values'][$option['id']]) && $field['values'][$option['id']] == true ? 'checked="checked"' : '';
+            $checked = isset($field['values'][$key]) && $field['values'][$key] == true ? 'checked="checked"' : '';
 
-            
             // Check label
             $label = isset($option['label']) ? $option['label'] : '';
             $icon = isset($option['icon']) ? '<i class="material-icons">' . $option['icon']  . '</i> ' : '';
@@ -32,10 +32,10 @@ class Divergent_Field_Checkbox implements Divergent_Field {
                 $output .= '<div class="divergent-field-checkbox-input">';
             
             // Output of form
-            $output .= '<input type="checkbox" id="' . $field['id'] . '_' . $option['id'] . '" name="' . $field['name'] . '[' . $option['id'] . ']" ' . $checked . ' />';
+            $output .= '<input type="checkbox" id="' . $field['id'] . '_' . $key . '" name="' . $field['name'] . '[' . $key . ']" ' . $checked . ' />';
             
             if( ! empty($label) ) {
-                $output .= '<label for="' . $field['id'] . '_' . $option['id'] . '">' . $icon . $label . '</label>';
+                $output .= '<label for="' . $field['id'] . '_' . $key . '">' . $icon . $label . '</label>';
             }
             
             if( ! $icon )

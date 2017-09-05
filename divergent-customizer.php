@@ -6,6 +6,7 @@
  * @since 1.0.0
  */
 namespace Divergent;
+use WP_Error as WP_Error;
 use WP_Customize_Color_Control as WP_Customize_Color_Control;
 use WP_Customize_Cropped_Image_Control as WP_Customize_Cropped_Image_Control;
 use WP_Customize_Media_Control as WP_Customize_Media_Control;
@@ -36,28 +37,46 @@ class Divergent_Customizer extends Divergent_Abstract {
     
     /**
      * Adds the settings using the settings api
-     * Built in types: input (text, hidden, number, range, url, tel, email, search, time, date, datetime, week), checkbox, textarea, radio, select, dropdown-pages, range
+     * Built in types: input (text, hidden, number, range, url, tel, email, search, time, date, datetime, week), 
+     * checkbox, textarea, radio, select, dropdown-pages, range
      *
-     * @param $wp_customize The WP Customize Object
+     * @param object $wp_customize The WP Customize Object
      */
     public function addSettings( $wp_customize ) {
         
         // Check
         $panel = $this->panel;
         
-        if( ! isset($panel['id']) )
-            return; 
+        if( ! isset($panel['id']) || ! isset($panel['sections']) )
+            return new WP_Error( 'wrong', __( 'Your customizer configurations are missing sections or an ID.', 'divergent' ) ); 
+        
+        // Prohibited names
+        if( in_array($panel['id'], array('widget_', 'sidebars_widgets', 'nav_menu', 'nav_menu_item')) )
+            return new WP_Error( 'wrong', __( 'It is forbidden to use widget_, sidebars_widget, nav_menu or nav_menu_item for your customizer id.', 'divergent' ) );
+         
 
-        $panelArgs = array(
-            'title'         => $panel['title']                
-        );
+        /**
+         * Add our panel
+         * This is optional, because it is not advertised to use panels by default
+         * according to the customizer codex
+         */
+        if( isset($panel['panel']) && $panel['panel'] ) {
+            
+            $panelArgs = array(
+                'title'         => $panel['title']                
+            );
 
-        if( isset($panel['description']) )
-            $panelArgs[ 'description'] = $panel['description'];            
+            if( isset($panel['description']) )
+                $panelArgs[ 'description'] = $panel['description'];              
 
-        // Add our panel
-        $wp_customize->add_panel( $panel['id'], $panelArgs );
+            $wp_customize->add_panel( $panel['id'], $panelArgs );
+        
+        
+        }
 
+        /**
+         * Add new sections or add settings to existing (core) settings
+         */
         foreach( $panel['sections'] as $section ) {
 
             // Check
@@ -65,16 +84,21 @@ class Divergent_Customizer extends Divergent_Abstract {
                 continue;
 
             $sectionArgs = array(
-                'description'   => isset($section['description']) ? $section['description'] : '', 
-                'panel'         => $panel['id'], 
+                'description'   => isset($section['description']) ? $section['description'] : '',  
                 'title'         => $section['title']                    
             );
             
+            // If we have panels enabled, we add the section to this panel
+            if( isset($panel['panel']) && $panel['panel'] )
+                $sectionArgs['panel'] = $panel['id'];
+            
+            // Accepts string parameters such as 'is_page' or 'is_single' to hide sections conditionally
             if( isset($section['active_callback']) )
                 $sectionArgs[ 'active_callback']    = $section['active_callback'];            
 
-            // Add our section
-            $wp_customize->add_section( $section['id'], $sectionArgs );
+            // Add our section, but not necessarely if it is a core section
+            if( ! in_array($section['id'], array('themes', 'title_tagline', 'colors', 'header_image', 'background_image', 'static_front_page')) )
+                $wp_customize->add_section( $section['id'], $sectionArgs );
 
             foreach( $section['fields'] as $field ) {             
 
@@ -116,6 +140,10 @@ class Divergent_Customizer extends Divergent_Abstract {
                 
                 // Custom types
                 switch( $field['type'] ) {
+                    case 'background':
+                        unset($controlArgs['type']); // Having a defined type breaks the color picker somehow
+                        $wp_customize->add_control( new WP_Customize_Background_Image_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
+                        break;                         
                     case 'colorpicker':
                         unset($controlArgs['type']); // Having a defined type breaks the color picker somehow
                         $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 

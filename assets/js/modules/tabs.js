@@ -1,4 +1,4 @@
-module.exports.tabs = function() {
+module.exports.init = function() {
     
     jQuery(".divergent-tabs a").click(function (e) {
         

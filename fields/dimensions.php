@@ -3,12 +3,13 @@
   * Displays a dimensions field
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die; 
 
-class Divergent_Field_Dimensions implements Divergent_Field {
+class Dimensions implements Divergent_Field {
     
     public static function render($field = array()) {
         
@@ -29,7 +30,7 @@ class Divergent_Field_Dimensions implements Divergent_Field {
             foreach($sides as $key => $side) {
              
                 $output            .= '<div class="divergent-field-left">';
-                $output            .= Divergent_Field_Dimension::render( array(
+                $output            .= Dimension::render( array(
                     'step'          => isset($field['step']) ? $field['step'] : 1,
                     'icon'          => 'border_' . $key,
                     'id'            => $field['id'] . '-' . $key,
@@ -49,7 +50,7 @@ class Divergent_Field_Dimensions implements Divergent_Field {
             $dimension['name']   = $field['name']; 
             $dimension['values'] = isset($field['values']) ? $field['values'] : array();
             
-            $output             .= Divergent_Field_Dimension::render( array(
+            $output             .= Dimension::render( array(
                 'step'      => isset($field['step']) ? $field['step'] : 1,
                 'icon'      => 'border_outer',
                 'id'        => $field['id'],

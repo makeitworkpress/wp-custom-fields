@@ -3,17 +3,18 @@
   * Displays a repeatable field group
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die; 
 
-class Divergent_Field_Repeatable implements Divergent_Field {
+class Repeatable implements Divergent_Field {
     
     public static function render($field = array()) {
         
-        $add                = isset($field['add'])      ? $field['add']     : __('Add Group', 'divergent');
-        $remove             = isset($field['remove'])   ? $field['remove']  : __('Remove Group', 'divergent');
+        $add                = isset($field['labels']['add'])      ? $field['labels']['add']     : __('Add Group', 'divergent');
+        $remove             = isset($field['labels']['remove'])   ? $field['labels']['remove']  : __('Remove Group', 'divergent');
         $display            = isset($field['closed']) && $field['closed']   ? ' hidden'         : '';
         
         // Prepare the array with data
@@ -54,7 +55,7 @@ class Divergent_Field_Repeatable implements Divergent_Field {
                 $subfield['name']     = $field['name'] . '[' . $key . ']' . '[' . $subfield['id'] . ']';
                 $subfield['id']       = $field['id'] . '-' . $key  . '-' . $subfield['id'];
                 
-                $class                = 'Divergent\Fields\Divergent_Field_' . ucfirst( $subfield['type'] );
+                $class                = 'Divergent\Fields\\' . ucfirst( $subfield['type'] );
                 
                 if( class_exists($class) ) {
                     $output .= '<div class="divergent-repeatable-field divergent-option-field ' . $subfield['columns'] . '">';

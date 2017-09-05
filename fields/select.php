@@ -3,18 +3,24 @@
   * Displays a border field
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Divergent_Field_Select implements Divergent_Field {
+class Select implements Divergent_Field {
     
     public static function render($field = array()) {
         
         $options = isset($field['options']) ? $field['options'] : array();
         $subtype = isset($field['subtype']) ? $field['subtype'] : '';
         
+        // Load the select2 script if we have a select field
+        if( apply_filters('divergent_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
+            wp_enqueue_script('select2-js');        
+        
+        // Set-up if we have a multiple checkbox
         if(isset($field['multiple'])) { 
             $multiple = 'multiple="multiple"';
             $namekey = '[]';
@@ -23,9 +29,17 @@ class Divergent_Field_Select implements Divergent_Field {
             $namekey = '';            
         }  
         
+        // Load an array of posts
         if( ! empty($subtype) ) {
             
-            $posts = get_posts(array('post_type' => $subtype, 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC')); 
+            $posts = get_posts(
+                array(
+                    'post_type'         => $subtype, 
+                    'posts_per_page'    => -1, 
+                    'orderby'           => 'title', 
+                    'order'             => 'ASC'
+                )
+            ); 
             $options = array();
             
             foreach($posts as $post) {

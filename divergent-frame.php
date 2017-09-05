@@ -40,9 +40,8 @@ class Divergent_Frame {
         $this->type             = '';
 
         // Include our scripts and media      
-        wp_enqueue_script('jquery-validate');
         wp_enqueue_script('alpha-color-picker');
-        wp_enqueue_script('admin-js');
+        wp_enqueue_script('divergent-js');
         wp_enqueue_media();           
         
         // Populate Variables
@@ -108,7 +107,7 @@ class Divergent_Frame {
         $field['values']        = isset( $this->values[$field['id']] )  ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
         
         // Render our field form, allow custom fields to be filtered.
-        $class                  = apply_filters('divergent_field_class', 'Divergent\Fields\Divergent_Field_' . ucfirst( $field['type'] ), $field );
+        $class                  = apply_filters('divergent_field_class', 'Divergent\Fields\\' . ucfirst( $field['type'] ), $field );
         
         if( class_exists($class) )
             $field['form']      = apply_filters('divergent_field_form', $class::render($field), $field);

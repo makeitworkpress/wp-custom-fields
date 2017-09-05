@@ -3,12 +3,13 @@
   * Displays a text input field
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Divergent_Field_Textarea implements Divergent_Field {
+class Textarea implements Divergent_Field {
     
     public static function render($field = array()) {
         

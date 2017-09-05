@@ -1,22 +1,22 @@
 <?php
  /** 
-  * Displays a location field, including a google map
+  * Displays a code field with stylized code
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Divergent_Field_Code implements Divergent_Field {
+class Code implements Divergent_Field {
     
-    public static function render($field = array()) {
+    public static function render( $field = array() ) {
         
-        $addJS      = apply_filters('divergent_code_field_js', true);
         $mode       = isset($field['mode']) ? $field['mode'] : 'htmlmixed';
         $field_id   = $field['id'];
         
-        if( $addJS && ! wp_script_is('mirror-js', 'enqueued') )
+        if( apply_filters('divergent_code_field_js', true) && ! wp_script_is('mirror-js', 'enqueued') )
             wp_enqueue_script('mirror-js');
         
         add_action('admin_print_footer_scripts', function() use ($field_id, $mode) {

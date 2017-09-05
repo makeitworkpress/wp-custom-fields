@@ -10,11 +10,11 @@ var tabs        = require('./modules/tabs');
 var init = function() {
     
     // Boot our fields
-    fields.fields('.divergent-framework');
-    repeatable.repeatable();
-    tabs.tabs();
+    fields.init('.divergent-framework');    
+    repeatable.init('.divergent-framework');
+    tabs.init();
     
 }
 
-// Boot divergent
+// Boot Divergent on Document Ready
 jQuery(document).ready(init);

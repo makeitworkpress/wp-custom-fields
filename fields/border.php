@@ -3,12 +3,13 @@
   * Displays a border field
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Divergent_Field_Border implements Divergent_Field {
+class Border implements Divergent_Field {
     
     public static function render($field = array()) {
         
@@ -44,7 +45,7 @@ class Divergent_Field_Border implements Divergent_Field {
                 
                 // Dimensions
                 $output             .= ' <div class="divergent-field-left">';
-                $output             .= Divergent_Field_Dimension::render( array(
+                $output             .= Dimension::render( array(
                     'icon'           => 'border_' . $key,
                     'id'             => $field['id'] . '-' . $key . '-width',
                     'name'           => $field['name'] . '[' . $key . '][width]',
@@ -61,7 +62,7 @@ class Divergent_Field_Border implements Divergent_Field {
                 $type['placeholder']    = __('Border Style', 'divergent');
                 
                 $output                .= ' <div class="divergent-field-left">';
-                $output                .= Divergent_Field_Select::render($type);
+                $output                .= Select::render($type);
                 $output                .= ' </div>';
                 
                 
@@ -71,7 +72,7 @@ class Divergent_Field_Border implements Divergent_Field {
                 $colorpicker['name']    = $field['name']. '[' . $key . '][color]';
                 
                 $output                .= ' <div class="divergent-field-left">';
-                $output                .= Divergent_Field_Colorpicker::render($colorpicker);                
+                $output                .= Colorpicker::render($colorpicker);                
                 $output                .= ' </div>';
                 
                 
@@ -90,7 +91,7 @@ class Divergent_Field_Border implements Divergent_Field {
             $dimension['values']        = isset($field['values']['width']) ? $field['values']['width'] : array();            
             
             $output                    .= '<div class="divergent-field-left">';
-            $output                    .= Divergent_Field_Dimension::render( $dimension );
+            $output                    .= Dimension::render( $dimension );
             $output                    .= '</div>';
             
             
@@ -101,7 +102,7 @@ class Divergent_Field_Border implements Divergent_Field {
             $type['placeholder']        = __('Border Style', 'divergent');       
             
             $output                    .= '<div class="divergent-field-left">';
-            $output                    .= Divergent_Field_Select::render($type);   
+            $output                    .= Select::render($type);   
             $output                    .= '</div>';
             
 
@@ -111,7 +112,7 @@ class Divergent_Field_Border implements Divergent_Field {
             $colorpicker['name']        = $field['name'] . '[color]';              
             
             $output                    .= '<div class="divergent-field-left">';
-            $output                    .= Divergent_Field_Colorpicker::render($colorpicker);
+            $output                    .= Colorpicker::render($colorpicker);
             $output                    .= '</div>';                 
 
         }

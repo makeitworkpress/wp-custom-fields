@@ -210,11 +210,12 @@ trait Divergent_Validate {
                 
             // Checkboxes
             case 'checkbox':
-                foreach( $field['options'] as $option ) {
-                    if( isset($field_value[$option['id']]) && $field_value[$option['id']] == 'on') {
-                        $return_value[$option['id']] = true;
+                
+                foreach( $field['options'] as $key => $option ) {
+                    if( isset($field_value[$key]) && $field_value[$key] == 'on') {
+                        $return_value[$key] = true;
                     } else {
-                        $return_value[$option['id']] = false;
+                        $return_value[$key] = false;
                     }
                 }
                 break;
@@ -342,6 +343,8 @@ trait Divergent_Validate {
                 // Font-weight
                 $return_value['font_weight']        = is_numeric( $field_value['font_weight'] ) ? intval( $field_value['font_weight'] ) : '';
                 $return_value['color']              = sanitize_text_field( $field_value['color'] );
+                $return_value['load']['normal']     = isset($field_value['load']['normal']) && $field_value['load']['normal'] == 'on' ? true : false;
+                $return_value['load']['italic']     = isset($field_value['load']['italic']) && $field_value['load']['italic'] == 'on' ? true : false;
                 
                 // Styles
                 $styles                             = array('italic', 'line-through', 'underline', 'uppercase', 'text-align');

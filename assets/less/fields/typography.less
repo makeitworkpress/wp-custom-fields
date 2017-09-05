@@ -1,39 +1,31 @@
 /* Typography Field */
-.divergent-typography-fonts {
-    background: #fff;
-    border: 1px solid @wp-lightborder;
-    max-height: 125px;
-    max-width: 295px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
-
-.divergent-typography-font {
-    float: none;
-    height: auto;
-    width: auto;
-    label {
-        height: auto; 
-        img {
-            border-bottom: 2px solid transparent;
+.divergent-typography-fonts ~ .select2-container {
+    width: 342px !important;
+    .select2-selection--single {
+        height: @grid-space * 2;
+        .select2-selection__rendered {
+            line-height: @grid-space/2;
+            padding: 4px 20px 4px 8px;
         }
-    }
-    &.selected, label:hover, input:checked ~ label {
-        img {
-            border-bottom: 2px solid @wp-blue;
+        .select2-selection__arrow {
+            top: 10px;
         }
     }
 }
 
-.divergent-typography-properties > * {
-    margin-bottom: @grid-space/2;
+.divergent-typography-properties {
+    margin-top: @grid-space/2;
+    > * {
+        margin-bottom: @grid-space/2;
+    }
+    .divergent-dimensions-input select {
+        max-width: @grid-space * 2;    
+    }
 }
 
-.divergent-icon-list {
-    overflow: hidden;
-    margin: 1px 1px @grid-space/2 1px;
-}
-
-.divergent-typography-appearance.divergent-field-left {
-    margin-right: 0;
+.divergent-typography-appearance {
+     margin-top: @grid-space/2;
+    .divergent-field-left {
+        margin-right: 0;
+    }
 }

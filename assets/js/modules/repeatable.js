@@ -3,7 +3,7 @@
  */
 var fields = require('./../fields');
 
-module.exports.repeatable = function(framework) {
+module.exports.init = function(framework) {
     
     /**
      * Repeatable Groups 
@@ -26,7 +26,7 @@ module.exports.repeatable = function(framework) {
         });
         
         // Redraw the fields within the group
-        fields.fields(newGroup);
+        fields.init(newGroup);
                 
         // Finally, insert the newGroup after the current group
         group.after(newGroup);
@@ -46,8 +46,6 @@ module.exports.repeatable = function(framework) {
     
     jQuery('body').on('click', '.divergent-repeatable-toggle', function (e) {
         e.preventDefault();
-        
-        console.log('YUP');
         
         if( jQuery(this).find('i').text() === 'arrow_drop_down' ) {
             jQuery(this).find('i').text('arrow_drop_up');        

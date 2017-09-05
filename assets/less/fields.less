@@ -9,6 +9,7 @@
 @import 'fields/media.less';
 @import 'fields/radio.less';
 @import 'fields/repeatable.less';
+@import 'fields/select.less';
 @import 'fields/slider.less';
 @import 'fields/typography.less';
 
@@ -24,18 +25,22 @@
 
 .divergent-option-field {
     box-sizing: border-box;
-    background: @wp-grey;
+    border: 1px solid @light-grey;
     padding: 20px;
 }
 
-.divergent-field-context {
+.divergent-field-title {
     border-bottom: 1px solid @light-grey;
     h4 {
         font-size: 1.1em;
-        margin: 0 0 0.25em 0;
+        margin: 0 0 0.5em 0;
     }
+}
+
+.divergent-field-description {
+    border-top: 1px solid @light-grey;
     p {
-        margin: 0 0 1em 0; 
+        font-style: italic;
     }
 }
 
@@ -63,4 +68,9 @@
             width: 0;
         }
     }    
+}
+
+.divergent-icon-list {
+    overflow: hidden;
+    margin: 1px 1px @grid-space/2 1px;
 }

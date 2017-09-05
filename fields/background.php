@@ -3,12 +3,13 @@
   * Displays a background input field
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Divergent_Field_Background implements Divergent_Field {
+class Background implements Divergent_Field {
     
     public static function render( $field = array() ) {
              
@@ -27,12 +28,12 @@ class Divergent_Field_Background implements Divergent_Field {
         $upload_custom['values']    = isset($field['values']['upload']) ? $field['values']['upload'] : '';
         
         $output = '<div class="divergent-background-image divergent-field-left">';
-        $output .=  Divergent_Field_Media::render( $upload_custom );        
+        $output .=  Media::render( $upload_custom );        
         $output .= '</div>';
 
         
         $output .= '<div class="divergent-background-attributes divergent-field-left">';         
-        $output .=  Divergent_Field_Colorpicker::render( $colorpicker );
+        $output .=  Colorpicker::render( $colorpicker );
         
         // Background Select Attributes
         $background_attributes = array(
@@ -90,7 +91,7 @@ class Divergent_Field_Background implements Divergent_Field {
             $field_custom[$key]['values']       = isset($field['values'][$key]) ? $field['values'][$key] : '';
             
             // We use the divergent select field class to display our recurring select fields. Easy, isn't it?
-            $output .= Divergent_Field_Select::render($field_custom[$key]);
+            $output .= Select::render($field_custom[$key]);
         }
         
         $output .= '</div>';

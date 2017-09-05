@@ -3,12 +3,13 @@
   * Displays a location field, including a google map
   */
 namespace Divergent\Fields;
+use Divergent\Divergent_Field as Divergent_Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Divergent_Field_Location implements Divergent_Field {
+class Location implements Divergent_Field {
     
     public static function render($field = array()) {
         

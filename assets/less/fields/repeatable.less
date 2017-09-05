@@ -1,14 +1,18 @@
 /* Repeatable */
 .divergent-repeatable-group {
-    background-color: @white;
+    background-color: @wp-grey;
     border: 1px solid @light-grey;
     border-radius: @base-radius;
     margin-bottom: 10px; 
     min-height: @grid-space;
     position: relative;
+    .divergent-option-field {
+        background-color: @white;
+    }
 }
 
 .divergent-repeatable-container {
+    overflow: hidden;
     .button {
         float: right;
         margin: 0 0 0 5px;

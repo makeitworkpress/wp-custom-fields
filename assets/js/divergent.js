@@ -11,30 +11,32 @@ var tabs        = require('./modules/tabs');
 var init = function() {
     
     // Boot our fields
-    fields.fields('.divergent-framework');
-    repeatable.repeatable();
-    tabs.tabs();
+    fields.init('.divergent-framework');    
+    repeatable.init('.divergent-framework');
+    tabs.init();
     
 }
 
-// Boot divergent
+// Boot Divergent on Document Ready
 jQuery(document).ready(init);
-},{"./fields":2,"./modules/repeatable":6,"./modules/tabs":8}],2:[function(require,module,exports){
+},{"./fields":2,"./modules/repeatable":6,"./modules/tabs":9}],2:[function(require,module,exports){
 /**
  * Executres Field modules
  */
 var colorpicker = require('./modules/colorpicker');
 var location = require('./modules/location');
 var media = require('./modules/media');
+var select = require('./modules/select');
 var slider = require('./modules/slider');
 
-module.exports.fields = function(framework) {
+module.exports.init = function(framework) {
     colorpicker.colorpicker(framework);
     location.location(framework);
     media.media(framework);
+    select.init(framework);   
     slider.slider(framework);   
 };
-},{"./modules/colorpicker":3,"./modules/location":4,"./modules/media":5,"./modules/slider":7}],3:[function(require,module,exports){
+},{"./modules/colorpicker":3,"./modules/location":4,"./modules/media":5,"./modules/select":7,"./modules/slider":8}],3:[function(require,module,exports){
 /**
  * Our colorpicker module
  */
@@ -252,7 +254,7 @@ module.exports.media = function(framework) {
  */
 var fields = require('./../fields');
 
-module.exports.repeatable = function(framework) {
+module.exports.init = function(framework) {
     
     /**
      * Repeatable Groups 
@@ -275,7 +277,7 @@ module.exports.repeatable = function(framework) {
         });
         
         // Redraw the fields within the group
-        fields.fields(newGroup);
+        fields.init(newGroup);
                 
         // Finally, insert the newGroup after the current group
         group.after(newGroup);
@@ -296,8 +298,6 @@ module.exports.repeatable = function(framework) {
     jQuery('body').on('click', '.divergent-repeatable-toggle', function (e) {
         e.preventDefault();
         
-        console.log('YUP');
-        
         if( jQuery(this).find('i').text() === 'arrow_drop_down' ) {
             jQuery(this).find('i').text('arrow_drop_up');        
         } else if( jQuery(this).find('i').text() === 'arrow_drop_up' ) {
@@ -308,6 +308,41 @@ module.exports.repeatable = function(framework) {
     
 }
 },{"./../fields":2}],7:[function(require,module,exports){
+/**
+ * Our colorpicker module
+ */
+module.exports.init = function(framework) {
+    
+    // Execute if we do have select2 defined
+//    if( typeof select2 !== "undefined" ) {
+        
+        // Regular selects
+        jQuery('.divergent-select').select2();
+        
+        // Typography selects
+        jQuery(framework).find('.divergent-typography-fonts').select2({
+            templateResult: formatState,
+            templateSelection: formatState            
+        });
+        
+//    }
+    
+}
+
+// Formats a state for the select2 toolbox
+var formatState = function(state) {
+    if ( ! state.id ) { 
+        return state.text; 
+    }
+    
+    var newState = jQuery(
+        '<img src="' + state.element.dataset.display + '" class="img-flag" />'
+    );
+    
+    return newState; 
+    
+}
+},{}],8:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -336,8 +371,8 @@ module.exports.slider = function(framework) {
     });
     
 }
-},{}],8:[function(require,module,exports){
-module.exports.tabs = function() {
+},{}],9:[function(require,module,exports){
+module.exports.init = function() {
     
     jQuery(".divergent-tabs a").click(function (e) {
         

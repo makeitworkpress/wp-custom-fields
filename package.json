@@ -3,13 +3,17 @@
     "version": "1.0.0",
     "author": "Michiel Tramper",
     "description": "The package for the Divergent Framework",
+    "dependencies": {
+        "codemirror": "latest",
+        "select2": "latest"
+    },
     "devDependencies": {
         "browserify": "latest",
-        "uglifyjs": "latest",
+        "uglify-js": "latest",
         "watchify": "latest"
     },
     "scripts": {
-        "build-js": "browserify assets/js/app.js -o assets/js/divergent.js && uglifyjs assets/js/divergent.js -o assets/js/divergent.min.js -c -m",
+        "build-js": "browserify assets/js/app.js -o assets/js/divergent.js && uglify-js assets/js/divergent.js -o assets/js/divergent.min.js -c -m",
         "watch-js": "watchify assets/js/app.js -o assets/js/divergent.js -v"
     }    
 }

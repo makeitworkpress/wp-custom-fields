@@ -43,18 +43,44 @@ class Divergent_Options extends Divergent_Abstract {
    
         // Check if a proper ID is set and add a menu page
         if( ! isset($this->optionPage['id']) || empty( $this->optionPage['id'] ) )
-            return;
+            return new WP_Error( 'wrong', __( 'Your options configurations are an ID.', 'divergent' ) );
 
-        // Add a menu page
-        add_menu_page( 
-            $this->optionPage['title'], 
-            $this->optionPage['menu_title'], 
-            $this->optionPage['capability'], 
-            $this->optionPage['id'], 
-            array( $this, 'renderPage' ), 
-            $this->optionPage['menu_icon'],
-            $this->optionPage['menu_position']
-        ); 
+        $allowed    = array( 'menu', 'submenu', 'dashboard', 'posts', 'media', 'links', 'pages', 'comments', 'theme', 'users', 'management', 'options' );
+        $location   = isset( $this->optionPage['location'] ) && in_array( $this->optionPage['location'], $allowed ) ? $this->optionPage['location'] : 'menu';
+        $addPage    = 'add_' . $location . '_page';
+        $pageArgs   = $this->optionPage;
+        
+        switch( $location ) {
+            case 'menu':
+                add_menu_page(
+                    $this->optionPage['title'], 
+                    $this->optionPage['menu_title'], 
+                    $this->optionPage['capability'], 
+                    $this->optionPage['id'], 
+                    array( $this, 'renderPage' ), 
+                    $this->optionPage['menu_icon'],
+                    $this->optionPage['menu_position']                
+                );
+                break;
+            case 'submenu':
+                add_submenu_page( 
+                    $this->optionPage['slug'], 
+                    $this->optionPage['title'], 
+                    $this->optionPage['menu_title'], 
+                    $this->optionPage['capability'], 
+                    $this->optionPage['id'], 
+                    array( $this, 'renderPage' ) 
+                );                
+                break;
+            default:
+                $addPage( 
+                    $this->optionPage['title'], 
+                    $this->optionPage['menu_title'], 
+                    $this->optionPage['capability'], 
+                    $this->optionPage['id'], 
+                    array( $this, 'renderPage' ) 
+                );                 
+        }
 
     }    
     

@@ -14,16 +14,15 @@ if ( ! defined( 'ABSPATH' ) )
     die;
 
 class Divergent extends Divergent_Abstract {
-
-    // These properties hold all configurations for the custom fields for each frame.
-    protected $frames; 
     
     // Contains icons available in the frame
     public static $icons;
     
     // Contains the fonts available in the frame
-    public static $fonts; 
-    
+    public static $fonts;
+    // These properties hold all configurations for the custom fields for each frame. A frame is an options screen, anywhere.
+    protected $frames; 
+
     // Contains the frame types
     private $types;    
     
@@ -81,11 +80,12 @@ class Divergent extends Divergent_Abstract {
     final public function setup() {
         
         // Add our configurations arrays
-        $this->addConfigurations();
-        
-        // Setup our framework
-        if( is_admin() || is_customize_preview() )
+        $this->addConfigurations();        
+
+        // Setup our framework, but only in the environment where needed
+        if( is_admin() || is_customize_preview() ) {           
             $this->frame();
+        }
 
         // Execute other necessary things
         add_theme_support( 'customize-selective-refresh-widgets' );
@@ -103,15 +103,20 @@ class Divergent extends Divergent_Abstract {
         $this->scripts          = $scripts;
         $this->styles           = $styles;
         
-        self::$icons            = apply_filters( 'divergent_icons', $icons );
-        self::$fonts            = apply_filters( 'divergent_fonts', $fonts );        
+        // Icons are only used in field elements, thus in back-end or customizer.
+        if( is_admin() || is_customize_preview() ) {   
+            self::$icons        = apply_filters( 'divergent_icons', $icons );
+        }
+        
+        // Fonts are used in front-end styling
+        self::$fonts            = apply_filters( 'divergent_fonts', $fonts ); 
                 
         // Setup the supported datatypes
-        $this->types                  = apply_filters('divergent_frames',  $this->types);
+        $this->types            = apply_filters( 'divergent_frames',  $this->types );
         
         // Adds filterable data for the various types.
         foreach($this->types as $type) {
-            $this->frames[$type]  = apply_filters( 'divergent_frame_' . $type, isset($this->frames[$type]) ? $this->frames[$type] : array() );
+            $this->frames[$type] = apply_filters( 'divergent_frame_' . $type, isset($this->frames[$type]) ? $this->frames[$type] : array() );
         }
         
     }
@@ -155,13 +160,21 @@ class Divergent extends Divergent_Abstract {
      */
     final public function enqueue() {
 
+        // Enqueue Styles
         foreach( $this->styles as $style )
             wp_enqueue_style( $style['handle'], $style['src'], $style['deps'], $style['ver'], $style['media'] );     
         
+        // Enqueue Scripts
         foreach( $this->scripts as $script ) {
             $action = 'wp_' . $script['action'] . '_script';
-            $action( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );    
+            $action( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );
+            
+            // Localize a script
+            if( isset($script['localize']) && isset($script['object']) )
+                wp_localize_script( $script['handle'], $script['object'], $script['localize'] );
+            
         }
+        
     }
                 
     /**
