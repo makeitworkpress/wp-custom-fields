@@ -42,7 +42,7 @@ class Select implements Divergent_Field {
             ); 
             $options = array();
             
-            foreach($posts as $post) {
+            foreach( $posts as $post ) {
                 $options[$post->ID] = $post->post_title;
             }
         }
@@ -53,11 +53,11 @@ class Select implements Divergent_Field {
         if( ! empty($field['placeholder']) ) { 
             $output .= '    <option value="">' . $field['placeholder'] . '</option>';
         }
-        foreach($options as $key => $option) {
-            if($multiple && is_array($field['values'])) {
+        foreach ($options as $key => $option ) {
+            if( $multiple && is_array($field['values']) ) {
                 $selected = in_array($key, $field['values']) ? 'selected="selected"' : '';
             } else {
-                $selected = $key == $field['values'] ? 'selected="selected"' : '';
+                $selected = selected( $key, $field['values'], false );
             }
             $output .= '    <option value="' . $key . '" ' . $selected . '>' . $option . '</option>';
         }

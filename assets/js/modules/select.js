@@ -10,7 +10,7 @@ module.exports.init = function(framework) {
         jQuery('.divergent-select').select2();
         
         // Typography selects
-        jQuery(framework).find('.divergent-typography-fonts').select2({
+        jQuery('.divergent-typography-fonts').select2({
             templateResult: formatState,
             templateSelection: formatState            
         });

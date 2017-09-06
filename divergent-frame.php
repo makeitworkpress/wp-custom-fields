@@ -28,15 +28,15 @@ class Divergent_Frame {
         $this->values   = $values;
         
         // Default public variables
-        $this->class            = isset($frame['class']) ? $frame['class'] : '';
+        $this->class            = isset($frame['class']) ? esc_attr($frame['class']) : '';
         $this->errors           = '';
-        $this->id               = $frame['id'];
+        $this->id               = esc_attr($frame['id']);
         $this->resetButton      = '';
         $this->restoreButton    = '';
         $this->saveButton       = '';
         $this->sections         = array();
         $this->settingFields    = '';
-        $this->title            = $frame['title'];
+        $this->title            = esc_html($frame['title']);
         $this->type             = '';
 
         // Include our scripts and media      

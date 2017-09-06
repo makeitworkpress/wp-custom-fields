@@ -365,17 +365,17 @@ class Divergent_Styling extends Divergent_Abstract {
                         $properties['font-weight']   = $field['values']['font_weight'];
                     }
 
-                    if( $field['values']['color'] ) {
+                    if( isset($field['values']['color']) && $field['values']['color'] ) {
                         $properties['color']         = $field['values']['color'];
                     }                
 
                     // Text styles
                     $styles = array(
                         'italic'        => 'font-style', 
-                        'line-through'  => 'text-decoration', 
+                        'line_through'  => 'text-decoration', 
                         'underline'     => 'text-decoration', 
                         'uppercase'     => 'text-transform', 
-                        'text-align'    => 'text-align'
+                        'text_align'    => 'text-align'
                     );
 
                     foreach( $styles as $key => $property ) {
@@ -383,7 +383,7 @@ class Divergent_Styling extends Divergent_Abstract {
                         if( ! $field['values'][$key] )
                             continue;
 
-                        $properties[$property] = $field['values'][$key];
+                        $properties[$property] = $key == 'text_align' ? $field['values'][$key] : str_replace( '_', '-', $key );
 
                     }
                     
@@ -512,35 +512,42 @@ class Divergent_Styling extends Divergent_Abstract {
             // Format our fields
             foreach( $this->fields as $field ) {
                 
+                // The messages should be transported
                 if( ! $field['transport'] )
                     continue;
                 
-                // Reset our target for each field
-                $targetProperty = false;
+                // The field should have properties
+                if( ! $field['properties'] )
+                    continue;
                 
-                // Get the first field property
-                foreach( $field['properties'] as $property => $value ) {
-                    
-                    if( $targetProperty )
-                        break;
-                    
-                    $targetProperty = $property;     
+                $bind       = '';
+                $selector   = isset( $field['css']['selector'] ) ? $field['css']['selector'] : $field['css'];
+                
+                // The output might differ per field type
+                switch( $field['type'] ) {
+//                    case 'typography':
+//                        foreach( $field['properties'] as $property => $value ) {
+//                            $bind .= 'value.bind( function( newValue ) {
+//                                $("' . $selector . '").css("' . $property . '", newValue);
+//                            } );';                       
+//                        }
+//                        break;
+                    default:
+                        $target = isset( $field['css']['content'] ) ? 'html(newValue)' : 'css("' . array_keys($field['properties'])[0] . '", newValue)';
+                        $bind  .= 'value.bind( function( newValue ) {
+                            $("' . $selector . '").' . $target . ';
+                        } );';
                 }
-
-                $selector  = isset( $field['css']['selector'] ) ? $field['css']['selector'] : $field['css'];
-                $target    = isset( $field['css']['content'] ) ? 'html(newValue)' : 'css("' . $targetProperty . '", newValue)';
-
+                
                 $script .= 'wp.customize( "' . $field['group'] . '[' . $field['id'] . ']' . '", function( value ) {
-                      value.bind( function( newValue ) {
-                         $("' . $selector . '").' . $target . ';
-                      } );
-                } );';
+                      ' . $bind . '
+                } );';                
 
             }
 
             // Our bindings script
             if( $script )
-                echo '<script type="text/javascript">( function( $ ) {' . $script . '} )( jQuery );</script>';
+                echo '<script type="text/javascript" id="divergent-customizer-js">( function( $ ) {' . $script . '} )( jQuery );</script>';
             
         }, 100);
      

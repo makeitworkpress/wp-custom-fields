@@ -31,8 +31,21 @@ class Divergent_Customizer extends Divergent_Abstract {
     protected function registerHooks() {
         
         $this->actions = array(
-            array('customize_register', 'addSettings', 20, 1),
+            array( 'customize_register', 'addSettings', 20, 1 ),
+            array( 'admin_enqueue_scripts', 'enqueue' )
         );       
+    }
+    
+    /**
+     * Enqueue custom scripts used in the customizer
+     */
+    public function enqueue() {
+        
+        // Load the select2 script, but only if not yet enqueued
+        if( apply_filters('divergent_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
+            wp_enqueue_script('select2-js');        
+        
+        wp_enqueue_script('divergent-js'); 
     }
     
     /**
@@ -41,6 +54,8 @@ class Divergent_Customizer extends Divergent_Abstract {
      * checkbox, textarea, radio, select, dropdown-pages, range
      *
      * @param object $wp_customize The WP Customize Object
+     *
+     * @return void
      */
     public function addSettings( $wp_customize ) {
         
@@ -121,8 +136,21 @@ class Divergent_Customizer extends Divergent_Abstract {
                 if( isset($field['sanitize_js']) )
                     $settingArgs['sanitize_js_callback']  = $field['sanitize_js'];                    
 
-                // Add our settings
-                $wp_customize->add_setting( $panel['id'] . '[' . $field['id'] . ']', $settingArgs );
+                /**
+                 * Add our settings. Elaborate controls have multiple settings.
+                 */
+                switch( $field['type'] ) {
+                    case 'typography':
+                        $configurations = Fields\Typography::configurations();
+                        // Add all typographic settings
+                        foreach( $configurations['settings'] as $setting ) {  
+                            $wp_customize->add_setting($panel['id'] . '[' . $field['id'] . ']' . $setting, $settingArgs );    
+                        }
+                        
+                        break;
+                    default:
+                        $wp_customize->add_setting( $panel['id'] . '[' . $field['id'] . ']', $settingArgs );
+                }
 
                 // Define our arguments for the controls
                 $controlArgs                = array();
@@ -138,12 +166,10 @@ class Divergent_Customizer extends Divergent_Abstract {
                         $controlArgs[$type] = $field[$type];
                 }
                 
-                // Custom types
+                /**
+                 * Custom Control types
+                 */
                 switch( $field['type'] ) {
-                    case 'background':
-                        unset($controlArgs['type']); // Having a defined type breaks the color picker somehow
-                        $wp_customize->add_control( new WP_Customize_Background_Image_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
-                        break;                         
                     case 'colorpicker':
                         unset($controlArgs['type']); // Having a defined type breaks the color picker somehow
                         $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
@@ -156,7 +182,21 @@ class Divergent_Customizer extends Divergent_Abstract {
                         break;                    
                     case 'upload':
                         $wp_customize->add_control( new WP_Customize_Upload_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
-                        break;                    
+                        break;
+                    case 'textarea':
+                        $wp_customize->add_control( new WP_Customize_Media_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        break;                          
+                    case 'typography':
+                        
+                        $controlArgs['settings']    = array();
+                        
+                        foreach( $configurations['settings'] as $key => $setting ) {
+                            $link = str_replace( array('[', ']'), '', $setting );
+                            $controlArgs['settings'][$link] = $panel['id'] . '[' . $field['id'] . ']' . $setting;
+                        }
+                        
+                        $wp_customize->add_control( new Fields\Customizer\Typography($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        break;                         
                     case 'custom':
                         $wp_customize->add_control( new $field['custom']($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
                         break;

@@ -22,7 +22,7 @@ class Icons implements Divergent_Field {
 
         foreach($iconsets as $set => $icons) {
             $output .= '    <p class="divergent-icons-title">' . $set . '</p>';
-            $output .= '    <ul class="divergent-icons-set">';
+            $output .= '    <ul class="divergent-icon-list">';
             
             // Loop through icons of a set
             foreach($icons as $icon) {
@@ -46,7 +46,7 @@ class Icons implements Divergent_Field {
                     $selected = $icon == $field['values'] ? ' checked="checked" ' : '';
                 }                
                 
-                $output .= '    <li class="divergent-icons-icon">';
+                $output .= '    <li>';
                 $output .= '        <input type="' . $type . '" name="' . $field['name'] . $name . '" id="' . $field['id'] . '-' . $icon . '" value="' . $icon . '"' . $selected . '/>';               
                 $output .= '        <label for="' . $field['id'] . '-' . $icon . '">';
                 $output .= $display_icon;

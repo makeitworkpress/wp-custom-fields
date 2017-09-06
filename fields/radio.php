@@ -21,19 +21,12 @@ class Radio implements Divergent_Field {
         // This field accepts an array of options
         foreach($options as $option) {
             
-            // Determine if a box should be checked
-            if($field['values'] == $option['id']) {
-                $checked = 'checked="checked"';
-            } else {
-                $checked = '';
-            }
-            
             // Check label
             $label  = isset($option['label']) ? $option['label'] : '';
             $icon   = isset($option['icon']) ? '<i class="material-icons">' . $option['icon'] . '</i> ' : '';
             
             // Output of form
-            $output .= '<input type="radio" id="' . $field['id'] .  $option['id'] . '" name="' . $field['name'] . '" value="' . $option['id'] . '" ' . $checked . ' />';
+            $output .= '<input type="radio" id="' . $field['id'] .  $option['id'] . '" name="' . $field['name'] . '" value="' . $option['id'] . '" ' . checked(  $field['values'], $option['id'], false ) . ' />';
             
             if( ! empty($label) ) {
                 $output .= '<label for="' . $field['id'] . $option['id'] . '">' . $icon . $label . '</label>';

@@ -1,11 +1,15 @@
 /* Typography Field */
 .divergent-typography-fonts ~ .select2-container {
-    width: 342px !important;
+    max-width: 100%;
+    min-width: 100%;
+    .divergent-framework & {
+        min-width: 314px;
+    }
     .select2-selection--single {
         height: @grid-space * 2;
         .select2-selection__rendered {
             line-height: @grid-space/2;
-            padding: 4px 20px 4px 8px;
+            padding: 4px 20px 4px 4px;
         }
         .select2-selection__arrow {
             top: 10px;
@@ -13,13 +17,35 @@
     }
 }
 
+// Select2 container must be visible in WordPress Customizer
+.select2-container.select2-container--open {
+    z-index: 999999;
+}
+
+.divergent-typography-weight {
+    display: flex;
+    select {
+        flex-grow: 1;
+    }
+}
+
 .divergent-typography-properties {
     margin-top: @grid-space/2;
+    &.divergent-field-left {
+        margin-right: 2px;
+    }   
     > * {
         margin-bottom: @grid-space/2;
     }
     .divergent-dimensions-input select {
         max-width: @grid-space * 2;    
+    }
+    .customize-control & {
+        float: left;
+        margin-right: 2px;
+        input {
+            margin: 1px;
+        }    
     }
 }
 
@@ -28,4 +54,13 @@
     .divergent-field-left {
         margin-right: 0;
     }
+    + label {
+        clear: both;
+        display: block;
+    }
+    .customize-control & {
+        ul {
+            display: inline-block;
+        }    
+    }    
 }

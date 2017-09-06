@@ -11,14 +11,23 @@ if ( ! defined( 'ABSPATH' ) )
 
 class Dimension implements Divergent_Field {
     
+    /**
+     * Renders the Dimension Field
+     *
+     * @param   array   $field  The array with field parameters
+     *
+     * @return  string  $output The output generated
+     */
     public static function render( $field = array() ) {
+        
+        $configurations = self::configurations();
         
         $amount         = isset($field['values']['amount']) ? $field['values']['amount'] : '';
         $measure        = isset($field['values']['unit']) ? $field['values']['unit'] : '';        
         $step           = isset($field['step']) ? floatval($field['step']) : 1;
         $placeholder    = ! empty($field['placeholder']) ? ' placeholder="' . $field['placeholder'] . '"' : '';
         
-        $measurements   =  array('px', 'em', '%', 'rem', 'vh', 'vw');
+        $measurements   = $configurations['properties']['units'];
         
         $output         = '<div class="divergent-dimensions-input">';
         $output        .= ! empty( $field['label'] )    ? '    <label for="' . $field['id'] . '">' . $field['label'] . '</label>'   : '';    
@@ -27,8 +36,7 @@ class Dimension implements Divergent_Field {
         $output        .= '    <select name="' . $field['name'] . '[unit]">';
         
         foreach( $measurements as $measurement ) {
-            $selected   = $measurement == $measure ? 'selected="selected"' : ''; 
-            $output    .= '        <option value="' . $measurement . '"' . $selected . '>' . $measurement . '</option>';
+            $output    .= '        <option value="' . $measurement . '" ' . selected($measurement, $measure, false) . '>' . $measurement . '</option>';
         }
         
         $output        .= '    </select>';
@@ -38,9 +46,17 @@ class Dimension implements Divergent_Field {
         
     }
     
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */    
     public static function configurations() {
         $configurations = array(
-            'type' => 'dimension'
+            'type'          => 'dimension',
+            'properties'    => array(
+                'units' => array('px', 'em', '%', 'rem', 'vh', 'vw')
+            )
         );
             
         return $configurations;

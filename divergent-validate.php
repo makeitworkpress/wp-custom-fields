@@ -347,7 +347,7 @@ trait Divergent_Validate {
                 $return_value['load']['italic']     = isset($field_value['load']['italic']) && $field_value['load']['italic'] == 'on' ? true : false;
                 
                 // Styles
-                $styles                             = array('italic', 'line-through', 'underline', 'uppercase', 'text-align');
+                $styles                             = array('italic', 'line_through', 'underline', 'uppercase', 'text_align');
                 foreach( $styles as $style ) {
                     $return_value[$style]           = sanitize_key( $field_value[$style] );     
                 }
