@@ -15,11 +15,6 @@ if ( ! defined( 'ABSPATH' ) )
 abstract class Base {
     
     /**
-     * Use our validation functions
-     */
-    use Validate;    
-    
-    /**
      * Determines whether a class has already been instanciated.
      * @access protected
      */

@@ -39,9 +39,13 @@ class Frame {
         $this->title            = esc_html($frame['title']);
         $this->type             = '';
 
-        // Include our scripts and media      
-        wp_enqueue_script('alpha-color-picker');
-        wp_enqueue_script('wp-custom-fields-js');
+        // Include our scripts and media  
+        if( ! wp_script_is('alpha-color-picker') )
+            wp_enqueue_script('alpha-color-picker');
+        
+        if( ! wp_script_is('wp-custom-fields-js') )
+            wp_enqueue_script('wp-custom-fields-js');
+        
         wp_enqueue_media();           
         
         // Populate Variables

@@ -11,28 +11,35 @@ namespace WP_Custom_Fields;
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Options extends Base {    
+class Options { 
     
     /**
-     * Contains the option values for each of the option pages
+     * Use our validation functions
      */
-    protected $optionPage;
+    use Validate;    
+     
+    /**
+     * Contains the option values for each of the option pages
+     * @access public
+     */
+    public $optionPage;
         
     /**
      * Constructor
+     *
+     * @param array $group The array with settings, sections and fields
      */    
-    protected function initialize() {
-        $this->optionPage = $this->params;
+    public function __construct( $group = array() ) {
+        $this->optionPage = $group;
+        $this->registerHooks();
     }
     
     /**
      * Register WordPress Hooks
      */
     protected function registerHooks() {
-        $this->actions = array(
-            array('admin_init', 'addSettings'),
-            array('admin_menu', 'optionsPage'),
-        );       
+        add_action( 'admin_init', array($this, 'addSettings') );
+        add_action( 'admin_menu', array($this, 'optionsPage') );
     }
     
     

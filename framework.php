@@ -151,7 +151,7 @@ class Framework extends Base {
             // Create a new instance for each group
             foreach( $optionsGroups as $group ) {
                 $class    = 'WP_Custom_Fields\\' . ucfirst( $frame );
-                $instance = $class::instance( $group );
+                $instance = new $class( $group );
             }
             
         }      

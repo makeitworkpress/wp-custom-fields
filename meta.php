@@ -11,19 +11,25 @@ namespace WP_Custom_Fields;
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Meta extends Base {    
+class Meta {
+    
+    /**
+     * Use our validation functions
+     */
+    use Validate;
     
     /**
      * Contains the $metaBox array for each of the option pages
      */
-    protected $metaBox;
+    public $metaBox;
     
     /**
      * Constructor
+     *
+     * @param array $group The array with settings, sections and fields
      */    
-    protected function initialize() {
-        
-        $this->metaBox  = $this->params;
+    public function __construct( $group = array() ) {
+        $this->metaBox  = $group;
         $this->type     = isset( $this->metaBox['type'] ) ? $this->metaBox['type'] : 'post';
     }   
     
@@ -34,18 +40,14 @@ class Meta extends Base {
         
         // Post type metabox
         if( $this->type == 'post' ) {
-            $this->actions = array(
-                array('add_meta_boxes', 'add'),
-                array('save_post', 'save', 10, 1),
-            );
+            add_action( 'add_meta_boxes', array($this, 'add') );
+            add_action( 'save_post', array($this, 'save'), 10, 1 );
         }
         
         // Taxonomy metabox
-        if( $this->type == 'taxonomy' ) {
-            $this->actions = array(
-                array( $this->metaBox['taxonomy'] . '_edit_form_fields', 'add' ),   
-                array( 'edited_' . $this->metaBox['taxonomy'], 'save', 10, 1 )
-            );
+        if( $this->type == 'taxonomy' && isset($this->metaBox['taxonomy']) ) {
+            add_action( $this->metaBox['taxonomy'] . '_edit_form_fields', array($this, 'add') );
+            add_action( 'edited_' . $this->metaBox['taxonomy'], array($this, 'save'), 10, 1 );            
         }
       
     }

@@ -16,24 +16,29 @@ use WP_Customize_Upload_Control as WP_Customize_Upload_Control;
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Customizer extends Base {    
+class Customizer {
+      
+    /**
+     * Contains the option values for each of the panels
+     * @access public
+     */
+    public $panel;    
         
     /**
      * Constructor
+     *
+     * @param array $group The array with settings, sections and fields     
      */    
-    protected function initialize() {
-        $this->panel = $this->params;    
+    public function __construct( $group = array() ) {
+        $this->panel = $group;    
     }
     
     /**
      * Register WordPress Hooks
      */
     protected function registerHooks() {
-        
-        $this->actions = array(
-            array( 'customize_register', 'addSettings', 20, 1 ),
-            array( 'admin_enqueue_scripts', 'enqueue' )
-        );       
+        add_action( 'customize_register', array($this, 'addSettings'), 10, 1 );
+        add_action( 'admin_enqueue_scripts', array($this, 'enqueue') );             
     }
     
     /**
@@ -45,7 +50,9 @@ class Customizer extends Base {
         if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
             wp_enqueue_script('select2-js');        
         
-        wp_enqueue_script('wp-custom-fields-js'); 
+        if( ! wp_script_is('wp-custom-fields-js') )
+            wp_enqueue_script('wp-custom-fields-js');
+        
     }
     
     /**
