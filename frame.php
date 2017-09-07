@@ -127,7 +127,7 @@ class Frame {
 
         // If we have nothing, return the nothing 
         if( empty($this->sections) ) {
-            require_once( WP_CUSTOM_FIELDS_PATH . '/templates/nothing.php' );
+            require( WP_CUSTOM_FIELDS_PATH . '/templates/nothing.php' );
             return;
         } 
         
@@ -135,7 +135,7 @@ class Frame {
         $frame = $this;
         
         // Render the frame
-        require_once( WP_CUSTOM_FIELDS_PATH . '/templates/frame.php' );
+        require( WP_CUSTOM_FIELDS_PATH . '/templates/frame.php' );
         
     }
     

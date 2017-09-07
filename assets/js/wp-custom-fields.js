@@ -385,8 +385,8 @@ module.exports.init = function() {
         jQuery('input[name="divergentSection"]').val(section);
 		
         // Remove current active classes
-        jQuery(".wp-custom-fields-tabs a").removeClass("active");
-        jQuery(".wp-custom-fields-section").removeClass("active");
+        jQuery(this).closest('.wp-custom-fields-framework').find(".wp-custom-fields-tabs a").removeClass("active");
+        jQuery(this).closest('.wp-custom-fields-framework').find(".wp-custom-fields-section").removeClass("active");
         
         // Add active class to our new things
         jQuery(this).addClass("active");      

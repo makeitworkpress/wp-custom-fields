@@ -86,7 +86,7 @@ class Meta {
         $values                 = get_metadata( $this->type,  $object->ID, $this->metaBox['id'], true );
         
         $frame                  = new Frame( $this->metaBox, $values );
-        $frame->settingsFields  = wp_nonce_field( 'wp-custom-fields-metaboxes', 'wp-custom-fields-metaboxes-nonce', true, false );
+        $frame->settingsFields  = wp_nonce_field( 'wp-custom-fields-metaboxes-' . $frame->id, 'wp-custom-fields-metaboxes-nonce-' . $frame->id, true, false );
         
         // Render our output
         $frame->render();
@@ -107,7 +107,7 @@ class Meta {
             return $id; 
         
         // Some pages do not have the nonce
-        if( ! isset($_POST['wp-custom-fields-metaboxes-nonce']) )
+        if( ! isset($_POST['wp-custom-fields-metaboxes-nonce-' . $this->metaBox['id']]) )
             return $id;
 
         // Check our user capabilities
@@ -115,7 +115,7 @@ class Meta {
             return $id;
          
         // Check our nonces
-        if ( ! wp_verify_nonce( $_POST['wp-custom-fields-metaboxes-nonce'], 'wp-custom-fields-metaboxes' ) ) 
+        if ( ! wp_verify_nonce( $_POST['wp-custom-fields-metaboxes-nonce-' . $this->metaBox['id']], 'wp-custom-fields-metaboxes-' . $this->metaBox['id'] ) ) 
             return $id;
         
         // Retrieve our current meta values
