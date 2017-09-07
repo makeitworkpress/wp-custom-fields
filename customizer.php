@@ -30,14 +30,15 @@ class Customizer {
      * @param array $group The array with settings, sections and fields     
      */    
     public function __construct( $group = array() ) {
-        $this->panel = $group;    
+        $this->panel = $group;
+        $this->registerHooks();
     }
     
     /**
      * Register WordPress Hooks
      */
     protected function registerHooks() {
-        add_action( 'customize_register', array($this, 'addSettings'), 10, 1 );
+        add_action( 'customize_register', array($this, 'addSettings') );
         add_action( 'admin_enqueue_scripts', array($this, 'enqueue') );             
     }
     
@@ -74,8 +75,7 @@ class Customizer {
         
         // Prohibited names
         if( in_array($panel['id'], array('widget_', 'sidebars_widgets', 'nav_menu', 'nav_menu_item')) )
-            return new WP_Error( 'wrong', __( 'It is forbidden to use widget_, sidebars_widget, nav_menu or nav_menu_item for your customizer id.', 'wp-custom-fields' ) );
-         
+            return new WP_Error( 'wrong', __( 'It is forbidden to use widget_, sidebars_widget, nav_menu or nav_menu_item for customizers.', 'wp-custom-fields' ) );
 
         /**
          * Add our panel

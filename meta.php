@@ -31,6 +31,7 @@ class Meta {
     public function __construct( $group = array() ) {
         $this->metaBox  = $group;
         $this->type     = isset( $this->metaBox['type'] ) ? $this->metaBox['type'] : 'post';
+        $this->registerHooks();
     }   
     
     /**
