@@ -7,6 +7,6 @@ module.exports.colorpicker = function(framework) {
         palettes: true
     };
     
-    jQuery(framework).find('.divergent-colorpicker').alphaColorPicker();
+    jQuery(framework).find('.wp-custom-fields-colorpicker').alphaColorPicker();
     
 }

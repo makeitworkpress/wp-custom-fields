@@ -1,5 +1,5 @@
 /**
- * This script bundles all the modules from the Divergent Application
+ * This script bundles all the modules from the WP_Custom_Fields Application
  */
 'use strict';
 
@@ -10,11 +10,11 @@ var tabs        = require('./modules/tabs');
 var init = function() {
     
     // Boot our fields
-    fields.init('.divergent-framework');    
-    repeatable.init('.divergent-framework');
+    fields.init('.wp-custom-fields-framework');    
+    repeatable.init('.wp-custom-fields-framework');
     tabs.init();
     
 }
 
-// Boot Divergent on Document Ready
+// Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);

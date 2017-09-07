@@ -2,19 +2,19 @@
  /** 
   * Displays a repeatable field group
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die; 
 
-class Repeatable implements Divergent_Field {
+class Repeatable implements Field {
     
     public static function render($field = array()) {
         
-        $add                = isset($field['labels']['add'])      ? $field['labels']['add']     : __('Add Group', 'divergent');
-        $remove             = isset($field['labels']['remove'])   ? $field['labels']['remove']  : __('Remove Group', 'divergent');
+        $add                = isset($field['labels']['add'])      ? $field['labels']['add']     : __('Add Group', 'wp-custom-fields');
+        $remove             = isset($field['labels']['remove'])   ? $field['labels']['remove']  : __('Remove Group', 'wp-custom-fields');
         $display            = isset($field['closed']) && $field['closed']   ? ' hidden'         : '';
         
         // Prepare the array with data
@@ -38,13 +38,13 @@ class Repeatable implements Divergent_Field {
         }
         
         // Output the containers
-        $output = '<div class="divergent-repeatable-container">';
+        $output = '<div class="wp-custom-fields-repeatable-container">';
         
         foreach( $groups as $key => $fields) {
 
-            $output .= '<div class="divergent-repeatable-group">';
-            $output .= '<a class="divergent-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>';
-            $output .= '<div class="divergent-repeatable-fields grid flex' . $display . '">';
+            $output .= '<div class="wp-custom-fields-repeatable-group">';
+            $output .= '<a class="wp-custom-fields-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>';
+            $output .= '<div class="wp-custom-fields-repeatable-fields grid flex' . $display . '">';
 
             // Loop through each of the saved fields
             foreach($fields as $subkey => $subfield) {
@@ -55,10 +55,10 @@ class Repeatable implements Divergent_Field {
                 $subfield['name']     = $field['name'] . '[' . $key . ']' . '[' . $subfield['id'] . ']';
                 $subfield['id']       = $field['id'] . '-' . $key  . '-' . $subfield['id'];
                 
-                $class                = 'Divergent\Fields\\' . ucfirst( $subfield['type'] );
+                $class                = 'WP_Custom_Fields\Fields\\' . ucfirst( $subfield['type'] );
                 
                 if( class_exists($class) ) {
-                    $output .= '<div class="divergent-repeatable-field divergent-option-field ' . $subfield['columns'] . '">';
+                    $output .= '<div class="wp-custom-fields-repeatable-field wp-custom-fields-option-field ' . $subfield['columns'] . '">';
                         $output .= '<h5>' . $subfield['title'] . '</h5>';
 
                         if( isset($subfield['description']) ) 
@@ -70,13 +70,13 @@ class Repeatable implements Divergent_Field {
 
             }
         
-            $output .= '</div><!-- .divergent-repeatable-fields -->';
-            $output .= '</div><!-- .divergent-repeatable-group -->';
+            $output .= '</div><!-- .wp-custom-fields-repeatable-fields -->';
+            $output .= '</div><!-- .wp-custom-fields-repeatable-group -->';
         }            
         
-        $output .= '<a href="#" class="button divergent-repeatable-add"><i class="material-icons">add</i> ' . $add . '</a>';
-        $output .= '<a href="#" class="button divergent-repeatable-remove"><i class="material-icons">remove</i> ' . $remove . '</a>';
-        $output .= '</div><!-- .divergent-repeatable-container -->';
+        $output .= '<a href="#" class="button wp-custom-fields-repeatable-add"><i class="material-icons">add</i> ' . $add . '</a>';
+        $output .= '<a href="#" class="button wp-custom-fields-repeatable-remove"><i class="material-icons">remove</i> ' . $remove . '</a>';
+        $output .= '</div><!-- .wp-custom-fields-repeatable-container -->';
         
         return $output;    
     }

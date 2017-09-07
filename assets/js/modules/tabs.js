@@ -1,6 +1,6 @@
 module.exports.init = function() {
     
-    jQuery(".divergent-tabs a").click(function (e) {
+    jQuery(".wp-custom-fields-tabs a").click(function (e) {
         
         e.preventDefault();
         
@@ -11,8 +11,8 @@ module.exports.init = function() {
         jQuery('input[name="divergentSection"]').val(section);
 		
         // Remove current active classes
-        jQuery(".divergent-tabs a").removeClass("active");
-        jQuery(".divergent-section").removeClass("active");
+        jQuery(".wp-custom-fields-tabs a").removeClass("active");
+        jQuery(".wp-custom-fields-section").removeClass("active");
         
         // Add active class to our new things
         jQuery(this).addClass("active");      

@@ -3,16 +3,16 @@
  * Container class that contains helper functions for validating and saving user input.
  *
  * @author Michiel
- * @package Divergent
+ * @package WP_Custom_Fields
  * @since 1.0.0
  */
-namespace Divergent;
+namespace WP_Custom_Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die; 
 
-trait Divergent_Validate {
+trait Validate {
     
     /**
      * Formats the output by sanitizing and validating
@@ -27,7 +27,7 @@ trait Divergent_Validate {
         $currentTab = strip_tags( $input['divergentSection'] );
         
         // Sets the transient for the current section
-        set_transient('divergent_current_section_' . $frame['id'], $currentTab, 10); 
+        set_transient('wp_custom_fields_current_section_' . $frame['id'], $currentTab, 10); 
         
         /**
          * Restore the fields for a current section
@@ -58,7 +58,7 @@ trait Divergent_Validate {
             
             // Add a notification for option pages
             if( $type = 'Options' )
-                add_settings_error( $frame['id'], 'divergent-notification', __('Settings restored for this section.', 'divergent'), 'update' );
+                add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings restored for this section.', 'wp-custom-fields'), 'update' );
             
             return $output;
             
@@ -67,7 +67,7 @@ trait Divergent_Validate {
         /**
          * Restore the complete section
          */
-        if( isset($input['divergent_options_reset']) ) {
+        if( isset($input['wp_custom_fields_options_reset']) ) {
             
             foreach($frame['sections'] as $section) {
                 
@@ -81,7 +81,7 @@ trait Divergent_Validate {
             }
             
             if( $type = 'Options' )
-                add_settings_error( $frame['id'], 'divergent-notification', __('All settings are restored.', 'divergent'), 'update' );
+                add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('All settings are restored.', 'wp-custom-fields'), 'update' );
             
             return $output;
         
@@ -95,7 +95,7 @@ trait Divergent_Validate {
             $output = unserialize( base64_decode($input['import_value']) );
             
             if( $type = 'Options' )
-                add_settings_error( $frame['id'], 'divergent-notification', __('Settings Imported!', 'divergent'), 'update' );
+                add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings Imported!', 'wp-custom-fields'), 'update' );
             
             return $output;
         }
@@ -114,7 +114,7 @@ trait Divergent_Validate {
         }
         
         if( $type = 'Options' )
-            add_settings_error( $frame['id'], 'divergent-notification', __('Settings saved!', 'divergent'), 'update' );
+            add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings saved!', 'wp-custom-fields'), 'update' );
         
         return $output;
         
@@ -359,7 +359,7 @@ trait Divergent_Validate {
                 $return_value = sanitize_text_field($field_value);
         } 
         
-        return apply_filters( 'divergent_sanitized_value', $return_value, $field_value, $field );
+        return apply_filters( 'wp_custom_fields_sanitized_value', $return_value, $field_value, $field );
         
     }
    

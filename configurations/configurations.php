@@ -52,7 +52,7 @@ $styles[] = array(
 ); 
 
 $styles[] = array(
-    'handle'    => 'divergent-css',
+    'handle'    => 'wp-custom-fields-css',
     'src'       => DIVERGENT_ASSETS_URL . 'css/admin.min.css',
     'deps'      => array(),
     'ver'       => null,
@@ -72,7 +72,7 @@ $scripts[] = array(
 );      
 
 $scripts[] = array(
-    'handle'    => 'divergent-js',
+    'handle'    => 'wp-custom-fields-js',
     'src'       => DIVERGENT_ASSETS_URL . 'js/divergent.js',
     'deps'      => array( 'jquery', 'alpha-color-picker' ),
     'ver'       => null,

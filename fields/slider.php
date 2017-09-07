@@ -2,14 +2,14 @@
  /** 
   * Displays a text input field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Slider implements Divergent_Field {
+class Slider implements Field {
     
     public static function render($field = array()) {
         
@@ -21,9 +21,9 @@ class Slider implements Divergent_Field {
         if ( empty($field['values']) ) 
             $field['values'] = 0;
         
-        $output = '<div class="divergent-slider-wrapper">';
-        $output .= '    <div class="divergent-slider" data-id="' . $field['id'] . '" data-value="' . $field['values'] . '" data-min="' . $min . '" data-max="' . $max . '" data-step="' . $step . '"></div>';
-        $output .= '    <input class="divergent-slider-value small-text" type="number" readonly="readonly" id="' . $field['id'] . '" name="' . $field['name'] . '" value="' . $field['values'] . '" />'; 
+        $output = '<div class="wp-custom-fields-slider-wrapper">';
+        $output .= '    <div class="wp-custom-fields-slider" data-id="' . $field['id'] . '" data-value="' . $field['values'] . '" data-min="' . $min . '" data-max="' . $max . '" data-step="' . $step . '"></div>';
+        $output .= '    <input class="wp-custom-fields-slider-value small-text" type="number" readonly="readonly" id="' . $field['id'] . '" name="' . $field['name'] . '" value="' . $field['values'] . '" />'; 
         $output .= '</div>';       
         
         return $output;    

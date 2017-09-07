@@ -3,14 +3,14 @@
  * Creates the variable values for a new options frame
  * This acts as the main controller for passing data to a template.
  */
-namespace Divergent;
+namespace WP_Custom_Fields;
 use stdClass as stdClass;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Divergent_Frame {
+class Frame {
     
     // Contains our frame
     private $frame;
@@ -41,7 +41,7 @@ class Divergent_Frame {
 
         // Include our scripts and media      
         wp_enqueue_script('alpha-color-picker');
-        wp_enqueue_script('divergent-js');
+        wp_enqueue_script('wp-custom-fields-js');
         wp_enqueue_media();           
         
         // Populate Variables
@@ -58,7 +58,7 @@ class Divergent_Frame {
             return;
         
         // Current section
-        $transient              = get_transient( 'divergent_current_section_' . $this->frame['id'] );
+        $transient              = get_transient( 'wp_custom_fields_current_section_' . $this->frame['id'] );
         $this->currentSection   = ! empty( $transient ) ? $transient : $this->frame['sections'][0]['id'];        
         
         // Loop through our sections
@@ -92,7 +92,7 @@ class Divergent_Frame {
         // Populate our variables
         $field                  = $field;
         $field['column']        = isset($field['columns'])              ?  $field['columns'] : 'full';
-        $field['form']          = __('We are sorry, the given field class does not exist', 'divergent');
+        $field['form']          = __('We are sorry, the given field class does not exist', 'wp-custom-fields');
         
         // Make sure our IDs do not contain brackets
         $field['id']            = str_replace('[', '_', $field['id']); 
@@ -107,10 +107,10 @@ class Divergent_Frame {
         $field['values']        = isset( $this->values[$field['id']] )  ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
         
         // Render our field form, allow custom fields to be filtered.
-        $class                  = apply_filters('divergent_field_class', 'Divergent\Fields\\' . ucfirst( $field['type'] ), $field );
+        $class                  = apply_filters('wp_custom_fields_field_class', 'WP_Custom_Fields\Fields\\' . ucfirst( $field['type'] ), $field );
         
         if( class_exists($class) )
-            $field['form']      = apply_filters('divergent_field_form', $class::render($field), $field);
+            $field['form']      = apply_filters('wp_custom_fields_field_form', $class::render($field), $field);
         
         return $field;
         

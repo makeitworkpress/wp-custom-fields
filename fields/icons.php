@@ -2,27 +2,27 @@
  /** 
   * Displays a text input field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent as Divergent;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\WP_Custom_Fields as WP_Custom_Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Icons implements Divergent_Field {
+class Icons implements Field {
     
     public static function render($field = array()) {
         
-        $iconsets   = Divergent::$icons;
-        $iconsets   = apply_filters('divergent_icons', $iconsets);
+        $iconsets   = WP_Custom_Fields::$icons;
+        $iconsets   = apply_filters('wp_custom_fields_icons', $iconsets);
         $type       = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio';
         
-        $output = '<div class="divergent-icons">';
+        $output = '<div class="wp-custom-fields-icons">';
 
         foreach($iconsets as $set => $icons) {
-            $output .= '    <p class="divergent-icons-title">' . $set . '</p>';
-            $output .= '    <ul class="divergent-icon-list">';
+            $output .= '    <p class="wp-custom-fields-icons-title">' . $set . '</p>';
+            $output .= '    <ul class="wp-custom-fields-icon-list">';
             
             // Loop through icons of a set
             foreach($icons as $icon) {
@@ -35,7 +35,7 @@ class Icons implements Divergent_Field {
                     $display_icon = '<i class="material-icons">' . $icon . '</i>';
                 }                
                 
-                $display_icon = apply_filters('divergent_displayed_icon', $display_icon, $set);
+                $display_icon = apply_filters('wp_custom_fields_displayed_icon', $display_icon, $set);
                 
                 $name = $type == 'checkbox' ? '[' . $icon . ']' : '';
                 

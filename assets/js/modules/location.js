@@ -3,9 +3,9 @@
  */
 module.exports.location = function(framework) {
     
-    jQuery(framework).find('.divergent-location').each(function (index) {
-        var searchInput = jQuery('.divergent-map-search', this).get(0),
-            mapCanvas = jQuery('.divergent-map-canvas', this).get(0),
+    jQuery(framework).find('.wp-custom-fields-location').each(function (index) {
+        var searchInput = jQuery('.wp-custom-fields-map-search', this).get(0),
+            mapCanvas = jQuery('.wp-custom-fields-map-canvas', this).get(0),
             latitude = jQuery('.latitude', this),
             longitude = jQuery('.longitude', this),
             city = jQuery('.city', this),

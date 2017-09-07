@@ -10,10 +10,10 @@ module.exports.init = function(framework) {
      *
      * @todo Add function to reset fields to default value
      */
-    jQuery('.divergent-repeatable-add').on('click', function (e) {
+    jQuery('.wp-custom-fields-repeatable-add').on('click', function (e) {
         e.preventDefault();
-        var length = jQuery(this).closest('.divergent-repeatable-container').find('.divergent-repeatable-group').length,
-            group = jQuery(this).closest('.divergent-repeatable-container').find('.divergent-repeatable-group').last(),
+        var length = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
+            group = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last(),
             newGroup = group.clone(true, true),
             newGroupNumber = newGroup.find('h4 span');
         
@@ -33,10 +33,10 @@ module.exports.init = function(framework) {
         
     });
     
-    jQuery('.divergent-repeatable-remove').on('click', function (e) {
+    jQuery('.wp-custom-fields-repeatable-remove').on('click', function (e) {
         e.preventDefault();
-        var length = jQuery(this).closest('.divergent-repeatable-container').find('.divergent-repeatable-group').length,
-            group = jQuery(this).closest('.divergent-repeatable-container').find('.divergent-repeatable-group').last();
+        var length = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
+            group = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
         
         // Keep the first group
         if (length > 1) {
@@ -44,7 +44,7 @@ module.exports.init = function(framework) {
         }
     });
     
-    jQuery('body').on('click', '.divergent-repeatable-toggle', function (e) {
+    jQuery('body').on('click', '.wp-custom-fields-repeatable-toggle', function (e) {
         e.preventDefault();
         
         if( jQuery(this).find('i').text() === 'arrow_drop_down' ) {
@@ -52,7 +52,7 @@ module.exports.init = function(framework) {
         } else if( jQuery(this).find('i').text() === 'arrow_drop_up' ) {
             jQuery(this).find('i').text('arrow_drop_down');    
         }
-        jQuery(this).closest('.divergent-repeatable-group').find('.divergent-repeatable-fields').slideToggle('closed');
+        jQuery(this).closest('.wp-custom-fields-repeatable-group').find('.wp-custom-fields-repeatable-fields').slideToggle('closed');
     });
     
 }

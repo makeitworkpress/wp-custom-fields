@@ -1,8 +1,8 @@
 {
-    "name": "Divergent",
+    "name": "WP_Custom_Fields",
     "version": "1.0.0",
     "author": "Michiel Tramper",
-    "description": "The package for the Divergent Framework",
+    "description": "The package for the WP_Custom_Fields Framework",
     "dependencies": {
         "codemirror": "latest",
         "select2": "latest"

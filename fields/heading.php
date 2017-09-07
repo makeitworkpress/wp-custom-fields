@@ -2,14 +2,14 @@
  /** 
   * The heading display is determined in the class-views-fields.php file. Hence, this file is empty.
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Heading implements Divergent_Field {
+class Heading implements Field {
     
     public static function render($field = array()) { 
         $output = isset($field['subtitle']) ? '<p>' . $field['subtitle'] . '</p>' : '';

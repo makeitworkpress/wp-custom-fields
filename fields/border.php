@@ -2,14 +2,14 @@
  /** 
   * Displays a border field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Border implements Divergent_Field {
+class Border implements Field {
     
     public static function render($field = array()) {
         
@@ -17,34 +17,34 @@ class Border implements Divergent_Field {
         $output = '';
         $border = isset($field['borders']) ? $field['borders'] : '';
         $type['options'] = array(
-            'solid'     => __('Solid', 'divergent'), 
-            'dotted'    => __('Dotted', 'divergent'),  
-            'dashed'    => __('Dashed', 'divergent'),  
-            'double'    => __('Double', 'divergent'),  
-            'groove'    => __('Groove', 'divergent'),  
-            'ridge'     => __('Ridge', 'divergent'), 
-            'inset'     => __('Inset', 'divergent'),  
-            'outset'    => __('Outset', 'divergent'), 
+            'solid'     => __('Solid', 'wp-custom-fields'), 
+            'dotted'    => __('Dotted', 'wp-custom-fields'),  
+            'dashed'    => __('Dashed', 'wp-custom-fields'),  
+            'double'    => __('Double', 'wp-custom-fields'),  
+            'groove'    => __('Groove', 'wp-custom-fields'),  
+            'ridge'     => __('Ridge', 'wp-custom-fields'), 
+            'inset'     => __('Inset', 'wp-custom-fields'),  
+            'outset'    => __('Outset', 'wp-custom-fields'), 
         );
-        $type['placeholder'] = __('Border Style', 'divergent');
+        $type['placeholder'] = __('Border Style', 'wp-custom-fields');
         
         // Control each side of the box
         if( $border == 'all' ) {
             
             $sides = array(
-                'top'       => __('Top', 'divergent'), 
-                'right'     => __('Right', 'divergent'), 
-                'bottom'    => __('Bottom', 'divergent'), 
-                'left'      => __('Left', 'divergent')
+                'top'       => __('Top', 'wp-custom-fields'), 
+                'right'     => __('Right', 'wp-custom-fields'), 
+                'bottom'    => __('Bottom', 'wp-custom-fields'), 
+                'left'      => __('Left', 'wp-custom-fields')
             );
             
             foreach($sides as $key => $side) {
 
-                $output             .= '<div class="divergent-single-border">';
+                $output             .= '<div class="wp-custom-fields-single-border">';
 
                 
                 // Dimensions
-                $output             .= ' <div class="divergent-field-left">';
+                $output             .= ' <div class="wp-custom-fields-field-left">';
                 $output             .= Dimension::render( array(
                     'icon'           => 'border_' . $key,
                     'id'             => $field['id'] . '-' . $key . '-width',
@@ -59,9 +59,9 @@ class Border implements Divergent_Field {
                 $type['id']             = $field['id']  . '-' . $key. '-style';
                 $type['name']           = $field['name'] . '[' . $key . '][style]';
                 $type['values']         = isset($field['values'][$key]['style']) ? $field['values'][$key]['style'] : '';
-                $type['placeholder']    = __('Border Style', 'divergent');
+                $type['placeholder']    = __('Border Style', 'wp-custom-fields');
                 
-                $output                .= ' <div class="divergent-field-left">';
+                $output                .= ' <div class="wp-custom-fields-field-left">';
                 $output                .= Select::render($type);
                 $output                .= ' </div>';
                 
@@ -71,12 +71,12 @@ class Border implements Divergent_Field {
                 $colorpicker['id']      = $field['id'] . '-' . $key . '-color';
                 $colorpicker['name']    = $field['name']. '[' . $key . '][color]';
                 
-                $output                .= ' <div class="divergent-field-left">';
+                $output                .= ' <div class="wp-custom-fields-field-left">';
                 $output                .= Colorpicker::render($colorpicker);                
                 $output                .= ' </div>';
                 
                 
-                $output                .= '</div><!-- .divergent-single-border -->';
+                $output                .= '</div><!-- .wp-custom-fields-single-border -->';
                 
             }
             
@@ -87,10 +87,10 @@ class Border implements Divergent_Field {
             $dimension['icon']          = 'border_outer'; 
             $dimension['id']            = $field['id'] . '-width'; 
             $dimension['name']          = $field['name'] . '[width]'; 
-            $dimension['placeholder']   = __('Border Width', 'divergent'); 
+            $dimension['placeholder']   = __('Border Width', 'wp-custom-fields'); 
             $dimension['values']        = isset($field['values']['width']) ? $field['values']['width'] : array();            
             
-            $output                    .= '<div class="divergent-field-left">';
+            $output                    .= '<div class="wp-custom-fields-field-left">';
             $output                    .= Dimension::render( $dimension );
             $output                    .= '</div>';
             
@@ -99,9 +99,9 @@ class Border implements Divergent_Field {
             $type['id']                 = $field['id']  . '-style'; 
             $type['name']               = $field['name'] . '[style]'; 
             $type['values']             = isset($field['values']['style']) ? $field['values']['style'] : ''; 
-            $type['placeholder']        = __('Border Style', 'divergent');       
+            $type['placeholder']        = __('Border Style', 'wp-custom-fields');       
             
-            $output                    .= '<div class="divergent-field-left">';
+            $output                    .= '<div class="wp-custom-fields-field-left">';
             $output                    .= Select::render($type);   
             $output                    .= '</div>';
             
@@ -111,7 +111,7 @@ class Border implements Divergent_Field {
             $colorpicker['id']          = $field['id'] . '-color';
             $colorpicker['name']        = $field['name'] . '[color]';              
             
-            $output                    .= '<div class="divergent-field-left">';
+            $output                    .= '<div class="wp-custom-fields-field-left">';
             $output                    .= Colorpicker::render($colorpicker);
             $output                    .= '</div>';                 
 

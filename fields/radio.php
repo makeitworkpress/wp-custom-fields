@@ -2,21 +2,21 @@
  /** 
   * Displays a text input field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Radio implements Divergent_Field {
+class Radio implements Field {
     
     public static function render($field = array()) {
         
         $options    = isset($field['options']) ? $field['options'] : array();
         $style      = isset($field['style']) ? $field['style'] : '';
         
-        $output = '<div class="divergent-field-radio-wrapper ' . $style . '">';
+        $output = '<div class="wp-custom-fields-field-radio-wrapper ' . $style . '">';
         
         // This field accepts an array of options
         foreach($options as $option) {

@@ -2,14 +2,14 @@
  /** 
   * Displays a divider
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Divider implements Divergent_Field {
+class Divider implements Field {
     
     public static function render($field = array()) {
         return '<hr />';    

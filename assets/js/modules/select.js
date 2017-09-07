@@ -7,10 +7,10 @@ module.exports.init = function(framework) {
 //    if( typeof select2 !== "undefined" ) {
         
         // Regular selects
-        jQuery('.divergent-select').select2();
+        jQuery('.wp-custom-fields-select').select2();
         
         // Typography selects
-        jQuery('.divergent-typography-fonts').select2({
+        jQuery('.wp-custom-fields-typography-fonts').select2({
             templateResult: formatState,
             templateSelection: formatState            
         });

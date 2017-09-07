@@ -6,17 +6,17 @@ module.exports.media = function(framework) {
     /**
      * Enables Uploading using the Media-Uploader
      */
-    jQuery(framework).find('.divergent-upload-wrapper').each(function (index) {
+    jQuery(framework).find('.wp-custom-fields-upload-wrapper').each(function (index) {
 
         // Define the buttons for this specific group
-        var add_media = jQuery(this).find('.divergent-upload-add'),
-            remove_media = jQuery(this).find('.divergent-upload-remove'),
-            value_input = jQuery(this).find('.divergent-upload-value'),
+        var add_media = jQuery(this).find('.wp-custom-fields-upload-add'),
+            remove_media = jQuery(this).find('.wp-custom-fields-upload-remove'),
+            value_input = jQuery(this).find('.wp-custom-fields-upload-value'),
             title = jQuery(this).data('title'),
             type = jQuery(this).data('type'),
             button = jQuery(this).data('button'),
             multiple = jQuery(this).data('multiple'),
-            add_wrap = jQuery(this).find('.divergent-single-media.empty'),
+            add_wrap = jQuery(this).find('.wp-custom-fields-single-media.empty'),
             initator = this,
             frame;
         
@@ -75,7 +75,7 @@ module.exports.media = function(framework) {
                         src = attachment.icon;
                     }
 
-                    add_wrap.before('<div class="divergent-single-media" data-id="' + attachment.id + '"><img src="' + src + '" /><a href="#" class="divergent-upload-remove"><i class="material-icons">clear</i></a></div>');
+                    add_wrap.before('<div class="wp-custom-fields-single-media" data-id="' + attachment.id + '"><img src="' + src + '" /><a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a></div>');
                 });
                 
                 if( ! multiple )
@@ -96,7 +96,7 @@ module.exports.media = function(framework) {
         remove_media.live('click', function (e) {
             e.preventDefault();
 
-            var target = jQuery(this).closest('.divergent-single-media'),
+            var target = jQuery(this).closest('.wp-custom-fields-single-media'),
                 target_id = target.data('id'),
                 current_values = value_input.val(),
                 new_values = current_values.replace(target_id + ',', '');

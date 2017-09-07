@@ -6,18 +6,18 @@
  * @since 1.0.0
  * @todo Add function for adding data
  */
-namespace Divergent;
+namespace WP_Custom_Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die; 
 
-abstract class Divergent_Abstract {
+abstract class Abstract {
     
     /**
      * Use our validation functions
      */
-    use Divergent_Validate;    
+    use WP_Custom_Fields_Validate;    
     
     /**
      * Determines whether a class has already been instanciated.

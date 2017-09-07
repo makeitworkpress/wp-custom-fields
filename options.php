@@ -5,13 +5,13 @@
  * @author Michiel
  * @since 1.0.0
  */
-namespace Divergent;
+namespace WP_Custom_Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Divergent_Options extends Divergent_Abstract {    
+class Options extends Abstract {    
     
     /**
      * Contains the option values for each of the option pages
@@ -43,7 +43,7 @@ class Divergent_Options extends Divergent_Abstract {
    
         // Check if a proper ID is set and add a menu page
         if( ! isset($this->optionPage['id']) || empty( $this->optionPage['id'] ) )
-            return new WP_Error( 'wrong', __( 'Your options configurations are an ID.', 'divergent' ) );
+            return new WP_Error( 'wrong', __( 'Your options configurations are an ID.', 'wp-custom-fields' ) );
 
         $allowed    = array( 'menu', 'submenu', 'dashboard', 'posts', 'media', 'links', 'pages', 'comments', 'theme', 'users', 'management', 'options' );
         $location   = isset( $this->optionPage['location'] ) && in_array( $this->optionPage['location'], $allowed ) ? $this->optionPage['location'] : 'menu';
@@ -129,7 +129,7 @@ class Divergent_Options extends Divergent_Abstract {
         $pageID                 = $this->optionPage['id'];
         $values                 = get_option( $pageID );
         
-        $frame                  = new Divergent_Frame( $this->optionPage, $values );
+        $frame                  = new WP_Custom_Fields_Frame( $this->optionPage, $values );
         $frame->type            = 'Options';
 
         // Errors
@@ -139,17 +139,17 @@ class Divergent_Options extends Divergent_Abstract {
 
         // Save Button
         ob_start();
-        submit_button( __( 'Save Settings', 'divergent' ), 'primary divergent-save', $pageID . '_save', false );
+        submit_button( __( 'Save Settings', 'wp-custom-fields' ), 'primary wp-custom-fields-save', $pageID . '_save', false );
         $frame->saveButton      = ob_get_clean();
 
         // Reset Button
         ob_start();
-        submit_button( __( 'Reset Settings', 'divergent' ), 'delete divergent-reset', $pageID . '_reset', false );
+        submit_button( __( 'Reset Settings', 'wp-custom-fields' ), 'delete wp-custom-fields-reset', $pageID . '_reset', false );
         $frame->resetButton     = ob_get_clean();
 
         // Restore Button
         ob_start();
-        submit_button( __( 'Restore Section', 'divergent' ), 'delete divergent-reset-section', $pageID . '_restore', false );
+        submit_button( __( 'Restore Section', 'wp-custom-fields' ), 'delete wp-custom-fields-reset-section', $pageID . '_restore', false );
         $frame->restoreButton   = ob_get_clean();
 
         // Setting Fields
@@ -171,7 +171,7 @@ class Divergent_Options extends Divergent_Abstract {
      */
     public function save( $output ) {
         
-        $output = Divergent_Validate::format( $this->optionPage, $_POST, 'Options' );
+        $output = WP_Custom_Fields_Validate::format( $this->optionPage, $_POST, 'Options' );
         
         return $output;
     }

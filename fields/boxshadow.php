@@ -2,27 +2,27 @@
  /** 
   * Displays a location field, including a google map
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Boxshadow implements Divergent_Field {
+class Boxshadow implements Field {
     
     public static function render($field = array()) {
         
-        $output = '<div class="divergent-boxshadow">';
+        $output = '<div class="wp-custom-fields-boxshadow">';
         
         // Dimensions
-        $output .= '<div class="divergent-boxshadow-dimensions divergent-field-left">';
-        $output .= '<label>' . __('Boxshadow Offset, Blur and Spread', 'divergent') . '</label>';
+        $output .= '<div class="wp-custom-fields-boxshadow-dimensions wp-custom-fields-field-left">';
+        $output .= '<label>' . __('Boxshadow Offset, Blur and Spread', 'wp-custom-fields') . '</label>';
         $pixels  = array(
-            'x'         => __('x-offset', 'divergent'),
-            'y'         => __('y-offset', 'divergent'),
-            'blur'      => __('blur', 'divergent'),
-            'spread'    => __('spread', 'divergent')
+            'x'         => __('x-offset', 'wp-custom-fields'),
+            'y'         => __('y-offset', 'wp-custom-fields'),
+            'blur'      => __('blur', 'wp-custom-fields'),
+            'spread'    => __('spread', 'wp-custom-fields')
         );
         
         foreach( $pixels as $key => $h ) {
@@ -32,8 +32,8 @@ class Boxshadow implements Divergent_Field {
         $output .= '</div>';
         
         // Color
-        $output .= '<div class="divergent-boxshadow-color divergent-field-left">';
-        $output .= '<label>' . __('Boxshadow Color', 'divergent') . '</label>';
+        $output .= '<div class="wp-custom-fields-boxshadow-color wp-custom-fields-field-left">';
+        $output .= '<label>' . __('Boxshadow Color', 'wp-custom-fields') . '</label>';
         $output .= Colorpicker::render( array(
             'id'     => $field['id'] . '-color',   
             'name'   => $field['name'] . '[color]',
@@ -42,13 +42,13 @@ class Boxshadow implements Divergent_Field {
         $output .= '</div>';
         
         // Type of boxshadow
-        $output .= '<div class="divergent-boxshadow-type divergent-field-left">';
-        $output .= '<label>' . __('Boxshadow Style', 'divergent') . '</label>';
+        $output .= '<div class="wp-custom-fields-boxshadow-type wp-custom-fields-field-left">';
+        $output .= '<label>' . __('Boxshadow Style', 'wp-custom-fields') . '</label>';
         $output .= Select::render( array(
             'id'        => $field['id']  . '-type',
             'name'      => $field['name']. '[type]',
-            'options'  => array( '' => __('Default', 'divergent'), 'inset' => __('Inset', 'divergent') ),             
-            'placeholder' => __('Select Type', 'divergent'),         
+            'options'  => array( '' => __('Default', 'wp-custom-fields'), 'inset' => __('Inset', 'wp-custom-fields') ),             
+            'placeholder' => __('Select Type', 'wp-custom-fields'),         
             'values'    => isset($field['values']['type']) ? $field['values']['type'] : ''
         
         ) ); 

@@ -2,14 +2,14 @@
  /** 
   * Displays a background input field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Background implements Divergent_Field {
+class Background implements Field {
     
     public static function render( $field = array() ) {
              
@@ -20,62 +20,62 @@ class Background implements Divergent_Field {
 
         // Media Upload
         $upload_custom['subtype']   = 'image';
-        $upload_custom['button']    = __('Add Background', 'divergent');
-        $upload_custom['title']     = __('Select a Background', 'divergent');
+        $upload_custom['button']    = __('Add Background', 'wp-custom-fields');
+        $upload_custom['title']     = __('Select a Background', 'wp-custom-fields');
         $upload_custom['multiple']  = false; 
         $upload_custom['id']        = $field['id'] . '-upload';
         $upload_custom['name']      = $field['name'] . '[upload]';
         $upload_custom['values']    = isset($field['values']['upload']) ? $field['values']['upload'] : '';
         
-        $output = '<div class="divergent-background-image divergent-field-left">';
+        $output = '<div class="wp-custom-fields-background-image wp-custom-fields-field-left">';
         $output .=  Media::render( $upload_custom );        
         $output .= '</div>';
 
         
-        $output .= '<div class="divergent-background-attributes divergent-field-left">';         
+        $output .= '<div class="wp-custom-fields-background-attributes wp-custom-fields-field-left">';         
         $output .=  Colorpicker::render( $colorpicker );
         
         // Background Select Attributes
         $background_attributes = array(
             'repeat' => array(
-                'placeholder' => __('Repeat', 'divergent'),
+                'placeholder' => __('Repeat', 'wp-custom-fields'),
                 'options'  => array(
-                    'no-repeat' => __('No Repeat', 'divergent'),
-                    'repeat' => __('Repeat', 'divergent'),
-                    'repeat-x' => __('Repeat Horizontally', 'divergent'),
-                    'repeat-y' => __('Repeat Vertically', 'divergent'),
-                    'inherit' => __('Inherit', 'divergent')
+                    'no-repeat' => __('No Repeat', 'wp-custom-fields'),
+                    'repeat' => __('Repeat', 'wp-custom-fields'),
+                    'repeat-x' => __('Repeat Horizontally', 'wp-custom-fields'),
+                    'repeat-y' => __('Repeat Vertically', 'wp-custom-fields'),
+                    'inherit' => __('Inherit', 'wp-custom-fields')
                 )
             ),
             'attachment' => array(
-                'placeholder' => __('Attachment', 'divergent'),
+                'placeholder' => __('Attachment', 'wp-custom-fields'),
                 'options'  => array(
-                    'fixed' => __('Fixed', 'divergent'),
-                    'scroll' => __('Scroll', 'divergent'),
-                    'inherit' => __('Inherit', 'divergent') 
+                    'fixed' => __('Fixed', 'wp-custom-fields'),
+                    'scroll' => __('Scroll', 'wp-custom-fields'),
+                    'inherit' => __('Inherit', 'wp-custom-fields') 
                 )
             ),
             'size' => array(
-                'placeholder' => __('Size', 'divergent'),
+                'placeholder' => __('Size', 'wp-custom-fields'),
                 'options'  => array(
-                    'cover' => __('Cover', 'divergent'),
-                    'contain' => __('Contain', 'divergent'),
-                    '100%' => __('100%', 'divergent'),
-                    'inherit' => __('Inherit', 'divergent')
+                    'cover' => __('Cover', 'wp-custom-fields'),
+                    'contain' => __('Contain', 'wp-custom-fields'),
+                    '100%' => __('100%', 'wp-custom-fields'),
+                    'inherit' => __('Inherit', 'wp-custom-fields')
                 )
             ),            
             'position' => array(
-                'placeholder' => __('Position', 'divergent'),
+                'placeholder' => __('Position', 'wp-custom-fields'),
                 'options'  => array(
-                    'center top' => __('Center Top', 'divergent'),
-                    'center center' => __('Center Center', 'divergent'),
-                    'center bottom' => __('Center Bottom', 'divergent'),
-                    'left top' => __('Left Top', 'divergent'),
-                    'left center' => __('Left Center', 'divergent'),   
-                    'left bottom' => __('Left Bottom', 'divergent'), 
-                    'right top' => __('Right Top', 'divergent'), 
-                    'right center' => __('Right Center', 'divergent'), 
-                    'right bottom' => __('Right Bottom', 'divergent')
+                    'center top' => __('Center Top', 'wp-custom-fields'),
+                    'center center' => __('Center Center', 'wp-custom-fields'),
+                    'center bottom' => __('Center Bottom', 'wp-custom-fields'),
+                    'left top' => __('Left Top', 'wp-custom-fields'),
+                    'left center' => __('Left Center', 'wp-custom-fields'),   
+                    'left bottom' => __('Left Bottom', 'wp-custom-fields'), 
+                    'right top' => __('Right Top', 'wp-custom-fields'), 
+                    'right center' => __('Right Center', 'wp-custom-fields'), 
+                    'right bottom' => __('Right Bottom', 'wp-custom-fields')
                 )
             )
         );        

@@ -5,7 +5,7 @@
  * @author Michiel
  * @since 1.0.0
  */
-namespace Divergent;
+namespace WP_Custom_Fields;
 use WP_Error as WP_Error;
 use WP_Customize_Color_Control as WP_Customize_Color_Control;
 use WP_Customize_Cropped_Image_Control as WP_Customize_Cropped_Image_Control;
@@ -16,7 +16,7 @@ use WP_Customize_Upload_Control as WP_Customize_Upload_Control;
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Divergent_Customizer extends Divergent_Abstract {    
+class WP_Custom_Fields_Customizer extends WP_Custom_Fields_Abstract {    
         
     /**
      * Constructor
@@ -42,10 +42,10 @@ class Divergent_Customizer extends Divergent_Abstract {
     public function enqueue() {
         
         // Load the select2 script, but only if not yet enqueued
-        if( apply_filters('divergent_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
+        if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
             wp_enqueue_script('select2-js');        
         
-        wp_enqueue_script('divergent-js'); 
+        wp_enqueue_script('wp-custom-fields-js'); 
     }
     
     /**
@@ -63,11 +63,11 @@ class Divergent_Customizer extends Divergent_Abstract {
         $panel = $this->panel;
         
         if( ! isset($panel['id']) || ! isset($panel['sections']) )
-            return new WP_Error( 'wrong', __( 'Your customizer configurations are missing sections or an ID.', 'divergent' ) ); 
+            return new WP_Error( 'wrong', __( 'Your customizer configurations are missing sections or an ID.', 'wp-custom-fields' ) ); 
         
         // Prohibited names
         if( in_array($panel['id'], array('widget_', 'sidebars_widgets', 'nav_menu', 'nav_menu_item')) )
-            return new WP_Error( 'wrong', __( 'It is forbidden to use widget_, sidebars_widget, nav_menu or nav_menu_item for your customizer id.', 'divergent' ) );
+            return new WP_Error( 'wrong', __( 'It is forbidden to use widget_, sidebars_widget, nav_menu or nav_menu_item for your customizer id.', 'wp-custom-fields' ) );
          
 
         /**

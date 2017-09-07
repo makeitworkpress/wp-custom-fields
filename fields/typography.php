@@ -2,15 +2,15 @@
  /** 
   * Displays a typography input field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent as Divergent;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\WP_Custom_Fields as WP_Custom_Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Typography implements Divergent_Field {
+class Typography implements Field {
     
     /**
      * Renders the Dimension Field
@@ -24,7 +24,7 @@ class Typography implements Divergent_Field {
         $type = isset($field['subtype']) ? $field['subtype'] : 'text';
         
         // Load the select2 script, but only if not yet enqueued
-        if( apply_filters('divergent_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
+        if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
             wp_enqueue_script('select2-js');         
         
         // Retrieve our configurations
@@ -33,8 +33,8 @@ class Typography implements Divergent_Field {
         /**
          * Display the fonts
          */
-        $output = '<div class="divergent-typography-font-select">';
-        $output .= '    <select class="divergent-typography-fonts" name="' . $field['name'] . '[font]" id="' . $field['id'] . '_font" >';
+        $output = '<div class="wp-custom-fields-typography-font-select">';
+        $output .= '    <select class="wp-custom-fields-typography-fonts" name="' . $field['name'] . '[font]" id="' . $field['id'] . '_font" >';
         
         foreach( $configurations['properties']['fonts'] as $fontspace => $types ) {
             
@@ -51,13 +51,13 @@ class Typography implements Divergent_Field {
             
         }
              
-        $output .= '    </select><!-- .divergent-typography-fonts -->';
-        $output .= '</div><!-- .divergent-typography-font-select -->';
+        $output .= '    </select><!-- .wp-custom-fields-typography-fonts -->';
+        $output .= '</div><!-- .wp-custom-fields-typography-font-select -->';
         
         /**
          * Display dimensions
          */        
-        $output .= '<div class="divergent-typography-properties divergent-field-left">';
+        $output .= '<div class="wp-custom-fields-typography-properties wp-custom-fields-field-left">';
         
         // Text Dimensions
         foreach($configurations['properties']['dimensions'] as $key => $label) {
@@ -74,7 +74,7 @@ class Typography implements Divergent_Field {
         } 
         
         // Font-weight
-        $output .= '<div class="divergent-typography-weight">';
+        $output .= '<div class="wp-custom-fields-typography-weight">';
         $output .= '    <i class="material-icons">format_bold</i> ';
         $output .= Select::render( array(
             'id'            => $field['id'] . '_font_weight',
@@ -85,9 +85,9 @@ class Typography implements Divergent_Field {
         ) );
         $output .= '</div>';
         
-        $output .= '</div><!-- .divergent-typography-properties -->';
+        $output .= '</div><!-- .wp-custom-fields-typography-properties -->';
         
-        $output .= '<div class="divergent-typography-appearance divergent-field-left">';
+        $output .= '<div class="wp-custom-fields-typography-appearance wp-custom-fields-field-left">';
       
         /**
          * Display font characteristics
@@ -95,7 +95,7 @@ class Typography implements Divergent_Field {
         
         // Style Buttons
         foreach($configurations['properties']['styles'] as $key => $style) {
-            $output .= '    <ul class="divergent-typography-' . $key . ' divergent-icon-list">'; 
+            $output .= '    <ul class="wp-custom-fields-typography-' . $key . ' wp-custom-fields-icon-list">'; 
             
             foreach($style as $value => $icon) {
                 $checked = is_array($field['values']) && in_array($value, $field['values']) ? ' checked="checked" ' : '';
@@ -121,7 +121,7 @@ class Typography implements Divergent_Field {
             'id'     => $field['id'] . '-color'        
         ) );        
         
-        $output .= '</div><!-- .divergent-typography-appearance -->';
+        $output .= '</div><!-- .wp-custom-fields-typography-appearance -->';
         
         // If this field is responsible for some styling, we can also opt to load all weights
         if( isset($field['css']) ) {
@@ -152,16 +152,16 @@ class Typography implements Divergent_Field {
         $configurations = array(
             'type'          => 'typography',
             'labels'        => array(
-                'normal'    => __('Load all normal font-weights for this font.', 'divergent'),
-                'italic'    => __('Load all italic font-weights for this font.', 'divergent'),
-                'weights'   => __('Font-Weight', 'divergent')
+                'normal'    => __('Load all normal font-weights for this font.', 'wp-custom-fields'),
+                'italic'    => __('Load all italic font-weights for this font.', 'wp-custom-fields'),
+                'weights'   => __('Font-Weight', 'wp-custom-fields')
             ),
             'properties'    => array(
                 'dimensions'    => array(
-                    'size'          => __('Font-Size', 'divergent'), 
-                    'line_spacing'  => __('Line-Height', 'divergent'), 
+                    'size'          => __('Font-Size', 'wp-custom-fields'), 
+                    'line_spacing'  => __('Line-Height', 'wp-custom-fields'), 
                 ),
-                'fonts'         => Divergent::$fonts,
+                'fonts'         => WP_Custom_Fields::$fonts,
                 'styles'        => array(
                     'styles'    => array(
                         'italic'        => 'format_italic', 
@@ -177,15 +177,15 @@ class Typography implements Divergent_Field {
                     ),
                 ),
                 'weights'       => array( 
-                    100 => __('100 (Thin)', 'divergent'), 
-                    200 => __('200 (Extra Light)', 'divergent'), 
-                    300 => __('300 (Light)', 'divergent'), 
-                    400 => __('400 (Normal)', 'divergent'), 
-                    500 => __('500 (Medium)', 'divergent'), 
-                    600 => __('600 (Semi Bold)', 'divergent'), 
-                    700 => __('700 (Bold)', 'divergent'), 
-                    800 => __('800 (Extra Bold)', 'divergent'), 
-                    900 => __('900 (Black)', 'divergent') 
+                    100 => __('100 (Thin)', 'wp-custom-fields'), 
+                    200 => __('200 (Extra Light)', 'wp-custom-fields'), 
+                    300 => __('300 (Light)', 'wp-custom-fields'), 
+                    400 => __('400 (Normal)', 'wp-custom-fields'), 
+                    500 => __('500 (Medium)', 'wp-custom-fields'), 
+                    600 => __('600 (Semi Bold)', 'wp-custom-fields'), 
+                    700 => __('700 (Bold)', 'wp-custom-fields'), 
+                    800 => __('800 (Extra Bold)', 'wp-custom-fields'), 
+                    900 => __('900 (Black)', 'wp-custom-fields') 
                 )
             ),
             'settings' => array(

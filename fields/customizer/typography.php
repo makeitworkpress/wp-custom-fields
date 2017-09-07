@@ -2,10 +2,10 @@
  /** 
   * Displays a custom typography field
   */
-namespace Divergent\Fields\Customizer;
+namespace WP_Custom_Fields\Fields\Customizer;
 use WP_Customize_Control as WP_Customize_Control;
-use Divergent\Fields\Typography as TypographyField;
-use Divergent\Fields\Dimension as DimensionField;
+use WP_Custom_Fields\Fields\Typography as TypographyField;
+use WP_Custom_Fields\Fields\Dimension as DimensionField;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
@@ -39,8 +39,8 @@ class Typography extends WP_Customize_Control {
             
 		</label>           
             
-        <div class="divergent-typography-font-select">
-            <select class="divergent-typography-fonts" <?php $this->link('font'); ?> >
+        <div class="wp-custom-fields-typography-font-select">
+            <select class="wp-custom-fields-typography-fonts" <?php $this->link('font'); ?> >
 
                 <?php foreach( $configurations['properties']['fonts'] as $fontspace => $types ) { ?>
 
@@ -60,9 +60,9 @@ class Typography extends WP_Customize_Control {
             </select>
         </div>
 
-        <div class="divergent-typography-properties">
+        <div class="wp-custom-fields-typography-properties">
             
-            <div class="divergent-typography-weight">
+            <div class="wp-custom-fields-typography-weight">
                 <i class="material-icons">format_bold</i>
                 <select <?php $this->link( 'font_weight' ); ?>>
                     <option value=""><?php echo $configurations['labels']['weights']; ?></option>
@@ -75,7 +75,7 @@ class Typography extends WP_Customize_Control {
             </div>           
             
             <?php foreach( $configurations['properties']['dimensions'] as $key => $label ) { ?>
-                <div class="divergent-dimensions-input">
+                <div class="wp-custom-fields-dimensions-input">
                     <i class="material-icons"><?php echo 'format_' . $key; ?></i>
                     <input <?php $this->link( $key . 'amount' ); ?> value="<?php esc_attr_e($this->value($key . 'amount')); ?>" type="number" step="0.01" placeholder="<?php echo $label; ?>" />
                     <select <?php $this->link( $key . 'unit' ); ?>>
@@ -90,9 +90,9 @@ class Typography extends WP_Customize_Control {
 
         </div>
 
-        <div class="divergent-typography-appearance">
+        <div class="wp-custom-fields-typography-appearance">
             <?php foreach( $configurations['properties']['styles'] as $key => $style ) { ?>
-                <ul class="divergent-typography-<?php echo $key; ?> divergent-icon-list"> 
+                <ul class="wp-custom-fields-typography-<?php echo $key; ?> wp-custom-fields-icon-list"> 
 
                 <?php foreach( $style as $value => $icon ) { ?>
                     <?php

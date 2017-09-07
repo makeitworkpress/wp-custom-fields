@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
- * This script bundles all the modules from the Divergent Application
+ * This script bundles all the modules from the WP_Custom_Fields Application
  */
 'use strict';
 
@@ -11,13 +11,13 @@ var tabs        = require('./modules/tabs');
 var init = function() {
     
     // Boot our fields
-    fields.init('.divergent-framework');    
-    repeatable.init('.divergent-framework');
+    fields.init('.wp-custom-fields-framework');    
+    repeatable.init('.wp-custom-fields-framework');
     tabs.init();
     
 }
 
-// Boot Divergent on Document Ready
+// Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);
 },{"./fields":2,"./modules/repeatable":6,"./modules/tabs":9}],2:[function(require,module,exports){
 /**
@@ -46,7 +46,7 @@ module.exports.colorpicker = function(framework) {
         palettes: true
     };
     
-    jQuery(framework).find('.divergent-colorpicker').alphaColorPicker();
+    jQuery(framework).find('.wp-custom-fields-colorpicker').alphaColorPicker();
     
 }
 },{}],4:[function(require,module,exports){
@@ -55,9 +55,9 @@ module.exports.colorpicker = function(framework) {
  */
 module.exports.location = function(framework) {
     
-    jQuery(framework).find('.divergent-location').each(function (index) {
-        var searchInput = jQuery('.divergent-map-search', this).get(0),
-            mapCanvas = jQuery('.divergent-map-canvas', this).get(0),
+    jQuery(framework).find('.wp-custom-fields-location').each(function (index) {
+        var searchInput = jQuery('.wp-custom-fields-map-search', this).get(0),
+            mapCanvas = jQuery('.wp-custom-fields-map-canvas', this).get(0),
             latitude = jQuery('.latitude', this),
             longitude = jQuery('.longitude', this),
             city = jQuery('.city', this),
@@ -141,17 +141,17 @@ module.exports.media = function(framework) {
     /**
      * Enables Uploading using the Media-Uploader
      */
-    jQuery(framework).find('.divergent-upload-wrapper').each(function (index) {
+    jQuery(framework).find('.wp-custom-fields-upload-wrapper').each(function (index) {
 
         // Define the buttons for this specific group
-        var add_media = jQuery(this).find('.divergent-upload-add'),
-            remove_media = jQuery(this).find('.divergent-upload-remove'),
-            value_input = jQuery(this).find('.divergent-upload-value'),
+        var add_media = jQuery(this).find('.wp-custom-fields-upload-add'),
+            remove_media = jQuery(this).find('.wp-custom-fields-upload-remove'),
+            value_input = jQuery(this).find('.wp-custom-fields-upload-value'),
             title = jQuery(this).data('title'),
             type = jQuery(this).data('type'),
             button = jQuery(this).data('button'),
             multiple = jQuery(this).data('multiple'),
-            add_wrap = jQuery(this).find('.divergent-single-media.empty'),
+            add_wrap = jQuery(this).find('.wp-custom-fields-single-media.empty'),
             initator = this,
             frame;
         
@@ -210,7 +210,7 @@ module.exports.media = function(framework) {
                         src = attachment.icon;
                     }
 
-                    add_wrap.before('<div class="divergent-single-media" data-id="' + attachment.id + '"><img src="' + src + '" /><a href="#" class="divergent-upload-remove"><i class="material-icons">clear</i></a></div>');
+                    add_wrap.before('<div class="wp-custom-fields-single-media" data-id="' + attachment.id + '"><img src="' + src + '" /><a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a></div>');
                 });
                 
                 if( ! multiple )
@@ -231,7 +231,7 @@ module.exports.media = function(framework) {
         remove_media.live('click', function (e) {
             e.preventDefault();
 
-            var target = jQuery(this).closest('.divergent-single-media'),
+            var target = jQuery(this).closest('.wp-custom-fields-single-media'),
                 target_id = target.data('id'),
                 current_values = value_input.val(),
                 new_values = current_values.replace(target_id + ',', '');
@@ -261,10 +261,10 @@ module.exports.init = function(framework) {
      *
      * @todo Add function to reset fields to default value
      */
-    jQuery('.divergent-repeatable-add').on('click', function (e) {
+    jQuery('.wp-custom-fields-repeatable-add').on('click', function (e) {
         e.preventDefault();
-        var length = jQuery(this).closest('.divergent-repeatable-container').find('.divergent-repeatable-group').length,
-            group = jQuery(this).closest('.divergent-repeatable-container').find('.divergent-repeatable-group').last(),
+        var length = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
+            group = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last(),
             newGroup = group.clone(true, true),
             newGroupNumber = newGroup.find('h4 span');
         
@@ -284,10 +284,10 @@ module.exports.init = function(framework) {
         
     });
     
-    jQuery('.divergent-repeatable-remove').on('click', function (e) {
+    jQuery('.wp-custom-fields-repeatable-remove').on('click', function (e) {
         e.preventDefault();
-        var length = jQuery(this).closest('.divergent-repeatable-container').find('.divergent-repeatable-group').length,
-            group = jQuery(this).closest('.divergent-repeatable-container').find('.divergent-repeatable-group').last();
+        var length = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
+            group = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
         
         // Keep the first group
         if (length > 1) {
@@ -295,7 +295,7 @@ module.exports.init = function(framework) {
         }
     });
     
-    jQuery('body').on('click', '.divergent-repeatable-toggle', function (e) {
+    jQuery('body').on('click', '.wp-custom-fields-repeatable-toggle', function (e) {
         e.preventDefault();
         
         if( jQuery(this).find('i').text() === 'arrow_drop_down' ) {
@@ -303,7 +303,7 @@ module.exports.init = function(framework) {
         } else if( jQuery(this).find('i').text() === 'arrow_drop_up' ) {
             jQuery(this).find('i').text('arrow_drop_down');    
         }
-        jQuery(this).closest('.divergent-repeatable-group').find('.divergent-repeatable-fields').slideToggle('closed');
+        jQuery(this).closest('.wp-custom-fields-repeatable-group').find('.wp-custom-fields-repeatable-fields').slideToggle('closed');
     });
     
 }
@@ -317,10 +317,10 @@ module.exports.init = function(framework) {
 //    if( typeof select2 !== "undefined" ) {
         
         // Regular selects
-        jQuery('.divergent-select').select2();
+        jQuery('.wp-custom-fields-select').select2();
         
         // Typography selects
-        jQuery('.divergent-typography-fonts').select2({
+        jQuery('.wp-custom-fields-typography-fonts').select2({
             templateResult: formatState,
             templateSelection: formatState            
         });
@@ -351,7 +351,7 @@ module.exports.slider = function(framework) {
     /**
      * Adds jQuery UI Sliders
      */
-    jQuery(framework).find('.divergent-slider').each(function (index) {
+    jQuery(framework).find('.wp-custom-fields-slider').each(function (index) {
         var sliderTarget = jQuery(this).data('id'),
             sliderMin = jQuery(this).data('min'),
             sliderMax = jQuery(this).data('max'),
@@ -374,7 +374,7 @@ module.exports.slider = function(framework) {
 },{}],9:[function(require,module,exports){
 module.exports.init = function() {
     
-    jQuery(".divergent-tabs a").click(function (e) {
+    jQuery(".wp-custom-fields-tabs a").click(function (e) {
         
         e.preventDefault();
         
@@ -385,8 +385,8 @@ module.exports.init = function() {
         jQuery('input[name="divergentSection"]').val(section);
 		
         // Remove current active classes
-        jQuery(".divergent-tabs a").removeClass("active");
-        jQuery(".divergent-section").removeClass("active");
+        jQuery(".wp-custom-fields-tabs a").removeClass("active");
+        jQuery(".wp-custom-fields-section").removeClass("active");
         
         // Add active class to our new things
         jQuery(this).addClass("active");      

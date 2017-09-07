@@ -9,19 +9,19 @@
         <form method="post" action="options.php" enctype="multipart/form-data"> 
 <?php } ?>
 
-            <div class="divergent-framework <?php echo $frame->class; ?>">
+            <div class="wp-custom-fields-framework <?php echo $frame->class; ?>">
 
-                <header class="divergent-header">
+                <header class="wp-custom-fields-header">
                     
                                                         
-                    <div class="divergent-notifications">
+                    <div class="wp-custom-fields-notifications">
 
                         <?php if( $frame->type == 'Options' ) { ?>
                             <h2><?php echo $frame->title; ?></h2>
                         <?php } ?>
                     
                         <?php if( $frame->restoreButton || $frame->saveButton ) { ?>
-                            <div class="divergent-buttons">
+                            <div class="wp-custom-fields-buttons">
                                 <?php 
                                     // Displays any errors
                                     echo $frame->errors; 
@@ -33,15 +33,15 @@
                     
                     </div>
                     
-                    <ul class="divergent-tabs">
+                    <ul class="wp-custom-fields-tabs">
                     
                         <?php foreach( $frame->sections as $key => $section ) { ?>
                             <li>
                                 
-                                <a class="divergent-tab <?php echo $section['active']; ?>" href="#<?php echo $section['id']; ?>">
+                                <a class="wp-custom-fields-tab <?php echo $section['active']; ?>" href="#<?php echo $section['id']; ?>">
                                     
                                     <?php if( $section['icon'] ) { ?>
-                                        <i class="divergent-icon material-icons"><?php echo $section['icon'] ; ?></i>
+                                        <i class="wp-custom-fields-icon material-icons"><?php echo $section['icon'] ; ?></i>
                                     <?php } ?>
                                     
                                     <?php echo $section['title']; ?>
@@ -55,25 +55,25 @@
                         
                 </header>
                 
-                <div class="divergent-sections">
+                <div class="wp-custom-fields-sections">
                     
                     <?php foreach( $frame->sections as $key => $section ) { ?>
                     
-                        <section id="<?php echo $section['id']; ?>" class="divergent-section <?php echo $section['active']; ?>">
+                        <section id="<?php echo $section['id']; ?>" class="wp-custom-fields-section <?php echo $section['active']; ?>">
                             
-                            <h3 class="divergent-section-title"><?php echo $section['title']; ?></h3>
+                            <h3 class="wp-custom-fields-section-title"><?php echo $section['title']; ?></h3>
                             
                             <?php if( $section['description'] ) { ?>
-                                <p class="divergent-section-description"><?php echo $section['description']; ?></p>
+                                <p class="wp-custom-fields-section-description"><?php echo $section['description']; ?></p>
                             <?php } ?>
                             
-                            <div class="divergent-fields grid flex">
+                            <div class="wp-custom-fields-fields grid flex">
 
                                 <?php foreach( $section['fields'] as $key => $field ) { ?>
 
-                                    <div class="divergent-option-field <?php echo $field['column']; ?> field-<?php echo $field['type']; ?>">
+                                    <div class="wp-custom-fields-option-field <?php echo $field['column']; ?> field-<?php echo $field['type']; ?>">
 
-                                        <div class="divergent-field-title">
+                                        <div class="wp-custom-fields-field-title">
                                             <?php 
                                                 /**
                                                  * Echo the title for the field
@@ -83,11 +83,11 @@
                                             ?>
                                         </div>
 
-                                        <div class="divergent-field-input">
+                                        <div class="wp-custom-fields-field-input">
                                             <?php echo $field['form']; ?>
                                         </div>
                                         
-                                        <div class="divergent-field-description">
+                                        <div class="wp-custom-fields-field-description">
                                             <?php 
                                                 /**
                                                  * Echo the description for the field
@@ -109,7 +109,7 @@
                     
                 </div> 
                 
-                <footer class="divergent-buttons">
+                <footer class="wp-custom-fields-buttons">
                     <?php 
                         echo $frame->resetButton;
                         echo $frame->restoreButton;

@@ -2,7 +2,7 @@
  /** 
   * Displays a textarea customizer field
   */
-namespace Divergent\Fields\Customizer;
+namespace WP_Custom_Fields\Fields\Customizer;
 use WP_Customize_Control as WP_Customize_Control;
 
 // Bail if accessed directly

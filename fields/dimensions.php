@@ -2,14 +2,14 @@
  /** 
   * Displays a dimensions field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die; 
 
-class Dimensions implements Divergent_Field {
+class Dimensions implements Field {
     
     public static function render($field = array()) {
         
@@ -21,15 +21,15 @@ class Dimensions implements Divergent_Field {
         if( $border == 'all' ) {
             
             $sides = array(
-                'top'       => __('Top', 'divergent'), 
-                'right'     => __('Right', 'divergent'), 
-                'bottom'    => __('Bottom', 'divergent'), 
-                'left'      => __('Left', 'divergent')
+                'top'       => __('Top', 'wp-custom-fields'), 
+                'right'     => __('Right', 'wp-custom-fields'), 
+                'bottom'    => __('Bottom', 'wp-custom-fields'), 
+                'left'      => __('Left', 'wp-custom-fields')
             );
             
             foreach($sides as $key => $side) {
              
-                $output            .= '<div class="divergent-field-left">';
+                $output            .= '<div class="wp-custom-fields-field-left">';
                 $output            .= Dimension::render( array(
                     'step'          => isset($field['step']) ? $field['step'] : 1,
                     'icon'          => 'border_' . $key,

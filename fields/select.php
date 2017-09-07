@@ -2,14 +2,14 @@
  /** 
   * Displays a border field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Select implements Divergent_Field {
+class Select implements Field {
     
     public static function render($field = array()) {
         
@@ -17,7 +17,7 @@ class Select implements Divergent_Field {
         $subtype = isset($field['subtype']) ? $field['subtype'] : '';
         
         // Load the select2 script if we have a select field
-        if( apply_filters('divergent_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
+        if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
             wp_enqueue_script('select2-js');        
         
         // Set-up if we have a multiple checkbox
@@ -47,7 +47,7 @@ class Select implements Divergent_Field {
             }
         }
         
-        $output = '<select class="divergent-select" id="' . $field['id']  . '" name="' . $field['name'] . $namekey . '" ' . $multiple .'>';
+        $output = '<select class="wp-custom-fields-select" id="' . $field['id']  . '" name="' . $field['name'] . $namekey . '" ' . $multiple .'>';
 
         // An empty option serves as placeholder
         if( ! empty($field['placeholder']) ) { 

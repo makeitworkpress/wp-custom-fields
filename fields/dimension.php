@@ -2,14 +2,14 @@
  /** 
   * Displays a single dimension field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die; 
 
-class Dimension implements Divergent_Field {
+class Dimension implements Field {
     
     /**
      * Renders the Dimension Field
@@ -29,7 +29,7 @@ class Dimension implements Divergent_Field {
         
         $measurements   = $configurations['properties']['units'];
         
-        $output         = '<div class="divergent-dimensions-input">';
+        $output         = '<div class="wp-custom-fields-dimensions-input">';
         $output        .= ! empty( $field['label'] )    ? '    <label for="' . $field['id'] . '">' . $field['label'] . '</label>'   : '';    
         $output        .= ! empty( $field['icon'] )     ? '     <i class="material-icons">' . $field['icon'] . '</i>'               : '';    
         $output        .= '    <input id="' . $field['id'] . '" type="number" name="' . $field['name']  . '[amount]" value="' . $amount . '"' . $placeholder . ' step="' . $step . '">';

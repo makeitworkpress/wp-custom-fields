@@ -1,19 +1,19 @@
 <?php
 /**
- *  Description: The Divergent Framework is a slim options framework for generating option pages, metaboxes, category metaboxes and custom user meta fields
+ *  Description: The WP Custom Fields Framework is a slim options framework for generating option pages, metaboxes, category metaboxes and custom user meta fields
  *  Version:     1.0.0
  *  Author:      Make it WorkPress
  *  Author URI:  https://www.makeitworkpress.com
  *  Domain Path: /languages
  *  Text Domain: divergent
  */
-namespace Divergent;
+namespace WP_Custom_Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Divergent extends Divergent_Abstract {
+class Framework extends Abstract {
     
     // Contains icons available in the frame
     public static $icons;
@@ -68,7 +68,7 @@ class Divergent extends Divergent_Abstract {
         
         // Setup our styling
         if( ! is_admin() || is_customize_preview() )
-            Divergent_Styling::instance( array() ); 
+            WP_Custom_Fields_Styling::instance( array() ); 
         
     }
     
@@ -105,18 +105,18 @@ class Divergent extends Divergent_Abstract {
         
         // Icons are only used in field elements, thus in back-end or customizer.
         if( is_admin() || is_customize_preview() ) {   
-            self::$icons        = apply_filters( 'divergent_icons', $icons );
+            self::$icons        = apply_filters( 'wp_custom_fields_icons', $icons );
         }
         
         // Fonts are used in front-end styling
-        self::$fonts            = apply_filters( 'divergent_fonts', $fonts ); 
+        self::$fonts            = apply_filters( 'wp_custom_fields_fonts', $fonts ); 
                 
         // Setup the supported datatypes
-        $this->types            = apply_filters( 'divergent_frames',  $this->types );
+        $this->types            = apply_filters( 'wp_custom_fields_frames',  $this->types );
         
         // Adds filterable data for the various types.
         foreach($this->types as $type) {
-            $this->frames[$type] = apply_filters( 'divergent_frame_' . $type, isset($this->frames[$type]) ? $this->frames[$type] : array() );
+            $this->frames[$type] = apply_filters( 'wp_custom_fields_frame_' . $type, isset($this->frames[$type]) ? $this->frames[$type] : array() );
         }
         
     }
@@ -147,7 +147,7 @@ class Divergent extends Divergent_Abstract {
             
             // Create a new instance for each group
             foreach( $optionsGroups as $group ) {
-                $class    = 'Divergent\Divergent_' . ucfirst( $frame );
+                $class    = 'WP_Custom_Fields\\' . ucfirst( $frame );
                 $instance = $class::instance( $group );
             }
             

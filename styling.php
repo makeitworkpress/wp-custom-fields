@@ -5,13 +5,13 @@
  * @todo Too much responsibility. Split up classes according to their responsibilities in the WP Customizer and normal front-end.
  * @todo Might merge $value and $properties into one variable in the formatField method
  */
-namespace Divergent;
+namespace WP_Custom_Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Divergent_Styling extends Divergent_Abstract {
+class Styling extends Abstract {
     
     /**
      * Contains our fields that have CSS selectors
@@ -51,7 +51,7 @@ class Divergent_Styling extends Divergent_Abstract {
      */
     public function examine() {
         
-        $this->frames = Divergent::instance()->get('all');
+        $this->frames = WP_Custom_Fields::instance()->get('all');
         
         // We don't have any frames
         if( ! $this->frames )
@@ -152,7 +152,7 @@ class Divergent_Styling extends Divergent_Abstract {
             
             // Load our fonts if we have a fonts field
             if( $field['type'] == 'typography' && ! isset($this->fonts) )
-                $this->fonts = Divergent::$fonts;            
+                $this->fonts = WP_Custom_Fields::$fonts;            
             
             $this->formatField($field);
         }
@@ -195,7 +195,7 @@ class Divergent_Styling extends Divergent_Abstract {
             }
         
             // And save our styles with a filter, so developers can filter the style output if they want.
-            $properties = apply_filters('divergent_css_properties', $properties, $field); 
+            $properties = apply_filters('wp_custom_fields_css_properties', $properties, $field); 
             
             // If we don't have properties, go to the following field
             if( ! $properties )
@@ -488,7 +488,7 @@ class Divergent_Styling extends Divergent_Abstract {
         
         // Enqueue the styles.
         if( $styles )
-            wp_enqueue_style( 'divergent-fonts', 'https://fonts.googleapis.com/css?family=' . implode('|', $styles) );
+            wp_enqueue_style( 'wp-custom-fields-fonts', 'https://fonts.googleapis.com/css?family=' . implode('|', $styles) );
      
     }
     
@@ -547,7 +547,7 @@ class Divergent_Styling extends Divergent_Abstract {
 
             // Our bindings script
             if( $script )
-                echo '<script type="text/javascript" id="divergent-customizer-js">( function( $ ) {' . $script . '} )( jQuery );</script>';
+                echo '<script type="text/javascript" id="wp-custom-fields-customizer-js">( function( $ ) {' . $script . '} )( jQuery );</script>';
             
         }, 100);
      

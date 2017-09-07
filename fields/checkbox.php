@@ -2,21 +2,21 @@
  /** 
   * Displays a text input field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Checkbox implements Divergent_Field {
+class Checkbox implements Field {
     
     public static function render($field = array()) {
         
         $options    = isset($field['options']) ? $field['options'] : array();
         $style      = isset($field['style']) ? $field['style'] : ''; // Accepts an optional buttonset style, for a set of styled buttons
         
-        $output = '<ul class="divergent-field-checkbox-wrapper ' . $style . '">';
+        $output = '<ul class="wp-custom-fields-field-checkbox-wrapper ' . $style . '">';
         
         // This field accepts an array of options
         foreach($options as $key => $option) {
@@ -28,7 +28,7 @@ class Checkbox implements Divergent_Field {
             $icon = isset($option['icon']) ? '<i class="material-icons">' . $option['icon']  . '</i> ' : '';
             
             if( ! $icon )
-                $output .= '<li class="divergent-field-checkbox-input">';
+                $output .= '<li class="wp-custom-fields-field-checkbox-input">';
             
             // Output of form
             $output .= '<input type="checkbox" id="' . $field['id'] . '_' . $key . '" name="' . $field['name'] . '[' . $key . ']" ' . checked($field['values'][$key], true, false) . ' />';

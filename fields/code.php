@@ -2,21 +2,21 @@
  /** 
   * Displays a code field with stylized code
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Code implements Divergent_Field {
+class Code implements Field {
     
     public static function render( $field = array() ) {
         
         $mode       = isset($field['mode']) ? $field['mode'] : 'htmlmixed';
         $field_id   = $field['id'];
         
-        if( apply_filters('divergent_code_field_js', true) && ! wp_script_is('mirror-js', 'enqueued') )
+        if( apply_filters('wp_custom_fields_code_field_js', true) && ! wp_script_is('mirror-js', 'enqueued') )
             wp_enqueue_script('mirror-js');
         
         add_action('admin_print_footer_scripts', function() use ($field_id, $mode) {
@@ -31,7 +31,7 @@ class Code implements Divergent_Field {
             </script>';                
         });
         
-        $output = '<textarea class="divergent-code-editor-value" id="' . $field['id'] . '" name="' . $field['name'] . '">' . $field['values'] . '</textarea>';
+        $output = '<textarea class="wp-custom-fields-code-editor-value" id="' . $field['id'] . '" name="' . $field['name'] . '">' . $field['values'] . '</textarea>';
         
         return $output;
   

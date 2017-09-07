@@ -5,13 +5,13 @@
  * @author Michiel
  * @since 1.0.0
  */
-namespace Divergent;
+namespace WP_Custom_Fields;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Divergent_Meta extends Divergent_Abstract {    
+class Meta extends Abstract {    
     
     /**
      * Contains the $metaBox array for each of the option pages
@@ -82,8 +82,8 @@ class Divergent_Meta extends Divergent_Abstract {
 
         $values                 = get_metadata( $this->type,  $object->ID, $this->metaBox['id'], true );
         
-        $frame                  = new Divergent_Frame( $this->metaBox, $values );
-        $frame->settingsFields  = wp_nonce_field( 'divergent-metaboxes', 'divergent-metaboxes-nonce', true, false );
+        $frame                  = new WP_Custom_Fields_Frame( $this->metaBox, $values );
+        $frame->settingsFields  = wp_nonce_field( 'wp-custom-fields-metaboxes', 'wp-custom-fields-metaboxes-nonce', true, false );
         
         // Render our output
         $frame->render();
@@ -104,7 +104,7 @@ class Divergent_Meta extends Divergent_Abstract {
             return $id; 
         
         // Some pages do not have the nonce
-        if( ! isset($_POST['divergent-metaboxes-nonce']) )
+        if( ! isset($_POST['wp-custom-fields-metaboxes-nonce']) )
             return $id;
 
         // Check our user capabilities
@@ -112,12 +112,12 @@ class Divergent_Meta extends Divergent_Abstract {
             return $id;
          
         // Check our nonces
-        if ( ! wp_verify_nonce( $_POST['divergent-metaboxes-nonce'], 'divergent-metaboxes' ) ) 
+        if ( ! wp_verify_nonce( $_POST['wp-custom-fields-metaboxes-nonce'], 'wp-custom-fields-metaboxes' ) ) 
             return $id;
         
         // Retrieve our current meta values
         $current    = get_metadata( $this->type, $id, $this->metaBox['id'], true ); 
-        $output     = Divergent_Validate::format( $this->metaBox, $_POST );
+        $output     = WP_Custom_Fields_Validate::format( $this->metaBox, $_POST );
         
         // Return if nothing has changed
         if( $current == $output )

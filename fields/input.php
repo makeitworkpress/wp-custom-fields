@@ -2,14 +2,14 @@
  /** 
   * Displays a text input field
   */
-namespace Divergent\Fields;
-use Divergent\Divergent_Field as Divergent_Field;
+namespace WP_Custom_Fields\Fields;
+use WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Input implements Divergent_Field {
+class Input implements Field {
     
     public static function render($field = array()) {
         

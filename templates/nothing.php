@@ -5,6 +5,6 @@
 ?>
 <div class="error">
     <p>
-        <?php _e('You have not properly added sections for these fields. Please review your field configurations.', 'divergent'); ?>
+        <?php _e('You have not properly added sections for these fields. Please review your field configurations.', 'wp-custom-fields'); ?>
     </p>
 </div>
