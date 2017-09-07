@@ -12,12 +12,12 @@ namespace WP_Custom_Fields;
 if ( ! defined( 'ABSPATH' ) ) 
     die; 
 
-abstract class Abstract {
+abstract class Base {
     
     /**
      * Use our validation functions
      */
-    use WP_Custom_Fields_Validate;    
+    use Validate;    
     
     /**
      * Determines whether a class has already been instanciated.

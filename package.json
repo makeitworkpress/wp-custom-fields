@@ -2,18 +2,18 @@
     "name": "WP_Custom_Fields",
     "version": "1.0.0",
     "author": "Michiel Tramper",
-    "description": "The package for the WP_Custom_Fields Framework",
+    "description": "The package for the WP Custom Fields Framework",
     "dependencies": {
         "codemirror": "latest",
         "select2": "latest"
     },
     "devDependencies": {
         "browserify": "latest",
-        "uglify-js": "latest",
+        "uglifyjs": "latest",
         "watchify": "latest"
     },
     "scripts": {
-        "build-js": "browserify assets/js/app.js -o assets/js/divergent.js && uglify-js assets/js/divergent.js -o assets/js/divergent.min.js -c -m",
-        "watch-js": "watchify assets/js/app.js -o assets/js/divergent.js -v"
+        "build-js": "browserify assets/js/app.js -o assets/js/wp-custom-fields.js && uglifyjs assets/js/wp-custom-fields.js -o assets/js/wp-custom-fields.min.js -c -m",
+        "watch-js": "watchify assets/js/app.js -o assets/js/wp-custom-fields.js -v"
     }    
 }

@@ -5,6 +5,7 @@
 namespace WP_Custom_Fields\Fields;
 use WP_Custom_Fields\WP_Custom_Fields as WP_Custom_Fields;
 use WP_Custom_Fields\Field as Field;
+use WP_Custom_Fields\Framework as Framework;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
@@ -14,9 +15,9 @@ class Icons implements Field {
     
     public static function render($field = array()) {
         
-        $iconsets   = WP_Custom_Fields::$icons;
-        $iconsets   = apply_filters('wp_custom_fields_icons', $iconsets);
-        $type       = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio';
+        $configurations = self::configurations();
+        $iconsets       = $configurations['properties']['icons'];
+        $type           = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio';
         
         $output = '<div class="wp-custom-fields-icons">';
 
@@ -25,13 +26,13 @@ class Icons implements Field {
             $output .= '    <ul class="wp-custom-fields-icon-list">';
             
             // Loop through icons of a set
-            foreach($icons as $icon) {
+            foreach( $icons as $icon ) {
                 
-                if($set == 'fontawesome') {
+                if( $set == 'fontawesome' ) {
                     $display_icon = '<i class="fa ' . $icon . '"></i>';
                 }
                 
-                if($set == 'material') {
+                if( $set == 'material' ) {
                     $display_icon = '<i class="material-icons">' . $icon . '</i>';
                 }                
                 
@@ -63,7 +64,10 @@ class Icons implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'icons',
+            'type'          => 'icons',
+            'properties'    => array(
+                'icons' => Framework::$icons
+            )
         );
             
         return $configurations;

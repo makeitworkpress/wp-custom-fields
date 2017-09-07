@@ -5,6 +5,7 @@
 namespace WP_Custom_Fields\Fields;
 use WP_Custom_Fields\WP_Custom_Fields as WP_Custom_Fields;
 use WP_Custom_Fields\Field as Field;
+use WP_Custom_Fields\Framework as Framework;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
@@ -41,7 +42,7 @@ class Typography implements Field {
             $output .= '        <optgroup label="' . ucfirst($fontspace) . '">';    
             
             foreach( $types as $key => $font ) {          
-                $display        = isset($font['example']) ? $font['example'] : DIVERGENT_ASSETS_URL . 'img/' . $key . '.png'; // Allows for custom fonts
+                $display        = isset($font['example']) ? $font['example'] : WP_CUSTOM_FIELDS_ASSETS_URL . 'img/' . $key . '.png'; // Allows for custom fonts
                 $output .= '<option data-display="' . $display . '" value="' . $key . '" ' . selected( $field['values']['font'], $key, false ) . '>';
                 $output .=      $font['name'];
                 $output .= '</option>';
@@ -161,7 +162,7 @@ class Typography implements Field {
                     'size'          => __('Font-Size', 'wp-custom-fields'), 
                     'line_spacing'  => __('Line-Height', 'wp-custom-fields'), 
                 ),
-                'fonts'         => WP_Custom_Fields::$fonts,
+                'fonts'         => Framework::$fonts,
                 'styles'        => array(
                     'styles'    => array(
                         'italic'        => 'format_italic', 

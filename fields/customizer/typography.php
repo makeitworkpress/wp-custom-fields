@@ -47,7 +47,7 @@ class Typography extends WP_Customize_Control {
                     <optgroup label="<?php esc_attr_e(ucfirst($fontspace)); ?>">    
 
                     <?php foreach( $types as $key => $font ) { ?>         
-                        <?php $display = isset($font['example']) ? $font['example'] : DIVERGENT_ASSETS_URL . 'img/' . $key . '.png'; ?>
+                        <?php $display = isset($font['example']) ? $font['example'] : WP_CUSTOM_FIELDS_ASSETS_URL . 'img/' . $key . '.png'; ?>
                         <option data-display="<?php esc_attr_e($display); ?>" value="<?php esc_attr_e($key); ?>" <?php selected($this->value('font'), $key); ?>>
                             <?php echo $font['name']; ?>
                         </option>

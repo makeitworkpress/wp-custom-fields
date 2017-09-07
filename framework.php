@@ -13,7 +13,7 @@ namespace WP_Custom_Fields;
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Framework extends Abstract {
+class Framework extends Base {
     
     // Contains icons available in the frame
     public static $icons;
@@ -48,8 +48,8 @@ class Framework extends Abstract {
         $folder = wp_normalize_path( substr( dirname(__FILE__), strpos(__FILE__, 'wp-content') + strlen('wp-content') ) );      
         
         // Define Constants
-        defined( 'DIVERGENT_ASSETS_URL' ) or define( 'DIVERGENT_ASSETS_URL', content_url() . $folder . '/assets/' );
-        defined( 'DIVERGENT_PATH' ) or define( 'DIVERGENT_PATH', plugin_dir_path( __FILE__ ) );
+        defined( 'WP_CUSTOM_FIELDS_ASSETS_URL' ) or define( 'WP_CUSTOM_FIELDS_ASSETS_URL', content_url() . $folder . '/assets/' );
+        defined( 'WP_CUSTOM_FIELDS_PATH' ) or define( 'WP_CUSTOM_FIELDS_PATH', plugin_dir_path( __FILE__ ) );
         defined( 'GOOGLE_MAPS_KEY' ) or define( 'GOOGLE_MAPS_KEY', $this->params['google_maps_key'] );
         
         // Our default types
@@ -68,7 +68,7 @@ class Framework extends Abstract {
         
         // Setup our styling
         if( ! is_admin() || is_customize_preview() )
-            WP_Custom_Fields_Styling::instance( array() ); 
+            Styling::instance( array() ); 
         
     }
     
@@ -98,7 +98,10 @@ class Framework extends Abstract {
     private function addConfigurations() {
         
         // Load our configurations
-        require_once( DIVERGENT_PATH . 'configurations/configurations.php' );
+        require_once( WP_CUSTOM_FIELDS_PATH . 'configurations/scripts.php' );
+        require_once( WP_CUSTOM_FIELDS_PATH . 'configurations/styles.php' );
+        require_once( WP_CUSTOM_FIELDS_PATH . 'configurations/fonts.php' );
+        require_once( WP_CUSTOM_FIELDS_PATH . 'configurations/icons.php' );
         
         $this->scripts          = $scripts;
         $this->styles           = $styles;

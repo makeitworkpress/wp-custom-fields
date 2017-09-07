@@ -16,7 +16,7 @@ use WP_Customize_Upload_Control as WP_Customize_Upload_Control;
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class WP_Custom_Fields_Customizer extends WP_Custom_Fields_Abstract {    
+class Customizer extends Base {    
         
     /**
      * Constructor

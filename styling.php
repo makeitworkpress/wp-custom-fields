@@ -11,7 +11,7 @@ namespace WP_Custom_Fields;
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Styling extends Abstract {
+class Styling extends Base {
     
     /**
      * Contains our fields that have CSS selectors
@@ -51,7 +51,7 @@ class Styling extends Abstract {
      */
     public function examine() {
         
-        $this->frames = WP_Custom_Fields::instance()->get('all');
+        $this->frames = Framework::instance()->get('all');
         
         // We don't have any frames
         if( ! $this->frames )
@@ -152,7 +152,7 @@ class Styling extends Abstract {
             
             // Load our fonts if we have a fonts field
             if( $field['type'] == 'typography' && ! isset($this->fonts) )
-                $this->fonts = WP_Custom_Fields::$fonts;            
+                $this->fonts = Framework::$fonts;            
             
             $this->formatField($field);
         }
@@ -353,11 +353,11 @@ class Styling extends Abstract {
                     }
 
                     // Add additional properties
-                    if( $field['values']['size'] && $field['values']['size']['amount'] ) {
+                    if( isset($field['values']['size']) && $field['values']['size']['amount'] ) {
                         $properties['font-size']     = $field['values']['size']['amount'] . $field['values']['size']['unit'];
                     }
 
-                    if( $field['values']['line_spacing'] && $field['values']['line_spacing']['amount'] ) {
+                    if( isset($field['values']['line_spacing']) && $field['values']['line_spacing']['amount'] ) {
                         $properties['line-height']   = $field['values']['line_spacing']['amount'] . $field['values']['line_spacing']['unit'];
                     }
 
@@ -379,6 +379,9 @@ class Styling extends Abstract {
                     );
 
                     foreach( $styles as $key => $property ) {
+                        
+                        if( ! isset($field['values'][$key]) )
+                            continue;                        
 
                         if( ! $field['values'][$key] )
                             continue;

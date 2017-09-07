@@ -11,7 +11,7 @@ namespace WP_Custom_Fields;
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class Options extends Abstract {    
+class Options extends Base {    
     
     /**
      * Contains the option values for each of the option pages
@@ -129,7 +129,7 @@ class Options extends Abstract {
         $pageID                 = $this->optionPage['id'];
         $values                 = get_option( $pageID );
         
-        $frame                  = new WP_Custom_Fields_Frame( $this->optionPage, $values );
+        $frame                  = new Frame( $this->optionPage, $values );
         $frame->type            = 'Options';
 
         // Errors
@@ -171,7 +171,7 @@ class Options extends Abstract {
      */
     public function save( $output ) {
         
-        $output = WP_Custom_Fields_Validate::format( $this->optionPage, $_POST, 'Options' );
+        $output = Validate::format( $this->optionPage, $_POST, 'Options' );
         
         return $output;
     }

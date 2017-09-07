@@ -11,7 +11,7 @@ namespace WP_Custom_Fields;
 if ( ! defined( 'ABSPATH' ) ) 
     die;
 
-class Meta extends Abstract {    
+class Meta extends Base {    
     
     /**
      * Contains the $metaBox array for each of the option pages
@@ -82,7 +82,7 @@ class Meta extends Abstract {
 
         $values                 = get_metadata( $this->type,  $object->ID, $this->metaBox['id'], true );
         
-        $frame                  = new WP_Custom_Fields_Frame( $this->metaBox, $values );
+        $frame                  = new Frame( $this->metaBox, $values );
         $frame->settingsFields  = wp_nonce_field( 'wp-custom-fields-metaboxes', 'wp-custom-fields-metaboxes-nonce', true, false );
         
         // Render our output
@@ -117,7 +117,7 @@ class Meta extends Abstract {
         
         // Retrieve our current meta values
         $current    = get_metadata( $this->type, $id, $this->metaBox['id'], true ); 
-        $output     = WP_Custom_Fields_Validate::format( $this->metaBox, $_POST );
+        $output     = Validate::format( $this->metaBox, $_POST );
         
         // Return if nothing has changed
         if( $current == $output )
