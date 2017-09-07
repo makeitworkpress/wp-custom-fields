@@ -314,7 +314,7 @@ module.exports.init = function(framework) {
 module.exports.init = function(framework) {
     
     // Execute if we do have select2 defined
-//    if( typeof select2 !== "undefined" ) {
+    if( jQuery.fn.select2 ) {
         
         // Regular selects
         jQuery('.wp-custom-fields-select').select2();
@@ -325,7 +325,7 @@ module.exports.init = function(framework) {
             templateSelection: formatState            
         });
         
-//    }
+    }
     
 }
 
