@@ -9,6 +9,7 @@ namespace WP_Custom_Fields;
 use WP_Error as WP_Error;
 use WP_Customize_Color_Control as WP_Customize_Color_Control;
 use WP_Customize_Cropped_Image_Control as WP_Customize_Cropped_Image_Control;
+use WP_Customize_Image_Control as WP_Customize_Image_Control;
 use WP_Customize_Media_Control as WP_Customize_Media_Control;
 use WP_Customize_Upload_Control as WP_Customize_Upload_Control;
 
