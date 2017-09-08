@@ -325,9 +325,10 @@ class Styling extends Base {
                 $properties['background-image'] = 'url("' . $src . '")';               
                 break;
            
-            // Upload or image field (customizer)
-            case 'upload':              
-            case 'image':   
+            // Upload or image field (customizer)          
+            case 'cropped-image':   
+            case 'image':
+            case 'upload':    
                 $properties['background-image'] = 'url("' . $field['values'] . '")';
                 break;            
                 

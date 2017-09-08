@@ -181,8 +181,11 @@ class Customizer {
                         unset($controlArgs['type']); // Having a defined type breaks the color picker somehow
                         $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
                         break;                    
-                    case 'image':
+                    case 'cropped-image':
                         $wp_customize->add_control( new WP_Customize_Cropped_Image_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
+                        break;
+                    case 'image':
+                        $wp_customize->add_control( new WP_Customize_Image_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
                         break;                    
                     case 'media':
                         $wp_customize->add_control( new WP_Customize_Media_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
