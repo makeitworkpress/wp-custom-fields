@@ -39,7 +39,8 @@ class Code implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'code'
+            'type'      => 'code',
+            'defaults'  => ''
         );
             
         return $configurations;

@@ -17,7 +17,8 @@ class Divider implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'divider'
+            'type'      => 'divider',
+            'defaults'  => ''
         );
             
         return $configurations;

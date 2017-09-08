@@ -152,6 +152,9 @@ class Typography implements Field {
     public static function configurations() {
         $configurations = array(
             'type'          => 'typography',
+            'defaults'  => array(
+                'font'  => '',
+            ),            
             'labels'        => array(
                 'normal'    => __('Load all normal font-weights for this font.', 'wp-custom-fields'),
                 'italic'    => __('Load all italic font-weights for this font.', 'wp-custom-fields'),

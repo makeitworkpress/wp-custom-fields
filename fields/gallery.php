@@ -20,7 +20,8 @@ class Gallery implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'gallery'
+            'type'      => 'gallery',
+            'defaults'  => ''
         );
             
         return $configurations;

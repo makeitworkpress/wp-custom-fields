@@ -83,7 +83,8 @@ class Repeatable implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'repeatable'
+            'type'      => 'repeatable',
+            'defaults'  => array()
         );
             
         return $configurations;

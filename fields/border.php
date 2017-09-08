@@ -122,7 +122,8 @@ class Border implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'border'
+            'type'      => 'border',
+            'defaults'  => array()
         );
             
         return $configurations;

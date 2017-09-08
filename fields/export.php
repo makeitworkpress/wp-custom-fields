@@ -13,6 +13,10 @@ class Export implements Field {
     
     public static function render($field = array()) {
         
+        // An option id should be provied
+        if( ! isset($field['option_id']) )
+            return;
+        
         global $post;
         $screen     = get_current_screen();
         $options    = $screen->parent_file == 'edit.php' ? get_post_meta($post->ID, $field['option_id'], true) : get_option($field['option_id']);
@@ -30,7 +34,8 @@ class Export implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'export'
+            'type'      => 'export',
+            'defaults'  => ''
         );
             
         return $configurations;

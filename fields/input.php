@@ -20,7 +20,8 @@ class Input implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'input'
+            'type'      => 'input',
+            'defaults'  => ''
         );
             
         return $configurations;

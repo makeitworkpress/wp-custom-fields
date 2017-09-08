@@ -14,7 +14,7 @@ class Select implements Field {
     public static function render($field = array()) {
         
         $options = isset($field['options']) ? $field['options'] : array();
-        $subtype = isset($field['subtype']) ? $field['subtype'] : '';
+        $source  = isset($field['source']) ? $field['source'] : '';
         
         // Load the select2 script if we have a select field
         if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
@@ -30,11 +30,11 @@ class Select implements Field {
         }  
         
         // Load an array of posts
-        if( ! empty($subtype) ) {
+        if( ! empty($source) ) {
             
             $posts = get_posts(
                 array(
-                    'post_type'         => $subtype, 
+                    'post_type'         => $source, 
                     'posts_per_page'    => -1, 
                     'orderby'           => 'title', 
                     'order'             => 'ASC'
@@ -68,7 +68,8 @@ class Select implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'select'
+            'type'      => 'select',
+            'defaults'  => ''
         );
             
         return $configurations;

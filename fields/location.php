@@ -13,8 +13,9 @@ class Location implements Field {
     
     public static function render($field = array()) {
         
-        $addJS = apply_filters('wp_custom_fields_location_field_js', true);
+        $addJS          = apply_filters('wp_custom_fields_location_field_js', true);
         
+        // Retrieve scripts
         if($addJS && ! wp_script_is('google-maps-js', 'enqueued') )
             wp_enqueue_script('google-maps-js');
         
@@ -24,17 +25,17 @@ class Location implements Field {
         $output .= '<input class="latitude" id="' . $field['id'] . '-lat" name="' . $field['name']  . '[lat]" type="hidden" value="' . $field['values']['lat'] . '" />';
         $output .= '<input class="longitude" id="' . $field['id'] . '-long" name="' . $field['name']  . '[lng]" type="hidden" value="' . $field['values']['lng'] . '" />';
         
-        $location_fields = array(
+        $locationFields = array(
             'street'        => __('Street Address', 'wp-custom-fields'),
             'number'        => __('Street Number', 'wp-custom-fields'),
             'postal_code'   => __('Postal Code', 'wp-custom-fields'),
             'city'          => __('City', 'wp-custom-fields')          
         );
         
-        foreach( $location_fields as $loc ) {
+        foreach( $locationFields as $key => $label ) {
             $output .= '<div class="wp-custom-fields-field-left">';
-            $output .= '    <label for="' . $field['id'] . '-' . $loc['id'] . '">' . $loc['label'] . '</label><br />';
-            $output .= '    <input type="text" class="regular-text '.$loc['id'].'" id="'.$field['id'].'-'.$loc['id'].'" name="'.$field['name'].'['.$loc['id'].']" value="'.$field['values'][$loc['id']].'"  />';
+            $output .= '    <label for="' . $field['id'] . '-' . $key . '">' . $label . '</label><br />';
+            $output .= '    <input type="text" class="regular-text '.$key.'" id="'.$field['id'].'-'.$key.'" name="'.$field['name'].'['.$key.']" value="'.$field['values'][$key].'"  />';
             $output .= '</div>';
         }
         
@@ -46,7 +47,15 @@ class Location implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'location'
+            'defaults'  => array(
+                'city'          => '',
+                'lat'           => '',
+                'lng'           => '',
+                'number'        => '',
+                'postal_code'   => '',                
+                'street'        => ''
+            ),
+            'type'      => 'location'
         );
             
         return $configurations;

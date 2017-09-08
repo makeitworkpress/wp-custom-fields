@@ -62,7 +62,8 @@ class Boxshadow implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'boxshadow'
+            'type'      => 'boxshadow',
+            'defaults'  => array()
         );
             
         return $configurations;

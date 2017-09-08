@@ -54,6 +54,7 @@ class Dimension implements Field {
     public static function configurations() {
         $configurations = array(
             'type'          => 'dimension',
+            'defaults'      => array(),
             'properties'    => array(
                 'units' => array('px', 'em', '%', 'rem', 'vh', 'vw')
             )

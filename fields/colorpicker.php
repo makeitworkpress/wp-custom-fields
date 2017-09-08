@@ -26,7 +26,8 @@ class Colorpicker implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'colorpicker'
+            'type'      => 'colorpicker',
+            'defaults'  => ''
         );
             
         return $configurations;

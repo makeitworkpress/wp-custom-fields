@@ -31,7 +31,8 @@ class Slider implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'slider'
+            'type'      => 'slider',
+            'defaults'  => ''
         );
             
         return $configurations;

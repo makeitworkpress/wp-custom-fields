@@ -22,6 +22,7 @@ class Checkbox implements Field {
         foreach($options as $key => $option) {
             
             // Determine if a box should be checked
+            $field['values'][$key] = isset($field['values'][$key]) ? $field['values'][$key] : '';
 
             // Check label
             $label = isset($option['label']) ? $option['label'] : '';
@@ -49,7 +50,8 @@ class Checkbox implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'checkbox'
+            'type'      => 'checkbox',
+            'defaults'  => array()
         );
             
         return $configurations;

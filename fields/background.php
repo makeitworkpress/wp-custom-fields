@@ -101,7 +101,8 @@ class Background implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'background'
+            'type'      => 'background',
+            'defaults'  => array()
         );
             
         return $configurations;

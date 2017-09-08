@@ -73,29 +73,25 @@
 
                                     <div class="wp-custom-fields-option-field <?php echo $field['column']; ?> field-<?php echo $field['type']; ?>">
 
-                                        <div class="wp-custom-fields-field-title">
-                                            <?php 
-                                                /**
-                                                 * Echo the title for the field
-                                                 */
-                                                if( isset($field['title']) )              
+                                        <?php if( $field['title'] ) { ?>
+                                            <div class="wp-custom-fields-field-title">
+                                                <?php           
                                                     echo '<'.$field['titleTag'].'>' . $field['title'] . '</' . $field['titleTag'] .'>';
-                                            ?>
-                                        </div>
+                                                ?>
+                                            </div>
+                                        <?php } ?>
 
-                                        <div class="wp-custom-fields-field-input">
-                                            <?php echo $field['form']; ?>
-                                        </div>
+                                        <?php if( $field['form'] ) { ?>
+                                            <div class="wp-custom-fields-field-input">
+                                                <?php echo $field['form']; ?>
+                                            </div>
+                                        <?php } ?>
                                         
-                                        <div class="wp-custom-fields-field-description">
-                                            <?php 
-                                                /**
-                                                 * Echo the description for the field
-                                                 */
-                                                if( isset($field['description']) )              
-                                                    echo '<p>' . $field['description'] . '</p>';
-                                            ?>
-                                        </div>                                        
+                                        <?php if( $field['description'] ) { ?>
+                                            <div class="wp-custom-fields-field-description">          
+                                                <p><?php echo $field['description']; ?></p>
+                                            </div> 
+                                        <?php } ?>
 
                                     </div>
 

@@ -59,7 +59,8 @@ class Media implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'upload'
+            'type'      => 'media',
+            'defaults'  => ''
         );
             
         return $configurations;

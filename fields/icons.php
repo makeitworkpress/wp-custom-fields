@@ -65,6 +65,7 @@ class Icons implements Field {
     public static function configurations() {
         $configurations = array(
             'type'          => 'icons',
+            'defaults'      => '',
             'properties'    => array(
                 'icons' => Framework::$icons
             )

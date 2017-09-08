@@ -21,7 +21,8 @@ class Textarea implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'textarea'
+            'type'      => 'textarea',
+            'defaults'  => ''
         );
             
         return $configurations;

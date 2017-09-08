@@ -18,7 +18,8 @@ class Heading implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'heading'
+            'type'      => 'heading',
+            'defaults'  => ''
         );
             
         return $configurations;

@@ -68,11 +68,16 @@ class Frame {
         // Loop through our sections
         foreach( $this->frame['sections'] as $key => $section ) {
             
+            if( ! isset($section['id']) )
+                return;
+            
             $this->sections[$key]                  = $section;
             $this->sections[$key]['active']        = $this->currentSection == $section['id'] ? 'active'          : '';
-            $this->sections[$key]['description']   = isset( $section['description'] ) ? $section['description'] : '';
+            $this->sections[$key]['description']   = isset( $section['description'] ) ? esc_html($section['description']) : '';
             $this->sections[$key]['fields']        = array();
-            $this->sections[$key]['icon']          = ! empty( $section['icon'] ) ? $section['icon']  : false;
+            $this->sections[$key]['icon']          = ! empty( $section['icon'] ) ? esc_html($section['icon'])  : false;
+            $this->sections[$key]['id']            = esc_attr($section['id']);
+            $this->sections[$key]['title']         = isset( $section['title'] ) ? esc_html($section['title'])  : __( 'Titleless Section', 'wp-custom-fields' );
             
             foreach( $section['fields'] as $field) {
                 $this->sections[$key]['fields'][]  = $this->populateField( $field );
@@ -95,26 +100,32 @@ class Frame {
         
         // Populate our variables
         $field                  = $field;
-        $field['column']        = isset($field['columns'])              ?  $field['columns'] : 'full';
+        $field['column']        = isset( $field['columns'] )            ?  esc_attr($field['columns'])      : 'full';
+        $field['description']   = isset( $field['description'] )        ?  esc_html($field['description'])  : '';
         $field['form']          = __('We are sorry, the given field class does not exist', 'wp-custom-fields');
         
         // Make sure our IDs do not contain brackets
-        $field['id']            = str_replace('[', '_', $field['id']); 
-        $field['id']            = str_replace(']', '', $field['id']); 
-        $field['name']          = isset( $field['name'] )               ? $field['name']                    : $field['id'];
+        $field['id']            = str_replace( '[', '_', esc_attr($field['id']) ); 
+        $field['id']            = str_replace( ']', '', esc_attr($field['id']) ); 
+        $field['name']          = isset( $field['name'] )               ? esc_attr($field['name'])          : $field['id'];
         
-        $field['placeholder']   = isset( $field['placeholder'] )        ? $field['placeholder']             : '';
+        $field['placeholder']   = isset( $field['placeholder'] )        ? esc_attr($field['placeholder'])   : '';
+        $field['title']         = isset( $field['title'] )              ? esc_html($field['title'])         : '';
         $field['titleTag']      = $field['type'] == 'heading'           ? 'h2'                              : 'h4';
+        $field['type']          = esc_attr($field['type']);
+        
+        // The class
+        $class                  = apply_filters( 'wp_custom_fields_field_class', 'WP_Custom_Fields\Fields\\' . ucfirst( $field['type'] ), $field );
+        $configurations         = $class::configurations();
         
         // Check if there is a default value set up, and whether there is a value already stored for the specific field
-        $default                = isset( $field['default'] )            ? $field['default'] : '';
+        $default                = isset( $field['default'] )            ? $field['default'] : $configurations['defaults'];
         $field['values']        = isset( $this->values[$field['id']] )  ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
         
         // Render our field form, allow custom fields to be filtered.
-        $class                  = apply_filters('wp_custom_fields_field_class', 'WP_Custom_Fields\Fields\\' . ucfirst( $field['type'] ), $field );
         
         if( class_exists($class) )
-            $field['form']      = apply_filters('wp_custom_fields_field_form', $class::render($field), $field);
+            $field['form']      = apply_filters( 'wp_custom_fields_field_form', $class::render($field), $field );
         
         return $field;
         

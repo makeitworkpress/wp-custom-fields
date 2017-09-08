@@ -65,7 +65,8 @@ class Dimensions implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'dimensions'
+            'type'      => 'dimensions',
+            'defaults'  => array()
         );
             
         return $configurations;

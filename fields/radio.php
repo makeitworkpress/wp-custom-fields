@@ -19,17 +19,17 @@ class Radio implements Field {
         $output = '<div class="wp-custom-fields-field-radio-wrapper ' . $style . '">';
         
         // This field accepts an array of options
-        foreach($options as $option) {
+        foreach($options as $key => $option) {
             
             // Check label
             $label  = isset($option['label']) ? $option['label'] : '';
             $icon   = isset($option['icon']) ? '<i class="material-icons">' . $option['icon'] . '</i> ' : '';
             
             // Output of form
-            $output .= '<input type="radio" id="' . $field['id'] .  $option['id'] . '" name="' . $field['name'] . '" value="' . $option['id'] . '" ' . checked(  $field['values'], $option['id'], false ) . ' />';
+            $output .= '<input type="radio" id="' . $field['id'] .  $key . '" name="' . $field['name'] . '" value="' . $key . '" ' . checked( $field['values'], $key, false ) . ' />';
             
             if( ! empty($label) ) {
-                $output .= '<label for="' . $field['id'] . $option['id'] . '">' . $icon . $label . '</label>';
+                $output .= '<label for="' . $field['id'] . $key . '">' . $icon . $label . '</label>';
             }
         }
         
@@ -40,7 +40,8 @@ class Radio implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'radio'
+            'type'      => 'radio',
+            'defaults'  => ''
         );
             
         return $configurations;

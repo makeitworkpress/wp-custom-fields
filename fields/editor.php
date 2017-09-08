@@ -23,7 +23,8 @@ class Editor implements Field {
     
     public static function configurations() {
         $configurations = array(
-            'type' => 'editor'
+            'type'      => 'editor',
+            'defaults'  => ''
         );
             
         return $configurations;
