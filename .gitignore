@@ -1,7 +1,7 @@
 *.log
 *.git
 *.gitmodules
-
+*.gitignore
 *git/
 
 wp-config.php
