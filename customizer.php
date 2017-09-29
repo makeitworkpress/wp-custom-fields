@@ -148,14 +148,23 @@ class Customizer {
                  * Add our settings. Elaborate controls have multiple settings.
                  */
                 switch( $field['type'] ) {
+                    case 'dimension':
                     case 'typography':
-                        $configurations = Fields\Typography::configurations();
-                        // Add all typographic settings
+
+                        if( $field['type'] == 'typography') {
+                            $configurations = Fields\Typography::configurations();
+                        }
+
+                        if( $field['type'] == 'dimension') {
+                            $configurations = Fields\Dimension::configurations();
+                        }
+
+                        // Add all custom settings
                         foreach( $configurations['settings'] as $setting ) {  
                             $wp_customize->add_setting($panel['id'] . '[' . $field['id'] . ']' . $setting, $settingArgs );    
                         }
                         
-                        break;
+                        break;                      
                     default:
                         $wp_customize->add_setting( $panel['id'] . '[' . $field['id'] . ']', $settingArgs );
                 }
@@ -195,8 +204,9 @@ class Customizer {
                         $wp_customize->add_control( new WP_Customize_Upload_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
                         break;
                     case 'textarea':
-                        $wp_customize->add_control( new WP_Customize_Media_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
-                        break;                          
+                        $wp_customize->add_control( new Fields\Customizer\TextArea($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        break;
+                    case 'dimension':                          
                     case 'typography':
                         
                         $controlArgs['settings']    = array();
@@ -206,7 +216,14 @@ class Customizer {
                             $controlArgs['settings'][$link] = $panel['id'] . '[' . $field['id'] . ']' . $setting;
                         }
                         
-                        $wp_customize->add_control( new Fields\Customizer\Typography($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        if( $field['type'] == 'typography' ) {
+                            $wp_customize->add_control( new Fields\Customizer\Typography($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        }
+
+                        if( $field['type'] == 'dimension' ) {
+                            $wp_customize->add_control( new Fields\Customizer\Dimension($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        }
+
                         break;                         
                     case 'custom':
                         $wp_customize->add_control( new $field['custom']($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 

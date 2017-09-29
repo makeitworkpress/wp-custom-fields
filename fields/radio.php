@@ -14,7 +14,7 @@ class Radio implements Field {
     public static function render($field = array()) {
         
         $options    = isset($field['options']) ? $field['options'] : array();
-        $style      = isset($field['style']) ? $field['style'] : '';
+        $style      = isset($field['style']) ? $field['style'] : ''; // Accepts an optional .buttonset style, for a set of styled buttons or .switcher style for a switch display
         
         $output = '<div class="wp-custom-fields-field-radio-wrapper ' . $style . '">';
         

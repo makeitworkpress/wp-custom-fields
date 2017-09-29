@@ -1,3 +1,5 @@
+// main: ../wp-custom-fields.less
+
 /* Dimensions Field */
 .wp-custom-fields-dimensions-input {
     display: flex;
@@ -8,5 +10,14 @@
         height: 28px;
         line-height: 30px;
         text-align: center;
+    }
+    .customize-control & {
+        input {
+            margin: 1px;
+            max-width: 100px;
+        }
+        select {
+            max-width: 54px;
+        }
     }
 }

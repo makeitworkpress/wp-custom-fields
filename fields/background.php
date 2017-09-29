@@ -90,7 +90,7 @@ class Background implements Field {
             $field_custom[$key]['name']         = $field['name']. '[' . $key . ']';
             $field_custom[$key]['values']       = isset($field['values'][$key]) ? $field['values'][$key] : '';
             
-            // We use the divergent select field class to display our recurring select fields. Easy, isn't it?
+            // We use the select field class to display our recurring select fields. Easy, isn't it?
             $output .= Select::render($field_custom[$key]);
         }
         

@@ -382,7 +382,7 @@ module.exports.init = function() {
             section = activeTab.replace('#', '');
         
         // Change our active section
-        jQuery('input[name="divergentSection"]').val(section);
+        jQuery('input[name="wp_custom_fields_section"]').val(section);
 		
         // Remove current active classes
         jQuery(this).closest('.wp-custom-fields-framework').find(".wp-custom-fields-tabs a").removeClass("active");

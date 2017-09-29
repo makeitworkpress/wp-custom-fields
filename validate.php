@@ -24,7 +24,7 @@ trait Validate {
     public static function format( $frame, $input, $type = '' ) {    
         
         // Checks in which tab we are
-        $currentTab = strip_tags( $input['divergentSection'] );
+        $currentTab = strip_tags( $input['wp_custom_fields_section'] );
         
         // Sets the transient for the current section
         set_transient('wp_custom_fields_current_section_' . $frame['id'], $currentTab, 10); 

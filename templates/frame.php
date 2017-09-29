@@ -122,7 +122,7 @@
                 echo $frame->settingsFields; 
             ?>
             
-            <input type="hidden" name="divergentSection" id="divergentSection_<?php echo $frame->id; ?>" value="<?php echo $frame->currentSection; ?>" />
+            <input type="hidden" name="wp_custom_fields_section" id="wp_custom_fields_section_<?php echo $frame->id; ?>" value="<?php echo $frame->currentSection; ?>" />
 
 <?php if( $frame->type == 'Options' ) { ?>
         </form>

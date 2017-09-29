@@ -28,6 +28,9 @@ class Textarea extends WP_Customize_Control {
 			<textarea class="large-text" cols="20" rows="5" <?php $this->link(); ?>>
 				<?php echo esc_textarea( $this->value() ); ?>
 			</textarea>
+            <?php if( $this->description ) { ?>
+                <span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+            <?php } ?>			
 		</label>
 		<?php
 	}

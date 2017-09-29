@@ -1,9 +1,11 @@
+// main: wp-custom-fields.less
+
 /**
  * Framework Layout
  * ----------------------------------
  */
 .wp-custom-fields-framework {
-    background: @wp-black;
+    background: @white;
     border: 1px solid @wp-lightborder;
     .button {
         margin-right: 5px;
@@ -11,7 +13,6 @@
     header { 
         padding: @grid-space @grid-space 0 @grid-space;
         h2 {
-            color: @white;
             margin-bottom: @grid-space;
         }
     }
@@ -31,6 +32,21 @@
         display: block;
         margin: 7px 0;
     }
+    .postbox & {
+        border: none;
+        header {
+            padding: @grid-space 0 0 0;    
+        }
+        &.tabs-left .wp-custom-fields-tabs {
+            margin-left: 0;
+            li a.active, li a:hover  {
+                border-left: 1px solid @wp-lightborder;
+            }
+        }
+        .wp-custom-fields-sections {
+            border: 1px solid @wp-lightborder;
+        }
+    }
 }
 
 .wp-custom-fields-buttons {
@@ -43,11 +59,16 @@
     margin: 0;
     .tabs-left & {
         float: left;
-        margin-left: -@grid-space;
+        margin-left: -24px;
         li {
             display: block;
             a {
-                margin-right: -1px;
+                margin: 0 -1px 0 0;
+                &.active, &:hover {
+                    border: 1px solid @wp-lightborder;
+                    border-left: none;
+                    border-right: none;
+                }
             }
         }
     }
@@ -55,9 +76,9 @@
         display: inline-block;
         margin: 0;
         a {
-            color: @white;
             display: block;
             font-size: 14px;
+            margin: 0 0 -1px 0;
             padding: @grid-space * 0.75 @grid-space;
             transition: @base-transition;
             i {
@@ -68,6 +89,8 @@
             }
             &.active, &:hover {
                 background-color: @white;
+                border: 1px solid @wp-lightborder;
+                border-bottom: none;
                 color: @wp-black;
             }
             &:focus {
@@ -80,15 +103,22 @@
 
 .wp-custom-fields-sections {
     background: #fff;
+    border-bottom: 1px solid @wp-lightborder;
+    border-top: 1px solid @wp-lightborder;
     overflow: hidden;
-    padding: @grid-space/2 @grid-space; 
+    padding: @grid-space; 
     .tabs-left & {
-        border-left: 1px solid @wp-lightborder;
-    }    
+        border: 1px solid @wp-lightborder;
+        border-right: none;
+    }
+}
+
+.wp-custom-fields-section-title {
+    margin-top: 0;
 }
 
 .wp-custom-fields-section {
-    animation: fadeIn 500ms ease-in-out;
+    animation: fadeIn 200ms ease-in-out;
     display: none;
     &.active {
         display: block;

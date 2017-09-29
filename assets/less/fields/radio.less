@@ -1,3 +1,5 @@
+// main: ../wp-custom-fields.less
+
 /* Buttonset in Radio Buttons */
 .wp-custom-fields-field-checkbox-wrapper, .wp-custom-fields-field-radio-wrapper {
     i {
@@ -12,8 +14,17 @@
     }
     label {
         margin: 0 @grid-space/2 0 @grid-space/4;
+    }  
+    &.switcher, &.label {
+        input {
+            height: 0;
+            margin: 0;
+            min-width: 0;
+            visibility: hidden;
+            width: 0;        
+        }         
     }
-    .buttonset {
+    &.buttonset {
         label {
             background-color: #f5f5f5;        
             border: 1px solid @wp-grey;
@@ -26,13 +37,46 @@
         input:checked + label, label:hover {
             background-color: #fff;
             font-weight: bold;
-        }
-        input {
-            height: 0;
+        }       
+    }
+    &.switcher {
+        label {
             margin: 0;
-            min-width: 0;
-            visibility: hidden;
-            width: 0;        
+            position: relative;
+            vertical-align: middle;
+            &:before {
+                background-color: @wp-grey;
+                border: 1px solid @wp-border;
+                border-radius: @grid-space/2;
+                content: '';
+                display: inline-block;
+                height: @grid-space - 2;
+                margin-right: 6px;
+                position: relative;
+                top: 6px;
+                transition: all 200ms ease-out;
+                width: @grid-space*2;                
+            }
+            &:after {
+                background: #fff;
+                box-shadow: @wp-boxshadow;
+                border-radius: 50%;
+                content: '';
+                height: @grid-space - 2;
+                left: 1px;
+                position: absolute;
+                top: 7px;
+                transition: all 200ms ease-out;
+                width: @grid-space - 2;
+            }
+        }
+        input:checked + label {
+            &:before {
+                background-color: @wp-green;    
+            }
+            &:after {
+                left: @grid-space + 3;
+            }
         }
     }    
 }

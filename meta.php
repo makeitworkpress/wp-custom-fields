@@ -6,6 +6,7 @@
  * @since 1.0.0
  */
 namespace WP_Custom_Fields;
+use WP_Error as WP_Error;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) ) 
@@ -31,6 +32,12 @@ class Meta {
     public function __construct( $group = array() ) {
         $this->metaBox  = $group;
         $this->type     = isset( $this->metaBox['type'] ) ? $this->metaBox['type'] : 'post';
+
+        // Our type should be in a predefined array
+        if( ! in_array($this->type, array('post', 'taxonomy', 'user')) ) {
+            return new WP_Error( 'wrong', __('You are using a wrong type for adding meta fields!', 'wp-custom-fields') );
+        }
+
         $this->registerHooks();
     }   
     
@@ -50,6 +57,14 @@ class Meta {
             add_action( $this->metaBox['taxonomy'] . '_edit_form_fields', array($this, 'add') );
             add_action( 'edited_' . $this->metaBox['taxonomy'], array($this, 'save'), 10, 1 );            
         }
+
+        // User metabox
+        if( $this->type == 'user' ) {
+            add_action( 'show_user_profile', array($this, 'add') );
+            add_action( 'edit_user_profile', array($this, 'add') );
+            add_action( 'personal_options_update', array($this, 'save') );
+            add_action( 'edit_user_profile_update', array($this, 'save') );   
+        }      
       
     }
     
@@ -62,7 +77,7 @@ class Meta {
         if( ! isset($this->metaBox['id']) )
             return;
         
-        // Post type metabox
+        // Post type metabox uses the add meta box function
         if( $this->type == 'post' ) {
             add_meta_box( 
                 $this->metaBox['id'], 
@@ -72,6 +87,11 @@ class Meta {
                 $this->metaBox['context'], 
                 $this->metaBox['priority']
             );
+        }
+
+        // We just render for other types
+        if( $this->type == 'taxonomy' || $this->type == 'user' ) {
+            $this->render();
         }
         
     }

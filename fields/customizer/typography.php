@@ -79,7 +79,7 @@ class Typography extends WP_Customize_Control {
                     <i class="material-icons"><?php echo 'format_' . $key; ?></i>
                     <input <?php $this->link( $key . 'amount' ); ?> value="<?php esc_attr_e($this->value($key . 'amount')); ?>" type="number" step="0.01" placeholder="<?php echo $label; ?>" />
                     <select <?php $this->link( $key . 'unit' ); ?>>
-                        <?php foreach($dimensions['properties']['units'] as $key => $measure) { ?>
+                        <?php foreach($dimensions['properties']['units'] as $measure) { ?>
                             <option value="<?php echo $measure; ?>" <?php selected( $this->value( $key . 'unit' ), $measure ); ?>>
                                 <?php echo $measure; ?>
                             </option>

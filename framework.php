@@ -5,7 +5,7 @@
  *  Author:      Make it WorkPress
  *  Author URI:  https://www.makeitworkpress.com
  *  Domain Path: /languages
- *  Text Domain: divergent
+ *  Text Domain: wp-custom-fields
  */
 namespace WP_Custom_Fields;
 

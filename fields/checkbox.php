@@ -14,7 +14,7 @@ class Checkbox implements Field {
     public static function render($field = array()) {
         
         $options    = isset($field['options']) ? $field['options'] : array();
-        $style      = isset($field['style']) ? $field['style'] : ''; // Accepts an optional buttonset style, for a set of styled buttons
+        $style      = isset($field['style']) ? $field['style'] : ''; // Accepts an optional .buttonset style, for a set of styled buttons or .switcher style for a switch display
         
         $output = '<ul class="wp-custom-fields-field-checkbox-wrapper ' . $style . '">';
         
@@ -22,7 +22,7 @@ class Checkbox implements Field {
         foreach($options as $key => $option) {
             
             // Determine if a box should be checked
-            $field['values'][$key] = isset($field['values'][$key]) ? $field['values'][$key] : '';
+            $value = isset($field['values'][$key]) ? $field['values'][$key] : '';
 
             // Check label
             $label = isset($option['label']) ? $option['label'] : '';
@@ -32,7 +32,7 @@ class Checkbox implements Field {
                 $output .= '<li class="wp-custom-fields-field-checkbox-input">';
             
             // Output of form
-            $output .= '<input type="checkbox" id="' . $field['id'] . '_' . $key . '" name="' . $field['name'] . '[' . $key . ']" ' . checked($field['values'][$key], true, false) . ' />';
+            $output .= '<input type="checkbox" id="' . $field['id'] . '_' . $key . '" name="' . $field['name'] . '[' . $key . ']" ' . checked($value, true, false) . ' />';
             
             if( ! empty($label) ) {
                 $output .= '<label for="' . $field['id'] . '_' . $key . '">' . $icon . $label . '</label>';
