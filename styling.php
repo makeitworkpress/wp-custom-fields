@@ -399,13 +399,20 @@ class Styling extends Base {
         }
         
         /**
-         * If we have a custom single property for the CSS, we us it with the values from the properties
-         * This thus only works with some of the fields which have single properties (box-shadow, colorpicker, media, image, upload) and not all fields
+         * If we have a custom string or array property for the CSS, we us it with the values from the properties
+         * This thus only works with some of the fields which have single properties (box-shadow, dimensions, colorpicker, media, image, upload) and not all fields
          */
         if( isset($field['css']['property']) && count($properties) == 1 ) {
             $values     = implode('', $properties);
             $properties = array();
-            $properties[$field['css']['property']] = $values;
+
+            if( is_array($field['css']['property']) ) {
+                foreach( $field['css']['property'] as $property ) {
+                    $properties[$property] = $values;
+                }
+            } else {
+                $properties[$field['css']['property']] = $values;
+            }
         }
         
         // Only unique properties
