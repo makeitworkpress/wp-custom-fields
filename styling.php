@@ -221,6 +221,7 @@ class Styling extends Base {
     private function formatField( $field ) {
         
         // Default values;
+        $uniques            = array();
         $properties         = array();
         $field['values']    = isset($field['values']) && $field['values'] ? $field['values'] : '';
         
