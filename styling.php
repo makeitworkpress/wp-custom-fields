@@ -415,11 +415,13 @@ class Styling extends Base {
             }
         }
         
-        // Only unique properties
-        $properties = array_unique($properties);        
+        // Only unique properties. Similar properties are overwritten by the last one.
+        foreach($properties as $property => $value) {
+            $uniques[$property] = $value;
+        }     
 
         // Save the final properties to the fields array. This is then later processed to output css.
-        $this->fields[$field['id']]['properties'] = $properties;
+        $this->fields[$field['id']]['properties'] = $uniques;
         
     }
     
