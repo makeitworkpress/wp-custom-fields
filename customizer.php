@@ -126,11 +126,11 @@ class Customizer {
             foreach( $section['fields'] as $field ) {             
 
                 // Check required fields
-                if( ! isset($field['id']) || ! isset($field['default']) || ! isset($field['type']) || ! isset($field['title']) )
+                if( ! isset($field['id']) || ! isset($field['type']) || ! isset($field['title']) )
                     continue; 
 
                 $settingArgs = array(
-                    'default' => $field['default'],
+                    'default' => isset($field['default']) ? $field['default'] : '',
                     'type'    => isset( $panel['option'] ) ? $panel['option'] : 'theme_mod'
                 );
                 

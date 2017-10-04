@@ -78,5 +78,8 @@
                 left: @grid-space + 3;
             }
         }
-    }    
+    }
+    &.switcher-disable input:checked + label:before {
+        background-color: @wp-red;    
+    }        
 }
