@@ -349,7 +349,7 @@ class Styling extends Base {
                             if( isset($properties['font-family']) && $properties['font-family'] )
                                 break;
                             
-                            $properties['font-family'] = $family == $field['values']['font'] ? $font['family'] : '';
+                            $properties['font-family'] = isset($field['values']['font']) && $family == $field['values']['font'] ? $font['family'] : '';
                             
                         }
                        
@@ -454,7 +454,7 @@ class Styling extends Base {
 
                     // Font weights, grouped per font so we can support multiple fonts settings with the same fonts, but different weights.
                     if( isset($field['values']['font_weight']) && $field['values']['font_weight'] && in_array($field['values']['font_weight'], $set[$field['values']['font']]['weights']) ) {
-                        $italic = $field['values']['italic'] && in_array('italic', $set[$field['values']['font']]['styles']) ? 'i' : '';
+                        $italic = isset($field['values']['italic']) && $field['values']['italic'] && in_array('italic', $set[$field['values']['font']]['styles']) ? 'i' : '';
                         $weights[$field['values']['font']][] = $field['values']['font_weight'] . $italic; 
                     } else {
                         $weights[$field['values']['font']][] = 400;    
