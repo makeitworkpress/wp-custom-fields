@@ -13,8 +13,9 @@ if ( ! defined( 'ABSPATH' ) )
 
 class Media implements Field {
     
-    public static function render($field = array()) {
+    public static function render( $field = array() ) {
         
+        $add            = isset($field['add']) ? $field['add'] : __('Add', 'wp-custom-fields');
         $type           = isset($field['subtype']) ? $field['subtype'] : '';
         $button         = isset($field['button']) ? $field['button'] : __('Insert', 'wp-custom-fields');
         $title          = isset($field['title']) ? $field['title'] : __('Add Media', 'wp-custom-fields');
@@ -48,7 +49,7 @@ class Media implements Field {
         $output .= '    <div class="wp-custom-fields-single-media empty">';
         $output .= '        <a href="#" class="wp-custom-fields-upload-add">';
         $output .= '            <i class="material-icons">add</i> ';
-        $output .=              __('Add', 'wp-custom-fields');
+        $output .=              $add;
         $output .=          '</a>'; 
         $output .= '    </div>';
         $output .= '    <input id="' . $field['id'] . '" name="' . $field['name']  . '" class="wp-custom-fields-upload-value" type="hidden" value="' . $field['values'] . '" />'; 

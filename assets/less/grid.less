@@ -20,6 +20,7 @@
 @half: (100% - @marge)/2;
 @third: (100% - 2*@marge)/3;
 @two-third: @third * 2 + @marge;
+@three-fourth: @fourth * 3 + @marge*2;
 @fourth: (100% - 3*@marge)/4;
 @fifth: (100% - 4*@marge)/5;
 
@@ -40,6 +41,10 @@
     width: @two-third; 
 }
 
+.three-fourth {
+    width: @three-fourth; 
+}
+
 .fourth {
     width: @fourth;
     @media screen and (min-width: 1025px) and (max-width: 1365px) {
@@ -55,13 +60,13 @@
 }
 
 /* Queries */
-.third, .two-third, .fourth, .fifth {
+.third, .two-third, .three-fourth, .fourth, .fifth {
     @media screen and (max-width: 1024px) {
         width: @half;
     }
 }
 
-.full, .half, .third, .two-third, .fourth, .fifth {
+.full, .half, .third, .two-third,.three-fourth, .fourth, .fifth {
     margin-bottom: @marge;  
     @media screen and (max-width: 768px) {
         width: 100%;
