@@ -35,8 +35,8 @@ class Framework extends Base {
     /**
      * Initializes the plugin 
      */
-    protected function initialize() {        
-        
+    protected function initialize() {
+
         $defaults = array(
             'google_maps_key' => ''
         );
