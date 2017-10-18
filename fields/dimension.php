@@ -25,9 +25,8 @@ class Dimension implements Field {
         $amount         = isset($field['values']['amount']) ? $field['values']['amount'] : '';
         $measure        = isset($field['values']['unit']) ? $field['values']['unit'] : '';        
         $step           = isset($field['step']) ? floatval($field['step']) : 1;
-        $placeholder    = ! empty($field['placeholder']) ? ' placeholder="' . $field['placeholder'] . '"' : '';
-        
-        $measurements   = $configurations['properties']['units'];
+        $placeholder    = ! empty($field['placeholder']) ? ' placeholder="' . $field['placeholder'] . '"' : '';        
+        $measurements   = isset($field['units']) && is_array($field['units']) ? $field['units'] : $configurations['properties']['units'];
         
         $output         = '<div class="wp-custom-fields-dimensions-input">';
         $output        .= ! empty( $field['label'] )    ? '    <label for="' . $field['id'] . '">' . $field['label'] . '</label>'   : '';    
