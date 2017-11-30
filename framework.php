@@ -67,8 +67,9 @@ class Framework extends Base {
         );
         
         // Setup our styling
-        if( ! is_admin() || is_customize_preview() )
+        if( ! is_admin() || is_customize_preview() ) {
             Styling::instance( array() ); 
+        }
         
     }
     
@@ -77,10 +78,10 @@ class Framework extends Base {
      * Set-ups up all divergent modules 
      * Set-ups all back-end option screens, providing they are requested by the configurations
      */
-    final public function setup() {
+    final public function setup() {    
         
-        // Add our configurations arrays
-        $this->addConfigurations();        
+        // Load our default configurations
+        $this->addConfigurations();          
 
         // Setup our framework, but only in the environment where needed
         if( is_admin() || is_customize_preview() ) {           
@@ -118,7 +119,7 @@ class Framework extends Base {
         $this->types            = apply_filters( 'wp_custom_fields_frames',  $this->types );
         
         // Adds filterable data for the various types.
-        foreach($this->types as $type) {
+        foreach( $this->types as $type ) {
             $this->frames[$type] = apply_filters( 'wp_custom_fields_frame_' . $type, isset($this->frames[$type]) ? $this->frames[$type] : array() );
         }
         
@@ -130,7 +131,7 @@ class Framework extends Base {
     private function frame() {
         
         // Initiates the various option or meta types
-        foreach( $this->frames as $frame => $optionsGroups) {
+        foreach( $this->frames as $frame => $optionsGroups ) {
             
             // Only predefined frames are allowed            
             if( ! in_array($frame, $this->types) )
@@ -152,6 +153,15 @@ class Framework extends Base {
             foreach( $optionsGroups as $group ) {
                 $class    = 'WP_Custom_Fields\\' . ucfirst( $frame );
                 $instance = new $class( $group );
+
+                // If our configurations are not valid, we report back with an error
+                if( is_wp_error($instance->validated ) ) {
+                    add_action( 'admin_notices', function() use($instance) {
+                        echo '<div class="error notice">';
+                        echo '  <p>' . sprintf( __('Error in WP Custom Fields: %s', 'wp-custom-fields'), $instance->validated->get_error_message() ) . '</p>';
+                        echo '</div>';
+                    });
+                }
             }
             
         }      
@@ -204,6 +214,59 @@ class Framework extends Base {
             return;
         
         $this->frames[$type][] = $values;
+        
+    }  
+    
+    /**
+     * Allows to adds certain data, such as data for fields. 
+     * If hooked late on after_setup_theme but before init, this will be able to edit fields.
+     *
+     * @param string    $type       The type to which you want to add values, such as meta, options or customizer
+     * @param array     $values     The respective values in form of an associative array
+     * @param string    $id         The id of the option to edit
+     * @param string    $section    The section of the option to edit
+     * @param string    $field      The field id of the option to edit
+     * @param string    $key        The key of the field to edit
+     */
+    public function edit( $type, $values, $id = '', $section = '', $field = '', $key = '' ) {
+        
+        // Only predefined frames are allowed            
+        if( ! in_array($type, $this->types) )
+            return;
+        
+        // Our id should always exist
+        if( ! isset($this->frames[$type][$id]) ) {
+            return;
+        }
+
+        if( $section && ! isset($this->frames[$type][$id][$section]) ) {
+            return;
+        }
+        
+        if( $field && ! isset($this->frames[$type][$id][$section][$field]) ) {
+            return;
+        }
+        
+        // A bit undry, but good for now
+        if( $field ) {
+            if( $key ) {
+                $this->frames[$type][$id][$section][$field][$key] = $values;
+            } else {
+                $this->frames[$type][$id][$section][$field] = $values;
+            }
+        } elseif( $section ) {
+            if( $key ) {
+                $this->frames[$type][$id][$section][$key] = $values;
+            } else {
+                $this->frames[$type][$id][$section] = $values;
+            }
+        } else {
+            if( $key ) {
+                $this->frames[$type][$id][$key] = $values;
+            } else {
+                $this->frames[$type][$id] = $values;
+            }
+        }     
         
     }     
        

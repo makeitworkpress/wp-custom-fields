@@ -7,6 +7,7 @@
  * @since 1.0.0
  */
 namespace WP_Custom_Fields;
+use WP_Error as WP_Error;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
@@ -24,7 +25,7 @@ trait Validate {
     public static function format( $frame, $input, $type = '' ) {    
         
         // Checks in which tab we are
-        $currentTab = strip_tags( $input['wp_custom_fields_section'] );
+        $currentTab = strip_tags( $input['wp_custom_fields_section_' . $frame['id']] );
         
         // Sets the transient for the current section
         set_transient('wp_custom_fields_current_section_' . $frame['id'], $currentTab, 10); 
@@ -361,6 +362,29 @@ trait Validate {
         
         return apply_filters( 'wp_custom_fields_sanitized_value', $return_value, $field_value, $field );
         
+    }
+
+
+    /**
+     * Examines the correctness of our configurations
+     * 
+     * @param array $options    The array with configurations
+     * @param array $required   The array with required configuration keys
+     * @return WP_Error|true    True if we pass the test, a WP_Error if we fail
+     */
+    public static function configurations( $options = [], $required = [] ) {
+
+        foreach( $required as $requirement ) {
+            if( ! isset($options[$requirement]) ) {
+                return new WP_Error( 
+                    'wrong', 
+                    sprintf( __('The configurations for one of your custom options are missing a required attribute: %s.', 'wp-custom-fields'), $requirement )
+                );    
+            }
+        }
+
+        return true;
+
     }
    
 }

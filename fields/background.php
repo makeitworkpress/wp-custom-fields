@@ -20,11 +20,12 @@ class Background implements Field {
 
         // Media Upload
         $upload_custom['subtype']   = 'image';
-        $upload_custom['button']    = __('Add Background', 'wp-custom-fields');
-        $upload_custom['title']     = __('Select a Background', 'wp-custom-fields');
-        $upload_custom['multiple']  = false; 
+        $upload_custom['add']       = isset($field['add']) ? $field['add'] : __('Select', 'wp-custom-fields');
+        $upload_custom['button']    = isset($field['button']) ? $field['button'] :__('Add Background', 'wp-custom-fields');
         $upload_custom['id']        = $field['id'] . '-upload';
+        $upload_custom['multiple']  = false; 
         $upload_custom['name']      = $field['name'] . '[upload]';
+        $upload_custom['title']     = isset($field['title']) ? $field['title'] :__('Select a Background', 'wp-custom-fields');
         $upload_custom['values']    = isset($field['values']['upload']) ? $field['values']['upload'] : '';
         
         $output = '<div class="wp-custom-fields-background-image wp-custom-fields-field-left">';

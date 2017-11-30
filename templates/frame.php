@@ -9,10 +9,9 @@
         <form method="post" action="options.php" enctype="multipart/form-data"> 
 <?php } ?>
 
-            <div class="wp-custom-fields-framework <?php echo $frame->class; ?>">
+            <div class="wp-custom-fields-framework <?php echo $frame->class; ?>" id="<?php echo $frame->id; ?>">
 
-                <header class="wp-custom-fields-header">
-                    
+                <header class="wp-custom-fields-header">                  
                                                         
                     <div class="wp-custom-fields-notifications">
 
@@ -35,7 +34,13 @@
                     
                     <ul class="wp-custom-fields-tabs">
                     
-                        <?php foreach( $frame->sections as $key => $section ) { ?>
+                        <?php 
+                            foreach( $frame->sections as $key => $section ) { 
+                                
+                                if( $section['tabs'] == false ) {
+                                    continue;
+                                }
+                        ?>
                             <li>
                                 
                                 <a class="wp-custom-fields-tab <?php echo $section['active']; ?>" href="#<?php echo $section['id']; ?>">
@@ -49,7 +54,9 @@
                                 </a>
                                 
                             </li>
-                        <?php } ?>
+                        <?php 
+                            } 
+                        ?>
                         
                     </ul>        
                         
@@ -122,7 +129,7 @@
                 echo $frame->settingsFields; 
             ?>
             
-            <input type="hidden" name="wp_custom_fields_section" id="wp_custom_fields_section_<?php echo $frame->id; ?>" value="<?php echo $frame->currentSection; ?>" />
+            <input type="hidden" name="wp_custom_fields_section_<?php echo $frame->id; ?>" id="wp_custom_fields_section_<?php echo $frame->id; ?>" value="<?php echo $frame->currentSection; ?>" />
 
 <?php if( $frame->type == 'Options' ) { ?>
         </form>

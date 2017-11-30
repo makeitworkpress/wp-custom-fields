@@ -23,15 +23,43 @@ class Options {
      * @access public
      */
     public $optionPage;
+
+    /**
+     * Examines if we have validated
+     * @access public
+     */
+    public $validated = false;    
         
     /**
      * Constructor
      *
      * @param array $group The array with settings, sections and fields
+     * @return WP_Errpr|void An WP Error if we encounter a configuration error, otherwise nothing
      */    
     public function __construct( $group = array() ) {
-        $this->optionPage = $group;
+        $this->optionPage   = $group;
+
+        $allowed            = array( 'menu', 'submenu', 'dashboard', 'posts', 'media', 'links', 'pages', 'comments', 'theme', 'users', 'management', 'options' );
+        $this->location     = isset( $this->optionPage['location'] ) && in_array( $this->optionPage['location'], $allowed ) ? $this->optionPage['location'] : 'menu';
+        
+        // Validate our configurations and return if we don't
+        switch( $this->location ) {
+            case 'menu':
+                $this->validated = Validate::configurations( $group, ['title', 'menu_title', 'capability', 'id', 'menu_icon', 'menu_position'] );
+                break;
+            case 'submenu':
+                $this->validated = Validate::configurations( $tgroup, ['title', 'menu_title', 'capability', 'id', 'slug'] );                         
+                break;
+            default:
+                $this->validated = Validate::configurations( $group, ['title', 'menu_title', 'capability', 'id'] );       
+        } 
+        
+        if( is_wp_error($this->validated) ) {
+            return;
+        }         
+
         $this->registerHooks();
+
     }
     
     /**
@@ -42,22 +70,19 @@ class Options {
         add_action( 'admin_menu', array($this, 'optionsPage') );
     }
     
-    
     /**
      * Controls the display of the options page
      */
     public function optionsPage() {
    
         // Check if a proper ID is set and add a menu page
-        if( ! isset($this->optionPage['id']) || empty( $this->optionPage['id'] ) )
-            return new WP_Error( 'wrong', __( 'Your options configurations are an ID.', 'wp-custom-fields' ) );
+        if( ! isset($this->optionPage['id']) || ! $this->optionPage['id'] ) {
+            return new WP_Error( 'wrong', __( 'Your options configurations require an id.', 'wp-custom-fields' ) );
+        }
 
-        $allowed    = array( 'menu', 'submenu', 'dashboard', 'posts', 'media', 'links', 'pages', 'comments', 'theme', 'users', 'management', 'options' );
-        $location   = isset( $this->optionPage['location'] ) && in_array( $this->optionPage['location'], $allowed ) ? $this->optionPage['location'] : 'menu';
-        $addPage    = 'add_' . $location . '_page';
-        $pageArgs   = $this->optionPage;
+        $addPage    = 'add_' . $this->location . '_page';
         
-        switch( $location ) {
+        switch( $this->location ) {
             case 'menu':
                 add_menu_page(
                     $this->optionPage['title'], 

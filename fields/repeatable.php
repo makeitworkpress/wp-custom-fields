@@ -50,7 +50,7 @@ class Repeatable implements Field {
             foreach($fields as $subkey => $subfield) {
 
                 // Render each field based upon the values
-                $subfield['columns']  = isset($subfield['columns']) ? $subfield['columns'] : 'full';
+                $subfield['columns']  = isset($subfield['columns']) ? 'wcf-' . $subfield['columns'] : 'wcf-full';
                 $subfield['values']   = isset($subfield['values']) ? $subfield['values'] : '';
                 $subfield['name']     = $field['name'] . '[' . $key . ']' . '[' . $subfield['id'] . ']';
                 $subfield['id']       = $field['id'] . '-' . $key  . '-' . $subfield['id'];

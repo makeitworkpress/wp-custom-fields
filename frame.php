@@ -69,7 +69,7 @@ class Frame {
         foreach( $this->frame['sections'] as $key => $section ) {
             
             if( ! isset($section['id']) )
-                return;
+                continue;
             
             $this->sections[$key]                  = $section;
             $this->sections[$key]['active']        = $this->currentSection == $section['id'] ? 'active'          : '';
@@ -77,10 +77,17 @@ class Frame {
             $this->sections[$key]['fields']        = array();
             $this->sections[$key]['icon']          = ! empty( $section['icon'] ) ? esc_html($section['icon'])  : false;
             $this->sections[$key]['id']            = esc_attr($section['id']);
+            $this->sections[$key]['tabs']          = isset( $section['tabs'] ) && $section['tabs'] == false ? false : true;
             $this->sections[$key]['title']         = isset( $section['title'] ) ? esc_html($section['title'])  : __( 'Titleless Section', 'wp-custom-fields' );
             
-            foreach( $section['fields'] as $field) {
+            foreach( $section['fields'] as $field ) {
+
+                // Fields without an id are not added
+                if( ! isset($field['id']) )
+                    continue;
+
                 $this->sections[$key]['fields'][]  = $this->populateField( $field );
+
             }
                 
         }
@@ -100,8 +107,8 @@ class Frame {
         
         // Populate our variables
         $field                  = $field;
-        $field['column']        = isset( $field['columns'] )            ?  esc_attr($field['columns'])      : 'full';
-        $field['description']   = isset( $field['description'] )        ?  esc_html($field['description'])  : '';
+        $field['column']        = isset( $field['columns'] )            ?  'wcf-' . esc_attr($field['columns']) : 'wcf-full';
+        $field['description']   = isset( $field['description'] )        ?  esc_html($field['description'])      : '';
         $field['form']          = __('We are sorry, the given field class does not exist', 'wp-custom-fields');
         
         // Make sure our IDs do not contain brackets

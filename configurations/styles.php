@@ -21,15 +21,7 @@ $styles[] = array(
     'deps'      => array(),
     'ver'       => '',
     'media'     => ''
-);
-
-$styles[] = array(
-    'handle'    => 'alpha-color-picker',
-    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/alpha-color-picker.min.css',
-    'deps'      => array( 'wp-color-picker' ),
-    'ver'       => '',
-    'media'     => ''
-);    
+);  
 
 $styles[] = array(
     'handle'    => 'mirror-css',

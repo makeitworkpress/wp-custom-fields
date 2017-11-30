@@ -23,16 +23,39 @@ class Customizer {
      * Contains the option values for each of the panels
      * @access public
      */
-    public $panel;    
+    public $panel; 
+    
+    /**
+     * Examines if we have validated
+     * @access public
+     */
+    public $validated = false;     
         
     /**
      * Constructor
      *
-     * @param array $group The array with settings, sections and fields     
+     * @param array $group      The array with settings, sections and fields 
+     * @return WP_Error|void    Returns a WP_Error if something is wrong in the configurations, otherwise nothing    
      */    
     public function __construct( $group = array() ) {
         $this->panel = $group;
+
+        // Validate for errors
+        if( ! isset($group['id']) || ! isset($group['sections']) ) {
+            $this->validated = new WP_Error( 'wrong', __( 'Your customizer configurations are missing sections or an id.', 'wp-custom-fields' ) ); 
+        }
+    
+        // Prohibited names
+        if( in_array($group['id'], array('widget_', 'sidebars_widgets', 'nav_menu', 'nav_menu_item')) ) {
+            $this->validated = new WP_Error( 'wrong', __( 'It is forbidden to use widget_, sidebars_widget, nav_menu or nav_menu_item for customizer ids.', 'wp-custom-fields' ) );
+        }
+
+        if( is_wp_error($this->validated) ) {
+            return;
+        }
+
         $this->registerHooks();
+
     }
     
     /**
@@ -70,13 +93,6 @@ class Customizer {
         
         // Check
         $panel = $this->panel;
-        
-        if( ! isset($panel['id']) || ! isset($panel['sections']) )
-            return new WP_Error( 'wrong', __( 'Your customizer configurations are missing sections or an ID.', 'wp-custom-fields' ) ); 
-        
-        // Prohibited names
-        if( in_array($panel['id'], array('widget_', 'sidebars_widgets', 'nav_menu', 'nav_menu_item')) )
-            return new WP_Error( 'wrong', __( 'It is forbidden to use widget_, sidebars_widget, nav_menu or nav_menu_item for customizers.', 'wp-custom-fields' ) );
 
         /**
          * Add our panel

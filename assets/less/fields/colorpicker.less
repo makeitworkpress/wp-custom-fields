@@ -2,13 +2,12 @@
 
 /* Colorpicker */
 .wp-custom-fields-colorpicker-wrapper {
-    margin: 3px;
-    .wp-picker-container {
-        padding-bottom: @grid-space/8;
-        position: relative;
-    }
-    .wp-picker-holder {
-        position: absolute;
-        z-index: 9;
-    }
+    margin: 3px 0;   
 }
+
+.wp-picker-open + .wp-picker-input-wrap {
+    display: flex;
+    label {
+        margin: 0;
+    }
+} 

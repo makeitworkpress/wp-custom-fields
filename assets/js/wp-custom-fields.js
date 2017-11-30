@@ -19,37 +19,24 @@ var init = function() {
 
 // Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);
-},{"./fields":2,"./modules/repeatable":6,"./modules/tabs":9}],2:[function(require,module,exports){
+},{"./fields":2,"./modules/repeatable":5,"./modules/tabs":8}],2:[function(require,module,exports){
 /**
  * Executres Field modules
  */
-var colorpicker = require('./modules/colorpicker');
+// var colorpicker = require('./modules/colorpicker');
 var location = require('./modules/location');
 var media = require('./modules/media');
 var select = require('./modules/select');
 var slider = require('./modules/slider');
 
 module.exports.init = function(framework) {
-    colorpicker.colorpicker(framework);
+    // colorpicker.colorpicker(framework);
     location.location(framework);
     media.media(framework);
     select.init(framework);   
     slider.slider(framework);   
 };
-},{"./modules/colorpicker":3,"./modules/location":4,"./modules/media":5,"./modules/select":7,"./modules/slider":8}],3:[function(require,module,exports){
-/**
- * Our colorpicker module
- */
-module.exports.colorpicker = function(framework) {
-    
-    var colorOptions = {
-        palettes: true
-    };
-    
-    jQuery(framework).find('.wp-custom-fields-colorpicker').alphaColorPicker();
-    
-}
-},{}],4:[function(require,module,exports){
+},{"./modules/location":3,"./modules/media":4,"./modules/select":6,"./modules/slider":7}],3:[function(require,module,exports){
 /**
  * Our location field
  */
@@ -132,7 +119,7 @@ module.exports.location = function(framework) {
 
     });  
 }
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -248,7 +235,7 @@ module.exports.media = function(framework) {
     });
     
 }
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * Our repeatable fields module
  */
@@ -307,7 +294,7 @@ module.exports.init = function(framework) {
     });
     
 }
-},{"./../fields":2}],7:[function(require,module,exports){
+},{"./../fields":2}],6:[function(require,module,exports){
 /**
  * Our colorpicker module
  */
@@ -342,7 +329,7 @@ var formatState = function(state) {
     return newState; 
     
 }
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -371,18 +358,20 @@ module.exports.slider = function(framework) {
     });
     
 }
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports.init = function() {
     
+    // Click handler for our tabs
     jQuery(".wp-custom-fields-tabs a").click(function (e) {
         
         e.preventDefault();
         
         var activeTab = jQuery(this).attr("href"),
-            section = activeTab.replace('#', '');
+            section = activeTab.replace('#', ''),
+            frame = jQuery(this).closest('.wp-custom-fields-framework').attr('id');
         
         // Change our active section
-        jQuery('input[name="wp_custom_fields_section"]').val(section);
+        jQuery('#wp_custom_fields_section_' + frame).val(section);
 		
         // Remove current active classes
         jQuery(this).closest('.wp-custom-fields-framework').find(".wp-custom-fields-tabs a").removeClass("active");
@@ -392,7 +381,7 @@ module.exports.init = function() {
         jQuery(this).addClass("active");      
         jQuery(activeTab).addClass("active");
 
-	});
-    
+    });
+ 
 }
 },{}]},{},[1]);
