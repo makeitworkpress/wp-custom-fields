@@ -170,8 +170,12 @@ class Meta {
             return $id;
 
         // Check our user capabilities
-        if ( ! current_user_can( 'edit_posts', $id ) || ! current_user_can( 'edit_page', $id ) )
+        if ( ! current_user_can( 'edit_posts', $id ) || ! current_user_can( 'edit_pages', $id ) )
             return $id;
+
+        // If we are editing users, we are more limited
+        if (  $this->type == 'user' && ! current_user_can('edit_users') )
+            return;    
          
         // Check our nonces
         if ( ! wp_verify_nonce( $_POST['wp-custom-fields-metaboxes-nonce-' . $this->metaBox['id']], 'wp-custom-fields-metaboxes-' . $this->metaBox['id'] ) ) 
