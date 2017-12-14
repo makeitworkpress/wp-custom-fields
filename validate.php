@@ -108,14 +108,15 @@ trait Validate {
 
             foreach($section['fields'] as $field) { 
 
-                $output[$field['id']] = self::sanitizeFields( $input[$field['id']], $field );
+                $output[$field['id']] = self::sanitizeFields( isset($input[$field['id']]) ? $input[$field['id']] : '', $field );
                 
             }
             
         }
         
-        if( $type = 'Options' )
+        if( $type = 'Options' ) {
             add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings saved!', 'wp-custom-fields'), 'update' );
+        }
         
         return $output;
         
