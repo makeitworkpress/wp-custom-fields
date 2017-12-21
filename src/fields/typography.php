@@ -124,7 +124,7 @@ class Typography implements Field {
         $output .= '</div><!-- .wp-custom-fields-typography-appearance -->';
         
         // If this field is responsible for some styling, we can also opt to load all weights
-        if( isset($field['css']) ) {
+        if( isset($field['selector']) ) {
             
             $normal = isset($field['labels']['normal']) ? $field['labels']['normal'] : $configurations['labels']['normal'];
             $italic = isset($field['labels']['italic']) ? $field['labels']['italic'] : $configurations['labels']['italic'];
