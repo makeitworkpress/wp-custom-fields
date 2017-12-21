@@ -72,7 +72,7 @@ class Styling extends Base {
                     // Loop through our fields and see if some have a CSS target defined
                     foreach( $section['fields'] as $field ) {
 
-                        // A selector should be defined. A selector supports selector, size (for the background thumbnail size), max (for the max-width media query), property
+                        // A selector should be defined. A selector supports selector, size (for the background thumbnail size), max-width (for the max-width media query), property
                         if( ! isset($field['selector']) )
                             continue;
 
@@ -177,7 +177,7 @@ class Styling extends Base {
             $properties = '';
             
             // Some fields are used in the customizer to update content. Those are skipped here.
-            if( isset($field['selector']['content']) )
+            if( isset($field['selector']['html']) || isset($field['selector']['attr']) )
                 continue;
             
             // Some fields do not have values. We skip those
@@ -203,13 +203,18 @@ class Styling extends Base {
                 continue;
 
             // If we have a media query for a maximum width
-            if( isset($field['selector']['max']) ) {
-
+            if( isset($field['selector']['max-width']) ) {
+                $style     .= '@media screen and (max-width: ' . $field['selector']['max'] . ') {';
             }               
             
             // Add our styling accordingly.
             $selector   = isset( $field['selector']['selector'] ) ? $field['selector']['selector'] : $field['selector'];            
             $style     .= $selector . '{' . $properties . '}';
+
+            // Close our media query
+            if( isset($field['selector']['max-width']) ) {
+                $style     .= '}';
+            }             
             
         }
         
@@ -447,8 +452,10 @@ class Styling extends Base {
         // Build our styles.
         foreach( $this->fields as $field ) {
             
-            if( $field['type'] != 'typography')
+            // Only typographic fields are supported
+            if( $field['type'] != 'typography') {
                 continue;
+            }
             
             foreach( $this->fonts as $key => $set ) {
                 
@@ -534,41 +541,42 @@ class Styling extends Base {
             foreach( $this->fields as $field ) {
                 
                 // The messages should be transported
-                if( ! $field['transport'] )
+                if( ! $field['transport'] ) {
                     continue;
-                
-                // The field should have properties
-                if( ! $field['properties'] )
-                    continue;
-                
-                $bind       = '';
-                $selector   = isset( $field['selector']['selector'] ) ? $field['selector']['selector'] : $field['selector'];
-                
-                // The output might differ per field type
-                switch( $field['type'] ) {
-//                    case 'typography':
-//                        foreach( $field['properties'] as $property => $value ) {
-//                            $bind .= 'value.bind( function( newValue ) {
-//                                $("' . $selector . '").css("' . $property . '", newValue);
-//                            } );';                       
-//                        }
-//                        break;
-                    default:
-                        $target = isset( $field['selector']['content'] ) ? 'html(newValue)' : 'css("' . array_keys($field['properties'])[0] . '", newValue)';
-                        $bind  .= 'value.bind( function( newValue ) {
-                            $("' . $selector . '").' . $target . ';
-                        } );';
                 }
                 
-                $script .= 'wp.customize( "' . $field['group'] . '[' . $field['id'] . ']' . '", function( value ) {
-                      ' . $bind . '
-                } );';                
+                $bind       = '';
+                
+                // The field should have properties, unless we have a content or attribute field
+                if( $field['properties'] || isset($field['selector']['html']) || isset($field['selector']['attr']) ) {
+                
+                    $selector   = isset( $field['selector']['selector'] ) ? $field['selector']['selector'] : $field['selector'];
+                    
+                    // The output might differ per field type
+                    if( isset($field['selector']['html']) ) {
+                        $target = 'html(newValue)';    
+                    } elseif( isset( $field['selector']['attr']) ) {
+                        $target = 'attr("' . $field['selector']['attr'] . '", newValue)';
+                    } elseif($field['properties']) {
+                        $target = 'css("' . array_keys($field['properties'])[0] . '", newValue)';
+                    }
+
+                    $bind  .= 'value.bind( function( newValue ) {
+                        $("' . $selector . '").' . $target . ';
+                    } );';
+                    
+                    $script .= 'wp.customize( "' . $field['group'] . '[' . $field['id'] . ']' . '", function( value ) {
+                        ' . $bind . '
+                    } );';   
+
+                }
 
             }
 
             // Our bindings script
-            if( $script )
+            if( $script ) {
                 echo '<script type="text/javascript" id="wp-custom-fields-customizer-js">( function( $ ) {' . $script . '} )( jQuery );</script>';
+            }
             
         }, 100);
      
