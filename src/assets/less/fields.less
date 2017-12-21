@@ -1,0 +1,109 @@
+// main: wp-custom-fields.less
+
+/**
+ * Framework Fields
+ * ----------------------------------
+ */
+@import 'fields/boxshadow.less';
+@import 'fields/colorpicker.less';
+@import 'fields/dimensions.less';
+@import 'fields/icons.less';
+@import 'fields/media.less';
+@import 'fields/radio.less';
+@import 'fields/repeatable.less';
+@import 'fields/select.less';
+@import 'fields/slider.less';
+@import 'fields/typography.less';
+
+
+/**
+ * General Field sTyling
+ */
+.wp-custom-fields-field-left {
+    display: inline-block;
+    margin-right: @grid-space;
+    vertical-align: top;
+}
+
+.wp-custom-fields-option-field {
+    box-sizing: border-box;
+    border: 1px solid @light-grey;
+    padding: 20px;
+    &.field-divider, &.field-heading {
+        border: none;
+        padding: 0;
+    }
+}
+
+.wp-custom-fields-field-title {
+    border-bottom: 1px solid @light-grey;
+    h4 {
+        font-size: 1.1em;
+        margin: 0 0 0.5em 0;
+    }
+}
+
+.wp-custom-fields-field-description {
+    p {
+        color: @wp-description;
+        font-size: 14px;
+        font-style: italic;
+    }
+}
+
+.wp-custom-fields-field-input {
+    margin: 20px 0;
+    .error {
+        border: 1px solid @wp-red;
+    }
+    label.error {
+        background: lighten(@wp-red, 30); 
+        display: block;
+        margin: 10px 1px 0 1px;
+        padding: 3px 5px;
+        position: relative;
+        &:before {
+            border-bottom: 7px solid @wp-red;
+            border-left: 7px solid transparent; 
+            border-right: 7px solid transparent; 
+            content: '';
+            display: block;
+            height: 0;
+            left: 5px;
+            position: absolute;
+            top: -7px;
+            width: 0;
+        }
+    }    
+}
+
+.wp-custom-fields-icon-list {
+    overflow: hidden;
+    margin: 1px 1px @grid-space/2 1px;
+    li {
+        border-bottom: 1px solid @wp-grey;
+        border-right: 1px solid @wp-grey; 
+        float: left;
+        height: 28px;
+        margin: 0;
+        width: 28px;
+        label {
+            background-color: @white;
+            display: block;
+            font-size: 16px;
+            height: 28px;
+            i {
+                line-height: 28px;
+            }
+            margin: 0;
+            text-align: center;
+        }
+        input {
+            display: none;
+        }
+        input:checked ~ label, label:hover {
+            background-color: @wp-blue;
+            color: @white;
+        }
+    }    
+}

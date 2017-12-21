@@ -1,3 +1,22 @@
 {
-    "name": "wp-custom-fields"
+    "name": "makeitworkpress/wp-custom-fields",
+    "description": "WP Custom Fields allows you to add custom fields easily to options pages, post, taxonomy and usermeta and customizer fields.",
+    "license": "GPL",
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "MakeitWorkPress\\WP_Custom_Fields\\": "src"
+        }
+    },
+    "homepage": "https://github.com/makeitworkpress/wp-custom-fields",
+    "authors": [ 
+        {
+            "name": "Michiel Tramper",
+            "email": "michiel@makeitworkpress.com",
+            "homepage": "https://www.makeitworkpress.com"
+
+        } 
+    ]           
 }
