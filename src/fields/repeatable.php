@@ -61,10 +61,12 @@ class Repeatable implements Field {
                     $output .= '<div class="wp-custom-fields-repeatable-field wp-custom-fields-option-field ' . $subfield['columns'] . '">';
                         $output .= '<h5>' . $subfield['title'] . '</h5>';
 
-                        if( isset($subfield['description']) ) 
-                            $output .= '<p>' . $subfield['description'] . '</p>';
-
                         $output .= $class::render($subfield);
+
+                        if( isset($subfield['description']) ) {
+                            $output .= '<div class="wp-custom-fields-field-description"><p>' . $subfield['description'] . '</p></div>';  
+                        }
+
                     $output .= '</div>';
                 }
 

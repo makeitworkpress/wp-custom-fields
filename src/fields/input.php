@@ -13,9 +13,16 @@ class Input implements Field {
     
     public static function render($field = array()) {
         
-        $type = isset($field['subtype']) ? $field['subtype'] : 'text';
+        $attributes = '';
+        $type       = isset($field['subtype']) && $field['subtype'] ? $field['subtype'] : 'text';
+
+        foreach( array('min', 'max', 'step') as $attribute ) {
+            if( isset($field[$attribute]) && $field[$attribute] !== '' ) {
+                $attributes .= ' ' . $attribute . '="' . $field[$attribute] . '"';  
+            }
+        }
         
-        return '<input class="regular-text" id="' . $field['id'] . '" name="' . $field['name']  . '" type="' . $type . '" value="' . $field['values'] . '" />';    
+        return '<input class="regular-text" id="' . $field['id'] . '" name="' . $field['name']  . '" type="' . $type . '" value="' . $field['values'] . '"' . $attributes . ' />';    
     }
     
     public static function configurations() {

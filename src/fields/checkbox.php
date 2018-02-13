@@ -14,7 +14,7 @@ class Checkbox implements Field {
     public static function render($field = array()) {
         
         $options    = isset($field['options']) ? $field['options'] : array();
-        $style      = isset($field['style']) ? $field['style'] : ''; // Accepts an optional .buttonset style, for a set of styled buttons or .switcher style for a switch display
+        $style      = isset($field['style']) ? $field['style'] : ''; // Accepts an optional .buttonset style, for a set of styled buttons or .switcher/.switcher .switcher-disable style for a switch display
         
         $output = '<ul class="wp-custom-fields-field-checkbox-wrapper ' . $style . '">';
         

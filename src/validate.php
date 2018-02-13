@@ -58,8 +58,9 @@ trait Validate {
             }
             
             // Add a notification for option pages
-            if( $type = 'Options' )
+            if( $type = 'Options' ) {
                 add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings restored for this section.', 'wp-custom-fields'), 'update' );
+            }
             
             return $output;
             

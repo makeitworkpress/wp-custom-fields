@@ -16,7 +16,7 @@
                     <div class="wp-custom-fields-notifications">
 
                         <?php if( $frame->type == 'Options' ) { ?>
-                            <h2><?php echo $frame->title; ?></h2>
+                            <h1><?php echo $frame->title; ?></h1>
                         <?php } ?>
                     
                         <?php if( $frame->restoreButton || $frame->saveButton ) { ?>

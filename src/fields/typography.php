@@ -42,7 +42,7 @@ class Typography implements Field {
             
             foreach( $types as $key => $font ) {          
                 $display        = isset($font['example']) ? $font['example'] : WP_CUSTOM_FIELDS_ASSETS_URL . 'img/' . $key . '.png'; // Allows for custom fonts
-                $output .= '<option data-display="' . $display . '" value="' . $key . '" ' . selected( $field['values']['font'], $key, false ) . '>';
+                $output .= '<option data-display="' . $display . '" value="' . $key . '" ' . selected( isset($field['values']['font']) ? $field['values']['font'] : '', $key, false ) . '>';
                 $output .=      $font['name'];
                 $output .= '</option>';
             }

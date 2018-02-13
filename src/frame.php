@@ -63,7 +63,7 @@ class Frame {
         
         // Current section
         $transient              = get_transient( 'wp_custom_fields_current_section_' . $this->frame['id'] );
-        $this->currentSection   = ! empty( $transient ) ? $transient : $this->frame['sections'][0]['id'];        
+        $this->currentSection   = ! empty( $transient ) ? $transient : array_values($this->frame['sections'])[0]['id'];   
         
         // Loop through our sections
         foreach( $this->frame['sections'] as $key => $section ) {
@@ -79,6 +79,10 @@ class Frame {
             $this->sections[$key]['id']            = esc_attr($section['id']);
             $this->sections[$key]['tabs']          = isset( $section['tabs'] ) && $section['tabs'] == false ? false : true;
             $this->sections[$key]['title']         = isset( $section['title'] ) ? esc_html($section['title'])  : __( 'Titleless Section', 'wp-custom-fields' );
+
+            if( ! isset($section['fields']) || ! is_array($section['fields']) ) {
+                continue;
+            }
             
             foreach( $section['fields'] as $field ) {
 
@@ -118,7 +122,7 @@ class Frame {
         
         $field['placeholder']   = isset( $field['placeholder'] )        ? esc_attr($field['placeholder'])   : '';
         $field['title']         = isset( $field['title'] )              ? esc_html($field['title'])         : '';
-        $field['titleTag']      = $field['type'] == 'heading'           ? 'h2'                              : 'h4';
+        $field['titleTag']      = $field['type'] == 'heading'           ? 'h3'                              : 'h4';
         $field['type']          = esc_attr($field['type']);
         
         // The class
