@@ -152,7 +152,10 @@ class Framework extends Base {
             // Create a new instance for each group
             foreach( $optionsGroups as $group ) {
                 $class    = 'MakeitWorkPress\WP_Custom_Fields\\' . ucfirst( $frame );
-                $instance = new $class( $group );
+
+                if( class_exists($class ) ) {
+                    $instance = new $class( $group );
+                }
 
                 // If our configurations are not valid, we report back with an error
                 if( is_wp_error($instance->validated ) ) {

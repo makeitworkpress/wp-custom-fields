@@ -13,26 +13,33 @@ module.exports.init = function(framework) {
     jQuery('.wp-custom-fields-repeatable-add').on('click', function (e) {
         e.preventDefault();
         var length = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
-            group = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last(),
-            newGroup = group.clone(true, true),
-            newGroupNumber = newGroup.find('h4 span');
-        
-        // The title should follow the numbering
-        newGroupNumber.text(length);
+            group = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
+            
+        // Destroy our select2 instances
+        jQuery('.wp-custom-fields-select').select2('destroy');                
+
+        // Build our newgroup
+        var newGroup = group.clone(true, true);
         
         // Clone the current group and replace the current keys by new ones
         newGroup.html(function (i, oldGroup) {
             return oldGroup.replace(/\[\d\]/g, '[' + length + ']').replace(/\-\d\-/g, '-' + length + '-');
-        });
-        
-        // Redraw the fields within the group
-        fields.init(newGroup);
+        }); 
+
+        // Empty inputs in our  new group
+        newGroup.find('input').val('');
+        newGroup.find('textarea').val('');
+        newGroup.find('option').attr('selected', false);        
                 
         // Finally, insert the newGroup after the current group
         group.after(newGroup);
+
+        // Redraw the fields within the group
+        fields.init(newGroup);        
         
     });
     
+    // Remove the container
     jQuery('.wp-custom-fields-repeatable-remove').on('click', function (e) {
         e.preventDefault();
         var length = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
@@ -44,6 +51,7 @@ module.exports.init = function(framework) {
         }
     });
     
+    // Open or close a group
     jQuery('body').on('click', '.wp-custom-fields-repeatable-toggle', function (e) {
         e.preventDefault();
         

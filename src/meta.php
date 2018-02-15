@@ -21,8 +21,21 @@ class Meta {
     
     /**
      * Contains the $metaBox array for each of the option pages
+     * @access public
      */
     public $metaBox;
+
+    /**
+     * If we are saving as single keys, this value is true
+     * @access public
+     */
+    public $single = false;    
+
+    /**
+     * Saves the type of metabox (user, term or post)
+     * @access public
+     */
+    public $type;
 
     /**
      * Examines if we have validated
@@ -37,7 +50,9 @@ class Meta {
      * @return WP_Error|void Returns a WP_Error if something is wrong in the configurations, otherwise nothing
      */    
     public function __construct( $group = array() ) {
+        
         $this->metaBox  = $group;
+        $this->single   = isset( $this->metaBox['single'] ) ? $this->metaBox['single'] : false;
         $this->type     = isset( $this->metaBox['type'] ) ? $this->metaBox['type'] : 'post';
 
         // Our type should be in a predefined array
@@ -55,6 +70,7 @@ class Meta {
             $this->validated = Validate::configurations( $group, ['id', 'title', 'screen', 'context', 'priority'] );
         } 
         
+        // if there is an error, return the error
         if( is_wp_error($this->validated) ) {
             return;
         }        
@@ -142,7 +158,47 @@ class Meta {
      */
     public function render( $object ) {
 
-        $values                 = get_metadata( $this->type,  $object->ID, $this->metaBox['id'], true );
+        // This grabs our metavalues from a single box
+        if( $this->single ) {
+
+            $values = array();
+
+            // We should have sections
+            if( ! isset($this->metaBox['sections']) ) {
+                return;
+            }
+
+            foreach( $this->metaBox['sections'] as $section ) {
+
+                // We should have fields
+                if( ! isset($section['fields']) ) {
+                    continue;
+                } 
+                
+                foreach( $section['fields'] as $field ) {
+
+                    // We should have fields
+                    if( ! isset($field['id']) ) {
+                        continue;
+                    } 
+
+                    $field['id']                = str_replace( '[', '_', esc_attr($field['id']) ); 
+                    $field['id']                = str_replace( ']', '', esc_attr($field['id']) );
+                    $value                      = get_metadata( $this->type, $object->ID, $field['id'], true );
+                    
+                    // Only add to the fields if we have an actual value
+                    if( $value ) {
+                        $values[$field['id']]   = $value ;
+                    }
+
+                }
+                
+            }
+
+        } else {
+
+            $values             = get_metadata( $this->type, $object->ID, $this->metaBox['id'], true );
+        }
         
         $frame                  = new Frame( $this->metaBox, $values );
         $frame->settingsFields  = wp_nonce_field( 'wp-custom-fields-metaboxes-' . $frame->id, 'wp-custom-fields-metaboxes-nonce-' . $frame->id, true, false );
@@ -188,15 +244,33 @@ class Meta {
         // Return if nothing has changed
         if( $current == $output )
             return;
+
+        // Saves our metaboxes as seperate values
+        if( $this->single ) {
+
+            foreach( $output as $meta => $values ) {
+
+                if( empty($values) ) {
+                    delete_metadata( $this->type, $id, $meta );    
+                } else {
+                    update_metadata( $this->type, $id, $meta, $values);     
+                }
+
+            }
+
+        // Saves under one key
+        } else {
         
-        // Delete metadata if the output is empty
-        if( empty($output) ) {
-            delete_metadata( $this->type, $id, $this->metaBox['id']);
-            return;
-        } 
+            // Delete metadata if the output is empty
+            if( empty($output) ) {
+                delete_metadata( $this->type, $id, $this->metaBox['id'] );
+                return;
+            } 
+            
+            // Update meta data
+            update_metadata( $this->type, $id, $this->metaBox['id'], $output);  
         
-        // Update meta data
-        update_metadata( $this->type, $id, $this->metaBox['id'], $output);     
+        }
         
     }
     

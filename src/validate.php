@@ -11,7 +11,7 @@ use WP_Error as WP_Error;
 
 // Bail if accessed directly
 if ( ! defined( 'ABSPATH' ) )
-    die; 
+    die;
 
 trait Validate {
     
@@ -22,7 +22,7 @@ trait Validate {
      * @param array $input   The $_Post $input generated
      * @param array $type    The type to format for
      */
-    public static function format( $frame, $input, $type = '' ) {    
+    public static function format( $frame, $input, $type = '' ) {
         
         // Checks in which tab we are
         $currentTab = strip_tags( $input['wp_custom_fields_section_' . $frame['id']] );
@@ -58,7 +58,7 @@ trait Validate {
             }
             
             // Add a notification for option pages
-            if( $type = 'Options' ) {
+            if( $type == 'Options' ) {
                 add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings restored for this section.', 'wp-custom-fields'), 'update' );
             }
             
@@ -82,12 +82,12 @@ trait Validate {
                 
             }
             
-            if( $type = 'Options' )
+            if( $type == 'Options' )
                 add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('All settings are restored.', 'wp-custom-fields'), 'update' );
             
             return $output;
         
-        }        
+        }   
         
         /**
          * Import data
@@ -96,8 +96,9 @@ trait Validate {
             
             $output = unserialize( base64_decode($input['import_value']) );
             
-            if( $type = 'Options' )
+            if( $type == 'Options' ) {
                 add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings Imported!', 'wp-custom-fields'), 'update' );
+            }
             
             return $output;
         }
@@ -107,15 +108,19 @@ trait Validate {
          */
         foreach( $frame['sections'] as $section ) {
 
-            foreach($section['fields'] as $field) { 
+            foreach( $section['fields'] as $key => $field ) { 
 
-                $output[$field['id']] = self::sanitizeFields( isset($input[$field['id']]) ? $input[$field['id']] : '', $field );
+                if( ! isset($input[$field['id']]) ) {
+                    continue;
+                }
                 
+                $output[$field['id']] = self::sanitizeFields($input[$field['id']], $field);
+
             }
             
         }
         
-        if( $type = 'Options' ) {
+        if( $type == 'Options' ) {
             add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings saved!', 'wp-custom-fields'), 'update' );
         }
         
@@ -195,7 +200,7 @@ trait Validate {
                     $return_value['style']           = sanitize_key( $field_value['style'] );     
                     $return_value['width']['amount'] = intval( $field_value['width']['amount'] );
                     $return_value['width']['unit']   = sanitize_text_field( $field_value['width']['unit'] );                                      
-                }               
+                }
                 
                 break;
                 
@@ -332,6 +337,7 @@ trait Validate {
             
             // Typographic field
             case 'typography':
+
                 
                 // Font-family
                 $return_value['font']               = sanitize_text_field( $field_value['font'] );
@@ -360,7 +366,7 @@ trait Validate {
             // Default sanitization            
             default:
                 $return_value = sanitize_text_field($field_value);
-        } 
+        }
         
         return apply_filters( 'wp_custom_fields_sanitized_value', $return_value, $field_value, $field );
         

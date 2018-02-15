@@ -1,5 +1,5 @@
 /**
- * Executres Field modules
+ * Executes Field modules
  */
 // var colorpicker = require('./modules/colorpicker');
 var location = require('./modules/location');

@@ -48,7 +48,7 @@ class Options {
                 $this->validated = Validate::configurations( $group, ['title', 'menu_title', 'capability', 'id', 'menu_icon', 'menu_position'] );
                 break;
             case 'submenu':
-                $this->validated = Validate::configurations( $tgroup, ['title', 'menu_title', 'capability', 'id', 'slug'] );                         
+                $this->validated = Validate::configurations( $group, ['title', 'menu_title', 'capability', 'id', 'slug'] );                         
                 break;
             default:
                 $this->validated = Validate::configurations( $group, ['title', 'menu_title', 'capability', 'id'] );       
