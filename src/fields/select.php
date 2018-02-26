@@ -53,6 +53,7 @@ class Select implements Field {
         if( ! empty($field['placeholder']) ) { 
             $output .= '    <option value="">' . $field['placeholder'] . '</option>';
         }
+
         foreach ($options as $key => $option ) {
             if( $multiple && is_array($field['values']) ) {
                 $selected = in_array($key, $field['values']) ? 'selected="selected"' : '';

@@ -304,12 +304,13 @@ trait Validate {
                 
                 // Multiple iceons
                 if( is_array($field_value) ) {
+                    $return_value       = [];
                     foreach($field_value as $value) {
                         $return_value[] = sanitize_key( $value );
                     }
+                } else {                  
+                    $return_value = sanitize_key( $field_value );
                 }
-                
-                $return_value = sanitize_key( $field_value );
                 break; 
                 
             // Slider
