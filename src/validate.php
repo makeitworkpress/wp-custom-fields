@@ -82,8 +82,9 @@ trait Validate {
                 
             }
             
-            if( $type == 'Options' )
+            if( $type == 'Options' ) {
                 add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('All settings are restored.', 'wp-custom-fields'), 'update' );
+            }
             
             return $output;
         
@@ -111,7 +112,7 @@ trait Validate {
             foreach( $section['fields'] as $key => $field ) { 
 
                 if( ! isset($input[$field['id']]) ) {
-                    continue;
+                    $input[$field['id']] = '';
                 }
                 
                 $output[$field['id']] = self::sanitizeFields($input[$field['id']], $field);
@@ -176,7 +177,7 @@ trait Validate {
                 
                 $texts = array('attachment', 'color', 'position', 'upload', 'repeat', 'size');
                 
-                foreach($texts as $text) {
+                foreach( $texts as $text ) {
                     $return_value[$text] = sanitize_text_field( $field_value[$text] );    
                 }
                 break;
@@ -210,7 +211,7 @@ trait Validate {
                 $ints = array('x', 'y', 'blur', 'spread');
                 
                 foreach($ints as $int) {
-                    $return_value[$int] = intval( $field_value[$int] );    
+                    $return_value[$int] = isset($field_value[$int]) ? intval( $field_value[$int] ) : '';    
                 }
                 $return_value['color']  = sanitize_text_field( $field_value['color'] );
                 $return_value['type']   = sanitize_text_field( $field_value['type'] );

@@ -242,8 +242,9 @@ class Meta {
         $output     = Validate::format( $this->metaBox, $_POST );
         
         // Return if nothing has changed
-        if( $current == $output )
+        if( $current == $output ) {
             return;
+        }
 
         // Saves our metaboxes as seperate values
         if( $this->single ) {
