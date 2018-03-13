@@ -87,7 +87,10 @@ module.exports.init = function(framework) {
                 }
                 
                 if( message && typeof(response.data) !== 'undefined' ) {
-                    jQuery(self).after('<div class="wpcf-button-message updated"><p>' + response.data + '</p></div>');
+
+                    var style = response.success ? 'updated' : 'error'; 
+
+                    jQuery(self).after('<div class="wpcf-button-message ' + style + '"><p>' + response.data + '</p></div>');
                 }
 
             },
