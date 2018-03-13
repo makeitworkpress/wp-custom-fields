@@ -56,7 +56,7 @@ class Options {
         
         if( is_wp_error($this->validated) ) {
             return;
-        }         
+        }        
 
         $this->registerHooks();
 
@@ -74,12 +74,12 @@ class Options {
      * Controls the display of the options page
      */
     public function optionsPage() {
-   
+  
         // Check if a proper ID is set and add a menu page
         if( ! isset($this->optionPage['id']) || ! $this->optionPage['id'] ) {
             return new WP_Error( 'wrong', __( 'Your options configurations require an id.', 'wp-custom-fields' ) );
-        }
-
+        } 
+          
         $addPage    = 'add_' . $this->location . '_page';
         
         switch( $this->location ) {
@@ -126,7 +126,7 @@ class Options {
             return;
 
         // Register the setting so it can be retrieved under a single option name. Sanitization is done on field level and executed by the sanitize method.
-        register_setting( $this->optionPage['id'] . '_group', $this->optionPage['id'], array($this, 'save') );  
+        register_setting( $this->optionPage['id'] . '_group', $this->optionPage['id'], ['sanitize_callback' => [$this, 'sanitize']] );  
 
         foreach( $this->optionPage['sections'] as $section ) {
 
@@ -200,15 +200,16 @@ class Options {
     }   
     
     /**
-     * Function for sanitizing saved data
+     * Function for sanitizing the saved data. Hooks upon sanitizing the option directly.
      *
-     * @param $output The output from the saved form. 
+     * @param $value The output from the saved form. 
      */
-    public function save( $output ) {
+    public function sanitize( $value ) {
         
-        $output = Validate::format( $this->optionPage, $_POST, 'Options' );
+        $value = Validate::format( $this->optionPage, $_POST, 'Options' );
         
-        return $output;
+        return $value;
+
     }
     
     /**
