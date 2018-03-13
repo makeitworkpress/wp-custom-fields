@@ -24,7 +24,13 @@ $scripts[] = array(
     'deps'      => array( 'jquery' ),
     'ver'       => null,
     'in_footer' => true,  
-    'action'    => 'register'
+    'action'    => 'register',
+    'localize'  => [
+        'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
+        'debug'     => defined('WP_DEBUG') && WP_DEBUG ? true : false,
+        'nonce'     => wp_create_nonce('wp-custom-fields') 
+    ],
+    'object'    => 'wpcf'
 );  
 
 $scripts[] = array(

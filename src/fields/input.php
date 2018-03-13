@@ -21,8 +21,11 @@ class Input implements Field {
                 $attributes .= ' ' . $attribute . '="' . $field[$attribute] . '"';  
             }
         }
+
+        // Our field class
+        $class = $type == 'number' ? 'small-text' : 'regular-text';
         
-        return '<input class="regular-text" id="' . $field['id'] . '" name="' . $field['name']  . '" type="' . $type . '" value="' . $field['values'] . '"' . $attributes . ' />';    
+        return '<input class="' . $class . '" id="' . $field['id'] . '" name="' . $field['name']  . '" type="' . $type . '" value="' . $field['values'] . '"' . $attributes . ' />';    
     }
     
     public static function configurations() {

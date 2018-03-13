@@ -19,24 +19,86 @@ var init = function() {
 
 // Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);
-},{"./fields":2,"./modules/repeatable":5,"./modules/tabs":8}],2:[function(require,module,exports){
+},{"./fields":2,"./modules/repeatable":6,"./modules/tabs":9}],2:[function(require,module,exports){
 /**
  * Executes Field modules
  */
 // var colorpicker = require('./modules/colorpicker');
+var button = require('./modules/button');
 var location = require('./modules/location');
 var media = require('./modules/media');
 var select = require('./modules/select');
 var slider = require('./modules/slider');
 
 module.exports.init = function(framework) {
-    // colorpicker.colorpicker(framework);
+    button.init(framework);
     location.location(framework);
     media.media(framework);
     select.init(framework);   
     slider.slider(framework);   
 };
-},{"./modules/location":3,"./modules/media":4,"./modules/select":6,"./modules/slider":7}],3:[function(require,module,exports){
+},{"./modules/button":3,"./modules/location":4,"./modules/media":5,"./modules/select":7,"./modules/slider":8}],3:[function(require,module,exports){
+/**
+ * Our button module, accepting custom ajax actions
+ */
+module.exports.init = function(framework) {
+    
+    jQuery('.wpcf-button').click( function(event) {
+
+        event.preventDefault();
+
+        var action  = jQuery(this).data('action'),
+            message = jQuery(this).data('message')
+            self    = this;
+
+        if( ! action ) {
+            return;
+        }
+
+        jQuery.ajax({
+            beforeSend: function() {
+                jQuery(self).addClass('wpcf-loading');
+            },
+            complete: function() {
+                jQuery(self).removeClass('wpcf-loading');
+
+                setTimeout( function() {
+                    jQuery(self).next('.wpcf-button-message').fadeOut();
+                }, 3000);
+
+                setTimeout( function() {
+                    jQuery(self).next('.wpcf-button-message').remove();
+                }, 3500);                
+
+            },
+            data: {
+                action: action,
+                nonce: wpcf.nonce
+            },
+            error: function(response) {
+                if( wpcf.debug ) {
+                    console.log(response);
+                }
+            },
+            success: function(response) {
+
+                if( wpcf.debug ) {
+                    console.log(response);
+                }
+                
+                if( message && typeof(response.data) !== 'undefined' ) {
+                    jQuery(self).after('<div class="wpcf-button-message updated"><p>' + response.data + '</p></div>');
+                }
+
+            },
+            type: 'POST',
+            url: wpcf.ajaxUrl
+        });
+
+    });
+    
+}
+},{}],4:[function(require,module,exports){
 /**
  * Our location field
  */
@@ -119,7 +181,7 @@ module.exports.location = function(framework) {
 
     });  
 }
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -235,7 +297,7 @@ module.exports.media = function(framework) {
     });
     
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * Our repeatable fields module
  */
@@ -302,7 +364,7 @@ module.exports.init = function(framework) {
     });
     
 }
-},{"./../fields":2}],6:[function(require,module,exports){
+},{"./../fields":2}],7:[function(require,module,exports){
 /**
  * Our colorpicker module
  */
@@ -339,7 +401,7 @@ var formatState = function(state) {
     return newState; 
     
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -368,7 +430,7 @@ module.exports.slider = function(framework) {
     });
     
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports.init = function() {
     
     // Click handler for our tabs

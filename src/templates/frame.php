@@ -80,6 +80,8 @@
 
                                     <div class="wp-custom-fields-option-field <?php echo $field['column']; ?> field-<?php echo $field['type']; ?>">
 
+                                        <?php do_action('wcf_before_field', $field); ?>
+                                        
                                         <?php if( $field['title'] ) { ?>
                                             <div class="wp-custom-fields-field-title">
                                                 <?php           
@@ -99,6 +101,8 @@
                                                 <p><?php echo $field['description']; ?></p>
                                             </div> 
                                         <?php } ?>
+
+                                        <?php do_action('wcf_after_field', $field); ?>
 
                                     </div>
 
@@ -124,7 +128,7 @@
             
             <?php 
                 /**
-                 * Echo settings fields, such as those that are rendered by the options page or the nonce fields for meta boxe pages
+                 * Echo settings fields, such as those that are rendered by the options page or the nonce fields for meta box pages
                  */
                 echo $frame->settingsFields; 
             ?>

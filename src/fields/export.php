@@ -18,6 +18,7 @@ class Export implements Field {
             return;
         
         global $post;
+        
         $screen     = get_current_screen();
         $options    = $screen->parent_file == 'edit.php' ? get_post_meta($post->ID, $field['option_id'], true) : get_option($field['option_id']);
         
