@@ -15,7 +15,9 @@ class Dimensions implements Field {
         
         // Basic Variables
         $output = '';
-        $border = isset($field['borders']) ? $field['borders'] : '';
+        $border = isset( $field['borders'] ) ? $field['borders'] : '';
+        $step   = isset( $field['step'] ) ? $field['step'] : 1;
+        $units  = isset( $field['units'] ) ? $field['units'] : false;
         
         // Control each side of the box model
         if( $border == 'all' ) {
@@ -27,15 +29,16 @@ class Dimensions implements Field {
                 'left'      => __('Left', 'wp-custom-fields')
             );
             
-            foreach($sides as $key => $side) {
+            foreach( $sides as $key => $side ) {
              
                 $output            .= '<div class="wp-custom-fields-field-left">';
                 $output            .= Dimension::render( array(
-                    'step'          => isset($field['step']) ? $field['step'] : 1,
+                    'step'          => $step,
                     'icon'          => 'border_' . $key,
                     'id'            => $field['id'] . '-' . $key,
                     'name'          => $field['name'] . '[' . $key . ']',
                     'placeholder'   => $side,
+                    'units'         => $units,
                     'values'        => isset($field['values'][$key]) ? $field['values'][$key] : array()               
                 ) );
                 $output            .= '</div>';
@@ -45,16 +48,12 @@ class Dimensions implements Field {
         // One control
         } else {
             
-            $dimension['icon']   = 'border_outer'; 
-            $dimension['id']     = $field['id']; 
-            $dimension['name']   = $field['name']; 
-            $dimension['values'] = isset($field['values']) ? $field['values'] : array();
-            
             $output             .= Dimension::render( array(
-                'step'      => isset($field['step']) ? $field['step'] : 1,
+                'step'      => $step,
                 'icon'      => 'border_outer',
                 'id'        => $field['id'],
                 'name'      => $field['name'],
+                'units'     => $units,
                 'values'    => isset($field['values']) ? $field['values'] : array()
             ) );        
 

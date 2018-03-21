@@ -13,14 +13,28 @@ class Export implements Field {
     
     public static function render($field = array()) {
         
-        // An option id should be provied
+        // An option id should be provided
         if( ! isset($field['option_id']) )
             return;
         
-        global $post;
-        
-        $screen     = get_current_screen();
-        $options    = $screen->parent_file == 'edit.php' ? get_post_meta($post->ID, $field['option_id'], true) : get_option($field['option_id']);
+        global $pagenow;
+
+        switch( $pagenow ) {
+            case 'post.php':
+                global $post;
+                $options = get_post_meta( $post->ID, $field['option_id'], true );
+                break;
+            case 'profile.php';
+            case 'user-edit.php';
+                $user = $pagenow == 'profile.php' ? get_current_user_id() : $_GET['user_id']; 
+                get_term_meta( $user, $field['option_id'], true );
+                break;
+            case 'term.php';
+                get_term_meta(  $_GET['tag_ID'], $field['option_id'], true );
+                break;
+            default:
+                $options = get_option($field['option_id']);
+        }
         
         $output = '<div class="wp-custom-fields-export">';
         $output .= '    <label for="' . $field['id'] . '-export">' . __('Exportable Settings', 'wp-custom-fields') . '</label>';
