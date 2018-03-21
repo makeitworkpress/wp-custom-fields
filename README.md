@@ -7,5 +7,7 @@ WP Custom Fields allows you to:
 * Add **custom metaboxes** to posts, taxonomies and users
 * Add (custom) **customizer fields** and panels
 
+How to do this? Look into [the Wiki of this Repository](https://github.com/makeitworkpress/wp-custom-fields/wiki)!
+
 ## Author & Usage
 WP Custom Fields is maintained by [Make it WorkPress](https://www.makeitworkpress.com/wordpress-solutions/scripts/wp-custom-fields/). For usage and installation, please visit [the Wiki of this Repository](https://github.com/makeitworkpress/wp-custom-fields/wiki)
