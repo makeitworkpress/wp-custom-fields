@@ -1,5 +1,5 @@
 # wp-custom-fields-framework
-The wp custom fields framework is an options framework for WordPress aimed at speeding-up plug-in and theme development.
+The wp custom fields framework is an options framework for WordPress aimed at speeding-up plug-in and theme development. It can be used to add custom fields to various locations and to output the data stored in these fields to css styles.
 
 ## Adding option pages, custom metaboxes and customizer fields
 WP Custom Fields allows you to:
