@@ -21,8 +21,6 @@ class Typography implements Field {
      */    
     public static function render( $field = array() ) {
         
-        $type = isset($field['subtype']) ? $field['subtype'] : 'text';
-        
         // Load the select2 script, but only if not yet enqueued
         if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
             wp_enqueue_script('select2-js');         

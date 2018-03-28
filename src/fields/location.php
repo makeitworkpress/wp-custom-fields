@@ -13,11 +13,10 @@ class Location implements Field {
     
     public static function render($field = array()) {
         
-        $addJS          = apply_filters('wp_custom_fields_location_field_js', true);
-        
         // Retrieve scripts
-        if($addJS && ! wp_script_is('google-maps-js', 'enqueued') )
+        if( apply_filters('wp_custom_fields_location_field_js', true) && ! wp_script_is('google-maps-js', 'enqueued') ) {
             wp_enqueue_script('google-maps-js');
+        }
         
         $output = '<div class="wp-custom-fields-location">';
         $output .= '<input class="regular-text wp-custom-fields-map-search" type="text" />';

@@ -133,10 +133,10 @@ class Frame {
         $default                = isset( $field['default'] )            ? $field['default'] : $configurations['defaults'];
         $field['values']        = isset( $this->values[$field['id']] )  ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
         
-        // Render our field form, allow custom fields to be filtered.
-        
-        if( class_exists($class) )
+        // Render our field form, allow custom fields to be filtered.   
+        if( class_exists($class) ) {
             $field['form']      = apply_filters( 'wp_custom_fields_field_form', $class::render($field), $field );
+        }
         
         return $field;
         

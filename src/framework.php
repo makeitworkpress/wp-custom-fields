@@ -20,6 +20,7 @@ class Framework extends Base {
     
     // Contains the fonts available in the frame
     public static $fonts;
+    
     // These properties hold all configurations for the custom fields for each frame. A frame is an options screen, anywhere.
     protected $frames; 
 

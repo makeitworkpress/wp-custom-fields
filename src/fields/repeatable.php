@@ -13,8 +13,8 @@ class Repeatable implements Field {
     
     public static function render($field = array()) {
         
-        $add                = isset($field['labels']['add'])      ? $field['labels']['add']     : __('Add Group', 'wp-custom-fields');
-        $remove             = isset($field['labels']['remove'])   ? $field['labels']['remove']  : __('Remove Group', 'wp-custom-fields');
+        $add                = isset($field['add'])      ? $field['add']     : __('Add Group', 'wp-custom-fields');
+        $remove             = isset($field['remove'])   ? $field['remove']  : __('Remove Group', 'wp-custom-fields');
         $display            = isset($field['closed']) && $field['closed']   ? ' hidden'         : '';
         
         // Prepare the array with data

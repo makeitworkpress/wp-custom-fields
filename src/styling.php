@@ -177,12 +177,14 @@ class Styling extends Base {
             $properties = '';
             
             // Some fields are used in the customizer to update content. Those are skipped here.
-            if( isset($field['selector']['html']) || isset($field['selector']['attr']) )
+            if( isset($field['selector']['html']) || isset($field['selector']['attr']) ) {
                 continue;
+            }
             
             // Some fields do not have values. We skip those
-            if( ! isset($field['values']) || ! $field['values'] )
+            if( ! isset($field['values']) || ! $field['values'] ) {
                 continue;
+            }
 
             // Only add the style if we have values for it 
             foreach( $field['properties'] as $property => $value ) {
@@ -515,8 +517,9 @@ class Styling extends Base {
         }
         
         // Enqueue the styles.
-        if( $styles )
+        if( $styles ) {
             wp_enqueue_style( 'wp-custom-fields-fonts', 'https://fonts.googleapis.com/css?family=' . implode('|', $styles) );
+        }
      
     }
     

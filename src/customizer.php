@@ -83,7 +83,7 @@ class Customizer {
     /**
      * Adds the settings using the settings api
      * Built in types: input (text, hidden, number, range, url, tel, email, search, time, date, datetime, week), 
-     * checkbox, textarea, radio, select, dropdown-pages, range
+     * checkbox, textarea, radio, select, dropdown-pages
      *
      * @param object $wp_customize The WP Customize Object
      *
@@ -128,16 +128,19 @@ class Customizer {
             );
             
             // If we have panels enabled, we add the section to this panel
-            if( isset($panel['panel']) && $panel['panel'] )
+            if( isset($panel['panel']) && $panel['panel'] ) {
                 $sectionArgs['panel'] = $panel['id'];
+            }
             
             // Accepts string parameters such as 'is_page' or 'is_single' to hide sections conditionally
-            if( isset($section['active_callback']) )
-                $sectionArgs[ 'active_callback']    = $section['active_callback'];            
+            if( isset($section['active_callback']) ) {
+                $sectionArgs[ 'active_callback']    = $section['active_callback'];  
+            }          
 
             // Add our section, but not necessarely if it is a core section
-            if( ! in_array($section['id'], array('themes', 'title_tagline', 'colors', 'header_image', 'background_image', 'static_front_page')) )
+            if( ! in_array($section['id'], array('themes', 'title_tagline', 'colors', 'header_image', 'background_image', 'static_front_page')) ) {
                 $wp_customize->add_section( $section['id'], $sectionArgs );
+            }
 
             foreach( $section['fields'] as $field ) {             
 
@@ -192,11 +195,12 @@ class Customizer {
                 $controlArgs['settings']    = $panel['id'] . '[' . $field['id'] . ']'; // This is required for custom classes
                 
                 // Define our additional control arguments
-                $controls = array('choices', 'description', 'height', 'input_attrs', 'mime_type', 'settings', 'type', 'width');
+                $controls = array( 'choices', 'description', 'height', 'input_attrs', 'mime_type', 'type', 'width' );
                 
                 foreach( $controls as $type ) {
-                    if( isset($field[$type]) ) 
+                    if( isset($field[$type]) ) {
                         $controlArgs[$type] = $field[$type];
+                    }
                 }
                 
                 /**
@@ -245,15 +249,18 @@ class Customizer {
 
                         break;                         
                     case 'custom':
-                        $wp_customize->add_control( new $field['custom']($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
+                        if( class_exists($field['custom']) ) {
+                            $wp_customize->add_control( new $field['custom']($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
+                        }
                         break;
                     default:
                         $wp_customize->add_control( $panel['id'] . '[' . $field['id'] . ']', $controlArgs );
                 }
 
                 // Register our partials
-                if( isset($field['partial']) )
+                if( isset($field['partial']) ) {
                     $wp_customize->selective_refresh->add_partial( $panel['id'] . '[' . $field['id'] . ']', $field['partial'] );
+                }
 
             }
 
