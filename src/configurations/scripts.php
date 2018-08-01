@@ -43,6 +43,15 @@ $scripts[] = array(
 ); 
 
 $scripts[] = array(
+    'handle'    => 'flatpicker-js',
+    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/flatpicker.min.js',
+    'deps'      => array(),
+    'ver'       => null,
+    'in_footer' => true,  
+    'action'    => 'register'
+);
+
+$scripts[] = array(
     'handle'    => 'mirror-js',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/codemirror.min.js',
     'deps'      => array(),

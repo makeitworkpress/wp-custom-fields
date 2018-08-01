@@ -13,8 +13,9 @@ class Input implements Field {
     
     public static function render($field = array()) {
         
-        $attributes = '';
-        $type       = isset($field['subtype']) && $field['subtype'] ? $field['subtype'] : 'text';
+        $attributes  = '';
+        $placeholder = isset($field['placeholder']) && $field['placeholder'] ? ' placeholder="' . $field['placeholder'] . '"' : '';
+        $type        = isset($field['subtype']) && $field['subtype'] ? $field['subtype'] : 'text';
 
         foreach( array('min', 'max', 'step') as $attribute ) {
             if( isset($field[$attribute]) && $field[$attribute] !== '' ) {
@@ -25,7 +26,7 @@ class Input implements Field {
         // Our field class
         $class = $type == 'number' ? 'small-text' : 'regular-text';
         
-        return '<input class="' . $class . '" id="' . $field['id'] . '" name="' . $field['name']  . '" type="' . $type . '" value="' . $field['values'] . '"' . $attributes . ' />';    
+        return '<input class="' . $class . '" id="' . $field['id'] . '" name="' . $field['name']  . '" type="' . $type . '" value="' . $field['values'] . '"' . $placeholder . $attributes . ' />';    
     }
     
     public static function configurations() {

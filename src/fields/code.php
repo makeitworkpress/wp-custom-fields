@@ -16,9 +16,12 @@ class Code implements Field {
         $mode       = isset($field['mode']) ? $field['mode'] : 'htmlmixed';
         $field_id   = $field['id'];
         
-        if( apply_filters('wp_custom_fields_code_field_js', true) && ! wp_script_is('mirror-js', 'enqueued') )
+        // Only Enqueue if it is not enqueued yet
+        if( apply_filters('wp_custom_fields_code_field_js', true) && ! wp_script_is('mirror-js', 'enqueued') ) {
             wp_enqueue_script('mirror-js');
+        }
         
+        // Output the variables as JavaScript
         add_action('admin_print_footer_scripts', function() use ($field_id, $mode) {
             echo '<script>
                 var editor_'.$field_id.' = document.getElementById("'.$field_id.'"),

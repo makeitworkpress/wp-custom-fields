@@ -5,6 +5,7 @@
     "description": "The package for the WP Custom Fields Framework",
     "dependencies": {
         "codemirror": "latest",
+        "flatpicker": "latest",
         "select2": "latest"
     },
     "devDependencies": {

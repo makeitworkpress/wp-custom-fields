@@ -24,6 +24,14 @@ $styles[] = array(
 );  
 
 $styles[] = array(
+    'handle'    => 'flatpicker-css',
+    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/flatpicker.min.css',
+    'deps'      => array(),
+    'ver'       => '',
+    'media'     => ''
+); 
+
+$styles[] = array(
     'handle'    => 'mirror-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/codemirror.min.css',
     'deps'      => array(),

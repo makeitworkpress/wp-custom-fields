@@ -19,12 +19,14 @@ var init = function() {
 
 // Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);
-},{"./fields":2,"./modules/repeatable":6,"./modules/tabs":9}],2:[function(require,module,exports){
+},{"./fields":2,"./modules/repeatable":7,"./modules/tabs":10}],2:[function(require,module,exports){
 /**
  * Executes Field modules
+ * @todo Convert in a loop
  */
 // var colorpicker = require('./modules/colorpicker');
 var button = require('./modules/button');
+var datepicker = require('./modules/datepicker');
 var location = require('./modules/location');
 var media = require('./modules/media');
 var select = require('./modules/select');
@@ -32,12 +34,13 @@ var slider = require('./modules/slider');
 
 module.exports.init = function(framework) {
     button.init(framework);
+    datepicker.init(framework);
     location.location(framework);
     media.media(framework);
     select.init(framework);   
     slider.slider(framework);   
 };
-},{"./modules/button":3,"./modules/location":4,"./modules/media":5,"./modules/select":7,"./modules/slider":8}],3:[function(require,module,exports){
+},{"./modules/button":3,"./modules/datepicker":4,"./modules/location":5,"./modules/media":6,"./modules/select":8,"./modules/slider":9}],3:[function(require,module,exports){
 /**
  * Our button module, accepting custom ajax actions
  */
@@ -102,6 +105,43 @@ module.exports.init = function(framework) {
     
 }
 },{}],4:[function(require,module,exports){
+/**
+ * Initializes our datepicker using the flatpickr library
+ * @param {The class for the framework} framework 
+ */
+module.exports.init = function(framework) {
+
+    var config = {
+            altFormat: 'F j, Y',
+            altInput: true,
+            dateFormat: 'U',
+            time_24hr: true,
+            wrap: true
+        },
+        datePicker = jQuery(framework).find('.wp-custom-fields-datepicker'),
+        propertyName,
+        propertyValue;
+
+    // Grab our custom properties. For a description of these properties, see the datepicker.php file in the fields folder.
+    ['enable-time', 'alt-format', 'date-format', 'locale', 'max-date', 'min-date', 'mode', 'no-calendar', 'week-numbers'].forEach( function(value) {
+
+        propertyValue = jQuery(datePicker).data(value);
+
+        if( propertyValue ) {
+            propertyName = value.replace( /-([a-z])/g, function (g) { return g[1].toUpperCase(); } );
+            config[propertyName] = propertyValue;
+        }
+
+    });
+
+    
+    console.log(config);
+
+    // Initializes the datepicker
+    jQuery(datePicker).flatpickr(config);
+
+}
+},{}],5:[function(require,module,exports){
 /**
  * Our location field
  */
@@ -184,7 +224,7 @@ module.exports.location = function(framework) {
 
     });  
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -300,7 +340,7 @@ module.exports.media = function(framework) {
     });
     
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * Our repeatable fields module
  */
@@ -367,7 +407,7 @@ module.exports.init = function(framework) {
     });
     
 }
-},{"./../fields":2}],7:[function(require,module,exports){
+},{"./../fields":2}],8:[function(require,module,exports){
 /**
  * Our colorpicker module
  */
@@ -404,7 +444,7 @@ var formatState = function(state) {
     return newState; 
     
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -433,7 +473,7 @@ module.exports.slider = function(framework) {
     });
     
 }
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports.init = function() {
     
     // Click handler for our tabs
