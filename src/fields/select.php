@@ -21,7 +21,7 @@ class Select implements Field {
             wp_enqueue_script('select2-js');        
         
         // Set-up if we have a multiple checkbox
-        if(isset($field['multiple'])) { 
+        if( isset($field['multiple']) && $field['multiple'] ) { 
             $multiple = 'multiple="multiple"';
             $namekey = '[]';
         } else { 
