@@ -14,6 +14,7 @@ class Input implements Field {
     public static function render($field = array()) {
         
         $attributes  = '';
+        $class       = isset($field['class']) && $field['class'] ? $field['class'] : 'regular-text';
         $placeholder = isset($field['placeholder']) && $field['placeholder'] ? ' placeholder="' . $field['placeholder'] . '"' : '';
         $type        = isset($field['subtype']) && $field['subtype'] ? $field['subtype'] : 'text';
 
@@ -23,8 +24,8 @@ class Input implements Field {
             }
         }
 
-        // Our field class
-        $class = $type == 'number' ? 'small-text' : 'regular-text';
+        // Our definite field class
+        $class = $type == 'number' && ! isset($field['class']) ? 'small-text' : $class;
         
         return '<input class="' . $class . '" id="' . $field['id'] . '" name="' . $field['name']  . '" type="' . $type . '" value="' . $field['values'] . '"' . $placeholder . $attributes . ' />';    
     }
