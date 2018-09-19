@@ -14,6 +14,7 @@ class Select implements Field {
     public static function render($field = array()) {
         
         $options = isset($field['options']) ? $field['options'] : array();
+        $object  = isset($field['object']) ? $field['object'] : 'posts';
         $source  = isset($field['source']) ? $field['source'] : '';
         
         // Load the select2 script if we have a select field
@@ -30,21 +31,54 @@ class Select implements Field {
         }  
         
         // Load an array of posts
-        if( ! empty($source) ) {
-            
+        if( $object == 'posts' && ! empty($source) ) {
+
+            $options = array();
             $posts = get_posts(
                 array(
+                    'ep_integrate'      => true,
                     'post_type'         => $source, 
                     'posts_per_page'    => -1, 
                     'orderby'           => 'title', 
                     'order'             => 'ASC'
                 )
-            ); 
-            $options = array();
+            );
             
             foreach( $posts as $post ) {
                 $options[$post->ID] = $post->post_title;
+            }                
+
+        } elseif( $object == 'users' ) {
+
+            $options = array();
+            $users = get_users(
+                array(
+                    'fields'            => ['ID', 'display_name'], 
+                    'orderby'           => 'display_name', 
+                    'order'             => 'ASC'
+                )
+            );
+            
+            foreach( $users as $user ) {
+                $options[$user->ID] = $user->display_name;
             }
+
+        } elseif( $object == 'terms' && ! empty($source) ) {
+
+            $options = array();
+            $terms = get_terms(
+                array(
+                    'fields'            => 'id=>name', 
+                    'hide_empty'        => false, 
+                    'order'             => 'ASC',
+                    'taxonomy'          => $source
+                )
+            );
+            
+            foreach( $terms as $ID => $name ) {
+                $options[$ID] = $name;
+            }                
+            
         }
         
         $output = '<select class="wp-custom-fields-select" id="' . $field['id']  . '" name="' . $field['name'] . $namekey . '" ' . $multiple .'>';
