@@ -8,7 +8,8 @@ module.exports.init = function(framework) {
         event.preventDefault();
 
         var action  = jQuery(this).data('action'),
-            message = jQuery(this).data('message')
+            data    = jQuery(this).data('data'),
+            message = jQuery(this).data('message'),
             self    = this;
 
         if( ! action ) {
@@ -33,6 +34,7 @@ module.exports.init = function(framework) {
             },
             data: {
                 action: action,
+                data: data, 
                 nonce: wpcf.nonce
             },
             error: function(response) {

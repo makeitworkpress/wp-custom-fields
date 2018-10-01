@@ -27,11 +27,13 @@ class button implements Field {
         }
 
         $action     = $field['action'];
-        $label      = isset( $field['label'] ) ? $field['label'] : '';
-        $message    = isset( $field['message'] ) ? $field['message'] : '';
-        $style      = isset( $field['style'] ) ? $field['style'] : '';
+        $data       = isset( $field['data'] ) ? json_encode($field['data']) : '';
+        $label      = isset( $field['label'] ) ? sanitize_text_field($field['label']) : '';
+        $message    = isset( $field['message'] ) ? sanitize_text_field($field['message']) : '';
+        $style      = isset( $field['style'] ) ? sanitize_text_field($field['style']) : '';
         
-        $output = '<button data-action="' . $action . '" data-message="' . $message . '" class="wpcf-button button ' . $style . '">' . $label  . '</button>';
+        $output = '<button data-action="' . $action . '" data-data=\'' . $data . '\' data-message="' . $message . '" class="wpcf-button button ' . $style . '">' . $label  . '</button>';
+
         
         return $output;    
     }
