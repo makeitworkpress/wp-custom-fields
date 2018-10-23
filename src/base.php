@@ -48,7 +48,7 @@ abstract class Base {
     public static function instance( Array $params = array() ) {
         
         $c = get_called_class();
-        if ( !isset( self::$instance[$c] ) ) {
+        if ( ! isset( self::$instance[$c] ) ) {
             self::$instance[$c] = new $c();
             self::$instance[$c]->params = $params;
             self::$instance[$c]->initialize();

@@ -37,6 +37,12 @@ class Options {
      * @return WP_Error|void An WP Error if we encounter a configuration error, otherwise nothing
      */    
     public function __construct( $group = array() ) {
+
+        // This can only be executed in admin context
+        if( ! is_admin() ) {
+            return;
+        }
+
         $this->optionPage   = $group;
 
         $allowed            = array( 'menu', 'submenu', 'dashboard', 'posts', 'media', 'links', 'pages', 'comments', 'theme', 'users', 'management', 'options' );

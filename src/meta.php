@@ -50,6 +50,11 @@ class Meta {
      * @return WP_Error|void Returns a WP_Error if something is wrong in the configurations, otherwise nothing
      */    
     public function __construct( $group = array() ) {
+
+        // This can only be executed in admin context
+        if( ! is_admin() ) {
+            return;
+        }
         
         $this->metaBox  = $group;
         $this->single   = isset( $this->metaBox['single'] ) ? $this->metaBox['single'] : false;

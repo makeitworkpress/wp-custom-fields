@@ -42,11 +42,13 @@ class Frame {
         // Include our scripts and media
         wp_enqueue_media();  
 
-        if( ! wp_script_is('alpha-color-picker') )
+        if( ! wp_script_is('alpha-color-picker') ) {
             wp_enqueue_script('alpha-color-picker');
+        }
         
-        if( ! wp_script_is('wp-custom-fields-js') )
-            wp_enqueue_script('wp-custom-fields-js');         
+        if( ! wp_script_is('wp-custom-fields-js') ) {
+            wp_enqueue_script('wp-custom-fields-js');  
+        }       
         
         // Populate Variables
         $this->populateSections();

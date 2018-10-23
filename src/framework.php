@@ -61,7 +61,8 @@ class Framework extends Base {
     /**
      * Adds functions to WordPress hooks - is automatically performed at a new instance
      */
-    protected function registerHooks() {           
+    protected function registerHooks() {  
+
         $this->actions = array(
             array( 'after_setup_theme', 'setup', 20 ),
             array( 'admin_enqueue_scripts', 'enqueue' )
@@ -187,8 +188,9 @@ class Framework extends Base {
             $action( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );
             
             // Localize a script
-            if( isset($script['localize']) && isset($script['object']) )
+            if( isset($script['localize']) && isset($script['object']) ) {
                 wp_localize_script( $script['handle'], $script['object'], $script['localize'] );
+            }
             
         }
         
