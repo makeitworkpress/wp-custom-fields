@@ -132,8 +132,8 @@ class Frame {
         
         // Render our field form, allow custom fields to be filtered.   
         if( class_exists($class) ) {
-            
-            $configurations         = $class::configurations();
+
+            $configurations     = $class::configurations();
         
             // Check if there is a default value set up, and whether there is a value already stored for the specific field
             $default            = isset( $field['default'] )            ? $field['default'] : $configurations['defaults'];
