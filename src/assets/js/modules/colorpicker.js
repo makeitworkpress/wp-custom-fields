@@ -1,7 +1,7 @@
 /**
  * Our colorpicker module - because we included the alpha colorpicker script, this is already included by default
  */
-module.exports.colorpicker = function(framework) {
+module.exports.init = function(framework) {
     
     var colorOptions = {
         palettes: true

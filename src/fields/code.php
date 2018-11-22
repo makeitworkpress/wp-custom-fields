@@ -14,27 +14,14 @@ class Code implements Field {
     public static function render( $field = array() ) {
         
         $mode       = isset($field['mode']) ? $field['mode'] : 'htmlmixed';
-        $field_id   = $field['id'];
+        $field_id   = sanitize_key( $field['id'] );
         
         // Only Enqueue if it is not enqueued yet
         if( apply_filters('wp_custom_fields_code_field_js', true) && ! wp_script_is('mirror-js', 'enqueued') ) {
             wp_enqueue_script('mirror-js');
         }
         
-        // Output the variables as JavaScript
-        add_action('admin_print_footer_scripts', function() use ($field_id, $mode) {
-            echo '<script>
-                var editor_'.$field_id.' = document.getElementById("'.$field_id.'"),
-                    myCodeMirror'.$field_id.' = CodeMirror.fromTextArea(editor_'.$field_id.', {
-                      mode:  "' . $mode . '",
-                      lineNumbers: true
-                    }); 
-                jQuery
-                myCodeMirror'.$field_id.'.save();
-            </script>';                
-        });
-        
-        $output = '<textarea class="wp-custom-fields-code-editor-value" id="' . $field['id'] . '" name="' . $field['name'] . '">' . $field['values'] . '</textarea>';
+        $output = '<textarea class="wp-custom-fields-code-editor-value" id="' . $field['id'] . '" name="' . $field['name'] . '" data-mode="' . $mode . '">' . $field['values'] . '</textarea>';
         
         return $output;
   

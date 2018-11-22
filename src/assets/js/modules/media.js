@@ -1,7 +1,7 @@
 /**
  * Our jquery UI slider
  */
-module.exports.media = function(framework) {
+module.exports.init = function(framework) {
     
     /**
      * Enables Uploading using the Media-Uploader

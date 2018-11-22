@@ -107,15 +107,12 @@ class Frame {
      */
     private function populateField( Array $field = array() ) {
         
-        // We should have a field type
-        if( ! isset($field['type']) )
-            return $field;
         
         // Populate our variables
         $field                  = $field;
         $field['column']        = isset( $field['columns'] )            ?  'wcf-' . esc_attr($field['columns']) : 'wcf-full';
         $field['description']   = isset( $field['description'] )        ?  esc_html($field['description'])      : '';
-        $field['form']          = __('We are sorry, the given field class does not exist', 'wp-custom-fields');
+        $field['form']          = '<div class="error notice"><p>' . sprintf( __('The given field class does not exist for the field with id: %s', 'wp-custom-fields'), $field['id']) . '</p></div>';
         
         // Make sure our IDs do not contain brackets
         $field['id']            = str_replace( '[', '_', esc_attr($field['id']) ); 
@@ -124,7 +121,15 @@ class Frame {
         
         $field['placeholder']   = isset( $field['placeholder'] )        ? esc_attr($field['placeholder'])   : '';
         $field['title']         = isset( $field['title'] )              ? esc_html($field['title'])         : '';
-        $field['titleTag']      = $field['type'] == 'heading'           ? 'h3'                              : 'h4';
+        $field['titleTag']      = isset( $field['type'] ) && $field['type'] == 'heading'           ? 'h3'                              : 'h4';
+
+        // We should have a field type
+        if( ! isset($field['type']) ) {
+            $field['form']      = '<div class="error notice"><p>' . sprintf( __('The type is not defined for the field with id: %s', 'wp-custom-fields'), $field['id']) . '</p></div>';
+            $field['type']      = 'unknown';
+            return $field;
+        }
+
         $field['type']          = esc_attr($field['type']);
         
         // The class

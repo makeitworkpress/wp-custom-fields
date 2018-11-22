@@ -1,7 +1,7 @@
 /**
  * Our location field
  */
-module.exports.location = function(framework) {
+module.exports.init = function(framework) {
     
     jQuery(framework).find('.wp-custom-fields-location').each(function (index) {
         var searchInput = jQuery('.wp-custom-fields-map-search', this).get(0),

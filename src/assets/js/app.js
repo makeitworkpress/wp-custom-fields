@@ -3,9 +3,11 @@
  */
 'use strict';
 
-var fields      = require('./fields');
-var repeatable  = require('./modules/repeatable');
-var tabs        = require('./modules/tabs');
+var fields          = require('./fields');
+var repeatable      = require('./modules/repeatable');
+var tabs            = require('./modules/tabs');
+
+window.wcfCodeMirror   = {}; // Contains all the global wcfCodeMirror instance
 
 var init = function() {
     

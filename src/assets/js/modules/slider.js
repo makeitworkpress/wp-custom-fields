@@ -1,7 +1,7 @@
 /**
  * Our jquery UI slider
  */
-module.exports.slider = function(framework) {
+module.exports.init = function(framework) {
     
     /**
      * Adds jQuery UI Sliders

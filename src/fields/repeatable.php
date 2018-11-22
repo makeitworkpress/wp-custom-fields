@@ -49,16 +49,26 @@ class Repeatable implements Field {
             // Loop through each of the saved fields
             foreach($fields as $subkey => $subfield) {
 
+                // The type should be defined
+                if( ! isset($subfield['type']) ) {
+                    continue;
+                }
+
+                // The ID should be defined
+                if( ! isset($subfield['id']) ) {
+                    continue;
+                }                
+
                 // Render each field based upon the values
                 $subfield['columns']  = isset($subfield['columns']) ? 'wcf-' . $subfield['columns'] : 'wcf-full';
                 $subfield['values']   = isset($subfield['values']) ? $subfield['values'] : '';
                 $subfield['name']     = $field['name'] . '[' . $key . ']' . '[' . $subfield['id'] . ']';
-                $subfield['id']       = $field['id'] . '-' . $key  . '-' . $subfield['id'];
+                $subfield['id']       = $field['id'] . '_' . $key  . '_' . $subfield['id'];
                 
                 $class                = 'MakeitWorkPress\WP_Custom_Fields\Fields\\' . ucfirst( $subfield['type'] );
                 
                 if( class_exists($class) ) {
-                    $output .= '<div class="wp-custom-fields-repeatable-field wp-custom-fields-option-field ' . $subfield['columns'] . '">';
+                    $output .= '<div class="wp-custom-fields-repeatable-field wp-custom-fields-option-field field-' . $subfield['type'] . ' ' . $subfield['columns'] . '">';
                         $output .= '<h5>' . $subfield['title'] . '</h5>';
 
                         $output .= $class::render($subfield);

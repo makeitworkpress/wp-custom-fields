@@ -12,18 +12,30 @@ module.exports.init = function(framework) {
      */
     jQuery('.wp-custom-fields-repeatable-add').on('click', function (e) {
         e.preventDefault();
-        var length = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
-            group = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
+        var codeNodes   = [],
+            length      = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
+            group       = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
             
         // Destroy our select2 instances
-        jQuery('.wp-custom-fields-select').select2('destroy');                
+        jQuery('.wp-custom-fields-select').select2('destroy');
+
+        // Destroy current codemirror instances
+        jQuery(framework).find('.wp-custom-fields-code-editor-value').each(function (index, node) {
+
+            if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
+                window.wcfCodeMirror[node.id].toTextArea(node);
+
+                codeNodes.push(node);
+            }
+
+        });       
 
         // Build our newgroup
         var newGroup = group.clone(true, true);
         
         // Clone the current group and replace the current keys by new ones
         newGroup.html(function (i, oldGroup) {
-            return oldGroup.replace(/\[\d\]/g, '[' + length + ']').replace(/\-\d\-/g, '-' + length + '-');
+            return oldGroup.replace(/\[\d\]/g, '[' + length + ']').replace(/\_\d\_/g, '_' + length + '_');
         }); 
 
         // Empty inputs in our  new group
@@ -35,7 +47,14 @@ module.exports.init = function(framework) {
         group.after(newGroup);
 
         // Redraw the fields within the group
-        fields.init(newGroup);        
+        fields.init(newGroup);  
+        
+        // Reinitialize old codemirror groups
+        codeNodes.forEach( function(node) {
+            if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
+                window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {ode: node.dataset.mode, lineNumbers: true});
+            }
+        });
         
     });
     

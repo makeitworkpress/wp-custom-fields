@@ -4,9 +4,11 @@
  */
 'use strict';
 
-var fields      = require('./fields');
-var repeatable  = require('./modules/repeatable');
-var tabs        = require('./modules/tabs');
+var fields          = require('./fields');
+var repeatable      = require('./modules/repeatable');
+var tabs            = require('./modules/tabs');
+
+window.wcfCodeMirror   = {}; // Contains all the global wcfCodeMirror instance
 
 var init = function() {
     
@@ -19,7 +21,7 @@ var init = function() {
 
 // Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);
-},{"./fields":2,"./modules/repeatable":7,"./modules/tabs":10}],2:[function(require,module,exports){
+},{"./fields":2,"./modules/repeatable":8,"./modules/tabs":11}],2:[function(require,module,exports){
 /**
  * Executes Field modules
  * @todo Convert in a loop
@@ -27,6 +29,7 @@ jQuery(document).ready(init);
 // var colorpicker = require('./modules/colorpicker');
 var button = require('./modules/button');
 var datepicker = require('./modules/datepicker');
+var code = require('./modules/code');
 var location = require('./modules/location');
 var media = require('./modules/media');
 var select = require('./modules/select');
@@ -34,13 +37,14 @@ var slider = require('./modules/slider');
 
 module.exports.init = function(framework) {
     button.init(framework);
+    code.init(framework);
     datepicker.init(framework);
-    location.location(framework);
-    media.media(framework);
+    location.init(framework);
+    media.init(framework);
     select.init(framework);   
-    slider.slider(framework);   
+    slider.init(framework);   
 };
-},{"./modules/button":3,"./modules/datepicker":4,"./modules/location":5,"./modules/media":6,"./modules/select":8,"./modules/slider":9}],3:[function(require,module,exports){
+},{"./modules/button":3,"./modules/code":4,"./modules/datepicker":5,"./modules/location":6,"./modules/media":7,"./modules/select":9,"./modules/slider":10}],3:[function(require,module,exports){
 /**
  * Our button module, accepting custom ajax actions
  */
@@ -108,6 +112,22 @@ module.exports.init = function(framework) {
 }
 },{}],4:[function(require,module,exports){
 /**
+ * Our colorpicker module - because we included the alpha colorpicker script, this is already included by default
+ */
+module.exports.init = function(framework) {
+ 
+    jQuery(framework).find('.wp-custom-fields-code-editor-value').each(function (index, node) {
+
+        window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {
+                mode: node.dataset.mode,
+                lineNumbers: true
+        });
+
+    });
+    
+};
+},{}],5:[function(require,module,exports){
+/**
  * Initializes our datepicker using the flatpickr library
  * @param {The class for the framework} framework 
  */
@@ -144,11 +164,11 @@ module.exports.init = function(framework) {
     }
 
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /**
  * Our location field
  */
-module.exports.location = function(framework) {
+module.exports.init = function(framework) {
     
     jQuery(framework).find('.wp-custom-fields-location').each(function (index) {
         var searchInput = jQuery('.wp-custom-fields-map-search', this).get(0),
@@ -227,11 +247,11 @@ module.exports.location = function(framework) {
 
     });  
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
-module.exports.media = function(framework) {
+module.exports.init = function(framework) {
     
     /**
      * Enables Uploading using the Media-Uploader
@@ -343,7 +363,7 @@ module.exports.media = function(framework) {
     });
     
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  * Our repeatable fields module
  */
@@ -358,18 +378,30 @@ module.exports.init = function(framework) {
      */
     jQuery('.wp-custom-fields-repeatable-add').on('click', function (e) {
         e.preventDefault();
-        var length = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
-            group = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
+        var codeNodes   = [],
+            length      = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
+            group       = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
             
         // Destroy our select2 instances
-        jQuery('.wp-custom-fields-select').select2('destroy');                
+        jQuery('.wp-custom-fields-select').select2('destroy');
+
+        // Destroy current codemirror instances
+        jQuery(framework).find('.wp-custom-fields-code-editor-value').each(function (index, node) {
+
+            if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
+                window.wcfCodeMirror[node.id].toTextArea(node);
+
+                codeNodes.push(node);
+            }
+
+        });       
 
         // Build our newgroup
         var newGroup = group.clone(true, true);
         
         // Clone the current group and replace the current keys by new ones
         newGroup.html(function (i, oldGroup) {
-            return oldGroup.replace(/\[\d\]/g, '[' + length + ']').replace(/\-\d\-/g, '-' + length + '-');
+            return oldGroup.replace(/\[\d\]/g, '[' + length + ']').replace(/\_\d\_/g, '_' + length + '_');
         }); 
 
         // Empty inputs in our  new group
@@ -381,7 +413,14 @@ module.exports.init = function(framework) {
         group.after(newGroup);
 
         // Redraw the fields within the group
-        fields.init(newGroup);        
+        fields.init(newGroup);  
+        
+        // Reinitialize old codemirror groups
+        codeNodes.forEach( function(node) {
+            if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
+                window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {ode: node.dataset.mode, lineNumbers: true});
+            }
+        });
         
     });
     
@@ -410,7 +449,7 @@ module.exports.init = function(framework) {
     });
     
 }
-},{"./../fields":2}],8:[function(require,module,exports){
+},{"./../fields":2}],9:[function(require,module,exports){
 /**
  * Our colorpicker module
  */
@@ -447,11 +486,11 @@ var formatState = function(state) {
     return newState; 
     
 }
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
-module.exports.slider = function(framework) {
+module.exports.init = function(framework) {
     
     /**
      * Adds jQuery UI Sliders
@@ -476,7 +515,7 @@ module.exports.slider = function(framework) {
     });
     
 }
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports.init = function() {
     
     // Click handler for our tabs
