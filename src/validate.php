@@ -220,11 +220,11 @@ trait Validate {
             // Checkboxes
             case 'checkbox':
                 
-                foreach( $field['options'] as $key => $option ) {
-                    if( isset($field_value[$key]) && $field_value[$key] == 'on') {
-                        $return_value[$key] = true;
-                    } else {
-                        $return_value[$key] = false;
+                if( isset($field['single']) && $field['single'] == true && count($field['options']) == 1 ) {
+                    $return_value = isset($field_value) && $field_value == 'on' ? true : false;                   
+                } else {
+                    foreach( $field['options'] as $key => $option ) {
+                        $return_value[$key] = isset($field_value[$key]) && $field_value[$key] == 'on' ? true : false;
                     }
                 }
                 break;

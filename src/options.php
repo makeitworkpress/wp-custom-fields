@@ -39,7 +39,7 @@ class Options {
     public function __construct( $group = array() ) {
 
         // This can only be executed in admin context
-        if( ! is_admin() ) {
+        if( ! current_user_can( 'manage_options' ) ) {
             return;
         }
 

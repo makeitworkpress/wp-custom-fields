@@ -13,29 +13,39 @@ class Checkbox implements Field {
     
     public static function render($field = array()) {
         
-        $options    = isset($field['options']) ? $field['options'] : array();
+        $options    = isset($field['options']) && is_array($field['options']) ? $field['options'] : array();
+        $single     = isset($field['single']) && count($options) == 1 ? true : false;
         $style      = isset($field['style']) ? $field['style'] : ''; // Accepts an optional .buttonset style, for a set of styled buttons or .switcher/.switcher .switcher-disable style for a switch display
-        
+
         $output = '<ul class="wp-custom-fields-field-checkbox-wrapper ' . $style . '">';
         
         // This field accepts an array of options
         foreach($options as $key => $option) {
-            
-            // Determine if a box should be checked
-            $value = isset($field['values'][$key]) ? $field['values'][$key] : '';
 
             // Check label
-            $label = isset($option['label']) ? $option['label'] : '';
-            $icon = isset($option['icon']) ? '<i class="material-icons">' . $option['icon']  . '</i> ' : '';
+            $label  = isset($option['label']) ? $option['label'] : '';
+            $icon   = isset($option['icon']) ? '<i class="material-icons">' . $option['icon']  . '</i> ' : '';
             
-            if( ! $icon )
+            if( ! $icon ) {
                 $output .= '<li class="wp-custom-fields-field-checkbox-input">';
+            }
             
+            // Single checkboxes
+            if( $single ) {
+                $id     = $field['id'];
+                $name   = $field['name'];
+                $value  = isset($field['values']) ? $field['values'] : '';
+            } else {
+                $id     = $field['id']  . '_' . $key;
+                $name   = $field['name'] . '[' . $key . ']';  
+                $value  = isset($field['values'][$key]) ? $field['values'][$key] : '';
+            }
+
             // Output of form
-            $output .= '<input type="checkbox" id="' . $field['id'] . '_' . $key . '" name="' . $field['name'] . '[' . $key . ']" ' . checked($value, true, false) . ' />';
+            $output .= '<input type="checkbox" id="' . $id . '" name="' . $name . '" ' . checked($value, true, false) . ' />';
             
             if( ! empty($label) ) {
-                $output .= '<label for="' . $field['id'] . '_' . $key . '">' . $icon . $label . '</label>';
+                $output .= '<label for="' . $id . '">' . $icon . $label . '</label>';
             }
             
             if( ! $icon )

@@ -12,6 +12,17 @@ if ( ! defined( 'ABSPATH' ) )
 class Editor implements Field {
     
     public static function render($field = array()) {
+
+        if( isset($field['settings']) ) {
+            foreach( $field['settings'] as $key => $setting ) {
+                // The keys should be in the supported format
+                if( ! in_array($key, ['wpautop', 'media_buttons', 'textarea_rows', 'tabindex', 'editor_css', 'editor_class', 'editor_height', 'teeny', 'dfw', 'tinymce', 'quicktags', 'drag_drop_upload']) ) {
+                    continue;
+                }
+
+                $settings[$key] = $setting;
+            }
+        }
         
         $settings['textarea_name'] = $field['name'];
         

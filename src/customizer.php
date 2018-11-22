@@ -38,6 +38,12 @@ class Customizer {
      * @return WP_Error|void    Returns a WP_Error if something is wrong in the configurations, otherwise nothing    
      */    
     public function __construct( $group = array() ) {
+
+        // Only users that may customize are allowed here
+        if( ! current_user_can('customize') ) {
+            return;
+        }
+
         $this->panel = $group;
 
         // Validate for errors
