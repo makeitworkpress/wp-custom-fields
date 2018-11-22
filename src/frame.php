@@ -129,15 +129,18 @@ class Frame {
         
         // The class
         $class                  = apply_filters( 'wp_custom_fields_field_class', 'MakeitWorkPress\WP_Custom_Fields\Fields\\' . ucfirst( $field['type'] ), $field );
-        $configurations         = $class::configurations();
-        
-        // Check if there is a default value set up, and whether there is a value already stored for the specific field
-        $default                = isset( $field['default'] )            ? $field['default'] : $configurations['defaults'];
-        $field['values']        = isset( $this->values[$field['id']] )  ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
         
         // Render our field form, allow custom fields to be filtered.   
         if( class_exists($class) ) {
+            
+            $configurations         = $class::configurations();
+        
+            // Check if there is a default value set up, and whether there is a value already stored for the specific field
+            $default            = isset( $field['default'] )            ? $field['default'] : $configurations['defaults'];
+            $field['values']    = isset( $this->values[$field['id']] )  ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
+
             $field['form']      = apply_filters( 'wp_custom_fields_field_form', $class::render($field), $field );
+
         }
         
         return $field;
