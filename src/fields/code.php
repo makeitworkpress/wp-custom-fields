@@ -21,7 +21,7 @@ class Code implements Field {
             wp_enqueue_script('mirror-js');
         }
         
-        $output = '<textarea class="wp-custom-fields-code-editor-value" id="' . $field['id'] . '" name="' . $field['name'] . '" data-mode="' . $mode . '">' . $field['values'] . '</textarea>';
+        $output = '<textarea class="wp-custom-fields-code-editor-value" id="' . $field['id'] . '" name="' . $field['name'] . '" data-mode="' . $mode . '">' . html_entity_decode($field['values']) . '</textarea>';
         
         return $output;
   

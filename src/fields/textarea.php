@@ -16,7 +16,7 @@ class Textarea implements Field {
         $rows = isset($field['rows']) ? $field['rows'] : 7;
         $cols = isset($field['cols']) ? $field['cols'] : 70;
         
-        return '<textarea id="' . $field['id'] . '" name="' . $field['name']  . '" rows="' . $rows . '" cols="' . $cols . '">' . $field['values'] . '</textarea>';    
+        return '<textarea id="' . $field['id'] . '" name="' . $field['name']  . '" rows="' . $rows . '" cols="' . $cols . '">' . esc_textarea($field['values']) . '</textarea>';    
     }
     
     public static function configurations() {
