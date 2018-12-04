@@ -231,7 +231,7 @@ trait Validate {
                  
             // Code field    
             case 'code':
-                $return_value = esc_html( $field_value );
+                $return_value = $field_value;
                 break; 
                 
             // Colorpicker     
