@@ -34,7 +34,7 @@ class Checkbox implements Field {
             if( $single ) {
                 $id     = $field['id'];
                 $name   = $field['name'];
-                $value  = isset($field['values']) ? $field['values'] : '';
+                $value  = isset($field['values']) && ! is_array($field['values']) ? $field['values'] : '';
             } else {
                 $id     = $field['id']  . '_' . $key;
                 $name   = $field['name'] . '[' . $key . ']';  
