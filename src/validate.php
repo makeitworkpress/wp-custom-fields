@@ -307,10 +307,10 @@ trait Validate {
                 if( is_array($field_value) ) {
                     $return_value       = [];
                     foreach($field_value as $value) {
-                        $return_value[] = sanitize_key( $value );
+                        $return_value[] = sanitext_text_field( $value );
                     }
                 } else {                  
-                    $return_value = sanitize_key( $field_value );
+                    $return_value = sanitext_text_field( $field_value );
                 }
                 break; 
                 
