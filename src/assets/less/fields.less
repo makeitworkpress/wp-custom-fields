@@ -74,7 +74,12 @@
             top: -7px;
             width: 0;
         }
-    }    
+    } 
+    input[readonly]:hover {
+        cursor: not-allowed;
+        -moz-user-select: none;
+        user-select: none;
+    }   
 }
 
 .wp-custom-fields-icon-list {
