@@ -7,8 +7,6 @@ module.exports.init = function(framework) {
     
     /**
      * Repeatable Groups 
-     *
-     * @todo Add function to reset fields to default value
      */
     jQuery('.wp-custom-fields-repeatable-add').on('click', function (e) {
         e.preventDefault();
@@ -33,9 +31,9 @@ module.exports.init = function(framework) {
         // Build our newgroup
         var newGroup = group.clone(true, true);
         
-        // Clone the current group and replace the current keys by new ones
+        // Clone the current group and replace the current keys by new ones. The length is always one bigger as the current array, so it matches the key for the new group.
         newGroup.html(function (i, oldGroup) {
-            return oldGroup.replace(/\[\d\]/g, '[' + length + ']').replace(/\_\d\_/g, '_' + length + '_');
+            return oldGroup.replace(/\[\d+\]/g, '[' + length + ']').replace(/\_\d+\_/g, '_' + length + '_');
         }); 
 
         // Empty inputs in our  new group
