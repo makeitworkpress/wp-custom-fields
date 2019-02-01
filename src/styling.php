@@ -207,12 +207,15 @@ class Styling extends Base {
             $properties = apply_filters( 'wp_custom_fields_css_properties', $properties, $field ); 
             
             // If we don't have properties, go to the following field
-            if( ! $properties )
+            if( ! $properties ) {
                 continue;
+            }
 
             // If we have a media query for a maximum width
-            if( isset($field['selector']['max-width']) ) {
-                $style     .= '@media screen and (max-width: ' . $field['selector']['max'] . ') {';
+            if( isset($field['selector']['max-width'])  || isset($field['selector']['min-width']) ) {
+                $value      = isset($field['selector']['max-width']) ? $field['selector']['max-width'] : $field['selector']['min-width'];
+                $width      = isset($field['selector']['max-width']) ? 'max-width:' : 'min-width:';
+                $style     .= '@media screen and (' . $width  . ' ' . $value . ') {';
             }               
             
             // Add our styling accordingly.
@@ -220,7 +223,7 @@ class Styling extends Base {
             $style     .= $selector . '{' . $properties . '}';
 
             // Close our media query
-            if( isset($field['selector']['max-width']) ) {
+            if( isset($field['selector']['max-width']) || isset($field['selector']['min-width']) ) {
                 $style     .= '}';
             }             
             
