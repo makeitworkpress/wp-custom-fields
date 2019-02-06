@@ -25,4 +25,4 @@ module.exports.init = function(framework) {
 
     });
     
-}
+};
