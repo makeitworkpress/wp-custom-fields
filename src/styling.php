@@ -326,13 +326,13 @@ class Styling extends Base {
                     if( isset($field['borders']) ) {
 
                         foreach( $field['values'] as $key => $values ) {
-                            $properties['padding'] .= $values['amount'].$values['unit'] . ' ';
+                            $properties['padding'] .= $values['amount'] . $values['unit'] . ' ';
                         }
 
                         $properties['padding'] = rtrim($properties['padding']);
 
                     } else {
-                        $properties['padding'] = $field['values']['amount'].$field['values']['unit'];
+                        $properties['padding'] = $field['values']['amount'] . $field['values']['unit'];
                     }  
                     
                 }
@@ -378,11 +378,11 @@ class Styling extends Base {
                     }
 
                     // Add additional properties
-                    if( isset($field['values']['size']) && $field['values']['size']['amount'] ) {
+                    if( isset($field['values']['size']) && $field['values']['size']['amount'] && isset($field['values']['size']['unit']) ) {
                         $properties['font-size']     = $field['values']['size']['amount'] . $field['values']['size']['unit'];
                     }
 
-                    if( isset($field['values']['line_spacing']) && $field['values']['line_spacing']['amount'] ) {
+                    if( isset($field['values']['line_spacing']) && $field['values']['line_spacing']['amount'] && isset($field['values']['line_spacing']['unit']) ) {
                         $properties['line-height']   = $field['values']['line_spacing']['amount'] . $field['values']['line_spacing']['unit'];
                     }
 
