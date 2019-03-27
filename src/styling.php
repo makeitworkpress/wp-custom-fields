@@ -313,7 +313,7 @@ class Styling extends Base {
                 $properties['color'] = $field['values'];
                 break;               
                 
-            // Dimensions field
+            // Dimensions field. Defaults to padding, but may be overwritten by custom properties within a field settings.
             case 'dimension':
             case 'dimensions':
                 
@@ -326,12 +326,14 @@ class Styling extends Base {
                     if( isset($field['borders']) ) {
 
                         foreach( $field['values'] as $key => $values ) {
-                            $properties['padding'] .= $values['amount'] . $values['unit'] . ' ';
+                            if( isset($values['amount']) && $values['amount'] && isset($values['unit']) && $values['unit'] ) {
+                                $properties['padding'] .= $values['amount'] . $values['unit'] . ' ';
+                            }
                         }
 
                         $properties['padding'] = rtrim($properties['padding']);
 
-                    } else {
+                    } elseif( isset($values['values']['amount']) && $values['values']['amount'] && isset($values['values']['unit']) && $values['values']['unit'] ) {
                         $properties['padding'] = $field['values']['amount'] . $field['values']['unit'];
                     }  
                     

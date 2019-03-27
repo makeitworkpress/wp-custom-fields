@@ -55,7 +55,7 @@ class Dimension implements Field {
             'type'          => 'dimension',
             'defaults'      => array(),
             'properties'    => array(
-                'units' => array('px', 'em', '%', 'rem', 'vh', 'vw')
+                'units' => array('', 'px', 'em', '%', 'rem', 'vh', 'vw')
             ),
             'settings'  => array(
                 '[amount]',
