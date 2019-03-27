@@ -333,7 +333,7 @@ class Styling extends Base {
 
                         $properties['padding'] = rtrim($properties['padding']);
 
-                    } elseif( isset($values['values']['amount']) && $values['values']['amount'] && isset($values['values']['unit']) && $values['values']['unit'] ) {
+                    } elseif( isset($field['values']['amount']) && $field['values']['amount'] && isset($field['values']['unit']) && $field['values']['unit'] ) {
                         $properties['padding'] = $field['values']['amount'] . $field['values']['unit'];
                     }  
                     
