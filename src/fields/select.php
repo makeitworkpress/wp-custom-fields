@@ -18,8 +18,9 @@ class Select implements Field {
         $source  = isset($field['source']) ? $field['source'] : '';
         
         // Load the select2 script if we have a select field
-        if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
-            wp_enqueue_script('select2-js');        
+        if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') ) {
+            wp_enqueue_script('select2-js'); 
+        }       
         
         // Set-up if we have a multiple checkbox
         if( isset($field['multiple']) && $field['multiple'] ) { 

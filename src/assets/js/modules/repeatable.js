@@ -14,8 +14,10 @@ module.exports.init = function(framework) {
             length      = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
             group       = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
             
-        // Destroy our select2 instances
-        jQuery('.wp-custom-fields-select').select2('destroy');
+        // Destroy our select2 instances, if it is defined of course
+        if( typeof jQuery.fn.select2 !== 'undefined' && jQuery.fn.select2 ) {
+            jQuery('.wp-custom-fields-select').select2('destroy');
+        }
 
         // Destroy current codemirror instances
         jQuery(framework).find('.wp-custom-fields-code-editor-value').each(function (index, node) {

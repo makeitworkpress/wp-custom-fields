@@ -4,7 +4,7 @@
 module.exports.init = function(framework) {
 
     // Execute if we do have select2 defined
-    if( jQuery.fn.select2 ) {
+    if( typeof jQuery.fn.select2 !== 'undefined' && jQuery.fn.select2 ) {
        
         // Regular selects
         jQuery('.wp-custom-fields-select').select2();     
