@@ -366,6 +366,7 @@ module.exports.init = function(framework) {
 },{}],8:[function(require,module,exports){
 /**
  * Our repeatable fields module
+ * @todo Rewrite this in a more efficient manner.
  */
 var fields = require('./../fields');
 
@@ -407,7 +408,8 @@ module.exports.init = function(framework) {
         // Empty inputs in our  new group
         newGroup.find('input').val('');
         newGroup.find('textarea').val('');
-        newGroup.find('option').attr('selected', false);        
+        newGroup.find('option').attr('selected', false); 
+        newGroup.find('.wp-custom-fields-single-media').not('.empty').remove(); // Removes the media from the cloned group   
                 
         // Finally, insert the newGroup after the current group
         group.after(newGroup);
@@ -432,7 +434,10 @@ module.exports.init = function(framework) {
         
         // Keep the first group
         if (length > 1) {
-            group.remove();
+            group.fadeOut();
+            setTimeout( function() {
+                group.remove();
+            }, 500);
         }
     });
     
