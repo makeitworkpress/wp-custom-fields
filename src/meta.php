@@ -133,14 +133,7 @@ class Meta {
         
         // Post type metabox uses the add meta box function
         if( $this->type == 'post' ) {
-            add_meta_box( 
-                $this->metaBox['id'], 
-                $this->metaBox['title'], 
-                array( $this, 'render' ), 
-                $this->metaBox['screen'], 
-                $this->metaBox['context'], 
-                $this->metaBox['priority']
-            );
+            add_meta_box( $this->metaBox['id'], $this->metaBox['title'], array( $this, 'render' ), $this->metaBox['screen'], $this->metaBox['context'], $this->metaBox['priority'] );
         }
 
         // We just render for other types
@@ -237,18 +230,19 @@ class Meta {
             return $id;
 
         // Check our user capabilities
-        if ( ! current_user_can( 'edit_posts', $id ) || ! current_user_can( 'edit_pages', $id ) ) {
+        if( ! current_user_can( 'edit_posts', $id ) || ! current_user_can( 'edit_pages', $id ) ) {
             return $id;
         }
 
         // If we are editing users, we are more limited
-        if (  $this->type == 'user' && ! current_user_can('edit_users') ) {
-            return;  
+        if( $this->type == 'user' && ! current_user_can('edit_users') ) {
+            return $id;  
         }  
          
         // Check our nonces
-        if ( ! wp_verify_nonce( $_POST['wp-custom-fields-metaboxes-nonce-' . $this->metaBox['id']], 'wp-custom-fields-metaboxes-' . $this->metaBox['id'] ) ) 
+        if( ! wp_verify_nonce( $_POST['wp-custom-fields-metaboxes-nonce-' . $this->metaBox['id']], 'wp-custom-fields-metaboxes-' . $this->metaBox['id'] ) ) {
             return $id;
+        }
         
         // Retrieve our current meta values
         $current    = get_metadata( $this->type, $id, $this->metaBox['id'], true ); 

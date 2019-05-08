@@ -12,9 +12,11 @@ if ( ! defined( 'ABSPATH' ) )
 class Repeatable implements Field {
     
     public static function render($field = array()) {
-        
-        $add                = isset($field['add'])      ? $field['add']     : __('Add Group', 'wp-custom-fields');
-        $remove             = isset($field['remove'])   ? $field['remove']  : __('Remove Group', 'wp-custom-fields');
+
+
+        $configurations     = self::configurations();
+        $add                = isset($field['labels']['add'])      ? $field['labels']['add']     : $configurations['labels']['add'];
+        $remove             = isset($field['labels']['remove'])   ? $field['labels']['remove']  : $configurations['labels']['remove'];
         $display            = isset($field['closed']) && $field['closed']   ? ' hidden'         : '';
         
         // Prepare the array with data
@@ -86,20 +88,31 @@ class Repeatable implements Field {
             $output .= '</div><!-- .wp-custom-fields-repeatable-group -->';
         }            
         
-        $output .= '<a href="#" class="button wp-custom-fields-repeatable-add"><i class="material-icons">add</i> ' . $add . '</a>';
-        $output .= '<a href="#" class="button wp-custom-fields-repeatable-remove"><i class="material-icons">remove</i> ' . $remove . '</a>';
+        $output .= '<div class="wp-custom-fields-repeatable-buttons">';
+        $output .= '        <a href="#" class="button wp-custom-fields-repeatable-remove" title="' . __('Remove', 'wp-custom-fields') . '">' . $remove . '</a>';
+        $output .= '        <a href="#" class="button wp-custom-fields-repeatable-add button-primary" title="' . __('Add', 'wp-custom-fields') . '">' . $add . '</a>';
+        $output .= '    </div>';
         $output .= '</div><!-- .wp-custom-fields-repeatable-container -->';
         
         return $output;    
     }
     
+    /**
+     * The basic configurations for our repeatable field
+     */
     public static function configurations() {
+        
         $configurations = array(
-            'type'      => 'repeatable',
-            'defaults'  => array()
+            'type'          => 'repeatable',
+            'defaults'      => array(),
+            'labels'        => array(
+                'add'       => '<i class="dashicons dashicons-plus"></i>',
+                'remove'    => '<i class="dashicons dashicons-minus"></i>'
+            ),            
         );
             
         return $configurations;
+
     }
     
 }

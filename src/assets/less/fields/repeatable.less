@@ -10,17 +10,21 @@
     position: relative;
 }
 
-.wp-custom-fields-repeatable-container {
-    overflow: hidden;
+.wp-custom-fields-repeatable-buttons {
+    text-align: right;
     .button {
-        float: right;
+        display: inline-block;
         margin: 0 0 0 5px;
-        i {
-            font-size: @wp-font-size;
-            position: relative;
-            top: 2px;
-        }
-    }     
+        min-width: 80px;
+        text-align: center;
+        vertical-align: top;
+    } 
+    i {
+        line-height: 28px;
+    }
+    .dashicons-minus {
+        color: @wp-red;
+    }    
 }
 
 .wp-custom-fields-repeatable-fields {

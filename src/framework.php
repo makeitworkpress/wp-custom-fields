@@ -39,7 +39,8 @@ class Framework extends Base {
     protected function initialize() {
 
         $defaults = array(
-            'google_maps_key' => ''
+            'google_maps_key' => '',
+            'viglinks_key' => '',
         );
         
         // Merge params with the defaults
@@ -52,8 +53,9 @@ class Framework extends Base {
         defined( 'WP_CUSTOM_FIELDS_ASSETS_URL' ) or define( 'WP_CUSTOM_FIELDS_ASSETS_URL', content_url() . $folder . '/assets/' );
         defined( 'WP_CUSTOM_FIELDS_PATH' ) or define( 'WP_CUSTOM_FIELDS_PATH', plugin_dir_path( __FILE__ ) );
         defined( 'GOOGLE_MAPS_KEY' ) or define( 'GOOGLE_MAPS_KEY', $this->params['google_maps_key'] );
+        defined( 'VIGLINKS_KEY' ) or define( 'VIGLINKS_KEY', $this->params['viglinks_key'] );
         
-        // Our default types
+        // Our default frame types
         $this->types = array('meta', 'options', 'customizer');
 
     }
@@ -85,7 +87,7 @@ class Framework extends Base {
         // Load our default configurations
         $this->addConfigurations();          
 
-        // Setup our framework, but only in the environment where needed
+        // Setup our framework, but only in the environment where needed. The correct access is determined by each module individually
         if( is_admin() || is_customize_preview() ) {           
             $this->frame();
         }

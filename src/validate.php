@@ -162,8 +162,6 @@ trait Validate {
      * @todo Improve sanitization for borders and special types
      */
     private static function sanitizeField( $input, $field ) {
-        
-        global $allowedposttags;
             
         $field_type     = $field['type'];
         $field_subtype  = isset($field['subtype']) ? $field['subtype'] : '';
@@ -259,7 +257,11 @@ trait Validate {
                 
             // Editor field    
             case 'editor':
+            case 'textarea':
+                    
+                global $allowedposttags;
                 $return_value = wp_kses( $field_value, $allowedposttags );
+                
                 break;  
                 
             // Editor field    
@@ -321,10 +323,9 @@ trait Validate {
                 
             // Default textual input
             case 'text':
-            case 'textarea':
                 switch($field_subtype) {
                     case 'url':
-                        $return_value = esc_url( $field_value ); 
+                        $return_value = esc_url_raw( $field_value ); 
                         break;
                     case 'email':
                         $return_value = sanitize_email( $field_value ); 
@@ -374,6 +375,75 @@ trait Validate {
         
     }
 
+    /**
+     * Returns the correct sanitization for any customizer fields
+     * 
+     * @param   array $field        The field type;
+     * @return string $function     The built-in WordPress sanitization function
+     */
+    public static function sanitizeCustomizerField( $type = '' ) { 
+        
+        switch( $type ) {
+            case 'hidden':
+            case 'tel':
+            case 'search':
+            case 'time':
+            case 'date':
+            case 'datetime':
+            case 'week':
+            case '[unit]': // Used for the dimensions field, as it has multidimensional settings  
+            case '[line_spacing][unit]': 
+            case '[size][unit]': 
+            case 'number':
+            case 'range':
+            case '[amount]': // Used for the dimensions field, as it has multidimensional settings            
+            case '[line_spacing][amount]':         
+            case '[size][amount]':         
+                $sanitize = 'sanitize_text_field';
+                break; 
+            case 'text':                
+            case 'textarea':
+                $sanitize = 'wp_filter_kses';
+                break;
+            case 'email':
+                $sanitize = 'sanitize_email';
+                break;
+            case 'cropped-image':
+            case 'image':
+            case 'upload':                
+            case 'url':
+                $sanitize = 'esc_url_raw';
+                break;  
+            case 'colorpicker':
+            case '[color]':
+                $sanitize = 'sanitize_hex_color';
+                break;
+            case 'dropdown-pages':               
+            case 'media':
+            case '[font_weight]':
+                $sanitize = 'intval';
+                break;                                                         
+            case 'select':
+            case 'radio':
+            case '[font]':
+            case '[text_align]':
+                $sanitize = 'sanitize_key';
+                break;
+            case 'checkbox':                
+            case '[italic]': 
+            case '[load][italic]':
+            case '[load][normal]':
+            case '[underline]':
+            case '[uppercase]':                                        
+                $sanitize = 'boolval';
+                break;                           
+            default:
+                $sanitize = 'sanitize_text_field';
+        }
+
+        return $sanitize;
+    
+    }
 
     /**
      * Examines the correctness of our configurations

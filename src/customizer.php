@@ -18,6 +18,11 @@ if ( ! defined( 'ABSPATH' ) )
     die;
 
 class Customizer {
+
+    /**
+     * Use our validation functions
+     */
+    use Validate;    
       
     /**
      * Contains the option values for each of the panels
@@ -125,8 +130,9 @@ class Customizer {
         foreach( $panel['sections'] as $section ) {
 
             // Check
-            if( ! isset($section['id']) || ! isset($section['title']) )
+            if( ! isset($section['id']) || ! isset($section['title']) ) {
                 continue;
+            }
 
             $sectionArgs = array(
                 'description'   => isset($section['description']) ? $section['description'] : '',  
@@ -148,11 +154,15 @@ class Customizer {
                 $wp_customize->add_section( $section['id'], $sectionArgs );
             }
 
+            /**
+             * Loop trough the fields and add the respective fields
+             */
             foreach( $section['fields'] as $field ) {             
 
                 // Check required fields
-                if( ! isset($field['id']) || ! isset($field['type']) || ! isset($field['title']) )
+                if( ! isset($field['id']) || ! isset($field['type']) || ! isset($field['title']) ) {
                     continue; 
+                }
 
                 $settingArgs = array(
                     'default' => isset($field['default']) ? $field['default'] : '',
@@ -160,14 +170,22 @@ class Customizer {
                 );
                 
                 // Transport our updates with partial refresh
-                if( isset($field['transport']) )
-                    $settingArgs['transport']             = $field['transport'];                
+                if( isset($field['transport']) ) {
+                    $settingArgs['transport']             = $field['transport'];  
+                } 
 
-                if( isset($field['sanitize']) )
+                /**
+                 * Sanitization of functions
+                 */
+                
+                // A custom sanitization callback has been used
+                if( isset($field['sanitize']) ) {
                     $settingArgs['sanitize_callback']     = $field['sanitize'];
+                }
 
-                if( isset($field['sanitize_js']) )
-                    $settingArgs['sanitize_js_callback']  = $field['sanitize_js'];                    
+                if( isset($field['sanitize_js']) ) {
+                    $settingArgs['sanitize_js_callback']  = $field['sanitize_js'];   
+                }                  
 
                 /**
                  * Add our settings. Elaborate controls have multiple settings.
@@ -186,13 +204,22 @@ class Customizer {
 
                         // Add all custom settings
                         foreach( $configurations['settings'] as $setting ) {  
+                            $settingArgs['sanitize_callback'] = Validate::sanitizeCustomizerField($setting);
                             $wp_customize->add_setting($panel['id'] . '[' . $field['id'] . ']' . $setting, $settingArgs );    
                         }
                         
                         break;                      
                     default:
+
+                        // Sanitize values. @todo Move this to another function
+                        if( ! isset($field['sanitize']) ) {
+                            $settingArgs['sanitize_callback'] = Validate::sanitizeCustomizerField($field['type']);
+                        }
+
                         $wp_customize->add_setting( $panel['id'] . '[' . $field['id'] . ']', $settingArgs );
+
                 }
+
 
                 // Define our arguments for the controls
                 $controlArgs                = array();
@@ -200,7 +227,7 @@ class Customizer {
                 $controlArgs['label']       = $field['title'];
                 $controlArgs['settings']    = $panel['id'] . '[' . $field['id'] . ']'; // This is required for custom classes
                 
-                // Define our additional control arguments
+                // Define our additional control arguments that may be added
                 $controls = array( 'choices', 'description', 'height', 'input_attrs', 'mime_type', 'type', 'width' );
                 
                 foreach( $controls as $type ) {
@@ -217,6 +244,7 @@ class Customizer {
                         unset($controlArgs['type']); // Having a defined type breaks the color picker somehow
                         $wp_customize->add_control( new WP_Customize_Color_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
                         break;                    
+                    // @todo somehow this doesn't pop-up yet
                     case 'cropped-image':
                         $wp_customize->add_control( new WP_Customize_Cropped_Image_Control($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) ); 
                         break;

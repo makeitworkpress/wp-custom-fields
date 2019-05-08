@@ -42,6 +42,8 @@ class Typography extends WP_Customize_Control {
         <div class="wp-custom-fields-typography-font-select">
             <select class="wp-custom-fields-typography-fonts" <?php $this->link('font'); ?> >
 
+                <option value=""><?php echo $configurations['labels']['select']; ?></option>
+
                 <?php foreach( $configurations['properties']['fonts'] as $fontspace => $types ) { ?>
 
                     <optgroup label="<?php esc_attr_e(ucfirst($fontspace)); ?>">    
@@ -111,7 +113,7 @@ class Typography extends WP_Customize_Control {
 
         <?php foreach( $configurations['labels'] as $key => $label ) { ?>
             <?php 
-                if($key == 'weights')
+                if( in_array($key, ['weights', 'select']) )
                     continue;
             ?>
             <label>

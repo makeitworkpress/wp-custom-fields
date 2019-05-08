@@ -27,12 +27,15 @@ class Typography implements Field {
         
         // Retrieve our configurations
         $configurations = self::configurations();
+        $select         = isset($field['labels']['select']) ? $field['labels']['select'] : $configurations['labels']['select'];
         
         /**
          * Display the fonts
          */
         $output = '<div class="wp-custom-fields-typography-font-select">';
         $output .= '    <select class="wp-custom-fields-typography-fonts" name="' . $field['name'] . '[font]" id="' . $field['id'] . '_font" >';
+
+        $output .= '<option value="">' . $select . '</option>';
         
         foreach( $configurations['properties']['fonts'] as $fontspace => $types ) {
             
@@ -155,6 +158,7 @@ class Typography implements Field {
             'labels'        => array(
                 'normal'    => __('Load all normal font-weights for this font.', 'wp-custom-fields'),
                 'italic'    => __('Load all italic font-weights for this font.', 'wp-custom-fields'),
+                'select'    => __('Select a font', 'wp-custom-fields'),
                 'weights'   => __('Font-Weight', 'wp-custom-fields')
             ),
             'properties'    => array(
