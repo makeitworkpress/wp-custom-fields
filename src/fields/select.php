@@ -11,11 +11,20 @@ if ( ! defined( 'ABSPATH' ) )
 
 class Select implements Field {
     
-    public static function render($field = array()) {
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes data-alpha
+     * @return  void
+     */      
+    public static function render( $field = [] ) {
         
-        $options = isset($field['options']) ? $field['options'] : array();
-        $object  = isset($field['object']) ? $field['object'] : 'posts';
-        $source  = isset($field['source']) ? $field['source'] : '';
+        $id             = esc_attr($field['id']);
+        $name           = esc_attr($field['name']);        
+        $options        = isset($field['options']) ? $field['options'] : [];
+        $object         = isset($field['object']) ? sanitize_key($field['object']) : '';
+        $placeholder    = isset($field['placeholder']) && $field['placeholder'] ? esc_attr($field['placeholder']) : '';
+        $source         = isset($field['source']) ? sanitize_text_field($field['source']) : '';
         
         // Load the select2 script if we have a select field
         if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') ) {
@@ -30,85 +39,84 @@ class Select implements Field {
             $multiple = '';
             $namekey = '';            
         }  
-        
-        // Load an array of posts
-        if( $object == 'posts' && ! empty($source) ) {
 
-            $options = array();
-            $posts = get_posts(
-                array(
-                    'ep_integrate'      => true,
-                    'post_type'         => $source, 
-                    'posts_per_page'    => -1, 
-                    'orderby'           => 'title', 
-                    'order'             => 'ASC'
-                )
-            );
-            
-            foreach( $posts as $post ) {
-                $options[$post->ID] = $post->post_title;
-            }                
+        // Retrieve select options from built-in WordPress types
+        if( $object ) {
 
-        } elseif( $object == 'users' ) {
+            // Retrieve our options from the cache. Will use persistent object caching (redis/memcached) if available.
+            $options = wp_cache_get('wpc_select_field_cache_' . $object . $source);
 
-            $options = array();
-            $users = get_users(
-                array(
-                    'fields'            => ['ID', 'display_name'], 
-                    'orderby'           => 'display_name', 
-                    'order'             => 'ASC'
-                )
-            );
-            
-            foreach( $users as $user ) {
-                $options[$user->ID] = $user->display_name;
+            if( ! $options ) {
+                $options = [];
+
+                // Load an array of posts
+                if( $object == 'posts' && ! empty($source) ) {
+
+                    $posts = get_posts( ['ep_integrate' => true, 'post_type' => $source, 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC'] );
+                    
+                    foreach( $posts as $post ) {
+                        $options[$post->ID] = $post->post_title;
+                    }                
+
+                } elseif( $object == 'users' ) {
+
+                    $users = get_users( ['fields' => ['ID', 'display_name'], 'orderby' => 'display_name', 'order' => 'ASC'] );
+                    
+                    foreach( $users as $user ) {
+                        $options[$user->ID] = $user->display_name;
+                    }
+
+                } elseif( $object == 'terms' && ! empty($source) ) {
+
+                    $terms = get_terms( ['fields' => 'id=>name', 'hide_empty' => false, 'order' => 'ASC', 'taxonomy' => $source] );
+                    
+                    foreach( $terms as $ID => $name ) {
+                        $options[$ID] = $name;
+                    }                
+                    
+                }                
+
+                $options = wp_cache_add('wpc_select_field_cache_' . $object . $source, $options);
             }
 
-        } elseif( $object == 'terms' && ! empty($source) ) {
-
-            $options = array();
-            $terms = get_terms(
-                array(
-                    'fields'            => 'id=>name', 
-                    'hide_empty'        => false, 
-                    'order'             => 'ASC',
-                    'taxonomy'          => $source
-                )
-            );
-            
-            foreach( $terms as $ID => $name ) {
-                $options[$ID] = $name;
-            }                
-            
-        }
+        } ?>
         
-        $output = '<select class="wp-custom-fields-select" id="' . $field['id']  . '" name="' . $field['name'] . $namekey . '" ' . $multiple .'>';
+            <select class="wp-custom-fields-select" id="<?php echo $id; ?>" name="<?php echo $name . $namekey; ?>" <?php echo $multiple; ?>>
 
-        // An empty option serves as placeholder
-        if( ! empty($field['placeholder']) ) { 
-            $output .= '    <option value="">' . $field['placeholder'] . '</option>';
-        }
+                <?php if( $placeholder ) { ?>
+                    <option value=""><?php echo $placeholder; ?></option>
+                <?php } ?>
 
-        foreach ($options as $key => $option ) {
-            if( $multiple && is_array($field['values']) ) {
-                $selected = in_array($key, $field['values']) ? 'selected="selected"' : '';
-            } else {
-                $selected = selected( $key, $field['values'], false );
-            }
-            $output .= '    <option value="' . $key . '" ' . $selected . '>' . $option . '</option>';
-        }
-        $output .= '</select>';
+                <?php foreach ($options as $key => $option ) { ?>
+                    <?php 
+                        $multiple && is_array($field['values']) ) { 
+                            $selected = in_array($key, $field['values']) ? 'selected="selected"' : '';
+                        } else {
+                            $selected = selected( $key, $field['values'], false );
+                        }
+                    ?>
+                    <option value="<?php esc_attr_e($key); ?>" <?php echo $selected; ?>><?php esc_html_e($option); ?></option>
+                <?php } ?>
+            </select>
         
-        return $output;    
+        <?php
+
     }
     
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */      
     public static function configurations() {
-        $configurations = array(
+
+        $configurations = [
             'type'      => 'select',
             'defaults'  => ''
-        );
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_select_config', $configurations );
+        
     }
     
 }

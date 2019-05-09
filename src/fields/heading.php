@@ -6,23 +6,40 @@ namespace MakeitWorkPress\WP_Custom_Fields\Fields;
 use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! defined('ABSPATH') ) {
     die;
+}
 
 class Heading implements Field {
     
-    public static function render($field = array()) { 
-        $output = isset($field['subtitle']) ? '<p>' . $field['subtitle'] . '</p>' : '';
-        return $output;    
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes data-alpha
+     * @return  void
+     */    
+    public static function render( $field = [] ) {
+        
+        if( isset($field['subtitle']) ) { ?> 
+            <p><?php echo esc_textarea($field['subtitle']); ?></p>
+        <?php }
+
     }
-    
+
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */      
     public static function configurations() {
-        $configurations = array(
+
+        $configurations = [
             'type'      => 'heading',
             'defaults'  => ''
-        );
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_heading_config', $configurations );
+
     }
     
 }

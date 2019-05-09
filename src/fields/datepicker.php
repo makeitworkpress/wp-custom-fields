@@ -6,12 +6,19 @@ namespace MakeitWorkPress\WP_Custom_Fields\Fields;
 use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! defined( 'ABSPATH' ) ) {
     die;
+}
 
+/**
+ * Prepares the variables and renders the field
+ * 
+ * @param   array $field The array with field attributes data-alpha
+ * @return  void
+ */  
 class Datepicker implements Field {
     
-    public static function render( $field = array() ) {
+    public static function render( $field = [] ) {
 
         // Only Enqueue if it is not enqueued yet
         if( apply_filters('wp_custom_fields_datepicker_field_js', true) && ! wp_script_is('flatpicker-js', 'enqueued') ) {
@@ -21,9 +28,12 @@ class Datepicker implements Field {
         $configurations = self::configurations();
         
         $attributes     = '';
-        $clear          = isset($field['labels']['clear']) ? $field['labels']['clear'] : $configurations['labels']['clear'];
-        $placeholder    = isset($field['placeholder']) && $field['placeholder'] ? ' placeholder="' . $field['placeholder'] . '"' : '';
-        $toggle         = isset($field['labels']['toggle']) ? $field['labels']['toggle'] : $configurations['labels']['toggle'];
+        $clear          = isset($field['labels']['clear']) ? esc_attr($field['labels']['clear']) : $configurations['labels']['clear'];
+        $id             = esc_attr($field['id']);
+        $name           = esc_attr($field['name']);       
+        $placeholder    = isset($field['placeholder']) && $field['placeholder'] ? ' placeholder="' . esc_attr($field['placeholder']) . '"' : '';
+        $toggle         = isset($field['labels']['toggle']) ? esc_attr($field['labels']['toggle']) : $configurations['labels']['toggle'];
+        $value          = esc_attr($field['values']);
 
         /**
          * Accepts different optional configurations according to the flatpickr config, but not camelcase here
@@ -40,31 +50,38 @@ class Datepicker implements Field {
          */
         foreach( array('enable-time', 'alt-format', 'date-format', 'locale', 'max-date', 'min-date', 'mode', 'no-calendar', 'week-numbers') as $attribute ) {
             if( isset($field[$attribute]) && $field[$attribute] !== '' ) {
-                $attributes .= ' data-' . $attribute . '="' . $field[$attribute] . '"';  
+                $attributes .= ' data-' . $attribute . '="' . esc_attr($field[$attribute]) . '"';  
             }
-        }
+        } ?>
         
-        $output = '<div class="wp-custom-fields-datepicker"' . $attributes . '>';
-        $output .= '    <input id="' . $field['id'] . '" name="' . $field['name']  . '" type="input" value="' . $field['values'] . '" data-input="true"' . $placeholder . ' />';
-        $output .= '    <a class="wp-custom-fields-input-button" title="' . $toggle . '" data-toggle="true"><i class="material-icons">calendar_today</i></a>';
-        $output .= '    <a class="wp-custom-fields-input-button input-button-clear" title="' . $clear . '" data-clear="true"><i class="material-icons">clear</i></a>';
-        $output .= '</div>';
+            <div class="wp-custom-fields-datepicker"' . $attributes . '>';
+                <input id="<?php echo $id; ?>" name="<?php echo $name; ?>" type="input" value="<?php echo $value; ?>" data-input="true" <?php echo $placeholder; ?>/>
+                <a class="wp-custom-fields-input-button" title="<?php echo $toggle; ?>" data-toggle="true"><i class="material-icons">calendar_today</i></a>';
+                <a class="wp-custom-fields-input-button input-button-clear" title="<?php echo $clear; ?>" data-clear="true"><i class="material-icons">clear</i></a>';
+            </div>
 
-        return $output;  
+        <?php 
           
     }
     
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */    
     public static function configurations() {
-        $configurations = array(
+
+        $configurations = [
             'type'      => 'datepicker',
             'defaults'  => '',         
-            'labels'        => array(
+            'labels'        => [
                 'clear'     => __('Clear', 'wp-custom-fields'),
                 'toggle'    => __('Toggle', 'wp-custom-fields')
-            ),
-        );
+            ],
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_datepicker_config', $configurations );
+
     }
     
 }

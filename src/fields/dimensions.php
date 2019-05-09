@@ -6,69 +6,82 @@ namespace MakeitWorkPress\WP_Custom_Fields\Fields;
 use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! defined( 'ABSPATH' ) ) {
     die; 
+}
 
 class Dimensions implements Field {
     
-    public static function render($field = array()) {
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes data-alpha
+     * @return  void
+     */     
+    public static function render( $field = [] ) {
         
         // Basic Variables
-        $output = '';
-        $border = isset( $field['borders'] ) ? $field['borders'] : '';
-        $step   = isset( $field['step'] ) ? $field['step'] : 1;
-        $units  = isset( $field['units'] ) ? $field['units'] : false;
+        $configurations = self::configurations();
+        $border         = isset( $field['borders'] ) ? esc_attr($field['borders']) : '';
+        $step           = isset( $field['step'] ) ? floatval($field['step']) : 1;
+        $units          = isset( $field['units'] ) && is_array($field['units']) ? $field['units'] : false;
         
         // Control each side of the box model
         if( $border == 'all' ) {
             
-            $sides = array(
-                'top'       => __('Top', 'wp-custom-fields'), 
-                'right'     => __('Right', 'wp-custom-fields'), 
-                'bottom'    => __('Bottom', 'wp-custom-fields'), 
-                'left'      => __('Left', 'wp-custom-fields')
-            );
-            
-            foreach( $sides as $key => $side ) {
+            foreach( $sides as $key => $side ) { ?>
              
-                $output            .= '<div class="wp-custom-fields-field-left">';
-                $output            .= Dimension::render( array(
-                    'step'          => $step,
-                    'icon'          => 'border_' . $key,
-                    'id'            => $field['id'] . '-' . $key,
-                    'name'          => $field['name'] . '[' . $key . ']',
-                    'placeholder'   => $side,
-                    'units'         => $units,
-                    'values'        => isset($field['values'][$key]) ? $field['values'][$key] : array()               
-                ) );
-                $output            .= '</div>';
+                <div class="wp-custom-fields-field-left">
+                    <?php 
+                        Dimension::render( array(
+                            'step'          => $step,
+                            'icon'          => 'border_' . $key,
+                            'id'            => $field['id'] . '-' . $key,
+                            'name'          => $field['name'] . '[' . $key . ']',
+                            'placeholder'   => $side,
+                            'units'         => $units,
+                            'values'        => isset($field['values'][$key]) ? $field['values'][$key] : []               
+                        ) ); 
+                    ?>
+                </div>
                 
-            }
+            <?php }
             
         // One control
         } else {
             
-            $output             .= Dimension::render( array(
+            Dimension::render( [
                 'step'      => $step,
                 'icon'      => 'border_outer',
                 'id'        => $field['id'],
                 'name'      => $field['name'],
                 'units'     => $units,
-                'values'    => isset($field['values']) ? $field['values'] : array()
-            ) );        
+                'values'    => isset($field['values']) ? $field['values'] : []
+             ] );        
 
         }
-        
-        return $output;    
+   
     }
-    
+   
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */      
     public static function configurations() {
-        $configurations = array(
-            'type'      => 'dimensions',
-            'defaults'  => array()
-        );
+        
+        $configurations = [
+            'type'          => 'dimensions',
+            'defaults'      => [],
+            'properties'    => [
+                'sides' => [
+
+                ]
+            ]
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_dimensions_config', $configurations );
+
     }
     
 }

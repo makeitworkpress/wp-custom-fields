@@ -6,32 +6,46 @@ namespace MakeitWorkPress\WP_Custom_Fields\Fields;
 use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! defined('ABSPATH') ) {
     die;
+}
 
 class Colorpicker implements Field {
     
-    public static function render($field = array()) {
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes data-alpha
+     * @return  void
+     */     
+    public static function render( $field = [] ) {
         
-        $alpha      = isset($field['alpha']) ? ' data-alpha="' . $field['alpha'] . '"' : ' data-alpha="true"';
-        // $palette    = isset($field['palette']) ? ' data-palette="' . $field['palette'] . '"' : '';
-        // $default    = isset($field['default']) && $field['default'] ? ' data-default-color="' . $field['default'] . '"' : '';
-        // $opacity    = isset($field['opacity']) && $field['opacity'] == false ? '' : ' data-show-opacity="true"';
+        $alpha  = isset($field['alpha']) ? esc_attr($field['alpha']) : 'true';
+        $id     = esc_attr($field['id']);
+        $name   = esc_attr($field['name']);
+        $value  = esc_attr($field['values']); ?>
         
-        $output = '<div class="wp-custom-fields-colorpicker-wrapper">';
-        $output .= '<input id="' . $field['id'] . '" class="wp-custom-fields-colorpicker color-picker" name="' . $field['name']  . '" type="text" value="' . $field['values'] . '"' . $alpha . ' />'; 
-        $output .= '</div>'; 
-        
-        return $output;
+            <div class="wp-custom-fields-colorpicker-wrapper">';
+                <input id="<?php echo $id; ?>" class="wp-custom-fields-colorpicker color-picker" name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" data-alpha="<?php echo $alpha; ?>" /> 
+            </div> 
+            
+        <?php
     }
     
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */    
     public static function configurations() {
-        $configurations = array(
+        
+        $configurations = [
             'type'      => 'colorpicker',
             'defaults'  => ''
-        );
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_colorpicker_config', $configurations );
+
     }
     
 }

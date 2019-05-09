@@ -10,61 +10,69 @@ if ( ! defined( 'ABSPATH' ) )
     die;
 
 class Checkbox implements Field {
-    
-    public static function render($field = array()) {
+
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes
+     * @return  void
+     */       
+    public static function render( $field = [] ) {
         
-        $options    = isset($field['options']) && is_array($field['options']) ? $field['options'] : array();
+        $options    = isset($field['options']) && is_array($field['options']) ? $field['options'] : a[];
         $single     = isset($field['single']) && count($options) == 1 ? true : false;
-        $style      = isset($field['style']) ? $field['style'] : ''; // Accepts an optional .buttonset style, for a set of styled buttons or .switcher/.switcher .switcher-disable style for a switch display
 
-        $output = '<ul class="wp-custom-fields-field-checkbox-wrapper ' . $style . '">';
-        
-        // This field accepts an array of options
-        foreach($options as $key => $option) {
+        // Accepts an optional .buttonset style, for a set of styled buttons or .switcher/.switcher .switcher-disable style for a switch display
+        $style      = isset($field['style']) ? esc_attr($field['style']) : ''; ?> 
 
-            // Check label
-            $label  = isset($option['label']) ? $option['label'] : '';
-            $icon   = isset($option['icon']) ? '<i class="material-icons">' . $option['icon']  . '</i> ' : '';
-            
-            if( ! $icon ) {
-                $output .= '<li class="wp-custom-fields-field-checkbox-input">';
-            }
-            
-            // Single checkboxes
-            if( $single ) {
-                $id     = $field['id'];
-                $name   = $field['name'];
-                $value  = isset($field['values']) && ! is_array($field['values']) ? $field['values'] : '';
-            } else {
-                $id     = $field['id']  . '_' . $key;
-                $name   = $field['name'] . '[' . $key . ']';  
-                $value  = isset($field['values'][$key]) ? $field['values'][$key] : '';
-            }
+            <ul class="wp-custom-fields-field-checkbox-wrapper ' . $style . '">
 
-            // Output of form
-            $output .= '<input type="checkbox" id="' . $id . '" name="' . $name . '" ' . checked($value, true, false) . ' />';
-            
-            if( ! empty($label) ) {
-                $output .= '<label for="' . $id . '">' . $icon . $label . '</label>';
-            }
-            
-            if( ! $icon )
-                $output .= '</li>';            
-            
-        }
+                <?php 
+                    foreach($options as $key => $option) { 
+
+                        // Single checkboxes
+                        if( $single ) {
+                            $id     = esc_attr($field['id']);
+                            $name   = esc_attr($field['name']);
+                            $value  = isset($field['values']) && ! is_array($field['values']) ? esc_attr($field['values']) : '';
+                        // Multiple checkboxes
+                        } else {
+                            $id     = esc_attr($field['id']  . '_' . $key);
+                            $name   = esc_attr($field['name'] . '[' . $key . ']');  
+                            $value  = isset($field['values'][$key]) ? esc_attr($field['values'][$key]) : '';
+                        }
+
+                        $label  = isset($option['label']) ? esc_html($option['label']) : '';
+                        $icon   = isset($option['icon']) ? '<i class="material-icons">' . esc_html($option['icon'])  . '</i>' : ''; ?> 
+                        <li class="wp-custom-fields-field-checkbox-input">
+                            <input type="checkbox" id="<?php echo $id; ?>" name="<?php $name; ?>" <?php checked($value, true); ?> />
+                            <?php if( ! empty($label) ) { ?>
+                                <label for="<?php echo $id; ?>"><?php echo $icon . $label; ?></label>';  
+                            <?php ] ?>
+                        </li>
+                    <?php         
+                ?>
+                <?php 
+                    } 
+                ?>
         
-        $output .= '</ul>';
-        
-        return $output;    
+            </ul>
+            
+        <?php
     }
-    
+
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */      
     public static function configurations() {
-        $configurations = array(
+        $configurations = [
             'type'      => 'checkbox',
-            'defaults'  => array()
-        );
+            'defaults'  => []
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_checkbox_config', $configurations );
     }
     
 }

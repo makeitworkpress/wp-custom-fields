@@ -11,21 +11,47 @@ if ( ! defined( 'ABSPATH' ) )
 
 class Textarea implements Field {
     
-    public static function render($field = array()) {
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes data-alpha
+     * @return  void
+     */      
+    public static function render( $field = array() ) {
         
-        $rows = isset($field['rows']) ? $field['rows'] : 7;
-        $cols = isset($field['cols']) ? $field['cols'] : 70;
+        $config = self::configurations();
+        $cols   = isset($field['cols']) ? intval($field['cols']) : $config['properties']['cols'];
+        $rows   = isset($field['rows']) ? intval($field['rows']) : $config['properties']['rows'];
+
+        $id     = esc_attr($field['id']);
+        $name   = esc_attr($field['name']);
+        $value  = esc_textarea($field['values']); ?>        
         
-        return '<textarea id="' . $field['id'] . '" name="' . $field['name']  . '" rows="' . $rows . '" cols="' . $cols . '">' . esc_textarea($field['values']) . '</textarea>';    
+            <textarea id="<?php echo $id; ?>" name="<?php echo $id; ?>" rows="<?php echo $rows; ?>" cols="<?php echo $cols; ?>">
+                <?php echo $value; ?>
+            </textarea>
+
+        <?php    
     }
     
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */      
     public static function configurations() {
-        $configurations = array(
-            'type'      => 'textarea',
-            'defaults'  => ''
-        );
+
+        $configurations = [
+            'type'          => 'textarea',
+            'defaults'      => '',
+            'properties'    => [
+                'cols' => 70,
+                'rows' => 7
+            ]
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_textarea_config', $configurations );
+        
     }
     
 }

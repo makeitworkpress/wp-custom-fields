@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) )
 
 interface Field {
     
-    public static function render( $field = array() );
+    public static function render( $field = [] );
     
     public static function configurations();
     

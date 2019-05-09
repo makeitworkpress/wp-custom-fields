@@ -6,17 +6,27 @@ namespace MakeitWorkPress\WP_Custom_Fields\Fields;
 use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! defined('ABSPATH') ) {
     die;
+}
 
 class Input implements Field {
     
-    public static function render($field = array()) {
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes data-alpha
+     * @return  void
+     */       
+    public static function render( $field = [] ) {
         
-        $attributes  = '';
-        $class       = isset($field['class']) && $field['class'] ? esc_attr($field['class']) : 'regular-text';
-        $placeholder = isset($field['placeholder']) && $field['placeholder'] ? ' placeholder="' . esc_attr($field['placeholder']) . '"' : '';
-        $type        = isset($field['subtype']) && $field['subtype'] ? esc_attr($field['subtype']) : 'text';
+        $attributes     = '';
+        $class          = isset($field['class']) && $field['class'] ? esc_attr($field['class']) : 'regular-text';
+        $id             = esc_attr($field['id']);
+        $name           = esc_attr($field['name']);     
+        $placeholder    = isset($field['placeholder']) && $field['placeholder'] ? ' placeholder="' . esc_attr($field['placeholder']) . '"' : '';
+        $type           = isset($field['subtype']) && $field['subtype'] ? esc_attr($field['subtype']) : 'text';
+        $value          = esc_attr($field['values']);   
 
         foreach( array('min', 'max', 'readonly', 'step') as $attribute ) {
             if( isset($field[$attribute]) && $field[$attribute] !== '' ) {
@@ -25,18 +35,27 @@ class Input implements Field {
         }
 
         // Our definite field class
-        $class = $type == 'number' && ! isset($field['class']) ? 'small-text' : $class;
+        $class = $type == 'number' && ! isset($field['class']) ? 'small-text' : $class; ?>
+
+            <input class="<?php echo $class; ?>" id="<?php echo $id; ?>" name="<?php echo $name; ?>" type="<?php echo $type; ?>" value="<?php echo $value; ?>" <?php echo $placeholder . $attributes; ?> />    
         
-        return '<input class="' . $class . '" id="' . $field['id'] . '" name="' . $field['name']  . '" type="' . $type . '" value="' . esc_attr($field['values']) . '"' . $placeholder . $attributes . ' />';    
+        <?php
     }
     
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */      
     public static function configurations() {
-        $configurations = array(
+        
+        $configurations = [
             'type'      => 'input',
             'defaults'  => ''
-        );
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_input_config', $configurations );
+
     }
     
 }

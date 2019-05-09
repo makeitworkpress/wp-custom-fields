@@ -6,45 +6,61 @@ namespace MakeitWorkPress\WP_Custom_Fields\Fields;
 use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! defined('ABSPATH') ) {
     die;
+}
 
 class Radio implements Field {
     
-    public static function render($field = array()) {
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes data-alpha
+     * @return  void
+     */    
+    public static function render( $field = [] ) {
         
-        $options    = isset($field['options']) ? $field['options'] : array();
-        $style      = isset($field['style']) ? $field['style'] : ''; // Accepts an optional .buttonset style, for a set of styled buttons or .switcher style for a switch display
+        $id         = esc_attr($field['id']);
+        $name       = esc_attr($field['name']);        
+        $options    = isset($field['options']) ? $field['options'] : [];
+        // Accepts an optional .buttonset style, for a set of styled buttons or .switcher style for a switch display
+        $style      = isset($field['style']) ? esc_attr($field['style']) : ''; ?>
         
-        $output = '<div class="wp-custom-fields-field-radio-wrapper ' . $style . '">';
+            <div class="wp-custom-fields-field-radio-wrapper '<?php echo $style; ?>">
         
-        // This field accepts an array of options
-        foreach($options as $key => $option) {
-            
-            // Check label
-            $label  = isset($option['label']) ? $option['label'] : '';
-            $icon   = isset($option['icon']) ? '<i class="material-icons">' . $option['icon'] . '</i> ' : '';
-            
-            // Output of form
-            $output .= '<input type="radio" id="' . $field['id'] .  $key . '" name="' . $field['name'] . '" value="' . $key . '" ' . checked( $field['values'], $key, false ) . ' />';
-            
-            if( ! empty($label) ) {
-                $output .= '<label for="' . $field['id'] . $key . '">' . $icon . $label . '</label>';
-            }
-        }
+                <?php foreach( $options as $key => $option ) { ?>
+                
+                    <?php $label  = isset($option['label']) ? esc_html($option['label']) : ''; ?>
+                    <?php $icon   = isset($option['icon']) ? '<i class="material-icons">' . esc_html($option['icon']) . '</i> ' : ''; ?>
+                
+                    <input type="radio" id="<?php esc_attr_e($id . $key); ?>" name="<?php echo $name; ?>" value="<?php esc_attr_e($key); ?>" <?php checked( $field['values'], $key, false ); ?> />
+                
+                    <?php if( ! empty($label) ) { ?>
+                        <label for="<?php esc_attr_e($id . $key); ?>"><?php echo $icon . $label; ?></label>
+                    <?php } ?>
+
+                <?php } ?>
         
-        $output .= '</div>';
+            </div>
         
-        return $output;    
+        <?php
+          
     }
     
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */        
     public static function configurations() {
-        $configurations = array(
+        
+        $configurations = [
             'type'      => 'radio',
             'defaults'  => ''
-        );
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_radio_config', $configurations );
+
     }
     
 }

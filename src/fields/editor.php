@@ -6,13 +6,21 @@ namespace MakeitWorkPress\WP_Custom_Fields\Fields;
 use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! defined( 'ABSPATH' ) ) {
     die; 
+}
 
 class Editor implements Field {
     
-    public static function render($field = array()) {
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes data-alpha
+     * @return  void
+     */     
+    public static function render( $field = [] ) {
 
+        // Implements the settings for the wp_editor as defined in the codex
         if( isset($field['settings']) ) {
             foreach( $field['settings'] as $key => $setting ) {
                 // The keys should be in the supported format
@@ -26,19 +34,24 @@ class Editor implements Field {
         
         $settings['textarea_name'] = $field['name'];
         
-        ob_start();
         wp_editor($field['values'], $field['id'], $settings);
-        return ob_get_clean();
         
     }
-    
+
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */        
     public static function configurations() {
-        $configurations = array(
+
+        $configurations = [
             'type'      => 'editor',
             'defaults'  => ''
-        );
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_editor_config', $configurations );
+
     }
     
 }

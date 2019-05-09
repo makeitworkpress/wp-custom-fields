@@ -8,64 +8,86 @@ namespace MakeitWorkPress\WP_Custom_Fields\Fields;
 use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! defined('ABSPATH') ) {
     die;
+}
 
 class Media implements Field {
     
-    public static function render( $field = array() ) {
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes data-alpha
+     * @return  void
+     */     
+    public static function render( $field = [] ) {
         
-        $add            = isset($field['add']) ? $field['add'] : __('Add', 'wp-custom-fields');
-        $type           = isset($field['subtype']) ? $field['subtype'] : '';
-        $button         = isset($field['button']) ? $field['button'] : __('Insert', 'wp-custom-fields');
-        $title          = isset($field['title']) ? $field['title'] : __('Add Media', 'wp-custom-fields');
-        $multiple       = isset($field['multiple']) ? $field['multiple'] : true;
-        $url            = isset($field['url']) ? $field['url'] : false;
-        $media          = ! empty($field['values']) ? explode(',', rtrim($field['values'], ',')) : array();
+        $config     = self::configurations();
+        $add        = isset($field['labels']['add']) ? esc_attr($field['labels']['add']) : $config['labels']['add'];
+        $button     = isset($field['labels']['button']) ? esc_attr($field['labels']['button']) : $config['labels']['button'];
+        $title      = isset($field['labels']['title']) ? esc_attr($field['labels']['title']) : $config['labels']['title'];
+        
+        $id         = esc_attr($field['id']);
+        $name       = esc_attr($field['name']);        
+        $type       = isset($field['subtype']) ? esc_attr($field['subtype']) : '';
+        $multiple   = isset($field['multiple']) ? esc_attr($field['multiple']) : true;
+        $url        = isset($field['url']) && $field['url'] ? true : false;
+        $media      = ! empty($field['values']) ? explode(',', rtrim($field['values'], ',')) : []; 
+        $value      = esc_attr($field['values']);?>
 
-        // Retrieve our thumbnail size
-        $output = '<div class="wp-custom-fields-upload-wrapper" data-type="' . $type . '" data-button="' . $button . '" data-title="' . $title . '" data-multiple="' . $multiple . '">';
-        
-        foreach($media as $medium) {
+            <div class="wp-custom-fields-upload-wrapper" data-type="<?php echo $type; ?>'" data-button="<?php echo $button; ?>" data-title="<?php echo $title; ?>" data-multiple="<?php echo $multiple; ?>">
             
-            if( empty($medium) )
-                continue;
+                <?php 
+                    foreach($media as $medium) {
+                        if( empty($medium) ) {
+                            continue; 
+                        }                    
+                ?>
+                    <div class="wp-custom-fields-single-media" data-id="<?php echo $medium; ?>">
+                        <?php echo wp_get_attachment_image($medium, 'thumbnail', true); ?>
+                        <?php if( $url ) { ?>
+                            <?php $attachment_url = esc_url( wp_get_attachment_url($medium) ); ?>
+                            <div class="wp-custom-fields-media-url">
+                                <i class="material-icons">link</i>
+                                <input type="text" readonly="readonly" value="<?php echo $attachment_url; ?>" />
+                            </div>              
+                        <?php } ?>  
+                        <a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a>                  
+                    </div>        
+                <?php } ?>
             
-            $output .= '    <div class="wp-custom-fields-single-media" data-id="' . $medium . '">';
-            $output .= wp_get_attachment_image($medium, 'thumbnail', true);
-
-            if( $url ) {
-                $attachment_url = wp_get_attachment_url( $medium );
-                $output .= '        <div class="wp-custom-fields-media-url">';
-                $output .= '            <i class="material-icons">link</i>';
-                $output .= '            <input type="text" readonly="readonly" value="' . $attachment_url . '" />';
-                $output .= '        </div>';              
-            }
-
-            $output .= '        <a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a>'; 
-            $output .= '    </div>';
-            
-        }
+                <div class="wp-custom-fields-single-media empty">';
+                    <a href="#" class="wp-custom-fields-upload-add" title="<?php echo $add; ?>">
+                        <i class="material-icons">add</i> ';
+                        <?php echo $add; ?>
+                    </a>
+                </div>
+                <input id="<?php echo $id; ?>" name="<?php echo $name; ?>" class="wp-custom-fields-upload-value" type="hidden" value="<?php echo $value; ?>" /> 
+            </div>
         
-        $output .= '    <div class="wp-custom-fields-single-media empty">';
-        $output .= '        <a href="#" class="wp-custom-fields-upload-add">';
-        $output .= '            <i class="material-icons">add</i> ';
-        $output .=              $add;
-        $output .=          '</a>'; 
-        $output .= '    </div>';
-        $output .= '    <input id="' . $field['id'] . '" name="' . $field['name']  . '" class="wp-custom-fields-upload-value" type="hidden" value="' . $field['values'] . '" />'; 
-        $output .= '</div>';
-        
-        return $output;    
+        <?php
+ 
     }
     
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */          
     public static function configurations() {
-        $configurations = array(
+
+        $configurations = [
             'type'      => 'media',
-            'defaults'  => ''
-        );
+            'defaults'  => '',
+            'labels'    => [
+                'add'       => __('Add', 'wp-custom-fields'),
+                'button'    => __('Insert', 'wp-custom-fields'),
+                'title'     => __('Add Media', 'wp-custom-fields')
+            ]
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_media_config', $configurations );
+
     }
     
 }

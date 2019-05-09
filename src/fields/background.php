@@ -6,107 +6,122 @@ namespace MakeitWorkPress\WP_Custom_Fields\Fields;
 use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) 
+if ( ! defined( 'ABSPATH' ) ) {
     die;
+}
 
 class Background implements Field {
-    
-    public static function render( $field = array() ) {
+ 
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param array $field The array with field attributes
+     * @return void
+     */
+    public static function render( $field = [] ) {
              
-        // Background Colorpicker
-        $colorpicker['values'] = isset( $field['values']['color'] ) ? $field['values']['color'] : '';
-        $colorpicker['name']   = $field['name'] . '[color]';
-        $colorpicker['id']     = $field['id'] . '-color';
-
-        // Media Upload
-        $upload_custom['subtype']   = 'image';
-        $upload_custom['add']       = isset($field['add']) ? $field['add'] : __('Select', 'wp-custom-fields');
-        $upload_custom['button']    = isset($field['button']) ? $field['button'] :__('Add Background', 'wp-custom-fields');
-        $upload_custom['id']        = $field['id'] . '-upload';
-        $upload_custom['multiple']  = false; 
-        $upload_custom['name']      = $field['name'] . '[upload]';
-        $upload_custom['title']     = isset($field['title']) ? $field['title'] :__('Select a Background', 'wp-custom-fields');
-        $upload_custom['values']    = isset($field['values']['upload']) ? $field['values']['upload'] : '';
-        
-        $output = '<div class="wp-custom-fields-background-image wp-custom-fields-field-left">';
-        $output .=  Media::render( $upload_custom );        
-        $output .= '</div>';
+        // Properties
+        $configurations = self::configurations();
+        $colorpicker    = ['values' => isset( $field['values']['color'] ) ? $field['values']['color'] : '', 'name' => $field['name'] . '[color]', 'id' => $field['id'] . '-color'];
+        $media          = [
+            'subtype'   => 'image',
+            'add'       => isset($field['labels']['add']) ? $field['labels']['add'] : $configurations['labels']['add'],
+            'button'    => isset($field['labels']['button']) ? $field['labels']['button'] : $configurations['labels']['button'],
+            'id'        => $field['id'] . '-upload',
+            'multiple'  => false,
+            'name'      => $field['name'] . '[upload]',
+            'title'     => isset($field['labels']['title']) ? $field['labels']['title'] : $configurations['labels']['title'],
+            'values'    => isset($field['values']['upload']) ? $field['values']['upload'] : ''
+        ]; ?>
 
         
-        $output .= '<div class="wp-custom-fields-background-attributes wp-custom-fields-field-left">';         
-        $output .=  Colorpicker::render( $colorpicker );
+        <div class="wp-custom-fields-background-image wp-custom-fields-field-left">';
+            <?php Media::render( $media ); ?>       
+        </div>
+
         
-        // Background Select Attributes
-        $background_attributes = array(
-            'repeat' => array(
-                'placeholder' => __('Repeat', 'wp-custom-fields'),
-                'options'  => array(
-                    'no-repeat' => __('No Repeat', 'wp-custom-fields'),
-                    'repeat' => __('Repeat', 'wp-custom-fields'),
-                    'repeat-x' => __('Repeat Horizontally', 'wp-custom-fields'),
-                    'repeat-y' => __('Repeat Vertically', 'wp-custom-fields'),
-                    'inherit' => __('Inherit', 'wp-custom-fields')
-                )
-            ),
-            'attachment' => array(
-                'placeholder' => __('Attachment', 'wp-custom-fields'),
-                'options'  => array(
-                    'fixed' => __('Fixed', 'wp-custom-fields'),
-                    'scroll' => __('Scroll', 'wp-custom-fields'),
-                    'inherit' => __('Inherit', 'wp-custom-fields') 
-                )
-            ),
-            'size' => array(
-                'placeholder' => __('Size', 'wp-custom-fields'),
-                'options'  => array(
-                    'cover' => __('Cover', 'wp-custom-fields'),
-                    'contain' => __('Contain', 'wp-custom-fields'),
-                    '100%' => __('100%', 'wp-custom-fields'),
-                    'inherit' => __('Inherit', 'wp-custom-fields')
-                )
-            ),            
-            'position' => array(
-                'placeholder' => __('Position', 'wp-custom-fields'),
-                'options'  => array(
-                    'center top' => __('Center Top', 'wp-custom-fields'),
-                    'center center' => __('Center Center', 'wp-custom-fields'),
-                    'center bottom' => __('Center Bottom', 'wp-custom-fields'),
-                    'left top' => __('Left Top', 'wp-custom-fields'),
-                    'left center' => __('Left Center', 'wp-custom-fields'),   
-                    'left bottom' => __('Left Bottom', 'wp-custom-fields'), 
-                    'right top' => __('Right Top', 'wp-custom-fields'), 
-                    'right center' => __('Right Center', 'wp-custom-fields'), 
-                    'right bottom' => __('Right Bottom', 'wp-custom-fields')
-                )
-            )
-        );        
+        <div class="wp-custom-fields-background-attributes wp-custom-fields-field-left">        
+            <?php Colorpicker::render( $colorpicker ); ?>
+             
+            <?php foreach($configurations['properties'] as $key => $attribute) { 
+                // We use the select field class to display our recurring select fields.
+                Select::render( [
+                    'options'       => $attribute['options'],
+                    'placeholder'   => $attribute['placeholder'],
+                    'id'            => $field['id']  . '-' . $key,
+                    'name'          => $field['name']. '[' . $key . ']',
+                    'values'        => isset($field['values'][$key]) ? $field['values'][$key] : ''
+                ] );
+            } ?>
         
-        // Loop through all the defined attributes
-        foreach($background_attributes as $key => $attribute) {
-            
-            // Store the value of the current select group
-            $field_custom[$key]['options']      = $attribute['options'];
-            $field_custom[$key]['placeholder']  = $attribute['placeholder'];
-            $field_custom[$key]['id']           = $field['id']  . '-' . $key ;
-            $field_custom[$key]['name']         = $field['name']. '[' . $key . ']';
-            $field_custom[$key]['values']       = isset($field['values'][$key]) ? $field['values'][$key] : '';
-            
-            // We use the select field class to display our recurring select fields. Easy, isn't it?
-            $output .= Select::render($field_custom[$key]);
-        }
-        
-        $output .= '</div>';
-        
-        return $output;    
-    }
+        </div>
+  
+    <?php }
     
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */ 
     public static function configurations() {
-        $configurations = array(
-            'type'      => 'background',
-            'defaults'  => array()
-        );
+        $configurations = [
+            'type'          => 'background',
+            // Default values
+            'defaults'      => [],
+            // Default labels
+            'labels'        => [
+                'add'       => __('Select', 'wp-custom-fields');
+                'button'    => __('Add Background', 'wp-custom-fields');
+                'title'     => __('Select a Background', 'wp-custom-fields');
+            ],
+            // Properties
+            'properties'    => [
+                'repeat' => [
+                    'placeholder' => __('Repeat', 'wp-custom-fields'),
+                    'options'  => [
+                        'no-repeat' => __('No Repeat', 'wp-custom-fields'),
+                        'repeat' => __('Repeat', 'wp-custom-fields'),
+                        'repeat-x' => __('Repeat Horizontally', 'wp-custom-fields'),
+                        'repeat-y' => __('Repeat Vertically', 'wp-custom-fields'),
+                        'inherit' => __('Inherit', 'wp-custom-fields')
+                    ]
+                ],
+                'attachment' => [
+                    'placeholder' => __('Attachment', 'wp-custom-fields'),
+                    'options'  => [
+                        'fixed' => __('Fixed', 'wp-custom-fields'),
+                        'scroll' => __('Scroll', 'wp-custom-fields'),
+                        'inherit' => __('Inherit', 'wp-custom-fields') 
+                    ]
+                ],
+                'size' => [
+                    'placeholder' => __('Size', 'wp-custom-fields'),
+                    'options'  => [
+                        'cover' => __('Cover', 'wp-custom-fields'),
+                        'contain' => __('Contain', 'wp-custom-fields'),
+                        '100%' => __('100%', 'wp-custom-fields'),
+                        'inherit' => __('Inherit', 'wp-custom-fields')
+                    ]
+                ],            
+                'position' => [
+                    'placeholder' => __('Position', 'wp-custom-fields'),
+                    'options'  => [
+                        'center top' => __('Center Top', 'wp-custom-fields'),
+                        'center center' => __('Center Center', 'wp-custom-fields'),
+                        'center bottom' => __('Center Bottom', 'wp-custom-fields'),
+                        'left top' => __('Left Top', 'wp-custom-fields'),
+                        'left center' => __('Left Center', 'wp-custom-fields'),   
+                        'left bottom' => __('Left Bottom', 'wp-custom-fields'), 
+                        'right top' => __('Right Top', 'wp-custom-fields'), 
+                        'right center' => __('Right Center', 'wp-custom-fields'), 
+                        'right bottom' => __('Right Bottom', 'wp-custom-fields')
+                    ]
+                ]
+            ]
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_background_config', $configurations );
+        
     }
     
 }

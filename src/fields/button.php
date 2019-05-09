@@ -27,24 +27,31 @@ class button implements Field {
         }
 
         $action     = $field['action'];
-        $data       = isset( $field['data'] ) ? json_encode($field['data']) : '';
-        $label      = isset( $field['label'] ) ? sanitize_text_field($field['label']) : '';
-        $message    = isset( $field['message'] ) ? sanitize_text_field($field['message']) : '';
-        $style      = isset( $field['style'] ) ? sanitize_text_field($field['style']) : '';
-        
-        $output = '<button data-action="' . $action . '" data-data=\'' . $data . '\' data-message="' . $message . '" class="wpcf-button button ' . $style . '">' . $label  . '</button>';
-
-        
-        return $output;    
+        foreach( ['action', 'data', 'label', 'message', 'style'] as $att ) {
+            $function   = $att == 'data' ? 'json_encode' : 'esc_attr';
+            ${$att}     = isset( $field[$att] ) ? call_user_func($function, $field[$att]) : '';
+        } ?>
+            <button data-action="<?php echo $action; ?>" data-data='<?php echo $data; ?>' data-message="<?php echo $message; ?>" class="wpcf-button button <?php echo $style; ?>">
+                <?php echo $label; ?>
+            </button>
+        <?php
+ 
     }
-    
+
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */      
     public static function configurations() {
-        $configurations = array(
+
+        $configurations = [
             'type'      => 'button',
             'defaults'  => ''
-        );
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_button_config', $configurations );
+
     }
     
 }

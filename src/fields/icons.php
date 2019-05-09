@@ -7,70 +7,85 @@ use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 use MakeitWorkPress\WP_Custom_Fields\Framework as Framework;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! defined('ABSPATH') ) {
     die;
+}
 
 class Icons implements Field {
     
-    public static function render($field = array()) {
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes data-alpha
+     * @return  void
+     */     
+    public static function render( $field = [] ) {
         
         $configurations = self::configurations();
         $iconsets       = $configurations['properties']['icons'];
-        $type           = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio';
+        $type           = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio'; ?>
         
-        $output = '<div class="wp-custom-fields-icons">';
+            <div class="wp-custom-fields-icons">
 
-        foreach($iconsets as $set => $icons) {
-            $output .= '    <p class="wp-custom-fields-icons-title">' . $set . '</p>';
-            $output .= '    <ul class="wp-custom-fields-icon-list">';
+                <?php foreach( $iconsets as $set => $icons ) { ?>
+                    <p class="wp-custom-fields-icons-title"><?php esc_html_e($set); ?></p>
+                    <ul class="wp-custom-fields-icon-list">
             
-            // Loop through icons of a set
-            foreach( $icons as $icon ) {
-                
-                if( $set == 'fontawesome' ) {
-                    $display_icon = '<i class="fa ' . $icon . '"></i>';
-                }
-                
-                if( $set == 'material' ) {
-                    $display_icon = '<i class="material-icons">' . $icon . '</i>';
-                }                
-                
-                $display_icon = apply_filters('wp_custom_fields_displayed_icon', $display_icon, $set);
-                
-                $name = $type == 'checkbox' ? '[' . $icon . ']' : '';
-                
-                // Get the values for a set
-                if($type == 'checkbox' && is_array($field['values'])) {
-                    $selected = in_array($icon, $field['values']) ? ' checked="checked" ' : '';
-                } else {
-                    $selected = $icon == $field['values'] ? ' checked="checked" ' : '';
-                }                
-                
-                $output .= '    <li>';
-                $output .= '        <input type="' . $type . '" name="' . $field['name'] . $name . '" id="' . $field['id'] . '-' . $icon . '" value="' . $icon . '"' . $selected . '/>';               
-                $output .= '        <label for="' . $field['id'] . '-' . $icon . '">';
-                $output .= $display_icon;
-                $output .= '        </label>';
-                $output .= '    </li>';
-            }
-            $output .= '    </ul>';
-        }
+                        <?php 
+                            foreach( $icons as $icon ) { 
+
+                                if( $set == 'dashicons' ) {
+                                    $display_icon = '<i class="dashicons ' . esc_attr($icon) . '"></i>';
+                                } elseif( $set == 'fontawesome' ) {
+                                    $display_icon = '<i class="fa ' . esc_attr($icon) . '"></i>';
+                                } elseif( $set == 'material' ) {
+                                    $display_icon = '<i class="material-icons">' . esc_html($icon) . '</i>';
+                                }                
+                                
+                                $display_icon   = apply_filters('wp_custom_fields_displayed_icon', $display_icon, $icon, $set);
+                                $id             = esc_attr( $field['id'] . '-' . $icon );
+                                $name           = $type == 'checkbox' ? esc_attr($field['name'] . '[' . $icon . ']') : esc_attr($field['name'];
+                                
+                                // Get the values for a set
+                                if( $type == 'checkbox' && is_array($field['values']) ) {
+                                    $selected = in_array($icon, $field['values']) ? ' checked="checked" ' : '';
+                                } else {
+                                    $selected = $icon == $field['values'] ? ' checked="checked" ' : '';
+                                }
+
+                        ?>
+                            <li>
+                                <input type="<?php echo $type; ?>" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $icon; ?>" <?php echo $selected; ?> />               
+                                <label for="<?php echo $id; ?>"><?php echo $display_icon; ?></label>
+                            </li>                  
+                        <?php } ?>
+
+                    </ul>
+                <?php } ?>
+            
+            </div> 
         
-        $output .= '</div>';
-        
-        return $output;    
+        <?php
+  
     }
     
+    /**
+     * Returns the global configurations for this field
+     *
+     * @return array $configurations The configurations
+     */      
     public static function configurations() {
-        $configurations = array(
+
+        $configurations = [
             'type'          => 'icons',
             'defaults'      => '',
-            'properties'    => array(
+            'properties'    => [
                 'icons' => Framework::$icons
-            )
-        );
+            ]
+        ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_icons_config', $configurations );
+
     }
     
 }

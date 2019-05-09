@@ -7,19 +7,19 @@ use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 use MakeitWorkPress\WP_Custom_Fields\Framework as Framework;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) 
+if ( ! defined('ABSPATH') ) {
     die;
+}
 
 class Typography implements Field {
     
     /**
-     * Renders the Dimension Field
-     *
-     * @param   array   $field  The array with field parameters
-     *
-     * @return  string  $output The output generated
-     */    
-    public static function render( $field = array() ) {
+     * Prepares the variables and renders the field
+     * 
+     * @param   array $field The array with field attributes
+     * @return  void
+     */   
+    public static function render( $field = [] ) {
         
         // Load the select2 script, but only if not yet enqueued
         if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
@@ -27,121 +27,122 @@ class Typography implements Field {
         
         // Retrieve our configurations
         $configurations = self::configurations();
-        $select         = isset($field['labels']['select']) ? $field['labels']['select'] : $configurations['labels']['select'];
-        
-        /**
-         * Display the fonts
-         */
-        $output = '<div class="wp-custom-fields-typography-font-select">';
-        $output .= '    <select class="wp-custom-fields-typography-fonts" name="' . $field['name'] . '[font]" id="' . $field['id'] . '_font" >';
+        foreach( ['normal', 'italic', 'select', 'weights'] as $label ) {
+            ${$label}   = isset($field['labels']['select']) ? $field['labels'][$label] : $configurations['labels'][$label]
+        } ?>       
 
-        $output .= '<option value="">' . $select . '</option>';
-        
-        foreach( $configurations['properties']['fonts'] as $fontspace => $types ) {
-            
-            $output .= '        <optgroup label="' . ucfirst($fontspace) . '">';    
-            
-            foreach( $types as $key => $font ) {          
-                $display        = isset($font['example']) ? $font['example'] : WP_CUSTOM_FIELDS_ASSETS_URL . 'img/' . $key . '.png'; // Allows for custom fonts
-                $output .= '<option data-display="' . $display . '" value="' . $key . '" ' . selected( isset($field['values']['font']) ? $field['values']['font'] : '', $key, false ) . '>';
-                $output .=      $font['name'];
-                $output .= '</option>';
-            }
-            
-            $output .= '    </optgroup>';
-            
-        }
+            <div class="wp-custom-fields-typography-font-select">
+                <select class="wp-custom-fields-typography-fonts" name="<?php esc_attr_e($field['name']); ?>[font]" id="<?php esc_attr_e($field['id']); ?>-font" >
+
+                    <option value=""><?php echo $select; ?></option>
+                
+                    <?php foreach( $configurations['properties']['fonts'] as $fontspace => $types ) { ?>
+                        
+                        <optgroup label="<?php esc_attr_e( ucfirst($fontspace) ); ?>">    
+                        
+                        <?php foreach( $types as $key => $font ) { ?>         
+                            <?php $display = isset($font['example']) ? esc_url($font['example']) : WP_CUSTOM_FIELDS_ASSETS_URL . 'img/' . $key . '.png'; // Allows for custom fonts ?> 
+                            <option data-display="<?php echo $display; ?>" value="<?php esc_attr_e($key); ?>" <?php selected( isset($field['values']['font']) ? $field['values']['font'] : '', $key); ?>>
+                                <?php esc_html_e( $font['name'] ); ?>
+                            </option>
+                        <?php } ?>
+                        
+                        </optgroup>
+                    
+                    <?php } ?>
              
-        $output .= '    </select><!-- .wp-custom-fields-typography-fonts -->';
-        $output .= '</div><!-- .wp-custom-fields-typography-font-select -->';
+                </select><!-- .wp-custom-fields-typography-fonts -->
+            </div><!-- .wp-custom-fields-typography-font-select -->
         
-        /**
-         * Display dimensions
-         */        
-        $output .= '<div class="wp-custom-fields-typography-properties wp-custom-fields-field-left">';
+            <div class="wp-custom-fields-typography-properties wp-custom-fields-field-left">
         
-        // Text Dimensions
-        foreach($configurations['properties']['dimensions'] as $key => $label) {
-         
-            $output .= Dimension::render( array(
-                'step'          => 0.01,
-                'icon'          => 'format_' . $key,
-                'id'            => $field['id'] . '_' . $key,
-                'name'          => $field['name'] . '[' . $key . ']',
-                'placeholder'   => $label,
-                'values'        => isset($field['values'][$key]) ? $field['values'][$key] : ''
-            ) );
-            
-        } 
+                <?php 
+                    foreach( $configurations['properties']['dimensions'] as $key => $label ) {
+                
+                        Dimension::render( [
+                            'step'          => 0.01,
+                            'icon'          => 'format_' . $key,
+                            'id'            => $field['id'] . '_' . $key,
+                            'name'          => $field['name'] . '[' . $key . ']',
+                            'placeholder'   => $label,
+                            'values'        => isset($field['values'][$key]) ? $field['values'][$key] : ''
+                        ] );
+                    
+                    } 
+                ?> 
         
-        // Font-weight
-        $output .= '<div class="wp-custom-fields-typography-weight">';
-        $output .= '    <i class="material-icons">format_bold</i> ';
-        $output .= Select::render( array(
-            'id'            => $field['id'] . '_font_weight',
-            'name'          => $field['name'] . '[font_weight]', 
-            'options'       => $configurations['properties']['weights'],
-            'placeholder'   => isset($field['labels']['weights']) ? $field['labels']['weights'] : $configurations['labels']['weights'],
-            'values'        => isset($field['values']['font_weight']) ? $field['values']['font_weight'] : ''
-        ) );
-        $output .= '</div>';
         
-        $output .= '</div><!-- .wp-custom-fields-typography-properties -->';
+                <div class="wp-custom-fields-typography-weight">
+                    <i class="material-icons">format_bold</i>
+                        <?php
+                            Select::render( [
+                                'id'            => $field['id'] . '_font_weight',
+                                'name'          => $field['name'] . '[font_weight]', 
+                                'options'       => $configurations['properties']['weights'],
+                                'placeholder'   => isset($field['labels']['weights']) ? $field['labels']['weights'] : $configurations['labels']['weights'],
+                                'values'        => isset($field['values']['font_weight']) ? $field['values']['font_weight'] : ''
+                            ) );
+                        ?>
+                </div>
         
-        $output .= '<div class="wp-custom-fields-typography-appearance wp-custom-fields-field-left">';
+            </div><!-- .wp-custom-fields-typography-properties -->
+        
+            <div class="wp-custom-fields-typography-appearance wp-custom-fields-field-left">
       
-        /**
-         * Display font characteristics
-         */       
-        
-        // Style Buttons
-        foreach($configurations['properties']['styles'] as $key => $style) {
-            $output .= '    <ul class="wp-custom-fields-typography-' . $key . ' wp-custom-fields-icon-list">'; 
+                <?php                        
+                    /**
+                     * Display font characteristics
+                     */       
+                    
+                    // Style Buttons
+                    foreach($configurations['properties']['styles'] as $key => $style) { 
+                ?>
+                    <ul class="wp-custom-fields-typography-'<?php esc_attr_e($key); ?> wp-custom-fields-icon-list"> 
             
-            foreach($style as $value => $icon) {
-                $checked = is_array($field['values']) && in_array($value, $field['values']) ? ' checked="checked" ' : '';
+                        <?php 
+                            foreach( $style as $value => $icon ) {
+                                $checked = is_[$field['values']) && in_array($value, $field['values']) ? ' checked="checked" ' : '';   
+                                $name = $key == 'styles' ? $field['name'] . '[' . $value . ']' : $field['name'] . '[' . $key . ']';
+                                $type = $key == 'styles' ? 'checkbox' : 'radio';         
+                        ?>
+                            
+                            <li>
+                                <input type="<?php esc_attr_e($type); ?>" name="<?php esc_attr_e($name); ?>" id="<?php esc_attr_e($field['id'] . '-' . $value); ?>" value="<?php esc_attr_e($value); ?>" <?php echo $checked; ?> />
+                                <label for="<?php esc_attr_e($field['id'] . '-' . $value); ?>">
+                                <i class="material-icons"><?php esc_html_e($icon); ?></i>
+                                </label>
+                            </li>
+
+                        <?php } ?>
+            
+                    </ul>
+                <?php  }
+        
+                <?php 
+                    Colorpicker::render( [
+                        'values' => isset( $field['values']['color'] ) ? $field['values']['color'] : '',
+                        'name'   => $field['name'] . '[color]',
+                        'id'     => $field['id'] . '-color'        
+                    ] );  
+                ?>      
+        
+            </div><!-- .wp-custom-fields-typography-appearance -->
+        
+        <?php             
+            if( isset($field['selector']) ) {
                 
-                $name = $key == 'styles' ? $field['name'] . '[' . $value . ']' : $field['name'] . '[' . $key . ']';
-                $type = $key == 'styles' ? 'checkbox' : 'radio';
+                Checkbox::render([
+                    'id'            => $field['id'] . '_load',
+                    'name'          => $field['name'] . '[load]', 
+                    'options'       =>[ 
+                        'normal' => ['label' => isset($field['labels']['normal']) ? $field['labels']['normal'] : $configurations['labels']['normal']],
+                        'italic' => ['label' => isset($field['labels']['italic']) ? $field['labels']['italic'] : $configurations['labels']['italic']]
+                    ],
+                    'values'        => isset($field['values']['load']) ? $field['values']['load'] : []
+                ] );
                 
-                $output .= '    <li>';
-                $output .= '        <input type="' . $type . '" name="' . $name . '" id="' . $field['id'] . '-' . $value . '" value="' . $value . '"' . $checked . '/>';
-                $output .= '        <label for="' . $field['id'] . '-' . $value . '">';
-                $output .= '            <i class="material-icons">' . $icon . '</i>';
-                $output .= '        </label>';
-                $output .= '    </li>';                    
             }
-            
-            $output .= '    </ul>';
-        }
-        
-        // Font-color
-        $output .= Colorpicker::render( array(
-            'values' => isset( $field['values']['color'] ) ? $field['values']['color'] : '',
-            'name'   => $field['name'] . '[color]',
-            'id'     => $field['id'] . '-color'        
-        ) );        
-        
-        $output .= '</div><!-- .wp-custom-fields-typography-appearance -->';
-        
-        // If this field is responsible for some styling, we can also opt to load all weights
-        if( isset($field['selector']) ) {
-            
-            $normal = isset($field['labels']['normal']) ? $field['labels']['normal'] : $configurations['labels']['normal'];
-            $italic = isset($field['labels']['italic']) ? $field['labels']['italic'] : $configurations['labels']['italic'];
-            
-            $output .= Checkbox::render( array(
-                'id'            => $field['id'] . '_load',
-                'name'          => $field['name'] . '[load]', 
-                'options'       => array( 
-                    'normal' => array( 'label' => $normal ),
-                    'italic' => array( 'label' => $italic )
-                ),
-                'values'        => isset($field['values']['load']) ? $field['values']['load'] : array()
-            ) );
-        }        
-        
-        return $output;    
+
     }
     
     /**
@@ -150,38 +151,42 @@ class Typography implements Field {
      * @return array $configurations The configurations
      */      
     public static function configurations() {
-        $configurations = array(
+
+        $configurations = [
             'type'          => 'typography',
-            'defaults'  => array(
+            // The default values
+            'defaults'  => [
                 'font'  => '',
-            ),            
-            'labels'        => array(
+            ],  
+            // The default labels for the typography field          
+            'labels'        => [
                 'normal'    => __('Load all normal font-weights for this font.', 'wp-custom-fields'),
                 'italic'    => __('Load all italic font-weights for this font.', 'wp-custom-fields'),
                 'select'    => __('Select a font', 'wp-custom-fields'),
                 'weights'   => __('Font-Weight', 'wp-custom-fields')
-            ),
-            'properties'    => array(
-                'dimensions'    => array(
+            ],
+            // The default properties for the typography field
+            'properties'    => [
+                'dimensions'    => [
                     'size'          => __('Font-Size', 'wp-custom-fields'), 
                     'line_spacing'  => __('Line-Height', 'wp-custom-fields'), 
-                ),
+                ],
                 'fonts'         => Framework::$fonts,
-                'styles'        => array(
-                    'styles'    => array(
+                'styles'        => [
+                    'styles'    => [
                         'italic'        => 'format_italic', 
                         'line_through'  => 'format_strikethrough', 
                         'underline'     => 'format_underlined', 
                         'uppercase'     => 'title'
-                    ),
-                    'text_align' => array(
+                    ],
+                    'text_align' => [
                         'left' => 'format_align_left', 
                         'right' => 'format_align_right', 
                         'center' => 'format_align_center', 
                         'justify' => 'format_align_justify'
-                    ),
-                ),
-                'weights'       => array( 
+                    ],
+                ],
+                'weights'       => [ 
                     100 => __('100 (Thin)', 'wp-custom-fields'), 
                     200 => __('200 (Extra Light)', 'wp-custom-fields'), 
                     300 => __('300 (Light)', 'wp-custom-fields'), 
@@ -191,9 +196,10 @@ class Typography implements Field {
                     700 => __('700 (Bold)', 'wp-custom-fields'), 
                     800 => __('800 (Extra Bold)', 'wp-custom-fields'), 
                     900 => __('900 (Black)', 'wp-custom-fields') 
-                )
-            ),
-            'settings' => array(
+                ]
+            ],
+            // Setting keys, which are used within the customizer setup to create settings
+            'settings' => [
                 '[color]', 
                 '[font]', 
                 '[font_weight]', 
@@ -208,10 +214,11 @@ class Typography implements Field {
                 '[text_align]', 
                 '[underline]', 
                 '[uppercase]'
-            )
-        );
+            ]
+            ];
             
-        return $configurations;
+        return apply_filters( 'wp_custom_fields_typography_config', $configurations );
+        
     }
     
 }

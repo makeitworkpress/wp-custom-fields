@@ -75,7 +75,7 @@ class Frame {
             
             $this->sections[$key]                  = $section;
             $this->sections[$key]['active']        = $this->currentSection == $section['id'] ? 'active'          : '';
-            $this->sections[$key]['description']   = isset( $section['description'] ) ? esc_html($section['description']) : '';
+            $this->sections[$key]['description']   = isset( $section['description'] ) ? esc_textarea($section['description']) : '';
             $this->sections[$key]['fields']        = array();
             $this->sections[$key]['icon']          = ! empty( $section['icon'] ) ? esc_html($section['icon'])  : false;
             $this->sections[$key]['id']            = esc_attr($section['id']);
@@ -111,7 +111,7 @@ class Frame {
         // Populate our variables
         $field                  = $field;
         $field['column']        = isset( $field['columns'] )            ?  'wcf-' . esc_attr($field['columns']) : 'wcf-full';
-        $field['description']   = isset( $field['description'] )        ?  esc_html($field['description'])      : '';
+        $field['description']   = isset( $field['description'] )        ?  esc_textarea($field['description'])      : '';
         $field['form']          = '<div class="error notice"><p>' . sprintf( __('The given field class does not exist for the field with id: %s', 'wp-custom-fields'), $field['id']) . '</p></div>';
         
         // Make sure our IDs do not contain brackets
@@ -144,7 +144,12 @@ class Frame {
             $default            = isset( $field['default'] )            ? $field['default'] : $configurations['defaults'];
             $field['values']    = isset( $this->values[$field['id']] )  ? maybe_unserialize( $this->values[$field['id']] ) : $default; 
 
-            $field['form']      = apply_filters( 'wp_custom_fields_field_form', $class::render($field), $field );
+            // Get the buffered string output from our rendered templates
+            ob_start();
+                $class::render($field);
+            $form = ob_get_clean();
+
+            $field['form']      = apply_filters( 'wp_custom_fields_field_form', $form, $field );
 
         }
         
