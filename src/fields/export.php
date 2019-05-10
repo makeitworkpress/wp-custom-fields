@@ -27,7 +27,7 @@ class Export implements Field {
 
         $configurations = self::configurations();
         $button = isset( $field['labels']['button'] ) ? esc_html($field['labels']['button']) : $configurations['labels']['button'];
-        $import = isset( $field['labels']['import'] ) ? esc_html($field['labels']['import']) : $configurations['labels']['import'];
+        $label  = isset( $field['labels']['label'] ) ? esc_html($field['labels']['label']) : $configurations['labels']['label'];
         $id     = esc_attr($field['id']);
         $key    = sanitize_key($field['key']); 
 
@@ -77,7 +77,7 @@ class Export implements Field {
         } ?>
 
             <div class="wp-custom-fields-export">  
-                <label for="<?php echo $id; ?>-import"><?php echo $import; ?></label>       
+                <label for="<?php echo $id; ?>-import"><?php echo $label; ?></label>       
                 <textarea id="<?php echo $id; ?>-import" name="import_value"><?php echo base64_encode( serialize($options) ); ?></textarea>
                 <input id="<?php echo $id; ?>-import" name="import_submit" class="button wp-custom-fields-import-settings" type="submit" value="<?php echo $button; ?>" /> 
             </div>
@@ -97,8 +97,8 @@ class Export implements Field {
             'type'      => 'export',
             'defaults'  => '',
             'labels'    => [
-                'button' => __('Import', 'wp-custom-fields'),
-                'import' => __('The Current Settings. Replace these with a different encoded string to import new settings.', 'wp-custom-fields')
+                'button'    => __('Import', 'wp-custom-fields'),
+                'label'     => __('The Current Settings. Replace these with a different encoded string to import new settings.', 'wp-custom-fields')
             ]
         ];
             
