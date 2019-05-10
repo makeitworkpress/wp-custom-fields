@@ -38,8 +38,8 @@ class Location implements Field {
                 <input class="longitude" id="<?php echo $id; ?>-long" name="<?php echo $name; ?>[lng]" type="hidden" value="<?php echo $lng; ?>'" />
             
                 <?php foreach( $config['properties'] as $key => $label ) { ?>
-                    <div class="wp-custom-fields-field-left">';
-                        <label for="<?php echo $id . '-' . $key; ?>"><?php echo $label; ?></label><br />
+                    <div class="wp-custom-fields-field-left">
+                        <label for="<?php echo $id . '-' . $key; ?>"><?php echo $label; ?></label>
                         <input type="text" class="regular-text <?php echo $key; ?>'" id="<?php echo $id . '-' . $key; ?>" name="<?php echo $name .'[' . $key .']'; ?>" value="<?php esc_attr_e($field['values'][$key]); ?>" />
                     </div>
                 <?php } ?>

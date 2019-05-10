@@ -4,11 +4,12 @@
  */
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! defined('ABSPATH') ) {
     die;
+}
 
 if( is_admin() || is_customize_preview() ) {
-    $icons['material'] = array(
+    $icons['material'] = [
         "&#xE84D;" => "3d_rotation",
         "&#xE190;" => "access_alarm",
         "&#xE191;" => "access_alarms",
@@ -804,5 +805,5 @@ if( is_admin() || is_customize_preview() ) {
         "&#xE8FA;" => "youtube_searched_for",
         "&#xE8FF;" => "zoom_in",
         "&#xE900;" => "zoom_out"
-    );
+    ];
 }

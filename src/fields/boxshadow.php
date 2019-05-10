@@ -22,7 +22,7 @@ class Boxshadow implements Field {
                             foreach( $configurations['properties']['pixels'] as $key => $label ) {
                                 $id     = esc_attr($field['id'] . '-' . $key);
                                 $name   = esc_attr($field['name']  . '['.$key.']');
-                                $value  = isset($field['values'][$key]) ? intval($field['values'][$key]) : '';
+                                $value  = isset($field['values'][$key]) && $field['values'][$key] ? intval($field['values'][$key]) : '';
                         ?>
                             <input id="<?php echo $id; ?>'" name="<?php echo $name; ?>" type="number" placeholder="<?php echo $label; ?>" value="<?php echo $value; ?>" />
                         <?php 
@@ -45,7 +45,7 @@ class Boxshadow implements Field {
                         Select::render( [
                             'id'            => $field['id']  . '-type',
                             'name'          => $field['name']. '[type]',
-                            'options'       => ['' => __('Default', 'wp-custom-fields'), 'inset' => __('Inset', 'wp-custom-fields') ),             
+                            'options'       => ['' => __('Default', 'wp-custom-fields'), 'inset' => __('Inset', 'wp-custom-fields')],             
                             'placeholder'   => isset($field['labels']['placeholder']) ? $field['labels']['placeholder'] : $configurations['labels']['placeholder'],         
                             'values'        => isset($field['values']['type']) ? $field['values']['type'] : ''
                         ] );
@@ -68,10 +68,10 @@ class Boxshadow implements Field {
             'defaults'  => [],
             'labels'    => [
                 'color'         => __('Boxshadow Color', 'wp-custom-fields'),
-                'dimensions'    => __('Boxshadow Offset, Blur and Spread', 'wp-custom-fields'), 
-                'placeholder'   => __('Boxshadow Type', 'wp-custom-fields'),
-                'type'          => __('Select Type', 'wp-custom-fields'),
-            ]
+                'dimensions'    => __('Boxshadow X-Offset, Y-Offset, Blur and Spread', 'wp-custom-fields'), 
+                'placeholder'   => __('Select Type', 'wp-custom-fields'),
+                'type'          => __('Boxshadow Type', 'wp-custom-fields'),
+            ],
             'properties'    => [
                 'pixels'    => [
                     'x'         => __('x-offset', 'wp-custom-fields'),

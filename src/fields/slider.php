@@ -25,7 +25,7 @@ class Slider implements Field {
         $min    = isset($field['min']) ? intval($field['min']) : 0;
         $max    = isset($field['max']) ? intval($field['max']) : 10;
         $step   = isset($field['step']) ? floatval($field['step']) : 1;
-        $value  = ! empty($field['values']) ? floatval($field['values']) : 0; ?>
+        $value  = $field['values'] ? floatval($field['values']) : 0; ?>
         
             <div class="wp-custom-fields-slider-wrapper">
                 <div class="wp-custom-fields-slider" data-id="<?php echo $id; ?>" data-value="<?php echo $value; ?>" data-min="<?php echo $min; ?>" data-max="<?php echo $max; ?>" data-step="<?php echo $step; ?>"></div>

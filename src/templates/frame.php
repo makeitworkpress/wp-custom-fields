@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php if( $frame->type == 'Options' ) { ?>
+<?php if( $frame->type == 'options' ) { ?>
     <div class="wrap">
         <form method="post" action="options.php" enctype="multipart/form-data"> 
 <?php } ?>
@@ -15,7 +15,7 @@
                                                         
                     <div class="wp-custom-fields-notifications">
 
-                        <?php if( $frame->type == 'Options' ) { ?>
+                        <?php if( $frame->type == 'options' ) { ?>
                             <h1><?php echo $frame->title; ?></h1>
                         <?php } ?>
                     
@@ -135,7 +135,7 @@
             
             <input type="hidden" name="wp_custom_fields_section_<?php echo $frame->id; ?>" id="wp_custom_fields_section_<?php echo $frame->id; ?>" value="<?php echo $frame->currentSection; ?>" />
 
-<?php if( $frame->type == 'Options' ) { ?>
+<?php if( $frame->type == 'options' ) { ?>
         </form>
     </div>
 <?php } ?>

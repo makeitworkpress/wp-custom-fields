@@ -39,7 +39,7 @@ class Border implements Field {
                     </div>
                     <div class="wp-custom-fields-field-left">
                         <?php Select::render( [
-                            'id'            => $field['id']  . '-' . $key. '-style'
+                            'id'            => $field['id']  . '-' . $key. '-style',
                             'name'          => $field['name'] . '[' . $key . '][style]',
                             'options'       => $configurations['properties']['styles'],
                             'placeholder'   => isset($field['labels']['style']) ? $field['labels']['style'] : $configurations['labels']['style'],
@@ -67,7 +67,7 @@ class Border implements Field {
             </div>
             <div class="wp-custom-fields-field-left">
                 <?php Select::render( [
-                    'id'            => $field['id']  . '-style'
+                    'id'            => $field['id']  . '-style',
                     'name'          => $field['name'] . '[style]',
                     'options'       => $configurations['properties']['styles'],
                     'placeholder'   => isset($field['labels']['style']) ? $field['labels']['style'] : $configurations['labels']['style'],
@@ -100,10 +100,10 @@ class Border implements Field {
             ],
             'properties'    => [
                 'sides' => [
-                    'top'       => __('Top', 'wp-custom-fields'), 
-                    'right'     => __('Right', 'wp-custom-fields'), 
-                    'bottom'    => __('Bottom', 'wp-custom-fields'), 
-                    'left'      => __('Left', 'wp-custom-fields')                    
+                    'top'       => __('Top Width', 'wp-custom-fields'), 
+                    'right'     => __('Right Width', 'wp-custom-fields'), 
+                    'bottom'    => __('Bottom Width', 'wp-custom-fields'), 
+                    'left'      => __('Left Width', 'wp-custom-fields')                    
                 ],
                 'styles' => [
                     'solid'     => __('Solid', 'wp-custom-fields'), 

@@ -38,10 +38,7 @@ class Framework extends Base {
      */
     protected function initialize() {
 
-        $defaults = array(
-            'google_maps_key' => '',
-            'viglinks_key' => '',
-        );
+        $defaults = ['google_maps_key' => ''];
         
         // Merge params with the defaults
         $this->params = wp_parse_args( $this->params, $defaults );
@@ -53,10 +50,9 @@ class Framework extends Base {
         defined( 'WP_CUSTOM_FIELDS_ASSETS_URL' ) or define( 'WP_CUSTOM_FIELDS_ASSETS_URL', content_url() . $folder . '/assets/' );
         defined( 'WP_CUSTOM_FIELDS_PATH' ) or define( 'WP_CUSTOM_FIELDS_PATH', plugin_dir_path( __FILE__ ) );
         defined( 'GOOGLE_MAPS_KEY' ) or define( 'GOOGLE_MAPS_KEY', $this->params['google_maps_key'] );
-        defined( 'VIGLINKS_KEY' ) or define( 'VIGLINKS_KEY', $this->params['viglinks_key'] );
         
         // Our default frame types
-        $this->types = array('meta', 'options', 'customizer');
+        $this->types = ['meta', 'options', 'customizer'];
 
     }
     
@@ -65,14 +61,14 @@ class Framework extends Base {
      */
     protected function registerHooks() {  
 
-        $this->actions = array(
-            array( 'after_setup_theme', 'setup', 20 ),
-            array( 'admin_enqueue_scripts', 'enqueue' )
-        );
+        $this->actions = [
+            ['after_setup_theme', 'setup', 20],
+            ['admin_enqueue_scripts', 'enqueue']
+        ];
         
         // Setup our styling
         if( ! is_admin() || is_customize_preview() ) {
-            Styling::instance( array() ); 
+            Styling::instance( [] );
         }
         
     }
@@ -102,29 +98,27 @@ class Framework extends Base {
      */
     private function addConfigurations() {
         
-        // Load our configurations
-        require_once( WP_CUSTOM_FIELDS_PATH . 'configurations/scripts.php' );
-        require_once( WP_CUSTOM_FIELDS_PATH . 'configurations/styles.php' );
-        require_once( WP_CUSTOM_FIELDS_PATH . 'configurations/fonts.php' );
-        require_once( WP_CUSTOM_FIELDS_PATH . 'configurations/icons.php' );
-        
-        $this->scripts          = $scripts;
-        $this->styles           = $styles;
-        
-        // Icons are only used in field elements, thus in back-end or customizer.
-        if( is_admin() || is_customize_preview() ) {   
-            self::$icons        = apply_filters( 'wp_custom_fields_icons', $icons );
+        // Back-end assets
+        if( is_admin() || is_customize_preview() ) {  
+            require_once( WP_CUSTOM_FIELDS_PATH . 'config/scripts.php' );
+            require_once( WP_CUSTOM_FIELDS_PATH . 'config/styles.php' );
+            require_once( WP_CUSTOM_FIELDS_PATH . 'config/icons.php' );     
+                    
+            $this->scripts              = $scripts;
+            $this->styles               = $styles;        
+            self::$icons            = apply_filters( 'wp_custom_fields_icons', $icons );
         }
         
-        // Fonts are used in front-end styling
-        self::$fonts            = apply_filters( 'wp_custom_fields_fonts', $fonts ); 
+        // Fonts are also used in front-end styling
+        require_once( WP_CUSTOM_FIELDS_PATH . 'config/fonts.php' );
+        self::$fonts                = apply_filters( 'wp_custom_fields_fonts', $fonts ); 
                 
         // Setup the supported datatypes
-        $this->types            = apply_filters( 'wp_custom_fields_frames',  $this->types );
+        $this->types                = apply_filters( 'wp_custom_fields_frames',  $this->types );
         
         // Adds filterable data for the various types.
         foreach( $this->types as $type ) {
-            $this->frames[$type] = apply_filters( 'wp_custom_fields_frame_' . $type, isset($this->frames[$type]) ? $this->frames[$type] : array() );
+            $this->frames[$type]    = apply_filters( 'wp_custom_fields_frame_' . $type, isset($this->frames[$type]) ? $this->frames[$type] : [] );
         }
         
     }

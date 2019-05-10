@@ -29,7 +29,7 @@ class Media implements Field {
         
         $id         = esc_attr($field['id']);
         $name       = esc_attr($field['name']);        
-        $type       = isset($field['subtype']) ? esc_attr($field['subtype']) : '';
+        $type       = isset($field['subtype']) ? esc_attr($field['subtype']) : 'image';
         $multiple   = isset($field['multiple']) ? esc_attr($field['multiple']) : true;
         $url        = isset($field['url']) && $field['url'] ? true : false;
         $media      = ! empty($field['values']) ? explode(',', rtrim($field['values'], ',')) : []; 
@@ -56,9 +56,9 @@ class Media implements Field {
                     </div>        
                 <?php } ?>
             
-                <div class="wp-custom-fields-single-media empty">';
+                <div class="wp-custom-fields-single-media empty">
                     <a href="#" class="wp-custom-fields-upload-add" title="<?php echo $add; ?>">
-                        <i class="material-icons">add</i> ';
+                        <i class="material-icons">add</i>
                         <?php echo $add; ?>
                     </a>
                 </div>

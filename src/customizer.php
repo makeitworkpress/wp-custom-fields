@@ -14,8 +14,9 @@ use WP_Customize_Media_Control as WP_Customize_Media_Control;
 use WP_Customize_Upload_Control as WP_Customize_Upload_Control;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
-    die;
+if ( ! defined('ABSPATH') ) {
+    die; 
+}
 
 class Customizer {
 
@@ -42,7 +43,7 @@ class Customizer {
      * @param array $group      The array with settings, sections and fields 
      * @return WP_Error|void    Returns a WP_Error if something is wrong in the configurations, otherwise nothing    
      */    
-    public function __construct( $group = array() ) {
+    public function __construct( $group = [] ) {
 
         // Only users that may customize are allowed here
         if( ! current_user_can('customize') ) {
@@ -57,7 +58,7 @@ class Customizer {
         }
     
         // Prohibited names
-        if( in_array($group['id'], array('widget_', 'sidebars_widgets', 'nav_menu', 'nav_menu_item')) ) {
+        if( in_array($group['id'], ['widget_', 'sidebars_widgets', 'nav_menu', 'nav_menu_item']) ) {
             $this->validated = new WP_Error( 'wrong', __( 'It is forbidden to use widget_, sidebars_widget, nav_menu or nav_menu_item for customizer ids.', 'wp-custom-fields' ) );
         }
 
@@ -73,8 +74,8 @@ class Customizer {
      * Register WordPress Hooks
      */
     protected function registerHooks() {
-        add_action( 'customize_register', array($this, 'addSettings') );
-        add_action( 'admin_enqueue_scripts', array($this, 'enqueue') );             
+        add_action( 'customize_register', [$this, 'addSettings'] );
+        add_action( 'admin_enqueue_scripts', [$this, 'enqueue'] );             
     }
     
     /**
@@ -112,12 +113,11 @@ class Customizer {
          */
         if( isset($panel['panel']) && $panel['panel'] ) {
             
-            $panelArgs = array(
-                'title'         => $panel['title']                
-            );
+            $panelArgs = ['title' => $panel['title']];
 
-            if( isset($panel['description']) )
-                $panelArgs[ 'description'] = $panel['description'];              
+            if( isset($panel['description']) ) {
+                $panelArgs[ 'description'] = $panel['description'];   
+            }           
 
             $wp_customize->add_panel( $panel['id'], $panelArgs );
         
@@ -134,10 +134,10 @@ class Customizer {
                 continue;
             }
 
-            $sectionArgs = array(
+            $sectionArgs = [
                 'description'   => isset($section['description']) ? $section['description'] : '',  
                 'title'         => $section['title']                    
-            );
+            ];
             
             // If we have panels enabled, we add the section to this panel
             if( isset($panel['panel']) && $panel['panel'] ) {
@@ -150,7 +150,7 @@ class Customizer {
             }          
 
             // Add our section, but not necessarely if it is a core section
-            if( ! in_array($section['id'], array('themes', 'title_tagline', 'colors', 'header_image', 'background_image', 'static_front_page')) ) {
+            if( ! in_array($section['id'], ['themes', 'title_tagline', 'colors', 'header_image', 'background_image', 'static_front_page']) ) {
                 $wp_customize->add_section( $section['id'], $sectionArgs );
             }
 
@@ -164,10 +164,10 @@ class Customizer {
                     continue; 
                 }
 
-                $settingArgs = array(
+                $settingArgs = [
                     'default' => isset($field['default']) ? $field['default'] : '',
                     'type'    => isset( $panel['option'] ) ? $panel['option'] : 'theme_mod'
-                );
+                ];
                 
                 // Transport our updates with partial refresh
                 if( isset($field['transport']) ) {
@@ -222,13 +222,14 @@ class Customizer {
 
 
                 // Define our arguments for the controls
-                $controlArgs                = array();
-                $controlArgs['section']     = $section['id'];
-                $controlArgs['label']       = $field['title'];
-                $controlArgs['settings']    = $panel['id'] . '[' . $field['id'] . ']'; // This is required for custom classes
+                $controlArgs                = [
+                    'section'   => $section['id'], 
+                    'label'     => $field['title'], 
+                    'settings'  => $panel['id'] . '[' . $field['id'] . ']' // This is required for custom classes
+                ];
                 
                 // Define our additional control arguments that may be added
-                $controls = array( 'choices', 'description', 'height', 'input_attrs', 'mime_type', 'type', 'width' );
+                $controls = [ 'choices', 'description', 'height', 'input_attrs', 'mime_type', 'type', 'width' ];
                 
                 foreach( $controls as $type ) {
                     if( isset($field[$type]) ) {
@@ -266,10 +267,10 @@ class Customizer {
                     case 'dimension':                          
                     case 'typography':
                         
-                        $controlArgs['settings']    = array();
+                        $controlArgs['settings']    = [];
                         
                         foreach( $configurations['settings'] as $key => $setting ) {
-                            $link = str_replace( array('[', ']'), '', $setting );
+                            $link = str_replace( ['[', ']'], '', $setting );
                             $controlArgs['settings'][$link] = $panel['id'] . '[' . $field['id'] . ']' . $setting;
                         }
                         

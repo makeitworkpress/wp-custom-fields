@@ -21,7 +21,7 @@ class Dimension implements Field {
         
         $configurations = self::configurations();
         
-        $amount         = isset($field['values']['amount']) ? floatval($field['values']['amount']) : '';
+        $amount         = isset($field['values']['amount']) && $field['values']['amount'] ? floatval($field['values']['amount']) : '';
         $icon           = isset( $field['icon'] ) ? esc_html($field['icon']) : false;
         $id             = esc_attr($field['id']);     
         $label          = isset( $field['label'] ) ? esc_html($field['label']) : false;

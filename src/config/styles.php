@@ -4,53 +4,54 @@
  */
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
-    die;
+if ( ! defined('ABSPATH') ) {
+    die; 
+}
 
-$styles[] = array(
+$styles[] = [
     'handle'    => 'fontawesome-css',
     'src'       => 'https://fonts.googleapis.com/icon?family=Material+Icons',
-    'deps'      => array(),
+    'deps'      => [],
     'ver'       => null,
     'media'     => 'all'
-);     
+];     
 
-$styles[] = array(
+$styles[] = [
     'handle'    => 'wp-color-picker',
     'src'       => '',
-    'deps'      => array(),
+    'deps'      => [],
     'ver'       => '',
     'media'     => ''
-);  
+];  
 
-$styles[] = array(
+$styles[] = [
     'handle'    => 'flatpicker-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/flatpicker.min.css',
-    'deps'      => array(),
+    'deps'      => [],
     'ver'       => '',
     'media'     => ''
-); 
+]; 
 
-$styles[] = array(
+$styles[] = [
     'handle'    => 'mirror-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/codemirror.min.css',
-    'deps'      => array(),
+    'deps'      => [],
     'ver'       => '',
     'media'     => ''
-); 
+]; 
 
-$styles[] = array(
+$styles[] = [
     'handle'    => 'select2-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/select2.min.css',
-    'deps'      => array(),
+    'deps'      => [],
     'ver'       => '',
     'media'     => ''
-); 
+]; 
 
-$styles[] = array(
+$styles[] = [
     'handle'    => 'wp-custom-fields-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/wp-custom-fields.min.css',
-    'deps'      => array(),
+    'deps'      => [],
     'ver'       => null,
     'media'     => 'all'
-);
+];

@@ -9,8 +9,9 @@
 namespace MakeitWorkPress\WP_Custom_Fields;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) 
+if ( ! defined('ABSPATH') ) {
     die; 
+}
 
 abstract class Base {
     
@@ -45,7 +46,7 @@ abstract class Base {
      *
      * @param array $params Obtional parameters which can be passed to the class
      */
-    public static function instance( Array $params = array() ) {
+    public static function instance( Array $params = [] ) {
         
         $c = get_called_class();
         if ( ! isset( self::$instance[$c] ) ) {
@@ -70,7 +71,7 @@ abstract class Base {
                 $priority = isset($filter[2]) ? $filter[2] : ''; 
                 $arguments = isset($filter[3]) ? $filter[3] : '';    
                     
-                add_filter($filter[0], array($this, $filter[01]), $priority, $arguments);    
+                add_filter($filter[0], [$this, $filter[01]], $priority, $arguments);    
             }    
         }
         
@@ -80,7 +81,7 @@ abstract class Base {
                 $priority = isset($action[2]) ? $action[2] : ''; 
                 $arguments = isset($action[3]) ? $action[3] : ''; 
                     
-                add_action($action[0], array($this, $action[1]), $priority, $arguments);    
+                add_action($action[0], [$this, $action[1]], $priority, $arguments);    
             }    
         }         
     }
@@ -96,9 +97,9 @@ abstract class Base {
      * Holds the function for registering custom action and filter hooks.
      * Child classes should use register their hooks in the protected $filters and $actions property in the following format
      *
-     * $var = array(
-     *      array('string filter_or_action_name', 'string method_or_function', 'int priority', 'int number_of_arguments')
-     * )
+     * $var = [
+     *      ['string filter_or_action_name', 'string method_or_function', 'int priority', 'int number_of_arguments']
+     * ]
      */
     abstract protected function registerHooks();    
 

@@ -26,22 +26,26 @@ class Radio implements Field {
         // Accepts an optional .buttonset style, for a set of styled buttons or .switcher style for a switch display
         $style      = isset($field['style']) ? esc_attr($field['style']) : ''; ?>
         
-            <div class="wp-custom-fields-field-radio-wrapper '<?php echo $style; ?>">
+            <ul class="wp-custom-fields-field-radio-wrapper <?php echo $style; ?>">
         
                 <?php foreach( $options as $key => $option ) { ?>
+
+                    <li>
                 
-                    <?php $label  = isset($option['label']) ? esc_html($option['label']) : ''; ?>
-                    <?php $icon   = isset($option['icon']) ? '<i class="material-icons">' . esc_html($option['icon']) . '</i> ' : ''; ?>
-                
-                    <input type="radio" id="<?php esc_attr_e($id . $key); ?>" name="<?php echo $name; ?>" value="<?php esc_attr_e($key); ?>" <?php checked( $field['values'], $key, false ); ?> />
-                
-                    <?php if( ! empty($label) ) { ?>
-                        <label for="<?php esc_attr_e($id . $key); ?>"><?php echo $icon . $label; ?></label>
-                    <?php } ?>
+                        <?php $label  = isset($option['label']) ? esc_html($option['label']) : ''; ?>
+                        <?php $icon   = isset($option['icon']) ? '<i class="material-icons">' . esc_html($option['icon']) . '</i> ' : ''; ?>
+                    
+                        <input type="radio" id="<?php esc_attr_e($id . $key); ?>" name="<?php echo $name; ?>" value="<?php esc_attr_e($key); ?>" <?php checked($field['values'], $key); ?> />
+                    
+                        <?php if( ! empty($label) ) { ?>
+                            <label for="<?php esc_attr_e($id . $key); ?>"><?php echo $icon . $label; ?></label>
+                        <?php } ?>
+
+                    </li>
 
                 <?php } ?>
         
-            </div>
+            </ul>
         
         <?php
           

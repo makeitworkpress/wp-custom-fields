@@ -43,13 +43,14 @@ class Styling extends Base {
             return;
         }        
 
-        $this->actions = array(
-            array( 'wp_head', 'examine' ),
-            array( 'wp_head', 'properties' ),
-            array( 'wp_head', 'output', 20 ),
-            array( 'wp_enqueue_scripts', 'customFonts' ),
-            array( 'customize_preview_init', 'customizerJS' )
-        );
+        $this->actions = [
+            ['wp_head', 'examine'],
+            ['wp_head', 'properties'],
+            ['wp_head', 'output', 20],
+            ['wp_enqueue_scripts', 'customFonts'],
+            ['customize_preview_init', 'customizerJS']
+        ];
+
     }
     
     /**
@@ -83,13 +84,13 @@ class Styling extends Base {
                             continue;
 
                         // Save the id per group so we can retrieve the values later.
-                        $cssFields[] = array(
+                        $cssFields[] = [
                             'selector'  => $field['selector'],
                             'group'     => $group['id'],
                             'id'        => $field['id'],
                             'transport' => isset($field['transport']) ? true : false,
                             'type'      => $field['type']
-                        );
+                        ];
 
                     }
                     
@@ -243,8 +244,8 @@ class Styling extends Base {
     private function formatField( $field ) {
         
         // Default values;
-        $uniques            = array();
-        $properties         = array();
+        $uniques            = [];
+        $properties         = [];
         $field['values']    = isset($field['values']) && $field['values'] ? $field['values'] : '';
         
         // Switch types
@@ -397,13 +398,13 @@ class Styling extends Base {
                     }                
 
                     // Text styles
-                    $styles = array(
+                    $styles = [
                         'italic'        => 'font-style', 
                         'line_through'  => 'text-decoration', 
                         'underline'     => 'text-decoration', 
                         'uppercase'     => 'text-transform', 
                         'text_align'    => 'text-align'
-                    );
+                    ];
 
                     foreach( $styles as $key => $property ) {
                         
@@ -429,7 +430,7 @@ class Styling extends Base {
          */
         if( isset($field['selector']['property']) && count($properties) == 1 ) {
             $values     = implode('', $properties);
-            $properties = array();
+            $properties = [];
 
             if( is_array($field['selector']['property']) ) {
                 foreach( $field['selector']['property'] as $property ) {
@@ -459,8 +460,8 @@ class Styling extends Base {
         if( ! isset($this->fields) )
             return;
         
-        $styles     = array();
-        $weights    = array();
+        $styles     = [];
+        $weights    = [];
         
         // Build our styles.
         foreach( $this->fields as $field ) {
@@ -489,8 +490,8 @@ class Styling extends Base {
                     /**
                      * Include all font weights overwrites previous weights
                      */
-                    $italics = array();
-                    $normals = array();
+                    $italics = [];
+                    $normals = [];
                     
                     // Normal fonts
                     if( isset($field['values']['load']['normal']) && $field['values']['load']['normal'] ) {

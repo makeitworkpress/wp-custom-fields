@@ -23,6 +23,27 @@ trait Validate {
      * @param array $type    The type to format for
      */
     public static function format( $frame, $input, $type = '' ) {
+
+        // Validate our users before formating any data
+        if( ! is_user_logged_in() ) {
+            return;
+        }
+
+        if( $type == 'options' && ! current_user_can('manage_options') ) {
+            return;
+        } 
+        
+        if( $type == 'user' && ! current_user_can('edit_users') ) {
+            return;  
+        }
+        
+        if( $type == 'post' && (! current_user_can('edit_posts') || ! current_user_can('edit_pages')) ) {
+            return;
+        } 
+        
+        if( $type == 'term' && (! current_user_can('edit_posts') || ! current_user_can('edit_pages')) ) {
+            return;
+        }         
         
         // Checks in which tab we are
         $currentTab = strip_tags( $input['wp_custom_fields_section_' . $frame['id']] );
@@ -58,7 +79,7 @@ trait Validate {
             }
             
             // Add a notification for option pages
-            if( $type == 'Options' ) {
+            if( $type == 'options' ) {
                 add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings restored for this section.', 'wp-custom-fields'), 'update' );
             }
             
@@ -82,7 +103,7 @@ trait Validate {
                 
             }
             
-            if( $type == 'Options' ) {
+            if( $type == 'options' ) {
                 add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('All settings are restored.', 'wp-custom-fields'), 'update' );
             }
             
@@ -97,11 +118,12 @@ trait Validate {
             
             $output = unserialize( base64_decode($input['import_value']) );
             
-            if( $type == 'Options' ) {
+            if( $type == 'options' ) {
                 add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings Imported!', 'wp-custom-fields'), 'update' );
             }
             
             return $output;
+
         }
         
         /**
@@ -121,7 +143,7 @@ trait Validate {
             
         }
         
-        if( $type == 'Options' ) {
+        if( $type == 'options' ) {
             add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings saved!', 'wp-custom-fields'), 'update' );
         }
         
@@ -173,7 +195,7 @@ trait Validate {
             // Background field
             case 'background':
                 
-                $texts = array('attachment', 'color', 'position', 'upload', 'repeat', 'size');
+                $texts = ['attachment', 'color', 'position', 'upload', 'repeat', 'size'];
                 
                 foreach( $texts as $text ) {
                     $return_value[$text] = sanitize_text_field( $field_value[$text] );    
@@ -185,7 +207,7 @@ trait Validate {
                 
                 if( isset($field['borders']) && $field['borders'] == 'all' ) {
                     
-                    $sides = array( 'top', 'right', 'bottom', 'left' );
+                    $sides = ['top', 'right', 'bottom', 'left'];
                     
                     foreach($sides as $side) {
                         $return_value[$side]['color']           = sanitize_text_field( $field_value[$side]['color'] ); 
@@ -206,7 +228,7 @@ trait Validate {
             // Boxshadow field
             case 'boxshadow':
                 
-                $ints = array('x', 'y', 'blur', 'spread');
+                $ints = ['x', 'y', 'blur', 'spread'];
                 
                 foreach($ints as $int) {
                     $return_value[$int] = isset($field_value[$int]) ? intval( $field_value[$int] ) : '';    
@@ -219,7 +241,7 @@ trait Validate {
             case 'checkbox':
                 
                 if( isset($field['single']) && $field['single'] == true && count($field['options']) == 1 ) {
-                    $return_value = isset($field_value) && $field_value == 'on' ? true : false;                   
+                    $return_value = isset($field_value) && $field_value == 'on' ? true : false;       
                 } else {
                     foreach( $field['options'] as $key => $option ) {
                         $return_value[$key] = isset($field_value[$key]) && $field_value[$key] == 'on' ? true : false;
@@ -242,7 +264,7 @@ trait Validate {
             case 'dimension':
                 
                 if( isset($field['border']) && $field['border'] == 'all' ) {
-                    $sides = array( 'top', 'right', 'bottom', 'left' );
+                    $sides = ['top', 'right', 'bottom', 'left'];
                     
                     foreach($sides as $side) {
                         $return_value[$side]['amount'] = intval( $field_value[$side]['amount'] );
@@ -346,7 +368,7 @@ trait Validate {
                 $return_value['font']               = sanitize_text_field( $field_value['font'] );
                 
                 // Sizes
-                $sizes                              = array('size', 'line_spacing');
+                $sizes                              = ['size', 'line_spacing'];
                 foreach($sizes as $size) {
                     $return_value[$size]['amount']  = is_numeric( $field_value[$size]['amount'] ) ? intval( $field_value[$size]['amount'] ) : '';
                     $return_value[$size]['unit']    = sanitize_text_field( $field_value[$size]['unit'] );                  
@@ -359,7 +381,7 @@ trait Validate {
                 $return_value['load']['italic']     = isset($field_value['load']['italic']) && $field_value['load']['italic'] == 'on' ? true : false;
                 
                 // Styles
-                $styles                             = array('italic', 'line_through', 'underline', 'uppercase', 'text_align');
+                $styles                             = ['italic', 'line_through', 'underline', 'uppercase', 'text_align'];
                 foreach( $styles as $style ) {
                     $return_value[$style]           = sanitize_key( $field_value[$style] );     
                 }

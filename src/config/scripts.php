@@ -4,24 +4,25 @@
  */
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) )
-    die;
+if ( ! defined('ABSPATH') ) {
+    die; 
+}
 
 $suffix = defined('WP_DEBUG') && WP_DEBUG ? '' : '.min';
 
-$scripts[] = array(
+$scripts[] = [
     'handle'    => 'alpha-color-picker',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/alpha-color-picker.min.js',
-    'deps'      => array( 'jquery', 'wp-color-picker' ),
+    'deps'      => [ 'jquery', 'wp-color-picker' ],
     'ver'       => '',
     'in_footer' => 'true', 
     'action'    => 'register',
-);      
+];      
 
-$scripts[] = array(
+$scripts[] = [
     'handle'    => 'wp-custom-fields-js',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/wp-custom-fields' . $suffix . '.js',
-    'deps'      => array( 'jquery' ),
+    'deps'      => [ 'jquery' ],
     'ver'       => null,
     'in_footer' => true,  
     'action'    => 'register',
@@ -31,40 +32,40 @@ $scripts[] = array(
         'nonce'     => wp_create_nonce('wp-custom-fields') 
     ],
     'object'    => 'wpcf'
-);  
+];  
 
-$scripts[] = array(
+$scripts[] = [
     'handle'    => 'google-maps-js',
     'src'       => 'https://maps.googleapis.com/maps/api/js?libraries=places&key=' . GOOGLE_MAPS_KEY,
-    'deps'      => array(),
+    'deps'      => [],
     'ver'       => '3',
     'in_footer' => true,  
     'action'    => 'register'
-); 
+]; 
 
-$scripts[] = array(
+$scripts[] = [
     'handle'    => 'flatpicker-js',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/flatpicker.min.js',
-    'deps'      => array(),
+    'deps'      => [],
     'ver'       => null,
     'in_footer' => true,  
     'action'    => 'register'
-);
+];
 
-$scripts[] = array(
+$scripts[] = [
     'handle'    => 'mirror-js',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/codemirror.min.js',
-    'deps'      => array(),
+    'deps'      => [],
     'ver'       => null,
     'in_footer' => true,  
     'action'    => 'register'
-);
+];
 
-$scripts[] = array(
+$scripts[] = [
     'handle'    => 'select2-js',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/select2.min.js',
-    'deps'      => array(),
+    'deps'      => [],
     'ver'       => null,
     'in_footer' => true,  
     'action'    => 'register'
-);
+];

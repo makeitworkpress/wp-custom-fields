@@ -49,7 +49,7 @@ class Meta {
      * @param array $group The array with settings, sections and fields
      * @return WP_Error|void Returns a WP_Error if something is wrong in the configurations, otherwise nothing
      */    
-    public function __construct( $group = array() ) {
+    public function __construct( $group = [] ) {
 
         // Default properties
         $this->metaBox  = $group;
@@ -67,7 +67,7 @@ class Meta {
         }  
 
         // Our type should be in a predefined array
-        if( ! in_array($this->type, array('post', 'term', 'user')) ) {
+        if( ! in_array($this->type, ['post', 'term', 'user']) ) {
             $this->validated = new WP_Error( 'wrong', __('You are using a wrong type for adding meta fields! Use either post, term or user.', 'wp-custom-fields') );
         }
 
@@ -99,22 +99,22 @@ class Meta {
         
         // Post type metabox
         if( $this->type == 'post' ) {
-            add_action( 'add_meta_boxes', array($this, 'add'), 10, 1 );
-            add_action( 'save_post', array($this, 'save'), 10, 1 );
+            add_action( 'add_meta_boxes', [$this, 'add'], 10, 1 );
+            add_action( 'save_post', [$this, 'save'], 10, 1 );
         }
         
         // Taxonomy metabox @todo add check for existing taxonomies
         if( $this->type == 'term' && isset($this->metaBox['taxonomy']) ) {
-            add_action( $this->metaBox['taxonomy'] . '_edit_form', array($this, 'add'), 20, 1 );
-            add_action( 'edited_' . $this->metaBox['taxonomy'], array($this, 'save'), 10, 1 );   
+            add_action( $this->metaBox['taxonomy'] . '_edit_form', [$this, 'add'], 20, 1 );
+            add_action( 'edited_' . $this->metaBox['taxonomy'], [$this, 'save'], 10, 1 );   
         }
 
         // User metabox
         if( $this->type == 'user' ) {
-            add_action( 'show_user_profile', array($this, 'add') );
-            add_action( 'edit_user_profile', array($this, 'add') );
-            add_action( 'personal_options_update', array($this, 'save') );
-            add_action( 'edit_user_profile_update', array($this, 'save') );   
+            add_action( 'show_user_profile', [$this, 'add'] );
+            add_action( 'edit_user_profile', [$this, 'add'] );
+            add_action( 'personal_options_update', [$this, 'save'] );
+            add_action( 'edit_user_profile_update', [$this, 'save'] );   
         }      
       
     }
@@ -133,7 +133,7 @@ class Meta {
         
         // Post type metabox uses the add meta box function
         if( $this->type == 'post' ) {
-            add_meta_box( $this->metaBox['id'], $this->metaBox['title'], array( $this, 'render' ), $this->metaBox['screen'], $this->metaBox['context'], $this->metaBox['priority'] );
+            add_meta_box( $this->metaBox['id'], $this->metaBox['title'], [$this, 'render'], $this->metaBox['screen'], $this->metaBox['context'], $this->metaBox['priority'] );
         }
 
         // We just render for other types
@@ -165,7 +165,7 @@ class Meta {
         // This grabs our metavalues from a single box
         if( $this->single ) {
 
-            $values = array();
+            $values = [];
 
             // We should have sections
             if( ! isset($this->metaBox['sections']) ) {
@@ -222,12 +222,14 @@ class Meta {
     public function save( $id ) {
 
         // Do not save on autosaves
-        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
             return $id; 
+        }
         
         // Some pages do not have the nonce
-        if( ! isset($_POST['wp-custom-fields-metaboxes-nonce-' . $this->metaBox['id']]) )
+        if( ! isset($_POST['wp-custom-fields-metaboxes-nonce-' . $this->metaBox['id']]) ) {
             return $id;
+        }
 
         // Check our user capabilities
         if( ! current_user_can( 'edit_posts', $id ) || ! current_user_can( 'edit_pages', $id ) ) {
@@ -246,7 +248,7 @@ class Meta {
         
         // Retrieve our current meta values
         $current    = get_metadata( $this->type, $id, $this->metaBox['id'], true ); 
-        $output     = Validate::format( $this->metaBox, $_POST );
+        $output     = Validate::format( $this->metaBox, $_POST, $this->type );
         
         // Return if nothing has changed
         if( $current == $output ) {

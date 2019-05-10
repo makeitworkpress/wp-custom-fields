@@ -28,7 +28,7 @@ class Typography implements Field {
         // Retrieve our configurations
         $configurations = self::configurations();
         foreach( ['normal', 'italic', 'select', 'weights'] as $label ) {
-            ${$label}   = isset($field['labels']['select']) ? $field['labels'][$label] : $configurations['labels'][$label]
+            ${$label}   = isset($field['labels']['select']) ? $field['labels'][$label] : $configurations['labels'][$label];
         } ?>       
 
             <div class="wp-custom-fields-typography-font-select">
@@ -81,7 +81,7 @@ class Typography implements Field {
                                 'options'       => $configurations['properties']['weights'],
                                 'placeholder'   => isset($field['labels']['weights']) ? $field['labels']['weights'] : $configurations['labels']['weights'],
                                 'values'        => isset($field['values']['font_weight']) ? $field['values']['font_weight'] : ''
-                            ) );
+                            ] );
                         ?>
                 </div>
         
@@ -101,7 +101,7 @@ class Typography implements Field {
             
                         <?php 
                             foreach( $style as $value => $icon ) {
-                                $checked = is_[$field['values']) && in_array($value, $field['values']) ? ' checked="checked" ' : '';   
+                                $checked = is_array($field['values']) && in_array($value, $field['values']) ? ' checked="checked" ' : '';   
                                 $name = $key == 'styles' ? $field['name'] . '[' . $value . ']' : $field['name'] . '[' . $key . ']';
                                 $type = $key == 'styles' ? 'checkbox' : 'radio';         
                         ?>
@@ -117,8 +117,6 @@ class Typography implements Field {
             
                     </ul>
                 <?php  }
-        
-                <?php 
                     Colorpicker::render( [
                         'values' => isset( $field['values']['color'] ) ? $field['values']['color'] : '',
                         'name'   => $field['name'] . '[color]',

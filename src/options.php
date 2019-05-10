@@ -36,7 +36,7 @@ class Options {
      * @param array $group The array with settings, sections and fields
      * @return WP_Error|void An WP Error if we encounter a configuration error, otherwise nothing
      */    
-    public function __construct( $group = array() ) {
+    public function __construct( $group = [] ) {
 
         // This can only be executed in admin context
         if( ! current_user_can( 'manage_options' ) ) {
@@ -45,7 +45,7 @@ class Options {
 
         $this->optionPage   = $group;
 
-        $allowed            = array( 'menu', 'submenu', 'dashboard', 'posts', 'media', 'links', 'pages', 'comments', 'theme', 'users', 'management', 'options' );
+        $allowed            = ['menu', 'submenu', 'dashboard', 'posts', 'media', 'links', 'pages', 'comments', 'theme', 'users', 'management', 'options'];
         $this->location     = isset( $this->optionPage['location'] ) && in_array( $this->optionPage['location'], $allowed ) ? $this->optionPage['location'] : 'menu';
         
         // Validate our configurations and return if we don't
@@ -72,8 +72,8 @@ class Options {
      * Register WordPress Hooks
      */
     protected function registerHooks() {
-        add_action( 'admin_init', array($this, 'addSettings') );
-        add_action( 'admin_menu', array($this, 'optionsPage') );
+        add_action( 'admin_init', [$this, 'addSettings'] );
+        add_action( 'admin_menu', [$this, 'optionsPage'] );
     }
     
     /**
@@ -95,7 +95,7 @@ class Options {
                     $this->optionPage['menu_title'], 
                     $this->optionPage['capability'], 
                     $this->optionPage['id'], 
-                    array( $this, 'renderPage' ), 
+                    [$this, 'renderPage'], 
                     $this->optionPage['menu_icon'],
                     $this->optionPage['menu_position']                
                 );
@@ -107,7 +107,7 @@ class Options {
                     $this->optionPage['menu_title'], 
                     $this->optionPage['capability'], 
                     $this->optionPage['id'], 
-                    array( $this, 'renderPage' ) 
+                    [$this, 'renderPage'] 
                 );                
                 break;
             default:
@@ -116,7 +116,7 @@ class Options {
                     $this->optionPage['menu_title'], 
                     $this->optionPage['capability'], 
                     $this->optionPage['id'], 
-                    array( $this, 'renderPage' ) 
+                    [$this, 'renderPage'] 
                 );                 
         }
 
@@ -140,7 +140,7 @@ class Options {
                 continue;                
 
             // Add the settings sections. We use a custom function for displaying the sections
-            add_settings_section( $section['id'], $section['title'], array($this, 'renderSection'), $this->optionPage['id'] );
+            add_settings_section( $section['id'], $section['title'], [$this, 'renderSection'], $this->optionPage['id'] );
 
             // Add the settings per field
             foreach($section['fields'] as $field) {
@@ -148,7 +148,7 @@ class Options {
                 if( ! isset($field['id']) )
                     continue;
 
-                add_settings_field( $field['id'], isset($field['title']) ? $field['title'] : '', array($this, 'renderField'), $this->optionPage['id'], $section['id'] );
+                add_settings_field( $field['id'], isset($field['title']) ? $field['title'] : '', [$this, 'renderField'], $this->optionPage['id'], $section['id'] );
 
             }                        
 
@@ -168,7 +168,7 @@ class Options {
         $values                 = get_option( $pageID );
         
         $frame                  = new Frame( $this->optionPage, $values );
-        $frame->type            = 'Options';
+        $frame->type            = 'options';
 
         // Errors - they are already implemented automatically at option screens.
         $screen                 = get_current_screen();
@@ -212,20 +212,21 @@ class Options {
      */
     public function sanitize( $value ) {
         
-        $value = Validate::format( $this->optionPage, $_POST, 'Options' );
+        $value = Validate::format( $this->optionPage, $_POST, 'options' );
         
         return $value;
 
     }
     
     /**
-     * Renders a section, as possible callback for do_settings_sections
+     * Renders a section, as possible callback for do_settings_sections. Not used at the moment as everything is rendered in a single frame.
      */
     public function renderSection() {}
     
     /**
-     * Renders a field, as possible callback for do_settings_fields
+     * Renders a field, as possible callback for do_settings_fields. Not used at the moment as everything is rendered in a single frame.
      */
-    public function renderField() {}     
+    public function renderField() {}
+
     
 }

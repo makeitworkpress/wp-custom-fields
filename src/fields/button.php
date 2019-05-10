@@ -15,6 +15,7 @@ class button implements Field {
      * This field supports action, label, message and style as attributes
      * The label contains the contents of this button
      * The message attribute relates the the content of a message. If set to true, it will use the data output from an ajax action into a notification.
+     * The data label accepts additional data to be processed by the ajax function
      * The style attribute accepts additional button classes, such as button-primary
      * 
      * @param array $field The array with field attributes

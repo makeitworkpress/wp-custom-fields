@@ -44,7 +44,7 @@ class Icons implements Field {
                                 
                                 $display_icon   = apply_filters('wp_custom_fields_displayed_icon', $display_icon, $icon, $set);
                                 $id             = esc_attr( $field['id'] . '-' . $icon );
-                                $name           = $type == 'checkbox' ? esc_attr($field['name'] . '[' . $icon . ']') : esc_attr($field['name'];
+                                $name           = $type == 'checkbox' ? esc_attr($field['name'] . '[' . $icon . ']') : esc_attr($field['name']);
                                 
                                 // Get the values for a set
                                 if( $type == 'checkbox' && is_array($field['values']) ) {

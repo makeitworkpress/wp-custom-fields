@@ -50,7 +50,7 @@ class Select implements Field {
                 $options = [];
 
                 // Load an array of posts
-                if( $object == 'posts' && ! empty($source) ) {
+                if( $object == 'posts' && $source ) {
 
                     $posts = get_posts( ['ep_integrate' => true, 'post_type' => $source, 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC'] );
                     
@@ -66,7 +66,7 @@ class Select implements Field {
                         $options[$user->ID] = $user->display_name;
                     }
 
-                } elseif( $object == 'terms' && ! empty($source) ) {
+                } elseif( $object == 'terms' && $source ) {
 
                     $terms = get_terms( ['fields' => 'id=>name', 'hide_empty' => false, 'order' => 'ASC', 'taxonomy' => $source] );
                     
@@ -76,7 +76,8 @@ class Select implements Field {
                     
                 }                
 
-                $options = wp_cache_add('wpc_select_field_cache_' . $object . $source, $options);
+                wp_cache_add('wpc_select_field_cache_' . $object . $source, $options);
+                
             }
 
         } ?>
@@ -89,7 +90,7 @@ class Select implements Field {
 
                 <?php foreach ($options as $key => $option ) { ?>
                     <?php 
-                        $multiple && is_array($field['values']) ) { 
+                        if( $multiple && is_array($field['values']) ) { 
                             $selected = in_array($key, $field['values']) ? 'selected="selected"' : '';
                         } else {
                             $selected = selected( $key, $field['values'], false );

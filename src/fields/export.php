@@ -28,7 +28,8 @@ class Export implements Field {
         $configurations = self::configurations();
         $button = isset( $field['labels']['button'] ) ? esc_html($field['labels']['button']) : $configurations['labels']['button'];
         $import = isset( $field['labels']['import'] ) ? esc_html($field['labels']['import']) : $configurations['labels']['import'];
-        $id     = esc_attr($field['id']);   
+        $id     = esc_attr($field['id']);
+        $key    = sanitize_key($field['key']); 
 
         switch( $field['context'] ) {
             case 'post':
@@ -38,7 +39,7 @@ class Export implements Field {
                 }
 
                 global $post;
-                $options = get_post_meta( $post->ID, $field['option_id'], true );
+                $options = get_post_meta( $post->ID, $key, true );
                 break;
             case 'user':
 
@@ -46,8 +47,9 @@ class Export implements Field {
                     return;
                 }
 
+                global $pagenow;
                 $user = $pagenow == 'profile.php' ? get_current_user_id() : $_GET['user_id']; 
-                $options = get_term_meta( intval($user), $field['option_id'], true );
+                $options = get_term_meta( intval($user), $key, true );
                 
                 break;
             case 'term':
@@ -56,22 +58,27 @@ class Export implements Field {
                     return;
                 }            
 
-                $options = get_term_meta( intval($_GET['tag_ID']), $field['option_id'], true );
+                $options = get_term_meta( intval($_GET['tag_ID']), $key, true );
                 
                 break;
-            default:
+            case 'options':
 
                 if( ! current_user_can('manage_options') ) {
                     return;
                 } 
 
-                $options = get_option( $field['option_id'] );
+                $options = get_option( $field['key'] );
 
+        } 
+        
+        // We should have options
+        if( ! isset($options) ) {
+            return; 
         } ?>
 
-            <div class="wp-custom-fields-export">   
-                <label for="<?php echo $id; ?>-import"><?php echo $import; ?></label>';        
-                <textarea id="<?php echo $id; ?>-import" name="import_value"><?php echo base64_encode( serialize($options) ); ?></textarea>';
+            <div class="wp-custom-fields-export">  
+                <label for="<?php echo $id; ?>-import"><?php echo $import; ?></label>       
+                <textarea id="<?php echo $id; ?>-import" name="import_value"><?php echo base64_encode( serialize($options) ); ?></textarea>
                 <input id="<?php echo $id; ?>-import" name="import_submit" class="button wp-custom-fields-import-settings" type="submit" value="<?php echo $button; ?>" /> 
             </div>
         
@@ -91,7 +98,7 @@ class Export implements Field {
             'defaults'  => '',
             'labels'    => [
                 'button' => __('Import', 'wp-custom-fields'),
-                'import' => __('The Current Settings. Replace these to import new settings.', 'wp-custom-fields')
+                'import' => __('The Current Settings. Replace these with a different encoded string to import new settings.', 'wp-custom-fields')
             ]
         ];
             

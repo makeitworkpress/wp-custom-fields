@@ -21,27 +21,32 @@ class Background implements Field {
     public static function render( $field = [] ) {
              
         // Properties
-        $configurations = self::configurations();
-        $colorpicker    = ['values' => isset( $field['values']['color'] ) ? $field['values']['color'] : '', 'name' => $field['name'] . '[color]', 'id' => $field['id'] . '-color'];
-        $media          = [
-            'subtype'   => 'image',
-            'add'       => isset($field['labels']['add']) ? $field['labels']['add'] : $configurations['labels']['add'],
-            'button'    => isset($field['labels']['button']) ? $field['labels']['button'] : $configurations['labels']['button'],
-            'id'        => $field['id'] . '-upload',
-            'multiple'  => false,
-            'name'      => $field['name'] . '[upload]',
-            'title'     => isset($field['labels']['title']) ? $field['labels']['title'] : $configurations['labels']['title'],
-            'values'    => isset($field['values']['upload']) ? $field['values']['upload'] : ''
-        ]; ?>
-
+        $configurations = self::configurations(); ?>
         
-        <div class="wp-custom-fields-background-image wp-custom-fields-field-left">';
-            <?php Media::render( $media ); ?>       
+        <div class="wp-custom-fields-background-image wp-custom-fields-field-left">
+            <?php 
+                Media::render( [
+                    'subtype'   => 'image',
+                    'add'       => isset($field['labels']['add']) ? $field['labels']['add'] : $configurations['labels']['add'],
+                    'button'    => isset($field['labels']['button']) ? $field['labels']['button'] : $configurations['labels']['button'],
+                    'id'        => $field['id'] . '-upload',
+                    'multiple'  => false,
+                    'name'      => $field['name'] . '[upload]',
+                    'title'     => isset($field['labels']['title']) ? $field['labels']['title'] : $configurations['labels']['title'],
+                    'values'    => isset($field['values']['upload']) ? $field['values']['upload'] : ''
+                ] ); 
+            ?>       
         </div>
 
         
         <div class="wp-custom-fields-background-attributes wp-custom-fields-field-left">        
-            <?php Colorpicker::render( $colorpicker ); ?>
+            <?php 
+                Colorpicker::render( [
+                    'values'    => isset( $field['values']['color'] ) ? $field['values']['color'] : '', 
+                    'name'      => $field['name'] . '[color]', 
+                    'id'        => $field['id'] . '-color'
+                ] ); 
+            ?>
              
             <?php foreach($configurations['properties'] as $key => $attribute) { 
                 // We use the select field class to display our recurring select fields.
@@ -70,9 +75,9 @@ class Background implements Field {
             'defaults'      => [],
             // Default labels
             'labels'        => [
-                'add'       => __('Select', 'wp-custom-fields');
-                'button'    => __('Add Background', 'wp-custom-fields');
-                'title'     => __('Select a Background', 'wp-custom-fields');
+                'add'       => __('Select', 'wp-custom-fields'),
+                'button'    => __('Add Background', 'wp-custom-fields'),
+                'title'     => __('Select a Background', 'wp-custom-fields')
             ],
             // Properties
             'properties'    => [

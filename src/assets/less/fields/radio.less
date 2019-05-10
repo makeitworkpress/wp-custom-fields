@@ -4,7 +4,8 @@
 .wp-custom-fields-field-checkbox-wrapper, .wp-custom-fields-field-radio-wrapper {
     margin: 5px 1px 9px 1px;
     i {
-        font-size: @wp-font-size;  
+        font-size: 1.25em; 
+        margin-right: 5px; 
         position: relative;
         top: 2px;
     }    
@@ -16,7 +17,7 @@
     label {
         margin: 0 @grid-space/2 0 @grid-space/4;
     }  
-    &.switcher, &.label {
+    &.switcher, &.buttonset {
         input {
             display: none;
             height: 0;
@@ -27,19 +28,32 @@
         }         
     }
     &.buttonset {
+        li {
+            display: inline-block;
+            vertical-align: top;
+        }
         label {
-            background-color: #f5f5f5;        
-            border: 1px solid @wp-grey;
-            clear: none;
-            float: left;
+            background-color: @wp-btnback;        
+            border: 1px solid @wp-btnborder;
+            border-radius: @wp-btnradius;
+            box-shadow: @wp-btnboxshadow;
+            color: @wp-btncolor;
+            line-height: 40px;
             margin: 0;
-            padding: 14px 20px;
+            padding: 5px 20px;
             transition: @base-transition;
         }
-        input:checked + label, label:hover {
-            background-color: #fff;
-            font-weight: bold;
-        }       
+        input:checked + label {
+            background-color: @wp-blue;
+            border: 1px solid @wp-blueborder;
+            box-shadow: 1px solid @wp-blueborder;
+            color: #fff;
+        }   
+        label:hover {
+            background-color: @wp-btnbackhvr;        
+            border: 1px solid @wp-btnborderhvr;
+            color: @wp-btncolorhvr;
+        }
     }
     &.switcher {
         label {
@@ -47,8 +61,8 @@
             position: relative;
             vertical-align: middle;
             &:before {
-                background-color: @wp-grey;
-                border: 1px solid @wp-border;
+                background-color: @wp-btnback;
+                border: 1px solid @wp-btnborder;
                 border-radius: @grid-space/2;
                 content: '';
                 display: inline-block;
@@ -58,6 +72,10 @@
                 top: 6px;
                 transition: all 200ms ease-out;
                 width: @grid-space*2;                
+            }
+            &:hover:before {
+                background-color: @wp-btnbackhvr;
+                border: 1px solid @wp-btnborderhvr;                
             }
             &:after {
                 background: #fff;

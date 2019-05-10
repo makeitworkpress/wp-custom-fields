@@ -7,8 +7,9 @@ namespace MakeitWorkPress\WP_Custom_Fields;
 use stdClass as stdClass;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) 
+if ( ! defined('ABSPATH') ) {
     die;
+}
 
 class Frame {
     
@@ -34,7 +35,7 @@ class Frame {
         $this->resetButton      = '';
         $this->restoreButton    = '';
         $this->saveButton       = '';
-        $this->sections         = array();
+        $this->sections         = [];
         $this->settingFields    = '';
         $this->title            = esc_html($frame['title']);
         $this->type             = '';
@@ -76,7 +77,7 @@ class Frame {
             $this->sections[$key]                  = $section;
             $this->sections[$key]['active']        = $this->currentSection == $section['id'] ? 'active'          : '';
             $this->sections[$key]['description']   = isset( $section['description'] ) ? esc_textarea($section['description']) : '';
-            $this->sections[$key]['fields']        = array();
+            $this->sections[$key]['fields']        = [];
             $this->sections[$key]['icon']          = ! empty( $section['icon'] ) ? esc_html($section['icon'])  : false;
             $this->sections[$key]['id']            = esc_attr($section['id']);
             $this->sections[$key]['tabs']          = isset( $section['tabs'] ) && $section['tabs'] == false ? false : true;
@@ -105,7 +106,7 @@ class Frame {
      *
      * @param array $fields The array from a single field
      */
-    private function populateField( Array $field = array() ) {
+    private function populateField( Array $field = [] ) {
         
         
         // Populate our variables
