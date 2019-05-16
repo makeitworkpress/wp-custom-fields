@@ -451,13 +451,13 @@ trait Validate {
             case '[text_align]':
                 $sanitize = 'sanitize_key';
                 break;
-            case 'checkbox':                
-            case '[italic]': 
-            case '[load][italic]':
-            case '[load][normal]':
-            case '[underline]':
-            case '[uppercase]':                                        
-                $sanitize = 'boolval';
+            // case 'checkbox':                
+            // case '[italic]': 
+            // case '[load][italic]':
+            // case '[load][normal]':
+            // case '[underline]':
+            // case '[uppercase]':                                        
+            //     $sanitize = 'sanitize_key'; // boolval may give problems in some instances, a sanitized key also evals to true.
                 break;                           
             default:
                 $sanitize = 'sanitize_text_field';
