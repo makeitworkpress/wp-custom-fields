@@ -96,7 +96,7 @@ class Select implements Field {
                             $selected = selected( $key, $field['values'], false );
                         }
                     ?>
-                    <option value="<?php esc_attr_e($key); ?>" <?php echo $selected; ?>><?php esc_html_e($option); ?></option>
+                    <option value="<?php echo esc_attr($key); ?>" <?php echo $selected; ?>><?php esc_html_e($option); ?></option>
                 <?php } ?>
             </select>
         

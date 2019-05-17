@@ -35,10 +35,10 @@ class Radio implements Field {
                         <?php $label  = isset($option['label']) ? esc_html($option['label']) : ''; ?>
                         <?php $icon   = isset($option['icon']) ? '<i class="material-icons">' . esc_html($option['icon']) . '</i> ' : ''; ?>
                     
-                        <input type="radio" id="<?php esc_attr_e($id . $key); ?>" name="<?php echo $name; ?>" value="<?php esc_attr_e($key); ?>" <?php checked($field['values'], $key); ?> />
+                        <input type="radio" id="<?php echo esc_attr($id . $key); ?>" name="<?php echo $name; ?>" value="<?php echo esc_attr($key); ?>" <?php checked($field['values'], $key); ?> />
                     
                         <?php if( ! empty($label) ) { ?>
-                            <label for="<?php esc_attr_e($id . $key); ?>"><?php echo $icon . $label; ?></label>
+                            <label for="<?php echo esc_attr($id . $key); ?>"><?php echo $icon . $label; ?></label>
                         <?php } ?>
 
                     </li>

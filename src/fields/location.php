@@ -40,7 +40,7 @@ class Location implements Field {
                 <?php foreach( $config['properties'] as $key => $label ) { ?>
                     <div class="wp-custom-fields-field-left">
                         <label for="<?php echo $id . '-' . $key; ?>"><?php echo $label; ?></label>
-                        <input type="text" class="regular-text <?php echo $key; ?>'" id="<?php echo $id . '-' . $key; ?>" name="<?php echo $name .'[' . $key .']'; ?>" value="<?php esc_attr_e($field['values'][$key]); ?>" />
+                        <input type="text" class="regular-text <?php echo $key; ?>'" id="<?php echo $id . '-' . $key; ?>" name="<?php echo $name .'[' . $key .']'; ?>" value="<?php echo esc_attr($field['values'][$key]); ?>" />
                     </div>
                 <?php } ?>
             

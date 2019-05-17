@@ -46,11 +46,11 @@ class Typography extends WP_Customize_Control {
 
                 <?php foreach( $configurations['properties']['fonts'] as $fontspace => $types ) { ?>
 
-                    <optgroup label="<?php esc_attr_e(ucfirst($fontspace)); ?>">    
+                    <optgroup label="<?php echo esc_attr(ucfirst($fontspace)); ?>">    
 
                     <?php foreach( $types as $key => $font ) { ?>         
                         <?php $display = isset($font['example']) ? $font['example'] : WP_CUSTOM_FIELDS_ASSETS_URL . 'img/' . $key . '.png'; ?>
-                        <option data-display="<?php esc_attr_e($display); ?>" value="<?php esc_attr_e($key); ?>" <?php selected($this->value('font'), $key); ?>>
+                        <option data-display="<?php echo esc_attr($display); ?>" value="<?php echo esc_attr($key); ?>" <?php selected($this->value('font'), $key); ?>>
                             <?php echo $font['name']; ?>
                         </option>
                     <?php } ?>
@@ -79,7 +79,7 @@ class Typography extends WP_Customize_Control {
             <?php foreach( $configurations['properties']['dimensions'] as $key => $label ) { ?>
                 <div class="wp-custom-fields-dimensions-input">
                     <i class="material-icons"><?php echo 'format_' . $key; ?></i>
-                    <input <?php $this->link( $key . 'amount' ); ?> value="<?php esc_attr_e($this->value($key . 'amount')); ?>" type="number" step="0.01" placeholder="<?php echo $label; ?>" />
+                    <input <?php $this->link( $key . 'amount' ); ?> value="<?php echo esc_attr($this->value($key . 'amount')); ?>" type="number" step="0.01" placeholder="<?php echo $label; ?>" />
                     <select <?php $this->link( $key . 'unit' ); ?>>
                         <?php foreach($dimensions['properties']['units'] as $measure) { ?>
                             <option value="<?php echo $measure; ?>" <?php selected( $this->value( $key . 'unit' ), $measure ); ?>>

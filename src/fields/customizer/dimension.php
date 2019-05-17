@@ -39,7 +39,7 @@ class Dimension extends WP_Customize_Control {
 
         <div class="wp-custom-fields-dimensions-input">
             <i class="material-icons">vertical_align_center</i>
-            <input <?php $this->link( 'amount' ); ?> value="<?php esc_attr_e( $this->value('amount') ); ?>" type="number" step="0.01" />
+            <input <?php $this->link( 'amount' ); ?> value="<?php echo esc_attr( $this->value('amount') ); ?>" type="number" step="0.01" />
             <select <?php $this->link( 'unit' ); ?>>
                 <?php foreach($dimensions['properties']['units'] as $measure) { ?>
                     <option value="<?php echo $measure; ?>" <?php selected( $this->value( 'unit' ), $measure ); ?>>

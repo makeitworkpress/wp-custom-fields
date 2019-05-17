@@ -32,17 +32,17 @@ class Typography implements Field {
         } ?>       
 
             <div class="wp-custom-fields-typography-font-select">
-                <select class="wp-custom-fields-typography-fonts" name="<?php esc_attr_e($field['name']); ?>[font]" id="<?php esc_attr_e($field['id']); ?>-font" >
+                <select class="wp-custom-fields-typography-fonts" name="<?php echo esc_attr($field['name']); ?>[font]" id="<?php echo esc_attr($field['id']); ?>-font" >
 
                     <option value=""><?php echo $select; ?></option>
                 
                     <?php foreach( $configurations['properties']['fonts'] as $fontspace => $types ) { ?>
                         
-                        <optgroup label="<?php esc_attr_e( ucfirst($fontspace) ); ?>">    
+                        <optgroup label="<?php echo esc_attr( ucfirst($fontspace) ); ?>">    
                         
                         <?php foreach( $types as $key => $font ) { ?>         
                             <?php $display = isset($font['example']) ? esc_url($font['example']) : WP_CUSTOM_FIELDS_ASSETS_URL . 'img/' . $key . '.png'; // Allows for custom fonts ?> 
-                            <option data-display="<?php echo $display; ?>" value="<?php esc_attr_e($key); ?>" <?php selected( isset($field['values']['font']) ? $field['values']['font'] : '', $key); ?>>
+                            <option data-display="<?php echo $display; ?>" value="<?php echo esc_attr($key); ?>" <?php selected( isset($field['values']['font']) ? $field['values']['font'] : '', $key); ?>>
                                 <?php esc_html_e( $font['name'] ); ?>
                             </option>
                         <?php } ?>
@@ -97,7 +97,7 @@ class Typography implements Field {
                     // Style Buttons
                     foreach($configurations['properties']['styles'] as $key => $style) { 
                 ?>
-                    <ul class="wp-custom-fields-typography-'<?php esc_attr_e($key); ?> wp-custom-fields-icon-list"> 
+                    <ul class="wp-custom-fields-typography-'<?php echo esc_attr($key); ?> wp-custom-fields-icon-list"> 
             
                         <?php 
                             foreach( $style as $value => $icon ) {
@@ -107,8 +107,8 @@ class Typography implements Field {
                         ?>
                             
                             <li>
-                                <input type="<?php esc_attr_e($type); ?>" name="<?php esc_attr_e($name); ?>" id="<?php esc_attr_e($field['id'] . '-' . $value); ?>" value="<?php esc_attr_e($value); ?>" <?php echo $checked; ?> />
-                                <label for="<?php esc_attr_e($field['id'] . '-' . $value); ?>">
+                                <input type="<?php echo esc_attr($type); ?>" name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($field['id'] . '-' . $value); ?>" value="<?php echo esc_attr($value); ?>" <?php echo $checked; ?> />
+                                <label for="<?php echo esc_attr($field['id'] . '-' . $value); ?>">
                                 <i class="material-icons"><?php esc_html_e($icon); ?></i>
                                 </label>
                             </li>
