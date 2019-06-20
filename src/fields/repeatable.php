@@ -94,7 +94,7 @@ class Repeatable implements Field {
 
                 <?php } ?>           
         
-                <div class="wp-custom-fields-repeatable-buttons">';
+                <div class="wp-custom-fields-repeatable-buttons">
                     <a href="#" class="button wp-custom-fields-repeatable-remove" title="<?php _e('Remove', 'wp-custom-fields'); ?>"><?php echo $remove; ?></a>
                     <a href="#" class="button wp-custom-fields-repeatable-add button-primary" title="<?php _e('Add', 'wp-custom-fields'); ?>"><?php echo $add; ?></a>
                 </div>
