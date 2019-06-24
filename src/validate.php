@@ -442,9 +442,7 @@ trait Validate {
                 break;
             case 'dropdown-pages':               
             case 'media':
-            case '[font_weight]':
-                $sanitize = 'intval';
-                break;                                                         
+            case '[font_weight]':                                                     
             case 'select':
             case 'radio':
             case '[font]':
