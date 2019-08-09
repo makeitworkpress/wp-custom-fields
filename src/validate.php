@@ -455,8 +455,7 @@ trait Validate {
             // case '[load][normal]':
             // case '[underline]':
             // case '[uppercase]':                                        
-            //     $sanitize = 'sanitize_key'; // boolval may give problems in some instances, a sanitized key also evals to true.
-                break;                           
+            //     $sanitize = 'sanitize_key'; // boolval may give problems in some instances, a sanitized key also evals to true.                       
             default:
                 $sanitize = 'sanitize_text_field';
         }

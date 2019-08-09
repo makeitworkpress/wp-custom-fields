@@ -60,7 +60,11 @@
     &.empty {
         border: 3px dashed @wp-grey;
     }
-
+    .field-repeatable & {
+        &.empty {
+            border: 3px dashed @wp-border;    
+        }
+    }
 }
 
 .wp-custom-fields-media-url {
