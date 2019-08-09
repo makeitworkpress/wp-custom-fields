@@ -27,7 +27,7 @@ class Textarea implements Field {
         $name   = esc_attr($field['name']);
         $value  = esc_textarea($field['values']); ?>        
         
-            <textarea id="<?php echo $id; ?>" name="<?php echo $id; ?>" rows="<?php echo $rows; ?>" cols="<?php echo $cols; ?>"><?php echo $value; ?></textarea>
+            <textarea id="<?php echo $id; ?>" name="<?php echo $name; ?>" rows="<?php echo $rows; ?>" cols="<?php echo $cols; ?>"><?php echo $value; ?></textarea>
 
         <?php    
     }
