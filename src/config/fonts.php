@@ -57,7 +57,7 @@ $fonts = array(
         'lora' => array('name' => 'Lora', 'family' => 'Lora, serif', 'styles' => array('normal', 'italic'), 'weights' => array(400, 700)),                
         'merriweather' => array('name' => 'Merriweather', 'family' => 'Merriweather, serif', 'styles' => array('normal', 'italic'), 'weights' => array(300, 400, 700, 900)),     
         'merriweathersans' => array('name' => 'Merriweather Sans', 'family'  => 'Merriweather Sans, sans-serif', 'styles' => array('normal', 'italic'), 'weights' => array(300, 400, 700, 900)),
-        'montserrat' => array('name' => 'Montserrat', 'family' => 'Montserrat, sans-serif', 'styles' => array('normal'), 'weights' => array(400, 700)),                
+        'montserrat' => array('name' => 'Montserrat', 'family' => 'Montserrat, sans-serif', 'styles' => array('normal', 'italic'), 'weights' => array(100, 200, 300, 400, 500, 600, 700, 800, 900)),                
         'muli' => array('name' => 'Muli', 'family' => 'Muli, sans-serif', 'styles' => array('normal', 'italic'), 'weights' => array(400, 700)),                
         'notosans' => array('name' => 'Noto Sans', 'family' => 'Noto Sans, sans-serif', 'styles' => array('normal', 'italic'), 'weights' => array(400, 700)),                     
         'notoserif' => array('name' => 'Noto Serif', 'family' => 'Noto Serif, serif', 'styles' => array('normal', 'italic'), 'weights' => array(400, 700)),                       
