@@ -190,6 +190,7 @@ class Framework extends Base {
         
         // Enqueue Scripts
         foreach( $this->scripts as $script ) {
+
             $action = 'wp_' . $script['action'] . '_script';
             $action( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );
             
@@ -206,7 +207,7 @@ class Framework extends Base {
      * Retrieves certain configurations
      *
      * @param string $type The kind of configurations to get
-     * @return array $configurations The array of configurations for the respective type
+     * @return array $configurations The array of configurations for the respective type, accepts 'meta', 'options', 'customizer' or 'all'
      */
     public function get( $type ) {
         return $type == 'all' ? $this->frames : $this->frames[$type];
@@ -216,7 +217,7 @@ class Framework extends Base {
      * Allows to adds certain data, such as data for fields. 
      * If hooked late on after_setup_theme but before init, this will add fields.
      *
-     * @param string    $type   The type to which you want to add values, Meta or Options
+     * @param string    $type   The type to which you want to add, accepts 'meta', 'options', 'customizer'
      * @param array     $values The respective values in form of an associative array
      */
     public function add( $type, $values ) {
@@ -233,7 +234,7 @@ class Framework extends Base {
      * Allows to adds certain data, such as data for fields. 
      * If hooked late on after_setup_theme but before init, this will be able to edit fields.
      *
-     * @param string    $type       The type to which you want to add values, such as meta, options or customizer
+     * @param string    $type       The type to which you want to add values, accepts 'meta', 'options', 'customizer'
      * @param array     $values     The respective values in form of an associative array
      * @param string    $id         The id of the option to edit
      * @param string    $section    The section of the option to edit

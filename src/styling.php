@@ -19,9 +19,9 @@ class Styling extends Base {
     private $fields;
     
     /**
-     * Contains our option frames
+     * Contains an option frame, whether it is a customizer, options page or meta box frame
      */
-    private $frames;   
+    private $frame;   
     
     /**
      * Contains our custom fonts
@@ -52,15 +52,18 @@ class Styling extends Base {
 
     /**
      * Retrieves all frames, converts them into fields with css properties and saves this array within the database
-     * @param mixed $key A certain key, id or hooked argument, based upon the hook
+     * @param mixed     $key    A certain key, id or hooked argument, based upon the hook
+     * @param string    $hook   A hook string, to manually trigger a certain save action from outside the hooks
      */
-    public function saveFields( $key ) {
+    public function saveFields( $key, $hook = '' ) {
 
         // If we're saving fields, look what hook we're in
-        $hook   = current_filter();
-        $update = true;
+        $hook   = $hook ? $hook : current_filter();
 
-        // For the option hook, we only want to save our fields if we're targeting the ID of an option page added by WPCF.
+        /**
+         * For the option hook, we only want to save our css fields if we're targeting the ID of an option page added by WPCF.
+         * Because this hook is widely employed, we want to add this safety measure
+         */
         if( $hook == 'updated_option' ) {
 
             $update = false;
@@ -69,142 +72,144 @@ class Styling extends Base {
             $optionFrames = Framework::instance()->get('options');
 
             foreach( $optionFrames as $page ) {
-
-                if( ! isset($page['id']) ) {
-                    continue;
-                }
                 
-                if( $key == $page['id'] ) {
+                if( isset($page['id']) && $key == $page['id'] ) {
                     $update = true;
                 }
 
             }
 
+            // Check if we may update our option
+            if( ! $update ) {
+                return;   
+            }            
+
         }
 
-        // Check if we may update
-        if( ! $update ) {
-            return;   
-        }
-
-        // Generates the fields from all configurations
-        $this->examine( $hook, $key );
-
-        // Adds the css properties to the given fields
-        $this->properties();
+        // Generates the fields with the correct css properties from all configurations
+        $this->setFields( $hook, $key );
 
         // Do we have fields any fields at all?
         if( ! isset($this->fields) ) {
             return;
         }  
-        
-        // Save our option page css fields
-        if( $hook == 'updated_option' ) {
 
-            // Check our user capabilities
-            if( ! current_user_can('manage_options', $key) ) {
-                return;
-            }              
+        // Save the fields depending on their context
+        switch( $hook ) {
+            case 'updated_option':
+                // Check our user capabilities
+                if( ! current_user_can('manage_options', $key) ) {
+                    return;
+                }              
 
-            update_option('wpcf_options_css_fields', $this->fields, 'no');
+                update_option('wpcf_options_css_fields', $this->fields, 'no');            
+                break;
+            case 'customize_save_after':
+                // Check our user capabilities before doing something
+                if( ! current_user_can('manage_options', $key) ) {
+                    return;
+                }              
 
-        } 
+                update_option('wpcf_customizer_css_fields', $this->fields, 'no');            
+                break;
+            case 'save_post':
+                // Check our user capabilities
+                if( ! current_user_can('edit_posts', $key) || ! current_user_can('edit_pages', $key) ) {
+                    return;
+                }
 
-        // Save our customizer css fields
-        if( $hook == 'customize_save_after' ) {
-
-            // Check our user capabilities before doing something
-            if( ! current_user_can('manage_options', $key) ) {
-                return;
-            }              
-
-            update_option('wpcf_customizer_css_fields', $this->fields, 'no');
-
-        }
-        
-        if( $hook == 'save_post' ) {
-
-            // Check our user capabilities
-            if( ! current_user_can('edit_posts', $key) || ! current_user_can('edit_pages', $key) ) {
-                return;
-            }
-
-            update_post_meta( $key, 'wpcf_singular_css_fields', $this->fields );
-
+                update_post_meta( $key, 'wpcf_singular_css_fields', $this->fields );            
+                break;
         }
 
     }
     
     /**
-     * Examines the frames for CSS related suggestions
-     * @param string    $hook   Possible hook by which the parent function was triggered
+     * Examines the frames for CSS related suggestions and sets the correct fields
+     * @param string    $hook   The hook by which the parent function was triggered. Accepts 'customize_save_after', 'updated_option' or 'save_post'
      * @param mixed     $key    Possible post id, option key or WP Customizer object
      */
-    private function examine( $hook = '', $key = '' ) {
+    private function setFields( $hook = '', $id = '' ) {
+
+        // A hook is mandatory
+        if( ! $hook ) {
+            return;
+        }
         
-        $this->frames = Framework::instance()->get('all');
+        // Retrieve the array of groups with fields
+        switch( $hook ) {
+            case 'customize_save_after':
+                $this->frame = Framework::instance()->get('customizer');
+                break;
+            case 'updated_option':
+                $this->frame = Framework::instance()->get('options');
+                break; 
+            case 'save_post':
+                $this->frame = Framework::instance()->get('meta');
+                break;                               
+        }
         
-        // We don't have any frames
-        if( ! $this->frames ) {
+        // We don't have any frames or properly formatted frames
+        if( ! isset($this->frame) || ! $this->frame || ! is_array($this->frame) ) {
             return;
         }
 
-        foreach( $this->frames as $frame => $fieldGroups ) {
+        foreach( $this->frame as $group ) {
+                
+            // Each group should have any id
+            if( ! isset($group['id']) ) {
+                continue;
+            }
             
-            foreach( $fieldGroups as $group ) {
+            foreach( $group['sections'] as $section ) {
                 
-                // Each group should have any id
-                if( ! isset($group['id']) ) {
-                    continue;
-                }
-                
-                foreach( $group['sections'] as $section ) {
-                    
-                    if( ! isset($section['id']) )
-                        continue;  
-                
-                    // Loop through our fields and see if some have a CSS target defined
-                    foreach( $section['fields'] as $field ) {
+                if( ! isset($section['id']) )
+                    continue;  
+            
+                // Loop through our fields and see if some have a CSS target defined
+                foreach( $section['fields'] as $key => $field ) {
 
-                        // A selector should be defined. A selector supports selector, size (for the background thumbnail size), max-width (for the max-width media query), property
-                        if( ! isset($field['selector']) )
-                            continue;
-
-                        // Save the id per group so we can retrieve the values later.
-                        $cssFields[] = [
-                            'selector'  => $field['selector'],
-                            'group'     => $group['id'],
-                            'id'        => $field['id'],
-                            'transport' => isset($field['transport']) ? true : false,
-                            'type'      => $field['type']
-                        ];
-
+                    // A selector should be defined. A selector supports selector, size (for the background thumbnail size), max-width (for the max-width media query), property
+                    if( ! isset($field['selector']) ) {
+                        continue;
                     }
-                    
+
+                    // Save the id per group so we can retrieve the values later.
+                    $cssFields[$field['id']] = [
+                        'selector'  => $field['selector'],
+                        'type'      => $field['type']
+                    ];
+
+                    if( $hook == 'customize_save_after' ) {
+                        $cssFields[$key]['group']       = $group['id'];
+                        $cssFields[$key]['transport']   = isset($field['transport']) ? true : false;
+                    }
+
                 }
                 
-                // Now, retrieve our values from the database, but only if we have values for the given frame
-                if( ! isset($cssFields) ) {
-                    continue;
-                }
+            }
+            
+            /**
+             * Now, retrieve our values from the database, but ony if we have fieldswith a selector specified
+             */
+            if( ! isset($cssFields) ) {
+                continue;
+            }
 
-                // Retrieve option values
-                if( $frame == 'options' && $hook == 'wpcf_options_css_fields' ) {
-                    $optionValues       = get_option($group['id']);
-                }
-
-                // Retrieve customizer values
-                if( $frame == 'customizer' && $hook == 'customize_save_after' ) {
-                    $customizerValues   = isset($group['option']) ? get_option($group['option']) : get_theme_mod($group['id']);
-                }
-
-                // Retrieve meta values. For now, only supports posts.
-                if( $frame == 'meta' && $hook == 'save_post' && is_numeric($key) ) {
+            // Retrieve the actual values of our fields
+            switch( $hook ) {
+                case 'customize_save_after':
+                    $values     = isset($group['option']) ? get_option($group['option']) : get_theme_mod($group['id']);
+                    break;
+                case 'updated_option':
+                    $values     = get_option($group['id']);
+                    break; 
+                case 'save_post':
 
                     // Single metaboxes
                     if( isset($group['single']) && $group['single'] && is_array($group['sections']) ) {
                         
-                        $metaValues = [];
+                        $values = [];
                         foreach( $group['sections'] as $section ) {
                             
                             if( ! isset($section['fields']) || ! is_array($section['fields']) ) {
@@ -217,79 +222,66 @@ class Styling extends Base {
                                     continue;    
                                 }
 
-                                $metaValues[$field['id']] = get_metadata( $group['type'], $key, $field['id'], true );
+                                $values[$field['id']] = get_metadata( $group['type'], $id, $field['id'], true );
 
                             }
-                               
+                                
                         } 
 
                     // Default metaboxes
                     } else {
-                        $metaValues     = get_metadata( $group['type'], $key, $group['id'], true );
+                        $values     = get_metadata( $group['type'], $id, $group['id'], true );
                     }
 
-                }                
+                    break; 
+                default:
+                    $values = [];   
+            } 
+            
+           
 
-                /**
-                 * Loop again through our fields and see if we have values. 
-                 */
-                foreach( $cssFields as $field ) {
+            /**
+             * Loop again through our fields and see if we have values. 
+             * If similar field ids exist in the same frame, only the first one can be used.
+             */
+            foreach( $cssFields as $fieldID => $field ) {
 
-                    if( isset( $optionValues[$field['id']] ) && $optionValues[$field['id']] ) {
-                        $field['values'] = $optionValues[$field['id']];
-                    }
-                    
-                    if( isset( $customizerValues[$field['id']] ) && $customizerValues[$field['id']] ) {
-                        $field['values'] = $customizerValues[$field['id']];  
-                    }                   
+                if( isset( $values[$fieldID] ) && $values[$fieldID] ) {
+                    $field['values'] = $values[$fieldID];
+                }
+                
+                // Because we loop through all our frames looking for values, we might add the same field twice. 
+                if( isset($this->fields[$fieldID]) ) {
+                    continue;
+                }
 
-                    if( isset( $metaValues[$field['id']] ) && $metaValues[$field['id']] ) {
-                        $field['values'] = $metaValues[$field['id']];
-                    }
-                    
-                    // Because we loop through all our frames looking for values, we might add the same field twice. 
-                    if( isset($this->fields[$field['id']]) ) {
-                        continue;
-                    }
+                $this->fields[$fieldID] = $field;
 
-                    $this->fields[$field['id']] = $field;
-
-                }                 
-                    
-            }
+            }                 
             
         }
- 
-    } 
 
-    /**
-     * Format our fields with the right properties
-     */   
-    private function properties() {
-        
-        // We should have fields with styles
+        // By now, we should have fields with styles
         if( ! isset($this->fields) || ! $this->fields ) {
             return;
         }
         
-        foreach( $this->fields as $key => $field ) {
+        foreach( $this->fields as $fieldID => $field ) {     
             
-            // Load our fonts if we have a fonts field
-            if( $field['type'] == 'typography' && ! isset($this->fonts) && $field['values'] ) {
-                $this->fonts = Framework::$fonts;  
-            }          
-            
-            $this->formatField($field);
-        }
-        
+            $this->formatField($field, $fieldID);
+
+        }        
+ 
     }
+
 
    /**
      * Formats the css based upon a fields type values
      *
      * @param array    $field   The field type, including its values
+     * @param string   $fieldID The string for the field id
      */
-    private function formatField( $field ) {
+    private function formatField( $field, $fieldID ) {
         
         // Default values;
         $uniques            = [];
@@ -489,13 +481,16 @@ class Styling extends Base {
             }
         }
         
-        // Only unique properties. Similar properties are overwritten by the last one.
+        // Only unique properties. Similar properties are overwritten by the last one for the given selector.
         foreach($properties as $property => $value) {
             $uniques[$property] = $value;
         }     
 
+        // Our values have been transferred to properties, and are no longer needed
+        unset($this->fields[$fieldID]['values']);
+
         // Save the final properties to the fields array. This is then later processed to output css.
-        $this->fields[$field['id']]['properties'] = $uniques;
+        $this->fields[$fieldID]['properties'] = $uniques;
         
     }    
 
@@ -509,10 +504,11 @@ class Styling extends Base {
          * Load our customizer fields manually if we're previewing. 
          * This enables us to output JS binding functions even before these fields have been added
          * to the database, and also render this output before these fields have been saved.
+         * 
+         * Otherwise, we just load the values from the database
          */
         if( is_customize_preview() ) {
-            $this->examine('customize_save_after');
-            $this->properties();  
+            $this->setFields('customize_save_after');
         } else {
             $customizerValues   = maybe_unserialize( get_option('wpcf_customizer_css_fields') );
             $this->fields       = is_array($customizerValues) ?  : [];
@@ -525,7 +521,9 @@ class Styling extends Base {
         $optionFields   = is_array($optionValues) ? $optionValues: [];
         $this->fields   = $this->fields + $optionFields;       
 
-        // Additional styling for singular fields
+        /**
+         * Loads the fields for singular templates
+         */
         if( is_singular() ) {
             global $post;
             $metaValues     = get_post_meta( $post->ID, 'wpcf_singular_css_fields', true );
@@ -538,7 +536,7 @@ class Styling extends Base {
             return;            
         }        
 
-        // Custom fonts are only loaded if necessary
+        // Custom fonts are loaded if necessary
         foreach( $this->fields as $key => $field ) {
             if( $field['type'] == 'typography' && ! isset($this->fonts) ) {
                 $this->fonts = Framework::$fonts;  
@@ -566,11 +564,6 @@ class Styling extends Base {
             
             // Some fields are used in the customizer to update content. Those are skipped here.
             if( isset($field['selector']['html']) || isset($field['selector']['attr']) ) {
-                continue;
-            }
-            
-            // Some fields do not have values. We skip those
-            if( ! isset($field['values']) || ! $field['values'] ) {
                 continue;
             }
 
