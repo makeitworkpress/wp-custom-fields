@@ -132,7 +132,7 @@ class Options {
             return;
 
         // Register the setting so it can be retrieved under a single option name. Sanitization is done on field level and executed by the sanitize method.
-        register_setting( $this->optionPage['id'] . '_group', $this->optionPage['id'], ['sanitize_callback' => [$this, 'sanitize']] );  
+        register_setting( $this->optionPage['id'] . '_group', $this->optionPage['id'], ['sanitize_callback' => [$this, 'sanitize']] );
 
         foreach( $this->optionPage['sections'] as $section ) {
 

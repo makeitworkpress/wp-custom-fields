@@ -84,11 +84,13 @@ class Customizer {
     public function enqueue() {
         
         // Load the select2 script, but only if not yet enqueued
-        if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
-            wp_enqueue_script('select2-js');        
+        if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') ) {
+            wp_enqueue_script('select2-js');       
+        } 
         
-        if( ! wp_script_is('wp-custom-fields-js') )
+        if( ! wp_script_is('wp-custom-fields-js') ) {
             wp_enqueue_script('wp-custom-fields-js');
+        }
         
     }
     
