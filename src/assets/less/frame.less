@@ -14,6 +14,9 @@
         h2 {
             margin-bottom: @grid-space;
         }
+        &.wpfc-header-scrolling {
+            min-height: 120px;
+        }
     }
     a, i {
         text-decoration: none;
@@ -62,7 +65,7 @@
 
 .wp-custom-fields-notifications {
     padding: @grid-space;
-    &.wpfc-header-scrolling {
+    .wpfc-header-scrolling & {
         background: #fff;
         border-bottom: 1px solid @wp-lightborder;
         position: fixed;
