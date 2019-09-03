@@ -512,7 +512,7 @@ class Styling extends Base {
             $this->setFields('customize_save_after');
         } else {
             $customizerValues   = maybe_unserialize( get_option('wpcf_customizer_css_fields') );
-            $this->fields       = is_array($customizerValues) ?  : [];
+            $this->fields       = is_array($customizerValues) ? $customizerValues : [];
         }
 
         /**
