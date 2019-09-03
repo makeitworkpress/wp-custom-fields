@@ -181,8 +181,8 @@ class Styling extends Base {
                     ];
 
                     if( $hook == 'customize_save_after' ) {
-                        $cssFields[$key]['group']       = $group['id'];
-                        $cssFields[$key]['transport']   = isset($field['transport']) ? true : false;
+                        $cssFields[$field['id']]['group']       = $group['id'];
+                        $cssFields[$field['id']]['transport']   = isset($field['transport']) ? true : false;
                     }
 
                 }
@@ -266,6 +266,7 @@ class Styling extends Base {
             return;
         }
         
+        // Formats the fields, an also strips unnecessary keys (at the given point)
         foreach( $this->fields as $fieldID => $field ) {     
             
             $this->formatField($field, $fieldID);
@@ -534,14 +535,7 @@ class Styling extends Base {
         // No fields? Do nothing!
         if( ! $this->fields ) {
             return;            
-        }        
-
-        // Custom fonts are loaded if necessary
-        foreach( $this->fields as $key => $field ) {
-            if( $field['type'] == 'typography' && ! isset($this->fonts) ) {
-                $this->fonts = Framework::$fonts;  
-            }   
-        }     
+        }   
 
     }    
     
@@ -631,6 +625,11 @@ class Styling extends Base {
             if( $field['type'] != 'typography') {
                 continue;
             }
+
+            // Retrieve the fonts from our framework
+            if( ! isset($this->fonts) ) {
+                $this->fonts = Framework::$fonts;  
+            }              
             
             foreach( $this->fonts as $key => $set ) {
                 
@@ -716,7 +715,7 @@ class Styling extends Base {
             $script = '';
 
             // Format our fields
-            foreach( $this->fields as $field ) {
+            foreach( $this->fields as $id => $field ) {
                 
                 // The messages should be transported
                 if( ! $field['transport'] ) {
@@ -743,7 +742,7 @@ class Styling extends Base {
                         $("' . $selector . '").' . $target . ';
                     } );';
                     
-                    $script .= 'wp.customize( "' . $field['group'] . '[' . $field['id'] . ']' . '", function( value ) {
+                    $script .= 'wp.customize( "' . $field['group'] . '[' . $id . ']' . '", function( value ) {
                         ' . $bind . '
                     } );';   
 
