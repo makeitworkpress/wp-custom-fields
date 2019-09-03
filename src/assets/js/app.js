@@ -4,6 +4,7 @@
 'use strict';
 
 var fields          = require('./fields');
+var options         = require('./options');
 var repeatable      = require('./modules/repeatable');
 var tabs            = require('./modules/tabs');
 
@@ -13,6 +14,7 @@ var init = function() {
     
     // Boot our fields
     fields.init('.wp-custom-fields-framework');    
+    options.init('.wp-custom-fields-framework');
     repeatable.init('.wp-custom-fields-framework');
     tabs.init();
     

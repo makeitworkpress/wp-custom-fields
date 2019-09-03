@@ -16,7 +16,7 @@
     float: left;  
     display: block;
     height: 150px;
-    margin-right: 7px;
+    margin: 0 7px 7px 0;
     position: relative; 
     text-align: center;    
     width: 150px;
@@ -38,6 +38,7 @@
         top: 7px;
         right: 7px;
         width: @grid-space;
+        z-index: 9;
         &:hover {
             color: @wp-blue;
         }
@@ -65,14 +66,30 @@
             border: 3px dashed @wp-border;    
         }
     }
+    &.type-video {
+        width: 210px;
+        .wp-custom-fields-media-url {
+            padding: 0;
+        }
+    } 
+    &.type-audio {
+        padding-top: 40px;
+        width: 314px;    
+        .wp-custom-fields-media-url {
+            padding: 0;
+        }        
+    }
 }
 
 .wp-custom-fields-media-url {
+    box-sizing: border-box;
     bottom: 0;
-    height: 27px;
     left: 0;
+    display: flex;
     padding: 3px;
     position: absolute;
+    z-index: 9;
+    width: 100%;
     i {
         background-color: @wp-greyer;
         border: 1px solid #ddd;
@@ -82,12 +99,10 @@
         width: 18px;
     }
     input {
-        border-left: none;
-        bottom: 3px;
-        left: 22px;        
+        border-left: none; 
+        flex-grow: 1;     
         margin: 0;
-        max-width: 125px;
-        position: absolute;
+        width: ~"calc(100% - 18px)";
         &:focus {
             border-color: #ddd;
             box-shadow: none;

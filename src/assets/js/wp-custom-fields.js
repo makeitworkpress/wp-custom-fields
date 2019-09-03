@@ -5,6 +5,7 @@
 'use strict';
 
 var fields          = require('./fields');
+var options         = require('./options');
 var repeatable      = require('./modules/repeatable');
 var tabs            = require('./modules/tabs');
 
@@ -14,6 +15,7 @@ var init = function() {
     
     // Boot our fields
     fields.init('.wp-custom-fields-framework');    
+    options.init('.wp-custom-fields-framework');
     repeatable.init('.wp-custom-fields-framework');
     tabs.init();
     
@@ -21,7 +23,7 @@ var init = function() {
 
 // Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);
-},{"./fields":2,"./modules/repeatable":8,"./modules/tabs":11}],2:[function(require,module,exports){
+},{"./fields":2,"./modules/repeatable":8,"./modules/tabs":11,"./options":12}],2:[function(require,module,exports){
 /**
  * Executes Field modules
  * @todo Convert in a loop
@@ -260,14 +262,13 @@ module.exports.init = function(framework) {
 
         // Define the buttons for this specific group
         var add_media = jQuery(this).find('.wp-custom-fields-upload-add'),
-            remove_media = jQuery(this).find('.wp-custom-fields-upload-remove'),
-            value_input = jQuery(this).find('.wp-custom-fields-upload-value'),
-            title = jQuery(this).data('title'),
-            type = jQuery(this).data('type'),
-            button = jQuery(this).data('button'),
-            multiple = jQuery(this).data('multiple'),
             add_wrap = jQuery(this).find('.wp-custom-fields-single-media.empty'),
-            initator = this,
+            button = jQuery(this).data('button'),
+            multiple = jQuery(this).data('multiple'),   
+            title = jQuery(this).data('title'),
+            type = jQuery(this).data('type'),         
+            url = jQuery(this).data('url'),         
+            value_input = jQuery(this).find('.wp-custom-fields-upload-value'),
             frame;
 
         // Click function
@@ -308,9 +309,9 @@ module.exports.init = function(framework) {
             frame.on('select', function () {
 
                 // Grab the selected attachment.
-                var attachments = frame.state().get('selection').toJSON(),
-                    attachment_ids = value_input.val(),
-                    loop_counter = 0,
+                var attachments     = frame.state().get('selection').toJSON(),
+                    attachment_ids  = value_input.val(),
+                    urlWrapper      = '',
                     src;
 
                 // We store the ids for each image
@@ -323,7 +324,13 @@ module.exports.init = function(framework) {
                         src = attachment.icon;
                     }
 
-                    add_wrap.before('<div class="wp-custom-fields-single-media" data-id="' + attachment.id + '"><img src="' + src + '" /><a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a></div>');
+                    // Return the url wrapper, if url is defined as a feature
+                    if( url ) {
+                        urlWrapper = '<div class="wp-custom-fields-media-url"><i class="material-icons">link</i><input type="text" value="' + attachment.url + '"></div>';
+                    }
+
+                    add_wrap.before('<div class="wp-custom-fields-single-media type-' + type + '" data-id="' + attachment.id + '"><img src="' + src + '" />' + urlWrapper + '<a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a></div>');
+                
                 });
 
                 // Remove the , for single attachments
@@ -546,4 +553,35 @@ module.exports.init = function() {
     });
  
 }
+},{}],12:[function(require,module,exports){
+/**
+ * Functions for option pages
+ */
+module.exports.init = function(framework) {
+
+    if( jQuery(framework).hasClass('wpcf-options-page') ) {
+
+        var scrollHeader    = jQuery(framework).find('.wp-custom-fields-notifications'),
+            scrollPosition  = 0,
+            scrollWidth     = scrollHeader.width();
+
+        jQuery(window).scroll( function() {
+
+            
+    console.log('HERE');
+
+            scrollPosition = jQuery(window).scrollTop();
+
+            if( scrollPosition > 50 ) {
+                scrollHeader.width(scrollWidth);
+                scrollHeader.addClass('wpfc-header-scrolling');
+            } else {
+                scrollHeader.removeClass('wpfc-header-scrolling');
+            }
+
+        } );
+       
+    }
+
+};
 },{}]},{},[1]);

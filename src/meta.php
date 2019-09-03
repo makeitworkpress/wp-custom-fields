@@ -128,8 +128,9 @@ class Meta {
     public function add( $object ) {
         
         // We should have an id
-        if( ! isset($this->metaBox['id']) )
+        if( ! isset($this->metaBox['id']) ) {
             return;
+        }
         
         // Post type metabox uses the add meta box function
         if( $this->type == 'post' ) {
@@ -205,6 +206,7 @@ class Meta {
         }
         
         $frame                  = new Frame( $this->metaBox, $values );
+        $frame->type            = $this->type;
         $frame->settingsFields  = wp_nonce_field( 'wp-custom-fields-metaboxes-' . $frame->id, 'wp-custom-fields-metaboxes-nonce-' . $frame->id, true, false );
         
         // Render our output

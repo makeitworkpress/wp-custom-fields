@@ -10,14 +10,13 @@ module.exports.init = function(framework) {
 
         // Define the buttons for this specific group
         var add_media = jQuery(this).find('.wp-custom-fields-upload-add'),
-            remove_media = jQuery(this).find('.wp-custom-fields-upload-remove'),
-            value_input = jQuery(this).find('.wp-custom-fields-upload-value'),
-            title = jQuery(this).data('title'),
-            type = jQuery(this).data('type'),
-            button = jQuery(this).data('button'),
-            multiple = jQuery(this).data('multiple'),
             add_wrap = jQuery(this).find('.wp-custom-fields-single-media.empty'),
-            initator = this,
+            button = jQuery(this).data('button'),
+            multiple = jQuery(this).data('multiple'),   
+            title = jQuery(this).data('title'),
+            type = jQuery(this).data('type'),         
+            url = jQuery(this).data('url'),         
+            value_input = jQuery(this).find('.wp-custom-fields-upload-value'),
             frame;
 
         // Click function
@@ -58,9 +57,9 @@ module.exports.init = function(framework) {
             frame.on('select', function () {
 
                 // Grab the selected attachment.
-                var attachments = frame.state().get('selection').toJSON(),
-                    attachment_ids = value_input.val(),
-                    loop_counter = 0,
+                var attachments     = frame.state().get('selection').toJSON(),
+                    attachment_ids  = value_input.val(),
+                    urlWrapper      = '',
                     src;
 
                 // We store the ids for each image
@@ -73,7 +72,13 @@ module.exports.init = function(framework) {
                         src = attachment.icon;
                     }
 
-                    add_wrap.before('<div class="wp-custom-fields-single-media" data-id="' + attachment.id + '"><img src="' + src + '" /><a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a></div>');
+                    // Return the url wrapper, if url is defined as a feature
+                    if( url ) {
+                        urlWrapper = '<div class="wp-custom-fields-media-url"><i class="material-icons">link</i><input type="text" value="' + attachment.url + '"></div>';
+                    }
+
+                    add_wrap.before('<div class="wp-custom-fields-single-media type-' + type + '" data-id="' + attachment.id + '"><img src="' + src + '" />' + urlWrapper + '<a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a></div>');
+                
                 });
 
                 // Remove the , for single attachments

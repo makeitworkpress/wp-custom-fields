@@ -9,7 +9,7 @@
         <form method="post" action="options.php" enctype="multipart/form-data"> 
 <?php } ?>
 
-            <div class="wp-custom-fields-framework <?php echo $frame->class; ?>" id="<?php echo $frame->id; ?>">
+<div class="wp-custom-fields-framework <?php if( $frame->type == 'options' ) { ?>wpcf-options-page <?php } echo $frame->class; ?>" id="<?php echo $frame->id; ?>">
 
                 <header class="wp-custom-fields-header">                  
                                                         
@@ -18,6 +18,10 @@
                         <?php if( $frame->type == 'options' ) { ?>
                             <h1><?php echo $frame->title; ?></h1>
                         <?php } ?>
+
+                        <?php if( $frame->type == 'user' || $frame->type == 'term' ) { ?>
+                            <h2><?php echo $frame->title; ?></h2>
+                        <?php } ?>                        
                     
                         <?php if( $frame->restoreButton || $frame->saveButton ) { ?>
                             <div class="wp-custom-fields-buttons">
