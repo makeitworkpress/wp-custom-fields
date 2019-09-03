@@ -11,9 +11,6 @@ module.exports.init = function(framework) {
 
         jQuery(window).scroll( function() {
 
-            
-    console.log('HERE');
-
             scrollPosition = jQuery(window).scrollTop();
 
             if( scrollPosition > 50 ) {
