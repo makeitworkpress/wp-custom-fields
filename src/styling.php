@@ -410,6 +410,11 @@ class Styling extends Base {
                 if( ! $field['values'] ) {
                     $properties['font-family'] = '';
                 } else {
+
+                    // Retrieve the fonts from our framework of not set
+                    if( ! isset($this->fonts) ) {
+                        $this->fonts = Framework::$fonts;  
+                    }                     
                 
                     foreach( $this->fonts as $fonts ) {
                         
