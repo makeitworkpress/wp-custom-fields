@@ -71,18 +71,22 @@ class Styling extends Base {
             // Retrieve all our options frames, so we can filter for the given hook
             $optionFrames = Framework::instance()->get('options');
 
-            foreach( $optionFrames as $page ) {
-                
-                if( isset($page['id']) && $key == $page['id'] ) {
-                    $update = true;
+            if( is_array($optionFrames) ) {
+
+                foreach( $optionFrames as $page ) {
+                    
+                    if( isset($page['id']) && $key == $page['id'] ) {
+                        $update = true;
+                    }
+
                 }
 
+                // Check if we may update our option
+                if( ! $update ) {
+                    return;   
+                }  
+            
             }
-
-            // Check if we may update our option
-            if( ! $update ) {
-                return;   
-            }            
 
         }
 
