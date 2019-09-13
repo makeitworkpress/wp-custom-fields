@@ -494,10 +494,7 @@ class Styling extends Base {
         // Only unique properties. Similar properties are overwritten by the last one for the given selector.
         foreach($properties as $property => $value) {
             $uniques[$property] = $value;
-        }     
-
-        // Our values have been transferred to properties, and are no longer needed
-        unset($this->fields[$fieldID]['values']);
+        }
 
         // Save the final properties to the fields array. This is then later processed to output css.
         $this->fields[$fieldID]['properties'] = $uniques;
@@ -643,8 +640,9 @@ class Styling extends Base {
             
             foreach( $this->fonts as $key => $set ) {
                 
-                if( ! isset($field['values']['font']) || ! isset($set[$field['values']['font']]) )
+                if( ! isset($field['values']['font']) || ! isset($set[$field['values']['font']]) ) {
                     continue;
+                }
                 
                 // Google fonts. Supports multiple fonts.
                 if( $key == 'google' ) {
