@@ -87,12 +87,15 @@
     overflow: hidden;
     margin: 1px 1px @grid-space/2 1px;
     li {
-        border-bottom: 1px solid @wp-grey;
-        border-right: 1px solid @wp-grey; 
+        border: 1px solid @wp-btnborder;
+        border-radius: @wp-btnradius;
         float: left;
         height: 28px;
-        margin: 0;
+        margin: 0 0 0 -1px;
         width: 28px;
+        &:first-child {
+            margin-left: 0;
+        }
         label {
             background-color: @white;
             display: block;
