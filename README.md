@@ -14,4 +14,4 @@ WP Custom Fields allows you to:
 How to do this? Look into [the Wiki of this Repository](https://github.com/makeitworkpress/wp-custom-fields/wiki)!
 
 ## Author & Usage
-WP Custom Fields is maintained by [Make it WorkPress](https://www.makeitwork.press/scripts/wp-custom-fields/). For usage and installation, please visit [the Wiki of this Repository](https://github.com/makeitworkpress/wp-custom-fields/wiki)
+WP Custom Fields is maintained by [Make it WorkPress](https://makeitwork.press/scripts/wp-custom-fields/). For usage and installation, please visit [the Wiki of this Repository](https://github.com/makeitworkpress/wp-custom-fields/wiki)
