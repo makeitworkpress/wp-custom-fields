@@ -31,9 +31,7 @@ module.exports.init = function(framework) {
             }
 
             // Create the media frame.
-            frame = wp.media.frames.frame = wp.media({
-
-
+            frame = wp.media({
 
                 // Determine the title for the modal window
                 title: title,

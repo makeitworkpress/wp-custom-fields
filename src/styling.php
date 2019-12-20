@@ -394,14 +394,21 @@ class Styling extends Base {
                 $media  = explode( ',', $field['values'] );
                 $src    = wp_get_attachment_image_url( $media[0], isset($field['selector']['size']) ? $field['selector']['size'] : 'full' );
                 
-                $properties['background-image'] = 'url("' . $src . '")';               
+                if( $src ) {
+                    $properties['background-image'] = 'url("' . $src . '")';     
+                } 
+
                 break;
            
             // Upload or image field (customizer)          
             case 'cropped-image':   
             case 'image':
             case 'upload':
-                $properties['background-image'] = 'url("' . $field['values'] . '")';
+
+                if( $field['values'] ) {
+                    $properties['background-image'] = 'url("' . $field['values'] . '")';
+                }
+
                 break;            
                 
             // Typographic field
