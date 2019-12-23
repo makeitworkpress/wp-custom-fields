@@ -160,7 +160,7 @@ class Framework extends Base {
             foreach( $optionsGroups as $group ) {
                 $class    = 'MakeitWorkPress\WP_Custom_Fields\\' . ucfirst( $frame );
 
-                if( class_exists($class ) ) {
+                if( class_exists($class ) && $group ) {
                     $instance = new $class( $group );
                 }
 
