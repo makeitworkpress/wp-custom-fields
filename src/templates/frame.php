@@ -12,29 +12,33 @@
 <div class="wp-custom-fields-framework <?php if( $frame->type == 'options' ) { ?>wpcf-options-page <?php } echo $frame->class; ?>" id="<?php echo $frame->id; ?>">
 
                 <header class="wp-custom-fields-header">                  
-                                                        
-                    <div class="wp-custom-fields-notifications">
 
-                        <?php if( $frame->type == 'options' ) { ?>
-                            <h1><?php echo $frame->title; ?></h1>
-                        <?php } ?>
+                    <?php if( $frame->type != 'post' ) { ?>                                    
+                    
+                        <div class="wp-custom-fields-notifications">
 
-                        <?php if( $frame->type == 'user' || $frame->type == 'term' ) { ?>
-                            <h2><?php echo $frame->title; ?></h2>
-                        <?php } ?>                        
-                    
-                        <?php if( $frame->restoreButton || $frame->saveButton ) { ?>
-                            <div class="wp-custom-fields-buttons">
-                                <?php 
-                                    // Displays any errors
-                                    echo $frame->errors; 
-                                    echo $frame->restoreButton;
-                                    echo $frame->saveButton; 
-                                ?>
-                            </div>
-                        <?php } ?>
-                    
-                    </div>
+                            <?php if( $frame->type == 'options' ) { ?>
+                                <h1><?php echo $frame->title; ?></h1>
+                            <?php } ?>
+
+                            <?php if( $frame->type == 'user' || $frame->type == 'term' ) { ?>
+                                <h2><?php echo $frame->title; ?></h2>
+                            <?php } ?>                        
+                        
+                            <?php if( $frame->restoreButton || $frame->saveButton ) { ?>
+                                <div class="wp-custom-fields-buttons">
+                                    <?php 
+                                        // Displays any errors
+                                        echo $frame->errors; 
+                                        echo $frame->restoreButton;
+                                        echo $frame->saveButton; 
+                                    ?>
+                                </div>
+                            <?php } ?>
+                        
+                        </div>
+
+                    <?php } ?>
                     
                     <ul class="wp-custom-fields-tabs">
                     

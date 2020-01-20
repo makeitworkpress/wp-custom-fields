@@ -30,13 +30,13 @@ class Frame {
         
         // Default public variables
         $this->class            = isset($frame['class']) ? esc_attr($frame['class']) : '';
-        $this->errors           = '';
+        $this->errors           = ''; // Used within option pages
         $this->id               = esc_attr($frame['id']);
-        $this->resetButton      = '';
-        $this->restoreButton    = '';
-        $this->saveButton       = '';
+        $this->resetButton      = ''; // Used within option pages
+        $this->restoreButton    = ''; // Used within option pages
+        $this->saveButton       = ''; // Used within option pages
         $this->sections         = [];
-        $this->settingFields    = '';
+        $this->settingFields    = ''; // Used within option pages
         $this->title            = esc_html($frame['title']);
         $this->type             = '';
 
