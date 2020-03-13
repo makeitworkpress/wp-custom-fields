@@ -534,7 +534,7 @@ class Styling extends Base {
          */
         $optionValues   = maybe_unserialize( get_option('wpcf_options_css_fields') );
         $optionFields   = is_array($optionValues) ? $optionValues: [];
-        $this->fields   = $this->fields + $optionFields;       
+        $this->fields   = $optionFields + $this->fields;       
 
         /**
          * Loads the fields for singular templates
@@ -543,7 +543,7 @@ class Styling extends Base {
             global $post;
             $metaValues     = get_post_meta( $post->ID, 'wpcf_singular_css_fields', true );
             $metaFields     = is_array($metaValues) ? $metaValues : [];
-            $this->fields   = $this->fields + $metaFields;
+            $this->fields   = $metaFields + $this->fields;
         }
 
         // No fields? Do nothing!
