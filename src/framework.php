@@ -75,8 +75,7 @@ class Framework extends Base {
     }
     
     /**
-     * Set-ups the filters that allow external configurations to drip
-     * Set-ups up all divergent modules 
+     * Set-ups the filters that allow external configurations to drip. This is hooked upon after_theme_setup so themes can take advantage.
      * Set-ups all back-end option screens, providing they are requested by the configurations
      */
     final public function setup() {    
