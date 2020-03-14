@@ -59,30 +59,32 @@ class Styling extends Base {
 
         // If we're saving fields, look what hook we're in
         $hook       = $hook ? $hook : current_filter();
-        $key        = is_object($key) ? '' : $key;
         $option_ids = [];
 
         // We're updating a theme mod via the updated_option hook. That needs to be ignored.
-        if( strpos($key, 'theme_mods') !== false ) {
+        if( ! is_object($key) && strpos($key, 'theme_mods') !== false ) {
             return;
         }
 
         /**
          * We're updating an option that's not in our set of option frames. Skip it!
          */
+        if( $hook == 'updated_option' ) {
 
-        // First, get the option pages from our settings
-        $optionFrames = Framework::instance()->get('options');
+            // First, get the option pages from our settings
+            $optionFrames = Framework::instance()->get('options');
 
-        if( is_array($optionFrames) ) {
-            foreach( $optionFrames as $page ) {
-                $option_ids[] = $page['id'];
+            if( is_array($optionFrames) ) {
+                foreach( $optionFrames as $page ) {
+                    $option_ids[] = $page['id'];
+                }
             }
-        }
-        
-        // Then, look if we're updating such an option. If not, return.
-        if( ! in_array($key, $option_ids) ) {
-            return;
+            
+            // Then, if our option is not in the array, we return!
+            if( ! in_array($key, $option_ids) ) {
+                return;
+            }
+
         }
 
         /**
@@ -137,13 +139,13 @@ class Styling extends Base {
             return;
         }
 
+        // Sanitize our key
+        $id    = is_object($id) ? '' : $id;
+
         // We're updating a theme mod via updated option, ignore that
         if( strpos($id, 'theme_mods') !== false ) {
             return;
         }
-
-        // Sanitize our key
-        $id    = is_object($id) ? '' : $id;
         
         // Retrieve the array of groups with fields
         switch( $hook ) {
