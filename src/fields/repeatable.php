@@ -47,52 +47,56 @@ class Repeatable implements Field {
         } ?>
         
             <div class="wp-custom-fields-repeatable-container">
+
+                <div class="wp-custom-fields-repeatable-groups">
         
-                <?php foreach( $groups as $key => $fields) { ?>
+                    <?php foreach( $groups as $key => $fields) { ?>
 
-                    <div class="wp-custom-fields-repeatable-group">
-                        <a class="wp-custom-fields-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>
-                        <div class="wp-custom-fields-repeatable-fields grid flex <?php echo $display; ?>">
+                        <div class="wp-custom-fields-repeatable-group">
+                            <a class="wp-custom-fields-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>
+                            <div class="wp-custom-fields-repeatable-fields grid flex <?php echo $display; ?>">
 
-                            <?php 
-                                // Loop through each of the saved fields
-                                foreach($fields as $subkey => $subfield) {
+                                <?php 
+                                    // Loop through each of the saved fields
+                                    foreach($fields as $subkey => $subfield) {
 
-                                    // The type should be defined
-                                    if( ! isset($subfield['type']) ) {
-                                        continue;
-                                    }
+                                        // The type should be defined
+                                        if( ! isset($subfield['type']) ) {
+                                            continue;
+                                        }
 
-                                    // The ID should be defined
-                                    if( ! isset($subfield['id']) ) {
-                                        continue;
-                                    }                
+                                        // The ID should be defined
+                                        if( ! isset($subfield['id']) ) {
+                                            continue;
+                                        }                
 
-                                    // Render each field based upon the values
-                                    $subfield['columns']  = isset($subfield['columns']) ? 'wcf-' . $subfield['columns'] : 'wcf-full';
-                                    $subfield['values']   = isset($subfield['values']) ? $subfield['values'] : '';
-                                    $subfield['name']     = $field['name'] . '[' . $key . ']' . '[' . $subfield['id'] . ']';
-                                    $subfield['id']       = $field['id'] . '_' . $key  . '_' . $subfield['id'];
-                                
-                                    $class                = 'MakeitWorkPress\WP_Custom_Fields\Fields\\' . ucfirst( $subfield['type'] );
-                                
-                                
-                                if( class_exists($class) ) { ?>
-                                    <div class="wp-custom-fields-repeatable-field wp-custom-fields-option-field field-<?php echo esc_attr($subfield['type'] . ' ' . $subfield['columns']); ?>">
-                                        <h5><?php esc_html_e($subfield['title']); ?></h5>
-                                        <?php $class::render($subfield); ?>
-                                        <?php if( isset($subfield['description']) ) {  ?>
-                                            <div class="wp-custom-fields-field-description"><p><?php echo esc_textarea($subfield['description']); ?></p></div>
-                                        <?php } ?>
-                                    </div>
-                                <?php }
+                                        // Render each field based upon the values
+                                        $subfield['columns']  = isset($subfield['columns']) ? 'wcf-' . $subfield['columns'] : 'wcf-full';
+                                        $subfield['values']   = isset($subfield['values']) ? $subfield['values'] : '';
+                                        $subfield['name']     = $field['name'] . '[' . $key . ']' . '[' . $subfield['id'] . ']';
+                                        $subfield['id']       = $field['id'] . '_' . $key  . '_' . $subfield['id'];
+                                    
+                                        $class                = 'MakeitWorkPress\WP_Custom_Fields\Fields\\' . ucfirst( $subfield['type'] );
+                                    
+                                    
+                                    if( class_exists($class) ) { ?>
+                                        <div class="wp-custom-fields-repeatable-field wp-custom-fields-option-field field-<?php echo esc_attr($subfield['type'] . ' ' . $subfield['columns']); ?>">
+                                            <h5><?php esc_html_e($subfield['title']); ?></h5>
+                                            <?php $class::render($subfield); ?>
+                                            <?php if( isset($subfield['description']) ) {  ?>
+                                                <div class="wp-custom-fields-field-description"><p><?php echo esc_textarea($subfield['description']); ?></p></div>
+                                            <?php } ?>
+                                        </div>
+                                    <?php }
 
-                            } ?>
-        
-                        </div><!-- .wp-custom-fields-repeatable-fields -->
-                    </div><!-- .wp-custom-fields-repeatable-group -->
+                                } ?>
+            
+                            </div><!-- .wp-custom-fields-repeatable-fields -->
+                        </div><!-- .wp-custom-fields-repeatable-group -->
 
-                <?php } ?>           
+                    <?php } ?>
+
+                </div><!-- .wp-custom-fields-repeatable-groups -->           
         
                 <div class="wp-custom-fields-repeatable-buttons">
                     <a href="#" class="button wp-custom-fields-repeatable-remove" title="<?php _e('Remove', 'wp-custom-fields'); ?>"><?php echo $remove; ?></a>

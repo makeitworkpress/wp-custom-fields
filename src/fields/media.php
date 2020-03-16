@@ -37,30 +37,35 @@ class Media implements Field {
 
             <div class="wp-custom-fields-upload-wrapper" data-type="<?php echo $type; ?>'" data-button="<?php echo $button; ?>" data-title="<?php echo $title; ?>" data-multiple="<?php echo $multiple; ?>" data-url="<?php echo $url; ?>">
             
-                <?php 
-                    foreach($media as $medium) {
-                        if( empty($medium) || !  wp_get_attachment_url($medium) ) {
-                            continue; 
-                        }                    
-                ?>
-                    <div class="wp-custom-fields-single-media type-<?php echo $type; ?>" data-id="<?php echo $medium; ?>">
-                        <?php if( $type == 'video' ) { ?>
-                            <?php echo wp_video_shortcode( ['src' => wp_get_attachment_url($medium)] ); ?>
-                        <?php } elseif( $type == 'audio' ) { ?>
-                            <?php echo wp_audio_shortcode( ['src' => wp_get_attachment_url($medium)] ); ?>
-                        <?php } else { ?> 
-                            <?php echo wp_get_attachment_image($medium, 'thumbnail', true); ?>
-                        <?php } ?>
-                        <?php if( $url ) { ?>
-                            <?php $attachment_url = esc_url( wp_get_attachment_url($medium) ); ?>
-                            <div class="wp-custom-fields-media-url">
-                                <i class="material-icons">link</i>
-                                <input type="text" value="<?php echo $attachment_url; ?>" />
-                            </div>              
-                        <?php } ?>  
-                        <a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a>                  
-                    </div>        
-                <?php } ?>
+                
+                <div class="wp-custom-fields-media">
+                
+                    <?php 
+                        foreach($media as $medium) {
+                            if( empty($medium) || !  wp_get_attachment_url($medium) ) {
+                                continue; 
+                            }                    
+                    ?>
+                        <div class="wp-custom-fields-single-media type-<?php echo $type; ?>" data-id="<?php echo $medium; ?>">
+                            <?php if( $type == 'video' ) { ?>
+                                <?php echo wp_video_shortcode( ['src' => wp_get_attachment_url($medium)] ); ?>
+                            <?php } elseif( $type == 'audio' ) { ?>
+                                <?php echo wp_audio_shortcode( ['src' => wp_get_attachment_url($medium)] ); ?>
+                            <?php } else { ?> 
+                                <?php echo wp_get_attachment_image($medium, 'thumbnail', true); ?>
+                            <?php } ?>
+                            <?php if( $url ) { ?>
+                                <?php $attachment_url = esc_url( wp_get_attachment_url($medium) ); ?>
+                                <div class="wp-custom-fields-media-url">
+                                    <i class="material-icons">link</i>
+                                    <input type="text" value="<?php echo $attachment_url; ?>" />
+                                </div>              
+                            <?php } ?>  
+                            <a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a>                  
+                        </div>        
+                    <?php } ?>
+
+                </div>
             
                 <div class="wp-custom-fields-single-media empty">
                     <a href="#" class="wp-custom-fields-upload-add" title="<?php echo $add; ?>">

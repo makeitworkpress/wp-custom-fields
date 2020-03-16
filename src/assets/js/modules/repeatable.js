@@ -5,6 +5,22 @@
 var fields = require('./../fields');
 
 module.exports.init = function(framework) {
+
+    console.log('HELLO!');
+
+    /**
+     * Groups are sortable
+     */
+    jQuery('.wp-custom-fields-repeatable-groups').sortable({
+        placeholder: 'wp-custom-fields-highlight',
+        update: function( event, ui ) { 
+            jQuery(this).find('.wp-custom-fields-repeatable-group').each( function(index, node) {
+                jQuery(node).html( function(n, node) {
+                    return node.replace(/\[\d+\]/g, '[' + index + ']').replace(/\_\d+\_/g, '_' + index + '_');
+                });
+            });
+        }
+    });
     
     /**
      * Repeatable Groups 
@@ -54,7 +70,7 @@ module.exports.init = function(framework) {
         // Reinitialize old codemirror groups
         codeNodes.forEach( function(node) {
             if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
-                window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {ode: node.dataset.mode, lineNumbers: true});
+                window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {mode: node.dataset.mode, lineNumbers: true});
             }
         });
         
@@ -87,4 +103,4 @@ module.exports.init = function(framework) {
         jQuery(this).closest('.wp-custom-fields-repeatable-group').find('.wp-custom-fields-repeatable-fields').slideToggle('closed');
     });
     
-}
+};

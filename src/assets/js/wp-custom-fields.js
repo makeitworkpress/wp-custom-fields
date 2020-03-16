@@ -366,8 +366,25 @@ module.exports.init = function(framework) {
         });
 
     });
+
+    /**
+     * Make media items sortable
+     */
+    jQuery('.wp-custom-fields-media').sortable({
+        placeholder: "wp-custom-fields-media-highlight",
+        update: function(event, ui) {
+            var input = jQuery(this).closest('.wp-custom-fields-upload-wrapper').find('.wp-custom-fields-upload-value'), values = [];
+            
+            jQuery(this).find('.wp-custom-fields-single-media').each( function(index, node) {
+                values.push(node.dataset.id);        
+            } );
+
+            input.val( values.join(',') );
+
+        }
+    });
     
-}
+};
 },{}],8:[function(require,module,exports){
 /**
  * Our repeatable fields module
@@ -376,6 +393,22 @@ module.exports.init = function(framework) {
 var fields = require('./../fields');
 
 module.exports.init = function(framework) {
+
+    console.log('HELLO!');
+
+    /**
+     * Groups are sortable
+     */
+    jQuery('.wp-custom-fields-repeatable-groups').sortable({
+        placeholder: 'wp-custom-fields-highlight',
+        update: function( event, ui ) { 
+            jQuery(this).find('.wp-custom-fields-repeatable-group').each( function(index, node) {
+                jQuery(node).html( function(n, node) {
+                    return node.replace(/\[\d+\]/g, '[' + index + ']').replace(/\_\d+\_/g, '_' + index + '_');
+                });
+            });
+        }
+    });
     
     /**
      * Repeatable Groups 
@@ -425,7 +458,7 @@ module.exports.init = function(framework) {
         // Reinitialize old codemirror groups
         codeNodes.forEach( function(node) {
             if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
-                window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {ode: node.dataset.mode, lineNumbers: true});
+                window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {mode: node.dataset.mode, lineNumbers: true});
             }
         });
         
@@ -458,7 +491,7 @@ module.exports.init = function(framework) {
         jQuery(this).closest('.wp-custom-fields-repeatable-group').find('.wp-custom-fields-repeatable-fields').slideToggle('closed');
     });
     
-}
+};
 },{"./../fields":2}],9:[function(require,module,exports){
 /**
  * Our colorpicker module

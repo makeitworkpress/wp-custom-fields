@@ -114,5 +114,22 @@ module.exports.init = function(framework) {
         });
 
     });
+
+    /**
+     * Make media items sortable
+     */
+    jQuery('.wp-custom-fields-media').sortable({
+        placeholder: "wp-custom-fields-media-highlight",
+        update: function(event, ui) {
+            var input = jQuery(this).closest('.wp-custom-fields-upload-wrapper').find('.wp-custom-fields-upload-value'), values = [];
+            
+            jQuery(this).find('.wp-custom-fields-single-media').each( function(index, node) {
+                values.push(node.dataset.id);        
+            } );
+
+            input.val( values.join(',') );
+
+        }
+    });
     
-}
+};
