@@ -20,9 +20,14 @@ class Datepicker implements Field {
     
     public static function render( $field = [] ) {
 
-        // Only Enqueue if it is not enqueued yet
+        // Only enqueue if it is not enqueued yet
         if( apply_filters('wp_custom_fields_datepicker_field_js', true) && ! wp_script_is('flatpicker-js', 'enqueued') ) {
             wp_enqueue_script('flatpicker-js');
+        }
+
+        // Also enqueue our locale script is registered and set-up
+        if( isset($field['locale']) && wp_script_is('flatpicker-i18n-' . $field['locale'], 'registered') && ! wp_script_is('flatpicker-i18n-' . $field['locale']) ) {
+            wp_enqueue_script('flatpicker-i18n-' . $field['locale']);
         }
         
         $configurations = self::configurations();

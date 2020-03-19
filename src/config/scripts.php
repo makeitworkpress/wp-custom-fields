@@ -53,6 +53,15 @@ $scripts[] = [
 ];
 
 $scripts[] = [
+    'handle'    => 'flatpicker-i18n-nl',
+    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/flatpicker-i18n/nl.js',
+    'deps'      => [],
+    'ver'       => null,
+    'in_footer' => true,  
+    'action'    => 'register'
+];
+
+$scripts[] = [
     'handle'    => 'mirror-js',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/codemirror.min.js',
     'deps'      => [],
