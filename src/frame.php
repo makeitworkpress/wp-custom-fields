@@ -113,6 +113,7 @@ class Frame {
         $field                  = $field;
         $field['column']        = isset( $field['columns'] )            ?  'wpcf-' . esc_attr($field['columns']) : 'wpcf-full';
         $field['description']   = isset( $field['description'] )        ?  esc_textarea($field['description'])      : '';
+        $field['dependency']    = isset( $field['dependency'] )         ?  ['dependency' => $field['dependency']['target'], 'equation' => $field['dependency']['equation'], 'value' => $field['dependency']['value']] : [];
         $field['form']          = '<div class="error notice"><p>' . sprintf( __('The given field class does not exist for the field with id: %s', 'wp-custom-fields'), $field['id']) . '</p></div>';
         
         // Make sure our IDs do not contain brackets

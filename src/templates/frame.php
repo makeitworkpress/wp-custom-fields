@@ -99,7 +99,7 @@
                                         <?php } ?>
 
                                         <?php if( $field['form'] ) { ?>
-                                            <div class="wpcf-field-input">
+                                            <div class="wpcf-field-input" <?php foreach($field['dependency'] as $k => $v) { ?> data-<?php echo $k; ?>="<?php echo $v; ?>" <?php } ?>>
                                                 <?php echo $field['form']; ?>
                                             </div>
                                         <?php } ?>

@@ -24,6 +24,8 @@ module.exports.init = function(framework) {
     /**
      * Enables data-dependencies for simple fields
      */
-    
+    jQuery('.wpcf-framework').on('change', 'select', function(event) {
+        console.log('change');
+    });
     
 };
