@@ -25,34 +25,34 @@
 @fifth: (100% - 4*@marge)/5;
 
 /* Individual Grids */
-.wcf-full {
+.wpcf-full {
     width: 100%;
 }
 
-.wcf-half {
+.wpcf-half {
     width: @half;      
 }
 
-.wcf-third {
+.wpcf-third {
     width: @third; 
 }
 
-.wcf-two-third {
+.wpcf-two-third {
     width: @two-third; 
 }
 
-.wcf-three-fourth {
+.wpcf-three-fourth {
     width: @three-fourth; 
 }
 
-.wcf-fourth {
+.wpcf-fourth {
     width: @fourth;
     @media screen and (min-width: 1025px) and (max-width: 1365px) {
         width: @third;       
     }       
 }
 
-.wcf-fifth {
+.wpcf-fifth {
     width: @fifth;
      @media screen and (min-width: 1025px) and (max-width: 1365px) {
         width: @fourth;      
@@ -60,13 +60,13 @@
 }
 
 /* Queries */
-.wcf-third, .wcf-two-third, .wcf-three-fourth, .wcf-fourth, .wcf-fifth {
+.wpcf-third, .wpcf-two-third, .wpcf-three-fourth, .wpcf-fourth, .wpcf-fifth {
     @media screen and (max-width: 1024px) {
         width: @half;
     }
 }
 
-.wcf-full, .wcf-half, .wcf-third, .wcf-two-third, .wcf-three-fourth, .wcf-fourth, .wcf-fifth {
+.wpcf-full, .wpcf-half, .wpcf-third, .wpcf-two-third, .wpcf-three-fourth, .wpcf-fourth, .wpcf-fifth {
     margin-bottom: @grid-space/4;  
     @media screen and (max-width: 767px) {
         width: 100%;

@@ -6,7 +6,7 @@ module.exports.init = function(framework) {
     /**
      * Adds jQuery UI Sliders
      */
-    jQuery(framework).find('.wp-custom-fields-slider').each(function (index) {
+    jQuery(framework).find('.wpcf-slider').each(function (index) {
         var sliderTarget = jQuery(this).data('id'),
             sliderMin = jQuery(this).data('min'),
             sliderMax = jQuery(this).data('max'),

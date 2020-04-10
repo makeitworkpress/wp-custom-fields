@@ -31,8 +31,8 @@ class Typography implements Field {
             ${$label}   = isset($field['labels']['select']) ? $field['labels'][$label] : $configurations['labels'][$label];
         } ?>       
 
-            <div class="wp-custom-fields-typography-font-select">
-                <select class="wp-custom-fields-typography-fonts" name="<?php echo esc_attr($field['name']); ?>[font]" id="<?php echo esc_attr($field['id']); ?>-font" >
+            <div class="wpcf-typography-font-select">
+                <select class="wpcf-typography-fonts" name="<?php echo esc_attr($field['name']); ?>[font]" id="<?php echo esc_attr($field['id']); ?>-font" >
 
                     <option value=""><?php echo $select; ?></option>
                 
@@ -51,10 +51,10 @@ class Typography implements Field {
                     
                     <?php } ?>
              
-                </select><!-- .wp-custom-fields-typography-fonts -->
-            </div><!-- .wp-custom-fields-typography-font-select -->
+                </select><!-- .wpcf-typography-fonts -->
+            </div><!-- .wpcf-typography-font-select -->
         
-            <div class="wp-custom-fields-typography-properties wp-custom-fields-field-left">
+            <div class="wpcf-typography-properties wpcf-field-left">
         
                 <?php 
                     foreach( $configurations['properties']['dimensions'] as $key => $label ) {
@@ -72,7 +72,7 @@ class Typography implements Field {
                 ?> 
         
         
-                <div class="wp-custom-fields-typography-weight">
+                <div class="wpcf-typography-weight">
                     <i class="material-icons">format_bold</i>
                         <?php
                             Select::render( [
@@ -85,9 +85,9 @@ class Typography implements Field {
                         ?>
                 </div>
         
-            </div><!-- .wp-custom-fields-typography-properties -->
+            </div><!-- .wpcf-typography-properties -->
         
-            <div class="wp-custom-fields-typography-appearance wp-custom-fields-field-left">
+            <div class="wpcf-typography-appearance wpcf-field-left">
       
                 <?php                        
                     /**
@@ -97,7 +97,7 @@ class Typography implements Field {
                     // Style Buttons
                     foreach($configurations['properties']['styles'] as $key => $style) { 
                 ?>
-                    <ul class="wp-custom-fields-typography-'<?php echo esc_attr($key); ?> wp-custom-fields-icon-list"> 
+                    <ul class="wpcf-typography-'<?php echo esc_attr($key); ?> wpcf-icon-list"> 
             
                         <?php 
                             foreach( $style as $value => $icon ) {
@@ -124,7 +124,7 @@ class Typography implements Field {
                     ] );  
                 ?>      
         
-            </div><!-- .wp-custom-fields-typography-appearance -->
+            </div><!-- .wpcf-typography-appearance -->
         
         <?php             
             if( isset($field['selector']) ) {

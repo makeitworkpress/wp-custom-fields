@@ -3,7 +3,7 @@
  */
 module.exports.init = function(framework) {
  
-    jQuery(framework).find('.wp-custom-fields-code-editor-value').each(function (index, node) {
+    jQuery(framework).find('.wpcf-code-editor-value').each(function (index, node) {
 
         window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {
                 mode: node.dataset.mode,

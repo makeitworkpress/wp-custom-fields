@@ -3,9 +3,9 @@
  */
 module.exports.init = function(framework) {
     
-    jQuery(framework).find('.wp-custom-fields-location').each(function (index) {
-        var searchInput = jQuery('.wp-custom-fields-map-search', this).get(0),
-            mapCanvas = jQuery('.wp-custom-fields-map-canvas', this).get(0),
+    jQuery(framework).find('.wpcf-location').each(function (index) {
+        var searchInput = jQuery('.wpcf-map-search', this).get(0),
+            mapCanvas = jQuery('.wpcf-map-canvas', this).get(0),
             latitude = jQuery('.latitude', this),
             longitude = jQuery('.longitude', this),
             city = jQuery('.city', this),

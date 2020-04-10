@@ -15,8 +15,8 @@ class Boxshadow implements Field {
 
         $configurations = self::configurations(); ?>
 
-            <div class="wp-custom-fields-boxshadow">
-                <div class="wp-custom-fields-boxshadow-dimensions wp-custom-fields-field-left">
+            <div class="wpcf-boxshadow">
+                <div class="wpcf-boxshadow-dimensions wpcf-field-left">
                     <label><?php echo isset($field['labels']['dimensions']) ? $field['labels']['dimensions'] : $configurations['labels']['dimensions']; ?></label>
                         <?php 
                             foreach( $configurations['properties']['pixels'] as $key => $label ) {
@@ -29,7 +29,7 @@ class Boxshadow implements Field {
                             } 
                         ?>
                 </div>
-                <div class="wp-custom-fields-boxshadow-color wp-custom-fields-field-left">
+                <div class="wpcf-boxshadow-color wpcf-field-left">
                     <label><?php echo isset($field['labels']['color']) ? $field['labels']['color'] : $configurations['labels']['color']; ?></label>
                     <?php 
                         Colorpicker::render( [
@@ -39,7 +39,7 @@ class Boxshadow implements Field {
                         ] );
                     ?>
                 </div>
-                <div class="wp-custom-fields-boxshadow-type wp-custom-fields-field-left">
+                <div class="wpcf-boxshadow-type wpcf-field-left">
                     <label><?php echo isset($field['labels']['type']) ? $field['labels']['type'] : $configurations['labels']['type']; ?></label>
                     <?php
                         Select::render( [

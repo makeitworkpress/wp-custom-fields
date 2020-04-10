@@ -25,11 +25,11 @@ class Icons implements Field {
         $iconsets       = $configurations['properties']['icons'];
         $type           = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio'; ?>
         
-            <div class="wp-custom-fields-icons">
+            <div class="wpcf-icons">
 
                 <?php foreach( $iconsets as $set => $icons ) { ?>
-                    <p class="wp-custom-fields-icons-title"><?php esc_html_e($set); ?></p>
-                    <ul class="wp-custom-fields-icon-list">
+                    <p class="wpcf-icons-title"><?php esc_html_e($set); ?></p>
+                    <ul class="wpcf-icon-list">
             
                         <?php 
                             foreach( $icons as $icon ) { 

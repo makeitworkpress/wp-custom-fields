@@ -25,8 +25,8 @@ class Colorpicker implements Field {
         $name   = esc_attr($field['name']);
         $value  = esc_attr($field['values']); ?>
         
-            <div class="wp-custom-fields-colorpicker-wrapper">
-                <input id="<?php echo $id; ?>" class="wp-custom-fields-colorpicker color-picker" name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" data-alpha="<?php echo $alpha; ?>" /> 
+            <div class="wpcf-colorpicker-wrapper">
+                <input id="<?php echo $id; ?>" class="wpcf-colorpicker color-picker" name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" data-alpha="<?php echo $alpha; ?>" /> 
             </div> 
             
         <?php

@@ -59,10 +59,10 @@ class Datepicker implements Field {
             }
         } ?>
         
-            <div class="wp-custom-fields-datepicker" <?php echo $attributes; ?>>
+            <div class="wpcf-datepicker" <?php echo $attributes; ?>>
                 <input id="<?php echo $id; ?>" name="<?php echo $name; ?>" type="input" value="<?php echo $value; ?>" data-input="true" <?php echo $placeholder; ?>/>
-                <a class="wp-custom-fields-input-button" title="<?php echo $toggle; ?>" data-toggle="true"><i class="material-icons">calendar_today</i></a>
-                <a class="wp-custom-fields-input-button input-button-clear" title="<?php echo $clear; ?>" data-clear="true"><i class="material-icons">clear</i></a>
+                <a class="wpcf-input-button" title="<?php echo $toggle; ?>" data-toggle="true"><i class="material-icons">calendar_today</i></a>
+                <a class="wpcf-input-button input-button-clear" title="<?php echo $clear; ?>" data-clear="true"><i class="material-icons">clear</i></a>
             </div>
 
         <?php 

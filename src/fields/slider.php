@@ -27,9 +27,9 @@ class Slider implements Field {
         $step   = isset($field['step']) ? floatval($field['step']) : 1;
         $value  = $field['values'] ? floatval($field['values']) : 0; ?>
         
-            <div class="wp-custom-fields-slider-wrapper">
-                <div class="wp-custom-fields-slider" data-id="<?php echo $id; ?>" data-value="<?php echo $value; ?>" data-min="<?php echo $min; ?>" data-max="<?php echo $max; ?>" data-step="<?php echo $step; ?>"></div>
-                <input class="wp-custom-fields-slider-value small-text" type="number" readonly="readonly" id="<?php echo $id; ?>" name="<?php echo $name; ?>" value="<?php echo $value; ?>" /> 
+            <div class="wpcf-slider-wrapper">
+                <div class="wpcf-slider" data-id="<?php echo $id; ?>" data-value="<?php echo $value; ?>" data-min="<?php echo $min; ?>" data-max="<?php echo $max; ?>" data-step="<?php echo $step; ?>"></div>
+                <input class="wpcf-slider-value small-text" type="number" readonly="readonly" id="<?php echo $id; ?>" name="<?php echo $name; ?>" value="<?php echo $value; ?>" /> 
             </div>       
         
         <?php 

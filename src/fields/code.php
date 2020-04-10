@@ -29,7 +29,7 @@ class Code implements Field {
             wp_enqueue_script('mirror-js');
         } ?>
         
-            <textarea class="wp-custom-fields-code-editor-value" id="<?php echo $id; ?>" name="<?php echo $name; ?>" data-mode="<?php echo $mode; ?>"> 
+            <textarea class="wpcf-code-editor-value" id="<?php echo $id; ?>" name="<?php echo $name; ?>" data-mode="<?php echo $mode; ?>"> 
                 <?php echo $values; ?>
             </textarea>
 

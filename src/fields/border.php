@@ -25,8 +25,8 @@ class Border implements Field {
 
         if( $border == 'all' ) { 
             foreach( $configurations['properties']['sides'] as $key => $side ) { ?>
-                <div class="wp-custom-fields-single-border">
-                    <div class="wp-custom-fields-field-left">
+                <div class="wpcf-single-border">
+                    <div class="wpcf-field-left">
                         <?php 
                             Dimension::render( [
                                 'icon'          => 'border_' . $key,
@@ -37,7 +37,7 @@ class Border implements Field {
                             ] ); 
                         ?>
                     </div>
-                    <div class="wp-custom-fields-field-left">
+                    <div class="wpcf-field-left">
                         <?php Select::render( [
                             'id'            => $field['id']  . '-' . $key. '-style',
                             'name'          => $field['name'] . '[' . $key . '][style]',
@@ -46,17 +46,17 @@ class Border implements Field {
                             'values'        => isset($field['values'][$key]['style']) ? $field['values'][$key]['style'] : ''
                         ] ); ?>
                     </div>
-                    <div class="wp-custom-fields-field-left">
+                    <div class="wpcf-field-left">
                         <?php Colorpicker::render( [
                             'id'        => $field['id'] . '-' . $key . '-color',
                             'name'      => $field['name']. '[' . $key . '][color]',
                             'values'    => isset($field['values'][$key]['color']) ? $field['values'][$key]['color'] : ''
                         ] ); ?>
                     </div>                    
-                </div><!-- .wp-custom-fields-single-border -->
+                </div><!-- .wpcf-single-border -->
             <?php }
         } else { ?>
-            <div class="wp-custom-fields-field-left">
+            <div class="wpcf-field-left">
                 <?php Dimension::render( [
                     'icon'          => 'border_outer',
                     'id'            => $field['id'] . '-width',
@@ -65,7 +65,7 @@ class Border implements Field {
                     'values'        => isset($field['values']['width']) ? $field['values']['width'] : [] 
                 ] ); ?>
             </div>
-            <div class="wp-custom-fields-field-left">
+            <div class="wpcf-field-left">
                 <?php Select::render( [
                     'id'            => $field['id']  . '-style',
                     'name'          => $field['name'] . '[style]',
@@ -74,7 +74,7 @@ class Border implements Field {
                     'values'        => isset($field['values']['style']) ? $field['values']['style'] : ''
                 ] ); ?>
             </div>
-            <div class="wp-custom-fields-field-left">
+            <div class="wpcf-field-left">
                 <?php Colorpicker::render( [
                     'id'        => $field['id'] . '-color',
                     'name'      => $field['name'] . '[color]',

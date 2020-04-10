@@ -7,6 +7,6 @@ module.exports.init = function(framework) {
         palettes: true
     };
     
-    jQuery(framework).find('.wp-custom-fields-colorpicker').alphaColorPicker();
+    jQuery(framework).find('.wpcf-colorpicker').alphaColorPicker();
     
 }

@@ -9,13 +9,13 @@
         <form method="post" action="options.php" enctype="multipart/form-data"> 
 <?php } ?>
 
-<div class="wp-custom-fields-framework <?php if( $frame->type == 'options' ) { ?>wpcf-options-page <?php } echo $frame->class; ?>" id="<?php echo $frame->id; ?>">
+<div class="wpcf-framework <?php if( $frame->type == 'options' ) { ?>wpcf-options-page <?php } echo $frame->class; ?>" id="<?php echo $frame->id; ?>">
 
-                <header class="wp-custom-fields-header">                  
+                <header class="wpcf-header">                  
 
                     <?php if( $frame->type != 'post' ) { ?>                                    
                     
-                        <div class="wp-custom-fields-notifications">
+                        <div class="wpcf-notifications">
 
                             <?php if( $frame->type == 'options' ) { ?>
                                 <h1><?php echo $frame->title; ?></h1>
@@ -26,7 +26,7 @@
                             <?php } ?>                        
                         
                             <?php if( $frame->restoreButton || $frame->saveButton ) { ?>
-                                <div class="wp-custom-fields-buttons">
+                                <div class="wpcf-buttons">
                                     <?php 
                                         // Displays any errors
                                         echo $frame->errors; 
@@ -40,7 +40,7 @@
 
                     <?php } ?>
                     
-                    <ul class="wp-custom-fields-tabs">
+                    <ul class="wpcf-tabs">
                     
                         <?php 
                             foreach( $frame->sections as $key => $section ) { 
@@ -51,10 +51,10 @@
                         ?>
                             <li>
                                 
-                                <a class="wp-custom-fields-tab <?php echo $section['active']; ?>" href="#<?php echo $section['id']; ?>">
+                                <a class="wpcf-tab <?php echo $section['active']; ?>" href="#<?php echo $section['id']; ?>">
                                     
                                     <?php if( $section['icon'] ) { ?>
-                                        <i class="wp-custom-fields-icon material-icons"><?php echo $section['icon'] ; ?></i>
+                                        <i class="wpcf-icon material-icons"><?php echo $section['icon'] ; ?></i>
                                     <?php } ?>
                                     
                                     <?php echo $section['title']; ?>
@@ -70,28 +70,28 @@
                         
                 </header>
                 
-                <div class="wp-custom-fields-sections">
+                <div class="wpcf-sections">
                     
                     <?php foreach( $frame->sections as $key => $section ) { ?>
                     
-                        <section id="<?php echo $section['id']; ?>" class="wp-custom-fields-section <?php echo $section['active']; ?>">
+                        <section id="<?php echo $section['id']; ?>" class="wpcf-section <?php echo $section['active']; ?>">
                             
-                            <h3 class="wp-custom-fields-section-title"><?php echo $section['title']; ?></h3>
+                            <h3 class="wpcf-section-title"><?php echo $section['title']; ?></h3>
                             
                             <?php if( $section['description'] ) { ?>
-                                <p class="wp-custom-fields-section-description"><?php echo $section['description']; ?></p>
+                                <p class="wpcf-section-description"><?php echo $section['description']; ?></p>
                             <?php } ?>
                             
-                            <div class="wp-custom-fields-fields grid flex">
+                            <div class="wpcf-fields grid flex">
 
                                 <?php foreach( $section['fields'] as $key => $field ) { ?>
 
-                                    <div class="wp-custom-fields-option-field <?php echo $field['column']; ?> field-<?php echo $field['type']; ?>">
+                                    <div class="wpcf-field <?php echo $field['column']; ?> field-<?php echo $field['type']; ?> field-id-<?php echo $field['id']; ?>">
 
                                         <?php do_action('wcf_before_field', $field); ?>
                                         
                                         <?php if( $field['title'] ) { ?>
-                                            <div class="wp-custom-fields-field-title">
+                                            <div class="wpcf-field-title">
                                                 <?php           
                                                     echo '<'.$field['titleTag'].'>' . $field['title'] . '</' . $field['titleTag'] .'>';
                                                 ?>
@@ -99,13 +99,13 @@
                                         <?php } ?>
 
                                         <?php if( $field['form'] ) { ?>
-                                            <div class="wp-custom-fields-field-input">
+                                            <div class="wpcf-field-input">
                                                 <?php echo $field['form']; ?>
                                             </div>
                                         <?php } ?>
                                         
                                         <?php if( $field['description'] ) { ?>
-                                            <div class="wp-custom-fields-field-description">          
+                                            <div class="wpcf-field-description">          
                                                 <p><?php echo $field['description']; ?></p>
                                             </div> 
                                         <?php } ?>
@@ -124,7 +124,7 @@
                     
                 </div> 
                 
-                <footer class="wp-custom-fields-buttons">
+                <footer class="wpcf-buttons">
                     <?php 
                         echo $frame->resetButton;
                         echo $frame->restoreButton;

@@ -39,8 +39,8 @@ class Typography extends WP_Customize_Control {
             
 		</label>           
             
-        <div class="wp-custom-fields-typography-font-select">
-            <select class="wp-custom-fields-typography-fonts" <?php $this->link('font'); ?> >
+        <div class="wpcf-typography-font-select">
+            <select class="wpcf-typography-fonts" <?php $this->link('font'); ?> >
 
                 <option value=""><?php echo $configurations['labels']['select']; ?></option>
 
@@ -62,9 +62,9 @@ class Typography extends WP_Customize_Control {
             </select>
         </div>
 
-        <div class="wp-custom-fields-typography-properties">
+        <div class="wpcf-typography-properties">
             
-            <div class="wp-custom-fields-typography-weight">
+            <div class="wpcf-typography-weight">
                 <i class="material-icons">format_bold</i>
                 <select <?php $this->link( 'font_weight' ); ?>>
                     <option value=""><?php echo $configurations['labels']['weights']; ?></option>
@@ -77,7 +77,7 @@ class Typography extends WP_Customize_Control {
             </div>           
             
             <?php foreach( $configurations['properties']['dimensions'] as $key => $label ) { ?>
-                <div class="wp-custom-fields-dimensions-input">
+                <div class="wpcf-dimensions-input">
                     <i class="material-icons"><?php echo 'format_' . $key; ?></i>
                     <input <?php $this->link( $key . 'amount' ); ?> value="<?php echo esc_attr($this->value($key . 'amount')); ?>" type="number" step="0.01" placeholder="<?php echo $label; ?>" />
                     <select <?php $this->link( $key . 'unit' ); ?>>
@@ -92,9 +92,9 @@ class Typography extends WP_Customize_Control {
 
         </div>
 
-        <div class="wp-custom-fields-typography-appearance">
+        <div class="wpcf-typography-appearance">
             <?php foreach( $configurations['properties']['styles'] as $key => $style ) { ?>
-                <ul class="wp-custom-fields-typography-<?php echo $key; ?> wp-custom-fields-icon-list"> 
+                <ul class="wpcf-typography-<?php echo $key; ?> wpcf-icon-list"> 
 
                 <?php foreach( $style as $value => $icon ) { ?>
                     <?php

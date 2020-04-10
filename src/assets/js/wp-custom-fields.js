@@ -14,9 +14,9 @@ window.wcfCodeMirror   = {}; // Contains all the global wcfCodeMirror instance
 var init = function() {
     
     // Boot our fields
-    fields.init('.wp-custom-fields-framework');    
-    options.init('.wp-custom-fields-framework');
-    repeatable.init('.wp-custom-fields-framework');
+    fields.init('.wpcf-framework');    
+    options.init('.wpcf-framework');
+    repeatable.init('.wpcf-framework');
     tabs.init();
     
 }
@@ -38,13 +38,20 @@ var select = require('./modules/select');
 var slider = require('./modules/slider');
 
 module.exports.init = function(framework) {
+
     button.init(framework);
     code.init(framework);
     datepicker.init(framework);
     location.init(framework);
     media.init(framework);
     select.init(framework);   
-    slider.init(framework);   
+    slider.init(framework); 
+    
+    /**
+     * Enables data-dependencies for simple fields
+     */
+    
+    
 };
 },{"./modules/button":3,"./modules/code":4,"./modules/datepicker":5,"./modules/location":6,"./modules/media":7,"./modules/select":9,"./modules/slider":10}],3:[function(require,module,exports){
 /**
@@ -118,7 +125,7 @@ module.exports.init = function(framework) {
  */
 module.exports.init = function(framework) {
  
-    jQuery(framework).find('.wp-custom-fields-code-editor-value').each(function (index, node) {
+    jQuery(framework).find('.wpcf-code-editor-value').each(function (index, node) {
 
         window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {
                 mode: node.dataset.mode,
@@ -144,7 +151,7 @@ module.exports.init = function(framework) {
                 time_24hr: true,
                 wrap: true
             },
-            datePicker = jQuery(framework).find('.wp-custom-fields-datepicker'),
+            datePicker = jQuery(framework).find('.wpcf-datepicker'),
             propertyName,
             propertyValue;
 
@@ -172,9 +179,9 @@ module.exports.init = function(framework) {
  */
 module.exports.init = function(framework) {
     
-    jQuery(framework).find('.wp-custom-fields-location').each(function (index) {
-        var searchInput = jQuery('.wp-custom-fields-map-search', this).get(0),
-            mapCanvas = jQuery('.wp-custom-fields-map-canvas', this).get(0),
+    jQuery(framework).find('.wpcf-location').each(function (index) {
+        var searchInput = jQuery('.wpcf-map-search', this).get(0),
+            mapCanvas = jQuery('.wpcf-map-canvas', this).get(0),
             latitude = jQuery('.latitude', this),
             longitude = jQuery('.longitude', this),
             city = jQuery('.city', this),
@@ -258,17 +265,17 @@ module.exports.init = function(framework) {
     /**
      * Enables Uploading using the Media-Uploader
      */
-    jQuery(framework).find('.wp-custom-fields-upload-wrapper').each(function (index) {
+    jQuery(framework).find('.wpcf-upload-wrapper').each(function (index) {
 
         // Define the buttons for this specific group
-        var add_media = jQuery(this).find('.wp-custom-fields-upload-add'),
-            add_wrap = jQuery(this).find('.wp-custom-fields-single-media.empty'),
+        var add_media = jQuery(this).find('.wpcf-upload-add'),
+            add_wrap = jQuery(this).find('.wpcf-single-media.empty'),
             button = jQuery(this).data('button'),
             multiple = jQuery(this).data('multiple'),   
             title = jQuery(this).data('title'),
             type = jQuery(this).data('type'),         
             url = jQuery(this).data('url'),         
-            value_input = jQuery(this).find('.wp-custom-fields-upload-value'),
+            value_input = jQuery(this).find('.wpcf-upload-value'),
             frame;
 
         // Click function
@@ -324,10 +331,10 @@ module.exports.init = function(framework) {
 
                     // Return the url wrapper, if url is defined as a feature
                     if( url ) {
-                        urlWrapper = '<div class="wp-custom-fields-media-url"><i class="material-icons">link</i><input type="text" value="' + attachment.url + '"></div>';
+                        urlWrapper = '<div class="wpcf-media-url"><i class="material-icons">link</i><input type="text" value="' + attachment.url + '"></div>';
                     }
 
-                    add_wrap.before('<div class="wp-custom-fields-single-media type-' + type + '" data-id="' + attachment.id + '"><img src="' + src + '" />' + urlWrapper + '<a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a></div>');
+                    add_wrap.before('<div class="wpcf-single-media type-' + type + '" data-id="' + attachment.id + '"><img src="' + src + '" />' + urlWrapper + '<a href="#" class="wpcf-upload-remove"><i class="material-icons">clear</i></a></div>');
                 
                 });
 
@@ -348,10 +355,10 @@ module.exports.init = function(framework) {
         /**
          * Remove attachments
          */
-        jQuery(this).on('click', '.wp-custom-fields-upload-remove', function (e) {
+        jQuery(this).on('click', '.wpcf-upload-remove', function (e) {
             e.preventDefault();
 
-            var target = jQuery(this).closest('.wp-custom-fields-single-media'),
+            var target = jQuery(this).closest('.wpcf-single-media'),
                 target_id = target.data('id'),
                 current_values = value_input.val(),
                 new_values = current_values.replace(target_id + ',', '');
@@ -370,12 +377,12 @@ module.exports.init = function(framework) {
     /**
      * Make media items sortable
      */
-    jQuery('.wp-custom-fields-media').sortable({
-        placeholder: "wp-custom-fields-media-highlight",
+    jQuery('.wpcf-media').sortable({
+        placeholder: "wpcf-media-highlight",
         update: function(event, ui) {
-            var input = jQuery(this).closest('.wp-custom-fields-upload-wrapper').find('.wp-custom-fields-upload-value'), values = [];
+            var input = jQuery(this).closest('.wpcf-upload-wrapper').find('.wpcf-upload-value'), values = [];
             
-            jQuery(this).find('.wp-custom-fields-single-media').each( function(index, node) {
+            jQuery(this).find('.wpcf-single-media').each( function(index, node) {
                 values.push(node.dataset.id);        
             } );
 
@@ -394,15 +401,13 @@ var fields = require('./../fields');
 
 module.exports.init = function(framework) {
 
-    console.log('HELLO!');
-
     /**
      * Groups are sortable
      */
-    jQuery('.wp-custom-fields-repeatable-groups').sortable({
-        placeholder: 'wp-custom-fields-highlight',
+    jQuery('.wpcf-repeatable-groups').sortable({
+        placeholder: 'wpcf-highlight',
         update: function( event, ui ) { 
-            jQuery(this).find('.wp-custom-fields-repeatable-group').each( function(index, node) {
+            jQuery(this).find('.wpcf-repeatable-group').each( function(index, node) {
                 jQuery(node).html( function(n, node) {
                     return node.replace(/\[\d+\]/g, '[' + index + ']').replace(/\_\d+\_/g, '_' + index + '_');
                 });
@@ -413,19 +418,19 @@ module.exports.init = function(framework) {
     /**
      * Repeatable Groups 
      */
-    jQuery('.wp-custom-fields-repeatable-add').on('click', function (e) {
+    jQuery('.wpcf-repeatable-add').on('click', function (e) {
         e.preventDefault();
         var codeNodes   = [],
-            length      = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
-            group       = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
+            length      = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
+            group       = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').last();
             
         // Destroy our select2 instances, if it is defined of course
         if( typeof jQuery.fn.select2 !== 'undefined' && jQuery.fn.select2 ) {
-            jQuery('.wp-custom-fields-select').select2('destroy');
+            jQuery('.wpcf-select').select2('destroy');
         }
 
         // Destroy current codemirror instances
-        jQuery(framework).find('.wp-custom-fields-code-editor-value').each(function (index, node) {
+        jQuery(framework).find('.wpcf-code-editor-value').each(function (index, node) {
 
             if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
                 window.wcfCodeMirror[node.id].toTextArea(node);
@@ -447,7 +452,7 @@ module.exports.init = function(framework) {
         newGroup.find('input').val('');
         newGroup.find('textarea').val('');
         newGroup.find('option').attr('selected', false); 
-        newGroup.find('.wp-custom-fields-single-media').not('.empty').remove(); // Removes the media from the cloned group   
+        newGroup.find('.wpcf-single-media').not('.empty').remove(); // Removes the media from the cloned group   
                 
         // Finally, insert the newGroup after the current group
         group.after(newGroup);
@@ -465,10 +470,10 @@ module.exports.init = function(framework) {
     });
     
     // Remove the container
-    jQuery('.wp-custom-fields-repeatable-remove').on('click', function (e) {
+    jQuery('.wpcf-repeatable-remove').on('click', function (e) {
         e.preventDefault();
-        var length = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
-            group = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
+        var length = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
+            group = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').last();
         
         // Keep the first group
         if (length > 1) {
@@ -480,7 +485,7 @@ module.exports.init = function(framework) {
     });
     
     // Open or close a group
-    jQuery('body').on('click', '.wp-custom-fields-repeatable-toggle', function (e) {
+    jQuery('body').on('click', '.wpcf-repeatable-toggle', function (e) {
         e.preventDefault();
         
         if( jQuery(this).find('i').text() === 'arrow_drop_down' ) {
@@ -488,7 +493,7 @@ module.exports.init = function(framework) {
         } else if( jQuery(this).find('i').text() === 'arrow_drop_up' ) {
             jQuery(this).find('i').text('arrow_drop_down');    
         }
-        jQuery(this).closest('.wp-custom-fields-repeatable-group').find('.wp-custom-fields-repeatable-fields').slideToggle('closed');
+        jQuery(this).closest('.wpcf-repeatable-group').find('.wpcf-repeatable-fields').slideToggle('closed');
     });
     
 };
@@ -502,10 +507,10 @@ module.exports.init = function(framework) {
     if( typeof jQuery.fn.select2 !== 'undefined' && jQuery.fn.select2 ) {
        
         // Regular selects
-        jQuery('.wp-custom-fields-select').select2();     
+        jQuery('.wpcf-select').select2();     
         
         // Typography selects
-        jQuery('.wp-custom-fields-typography-fonts').select2({
+        jQuery('.wpcf-typography-fonts').select2({
             templateResult: formatState,
             templateSelection: formatState            
         });
@@ -538,7 +543,7 @@ module.exports.init = function(framework) {
     /**
      * Adds jQuery UI Sliders
      */
-    jQuery(framework).find('.wp-custom-fields-slider').each(function (index) {
+    jQuery(framework).find('.wpcf-slider').each(function (index) {
         var sliderTarget = jQuery(this).data('id'),
             sliderMin = jQuery(this).data('min'),
             sliderMax = jQuery(this).data('max'),
@@ -562,20 +567,20 @@ module.exports.init = function(framework) {
 module.exports.init = function() {
     
     // Click handler for our tabs
-    jQuery(".wp-custom-fields-tabs a").click(function (e) {
+    jQuery(".wpcf-tabs a").click(function (e) {
         
         e.preventDefault();
         
         var activeTab = jQuery(this).attr("href"),
             section = activeTab.replace('#', ''),
-            frame = jQuery(this).closest('.wp-custom-fields-framework').attr('id');
+            frame = jQuery(this).closest('.wpcf-framework').attr('id');
         
         // Change our active section
         jQuery('#wp_custom_fields_section_' + frame).val(section);
 		
         // Remove current active classes
-        jQuery(this).closest('.wp-custom-fields-framework').find(".wp-custom-fields-tabs a").removeClass("active");
-        jQuery(this).closest('.wp-custom-fields-framework').find(".wp-custom-fields-section").removeClass("active");
+        jQuery(this).closest('.wpcf-framework').find(".wpcf-tabs a").removeClass("active");
+        jQuery(this).closest('.wpcf-framework').find(".wpcf-section").removeClass("active");
         
         // Add active class to our new things
         jQuery(this).addClass("active");      

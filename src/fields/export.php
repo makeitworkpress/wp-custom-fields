@@ -76,10 +76,10 @@ class Export implements Field {
             return; 
         } ?>
 
-            <div class="wp-custom-fields-export">  
+            <div class="wpcf-export">  
                 <label for="<?php echo $id; ?>-import"><?php echo $label; ?></label>       
                 <textarea id="<?php echo $id; ?>-import" name="import_value"><?php echo base64_encode( serialize($options) ); ?></textarea>
-                <input id="<?php echo $id; ?>-import" name="import_submit" class="button wp-custom-fields-import-settings" type="submit" value="<?php echo $button; ?>" /> 
+                <input id="<?php echo $id; ?>-import" name="import_submit" class="button wpcf-import-settings" type="submit" value="<?php echo $button; ?>" /> 
             </div>
         
         <?php

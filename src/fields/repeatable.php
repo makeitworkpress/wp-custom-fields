@@ -46,15 +46,15 @@ class Repeatable implements Field {
             
         } ?>
         
-            <div class="wp-custom-fields-repeatable-container">
+            <div class="wpcf-repeatable-container">
 
-                <div class="wp-custom-fields-repeatable-groups">
+                <div class="wpcf-repeatable-groups">
         
                     <?php foreach( $groups as $key => $fields) { ?>
 
-                        <div class="wp-custom-fields-repeatable-group">
-                            <a class="wp-custom-fields-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>
-                            <div class="wp-custom-fields-repeatable-fields grid flex <?php echo $display; ?>">
+                        <div class="wpcf-repeatable-group">
+                            <a class="wpcf-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>
+                            <div class="wpcf-repeatable-fields grid flex <?php echo $display; ?>">
 
                                 <?php 
                                     // Loop through each of the saved fields
@@ -80,30 +80,30 @@ class Repeatable implements Field {
                                     
                                     
                                     if( class_exists($class) ) { ?>
-                                        <div class="wp-custom-fields-repeatable-field wp-custom-fields-option-field field-<?php echo esc_attr($subfield['type'] . ' ' . $subfield['columns']); ?>">
+                                        <div class="wpcf-repeatable-field wpcf-field field-<?php echo esc_attr($subfield['type'] . ' ' . $subfield['columns']); ?>">
                                             <h5><?php esc_html_e($subfield['title']); ?></h5>
                                             <?php $class::render($subfield); ?>
                                             <?php if( isset($subfield['description']) ) {  ?>
-                                                <div class="wp-custom-fields-field-description"><p><?php echo esc_textarea($subfield['description']); ?></p></div>
+                                                <div class="wpcf-field-description"><p><?php echo esc_textarea($subfield['description']); ?></p></div>
                                             <?php } ?>
                                         </div>
                                     <?php }
 
                                 } ?>
             
-                            </div><!-- .wp-custom-fields-repeatable-fields -->
-                        </div><!-- .wp-custom-fields-repeatable-group -->
+                            </div><!-- .wpcf-repeatable-fields -->
+                        </div><!-- .wpcf-repeatable-group -->
 
                     <?php } ?>
 
-                </div><!-- .wp-custom-fields-repeatable-groups -->           
+                </div><!-- .wpcf-repeatable-groups -->           
         
-                <div class="wp-custom-fields-repeatable-buttons">
-                    <a href="#" class="button wp-custom-fields-repeatable-remove" title="<?php _e('Remove', 'wp-custom-fields'); ?>"><?php echo $remove; ?></a>
-                    <a href="#" class="button wp-custom-fields-repeatable-add button-primary" title="<?php _e('Add', 'wp-custom-fields'); ?>"><?php echo $add; ?></a>
+                <div class="wpcf-repeatable-buttons">
+                    <a href="#" class="button wpcf-repeatable-remove" title="<?php _e('Remove', 'wp-custom-fields'); ?>"><?php echo $remove; ?></a>
+                    <a href="#" class="button wpcf-repeatable-add button-primary" title="<?php _e('Add', 'wp-custom-fields'); ?>"><?php echo $add; ?></a>
                 </div>
 
-            </div><!-- .wp-custom-fields-repeatable-container -->
+            </div><!-- ..wpcf-repeatable-container -->
         
         <?php
   

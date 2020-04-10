@@ -6,15 +6,13 @@ var fields = require('./../fields');
 
 module.exports.init = function(framework) {
 
-    console.log('HELLO!');
-
     /**
      * Groups are sortable
      */
-    jQuery('.wp-custom-fields-repeatable-groups').sortable({
-        placeholder: 'wp-custom-fields-highlight',
+    jQuery('.wpcf-repeatable-groups').sortable({
+        placeholder: 'wpcf-highlight',
         update: function( event, ui ) { 
-            jQuery(this).find('.wp-custom-fields-repeatable-group').each( function(index, node) {
+            jQuery(this).find('.wpcf-repeatable-group').each( function(index, node) {
                 jQuery(node).html( function(n, node) {
                     return node.replace(/\[\d+\]/g, '[' + index + ']').replace(/\_\d+\_/g, '_' + index + '_');
                 });
@@ -25,19 +23,19 @@ module.exports.init = function(framework) {
     /**
      * Repeatable Groups 
      */
-    jQuery('.wp-custom-fields-repeatable-add').on('click', function (e) {
+    jQuery('.wpcf-repeatable-add').on('click', function (e) {
         e.preventDefault();
         var codeNodes   = [],
-            length      = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
-            group       = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
+            length      = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
+            group       = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').last();
             
         // Destroy our select2 instances, if it is defined of course
         if( typeof jQuery.fn.select2 !== 'undefined' && jQuery.fn.select2 ) {
-            jQuery('.wp-custom-fields-select').select2('destroy');
+            jQuery('.wpcf-select').select2('destroy');
         }
 
         // Destroy current codemirror instances
-        jQuery(framework).find('.wp-custom-fields-code-editor-value').each(function (index, node) {
+        jQuery(framework).find('.wpcf-code-editor-value').each(function (index, node) {
 
             if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
                 window.wcfCodeMirror[node.id].toTextArea(node);
@@ -59,7 +57,7 @@ module.exports.init = function(framework) {
         newGroup.find('input').val('');
         newGroup.find('textarea').val('');
         newGroup.find('option').attr('selected', false); 
-        newGroup.find('.wp-custom-fields-single-media').not('.empty').remove(); // Removes the media from the cloned group   
+        newGroup.find('.wpcf-single-media').not('.empty').remove(); // Removes the media from the cloned group   
                 
         // Finally, insert the newGroup after the current group
         group.after(newGroup);
@@ -77,10 +75,10 @@ module.exports.init = function(framework) {
     });
     
     // Remove the container
-    jQuery('.wp-custom-fields-repeatable-remove').on('click', function (e) {
+    jQuery('.wpcf-repeatable-remove').on('click', function (e) {
         e.preventDefault();
-        var length = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').length,
-            group = jQuery(this).closest('.wp-custom-fields-repeatable-container').find('.wp-custom-fields-repeatable-group').last();
+        var length = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
+            group = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').last();
         
         // Keep the first group
         if (length > 1) {
@@ -92,7 +90,7 @@ module.exports.init = function(framework) {
     });
     
     // Open or close a group
-    jQuery('body').on('click', '.wp-custom-fields-repeatable-toggle', function (e) {
+    jQuery('body').on('click', '.wpcf-repeatable-toggle', function (e) {
         e.preventDefault();
         
         if( jQuery(this).find('i').text() === 'arrow_drop_down' ) {
@@ -100,7 +98,7 @@ module.exports.init = function(framework) {
         } else if( jQuery(this).find('i').text() === 'arrow_drop_up' ) {
             jQuery(this).find('i').text('arrow_drop_down');    
         }
-        jQuery(this).closest('.wp-custom-fields-repeatable-group').find('.wp-custom-fields-repeatable-fields').slideToggle('closed');
+        jQuery(this).closest('.wpcf-repeatable-group').find('.wpcf-repeatable-fields').slideToggle('closed');
     });
     
 };

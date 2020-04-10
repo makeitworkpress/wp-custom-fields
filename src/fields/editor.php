@@ -32,9 +32,7 @@ class Editor implements Field {
             }
         }
         
-        $settings['textarea_name'] = $field['name'];
-        
-        wp_editor($field['values'], $field['id'], $settings);
+        wp_editor($field['values'], $field['id']);
         
     }
 

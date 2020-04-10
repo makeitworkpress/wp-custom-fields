@@ -1,10 +1,10 @@
-// main: ../wp-custom-fields.less
+// main: ../wpcf.less
 
 /* Typography Field */
-.wp-custom-fields-typography-fonts ~ .select2-container {
+.wpcf-typography-fonts ~ .select2-container {
     max-width: 100%;
     min-width: 100%;
-    .wp-custom-fields-framework & {
+    .wpcf-framework & {
         min-width: 314px;
     }
     .select2-selection--single {
@@ -24,16 +24,16 @@
     z-index: 999999;
 }
 
-.wp-custom-fields-typography-weight {
+.wpcf-typography-weight {
     display: flex;
     select {
         flex-grow: 1;
     }
 }
 
-.wp-custom-fields-typography-properties {
+.wpcf-typography-properties {
     margin-top: @grid-space/2;
-    &.wp-custom-fields-field-left {
+    &.wpcf-field-left {
         margin-right: 2px;
     }   
     > * {
@@ -45,9 +45,9 @@
     }
 }
 
-.wp-custom-fields-typography-appearance {
+.wpcf-typography-appearance {
      margin-top: @grid-space/2;
-    .wp-custom-fields-field-left {
+    .wpcf-field-left {
         margin-right: 0;
     }
     + label {

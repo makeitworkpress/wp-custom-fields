@@ -13,7 +13,7 @@ module.exports.init = function(framework) {
                 time_24hr: true,
                 wrap: true
             },
-            datePicker = jQuery(framework).find('.wp-custom-fields-datepicker'),
+            datePicker = jQuery(framework).find('.wpcf-datepicker'),
             propertyName,
             propertyValue;
 

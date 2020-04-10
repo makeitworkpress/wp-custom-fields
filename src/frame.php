@@ -111,7 +111,7 @@ class Frame {
         
         // Populate our variables
         $field                  = $field;
-        $field['column']        = isset( $field['columns'] )            ?  'wcf-' . esc_attr($field['columns']) : 'wcf-full';
+        $field['column']        = isset( $field['columns'] )            ?  'wpcf-' . esc_attr($field['columns']) : 'wpcf-full';
         $field['description']   = isset( $field['description'] )        ?  esc_textarea($field['description'])      : '';
         $field['form']          = '<div class="error notice"><p>' . sprintf( __('The given field class does not exist for the field with id: %s', 'wp-custom-fields'), $field['id']) . '</p></div>';
         

@@ -12,11 +12,18 @@ var select = require('./modules/select');
 var slider = require('./modules/slider');
 
 module.exports.init = function(framework) {
+
     button.init(framework);
     code.init(framework);
     datepicker.init(framework);
     location.init(framework);
     media.init(framework);
     select.init(framework);   
-    slider.init(framework);   
+    slider.init(framework); 
+    
+    /**
+     * Enables data-dependencies for simple fields
+     */
+    
+    
 };

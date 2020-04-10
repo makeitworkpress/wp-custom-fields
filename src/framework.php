@@ -209,7 +209,13 @@ class Framework extends Base {
      * @return array $configurations The array of configurations for the respective type, accepts 'meta', 'options', 'customizer' or 'all'
      */
     public function get( $type ) {
-        return $type == 'all' ? $this->frames : $this->frames[$type];
+        if( $type == 'all' ) {
+            return $this->frames;
+        } elseif( isset($this->frames[$type]) ) {
+            return $this->frames[$type];
+        } else {
+            return [];
+        }
     }     
         
     /**

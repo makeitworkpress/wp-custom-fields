@@ -35,10 +35,10 @@ class Media implements Field {
         $media      = ! empty($field['values']) ? explode(',', rtrim($field['values'], ',')) : []; 
         $value      = esc_attr($field['values']);?>
 
-            <div class="wp-custom-fields-upload-wrapper" data-type="<?php echo $type; ?>'" data-button="<?php echo $button; ?>" data-title="<?php echo $title; ?>" data-multiple="<?php echo $multiple; ?>" data-url="<?php echo $url; ?>">
+            <div class="wpcf-upload-wrapper" data-type="<?php echo $type; ?>'" data-button="<?php echo $button; ?>" data-title="<?php echo $title; ?>" data-multiple="<?php echo $multiple; ?>" data-url="<?php echo $url; ?>">
             
                 
-                <div class="wp-custom-fields-media">
+                <div class="wpcf-media">
                 
                     <?php 
                         foreach($media as $medium) {
@@ -46,7 +46,7 @@ class Media implements Field {
                                 continue; 
                             }                    
                     ?>
-                        <div class="wp-custom-fields-single-media type-<?php echo $type; ?>" data-id="<?php echo $medium; ?>">
+                        <div class="wpcf-single-media type-<?php echo $type; ?>" data-id="<?php echo $medium; ?>">
                             <?php if( $type == 'video' ) { ?>
                                 <?php echo wp_video_shortcode( ['src' => wp_get_attachment_url($medium)] ); ?>
                             <?php } elseif( $type == 'audio' ) { ?>
@@ -56,24 +56,24 @@ class Media implements Field {
                             <?php } ?>
                             <?php if( $url ) { ?>
                                 <?php $attachment_url = esc_url( wp_get_attachment_url($medium) ); ?>
-                                <div class="wp-custom-fields-media-url">
+                                <div class="wpcf-media-url">
                                     <i class="material-icons">link</i>
                                     <input type="text" value="<?php echo $attachment_url; ?>" />
                                 </div>              
                             <?php } ?>  
-                            <a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a>                  
+                            <a href="#" class="wpcf-upload-remove"><i class="material-icons">clear</i></a>                  
                         </div>        
                     <?php } ?>
 
                 </div>
             
-                <div class="wp-custom-fields-single-media empty">
-                    <a href="#" class="wp-custom-fields-upload-add" title="<?php echo $add; ?>">
+                <div class="wpcf-single-media empty">
+                    <a href="#" class="wpcf-upload-add" title="<?php echo $add; ?>">
                         <i class="material-icons">add</i>
                         <?php echo $add; ?>
                     </a>
                 </div>
-                <input id="<?php echo $id; ?>" name="<?php echo $name; ?>" class="wp-custom-fields-upload-value" type="hidden" value="<?php echo $value; ?>" /> 
+                <input id="<?php echo $id; ?>" name="<?php echo $name; ?>" class="wpcf-upload-value" type="hidden" value="<?php echo $value; ?>" /> 
             </div>
         
         <?php

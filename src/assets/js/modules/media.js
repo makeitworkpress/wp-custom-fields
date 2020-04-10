@@ -6,17 +6,17 @@ module.exports.init = function(framework) {
     /**
      * Enables Uploading using the Media-Uploader
      */
-    jQuery(framework).find('.wp-custom-fields-upload-wrapper').each(function (index) {
+    jQuery(framework).find('.wpcf-upload-wrapper').each(function (index) {
 
         // Define the buttons for this specific group
-        var add_media = jQuery(this).find('.wp-custom-fields-upload-add'),
-            add_wrap = jQuery(this).find('.wp-custom-fields-single-media.empty'),
+        var add_media = jQuery(this).find('.wpcf-upload-add'),
+            add_wrap = jQuery(this).find('.wpcf-single-media.empty'),
             button = jQuery(this).data('button'),
             multiple = jQuery(this).data('multiple'),   
             title = jQuery(this).data('title'),
             type = jQuery(this).data('type'),         
             url = jQuery(this).data('url'),         
-            value_input = jQuery(this).find('.wp-custom-fields-upload-value'),
+            value_input = jQuery(this).find('.wpcf-upload-value'),
             frame;
 
         // Click function
@@ -72,10 +72,10 @@ module.exports.init = function(framework) {
 
                     // Return the url wrapper, if url is defined as a feature
                     if( url ) {
-                        urlWrapper = '<div class="wp-custom-fields-media-url"><i class="material-icons">link</i><input type="text" value="' + attachment.url + '"></div>';
+                        urlWrapper = '<div class="wpcf-media-url"><i class="material-icons">link</i><input type="text" value="' + attachment.url + '"></div>';
                     }
 
-                    add_wrap.before('<div class="wp-custom-fields-single-media type-' + type + '" data-id="' + attachment.id + '"><img src="' + src + '" />' + urlWrapper + '<a href="#" class="wp-custom-fields-upload-remove"><i class="material-icons">clear</i></a></div>');
+                    add_wrap.before('<div class="wpcf-single-media type-' + type + '" data-id="' + attachment.id + '"><img src="' + src + '" />' + urlWrapper + '<a href="#" class="wpcf-upload-remove"><i class="material-icons">clear</i></a></div>');
                 
                 });
 
@@ -96,10 +96,10 @@ module.exports.init = function(framework) {
         /**
          * Remove attachments
          */
-        jQuery(this).on('click', '.wp-custom-fields-upload-remove', function (e) {
+        jQuery(this).on('click', '.wpcf-upload-remove', function (e) {
             e.preventDefault();
 
-            var target = jQuery(this).closest('.wp-custom-fields-single-media'),
+            var target = jQuery(this).closest('.wpcf-single-media'),
                 target_id = target.data('id'),
                 current_values = value_input.val(),
                 new_values = current_values.replace(target_id + ',', '');
@@ -118,12 +118,12 @@ module.exports.init = function(framework) {
     /**
      * Make media items sortable
      */
-    jQuery('.wp-custom-fields-media').sortable({
-        placeholder: "wp-custom-fields-media-highlight",
+    jQuery('.wpcf-media').sortable({
+        placeholder: "wpcf-media-highlight",
         update: function(event, ui) {
-            var input = jQuery(this).closest('.wp-custom-fields-upload-wrapper').find('.wp-custom-fields-upload-value'), values = [];
+            var input = jQuery(this).closest('.wpcf-upload-wrapper').find('.wpcf-upload-value'), values = [];
             
-            jQuery(this).find('.wp-custom-fields-single-media').each( function(index, node) {
+            jQuery(this).find('.wpcf-single-media').each( function(index, node) {
                 values.push(node.dataset.id);        
             } );
 

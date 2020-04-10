@@ -4,7 +4,7 @@
  * Framework Layout
  * ----------------------------------
  */
-.wp-custom-fields-framework {
+.wpcf-framework {
     border: 1px solid @wp-lightborder;
     margin-top: 20px;
     .button {
@@ -40,13 +40,13 @@
         header {
             padding: @grid-space 0 0 0;    
         }
-        &.tabs-left .wp-custom-fields-tabs {
+        &.tabs-left .wpcf-tabs {
             margin-left: 0;
             li a.active, li a:hover  {
                 border-left: 1px solid @wp-lightborder;
             }
         }
-        .wp-custom-fields-sections {
+        .wpcf-sections {
             border: 1px solid @wp-lightborder;
         }
     }
@@ -56,14 +56,14 @@
             font-weight: 600;
             margin: 1em 0;
             padding: 0;
-            &.wp-custom-fields-section-title {
+            &.wpcf-section-title {
                 margin-top: 0;
             }
         }
     } 
 }
 
-.wp-custom-fields-notifications {
+.wpcf-notifications {
     padding: @grid-space;
     .wpfc-header-scrolling & {
         background: #fff;
@@ -77,12 +77,12 @@
     }
 }
 
-.wp-custom-fields-buttons {
+.wpcf-buttons {
     clear: both;
     text-align: right;
 }
 
-.wp-custom-fields-tabs {
+.wpcf-tabs {
     margin: 0;
     padding: 0 @grid-space;
     .tabs-left & {
@@ -129,7 +129,7 @@
     }
 }
 
-.wp-custom-fields-sections {
+.wpcf-sections {
     background: #fff;
     border-bottom: 1px solid @wp-lightborder;
     border-top: 1px solid @wp-lightborder;
@@ -141,11 +141,11 @@
     }
 }
 
-.wp-custom-fields-section-title {
+.wpcf-section-title {
     margin-top: 0;
 }
 
-.wp-custom-fields-section {
+.wpcf-section {
     animation: fadeIn 200ms ease-in-out;
     display: none;
     &.active {

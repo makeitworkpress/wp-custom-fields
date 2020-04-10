@@ -31,7 +31,7 @@ class Dimensions implements Field {
             
             foreach( $sides as $key => $side ) { ?>
              
-                <div class="wp-custom-fields-field-left">
+                <div class="wpcf-field-left">
                     <?php 
                         Dimension::render( array(
                             'step'          => $step,

@@ -13,9 +13,9 @@ window.wcfCodeMirror   = {}; // Contains all the global wcfCodeMirror instance
 var init = function() {
     
     // Boot our fields
-    fields.init('.wp-custom-fields-framework');    
-    options.init('.wp-custom-fields-framework');
-    repeatable.init('.wp-custom-fields-framework');
+    fields.init('.wpcf-framework');    
+    options.init('.wpcf-framework');
+    repeatable.init('.wpcf-framework');
     tabs.init();
     
 }

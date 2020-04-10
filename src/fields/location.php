@@ -31,14 +31,14 @@ class Location implements Field {
             wp_enqueue_script('google-maps-js');
         } ?>
         
-            <div class="wp-custom-fields-location">
-                <input class="regular-text wp-custom-fields-map-search" type="text" />
-                <div class="wp-custom-fields-map-canvas"></div>        
+            <div class="wpcf-location">
+                <input class="regular-text wpcf-map-search" type="text" />
+                <div class="wpcf-map-canvas"></div>        
                 <input class="latitude" id="<?php echo $id; ?>-lat" name="<?php echo $name; ?>[lat]" type="hidden" value="<?php echo $lat; ?>" />
                 <input class="longitude" id="<?php echo $id; ?>-long" name="<?php echo $name; ?>[lng]" type="hidden" value="<?php echo $lng; ?>'" />
             
                 <?php foreach( $config['properties'] as $key => $label ) { ?>
-                    <div class="wp-custom-fields-field-left">
+                    <div class="wpcf-field-left">
                         <label for="<?php echo $id . '-' . $key; ?>"><?php echo $label; ?></label>
                         <input type="text" class="regular-text <?php echo $key; ?>'" id="<?php echo $id . '-' . $key; ?>" name="<?php echo $name .'[' . $key .']'; ?>" value="<?php echo esc_attr($field['values'][$key]); ?>" />
                     </div>

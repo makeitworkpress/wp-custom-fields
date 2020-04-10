@@ -23,7 +23,7 @@ class Background implements Field {
         // Properties
         $configurations = self::configurations(); ?>
         
-        <div class="wp-custom-fields-background-image wp-custom-fields-field-left">
+        <div class="wpcf-background-image wpcf-field-left">
             <?php 
                 Media::render( [
                     'subtype'   => 'image',
@@ -39,7 +39,7 @@ class Background implements Field {
         </div>
 
         
-        <div class="wp-custom-fields-background-attributes wp-custom-fields-field-left">        
+        <div class="wpcf-background-attributes wpcf-field-left">        
             <?php 
                 Colorpicker::render( [
                     'values'    => isset( $field['values']['color'] ) ? $field['values']['color'] : '', 

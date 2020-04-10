@@ -31,7 +31,7 @@ class Dimension implements Field {
         $placeholder    = ! empty($field['placeholder']) ? ' placeholder="' . esc_attr($field['placeholder']) . '"' : '';        
         $measurements   = isset($field['units']) && is_array($field['units']) ? $field['units'] : $configurations['properties']['units']; ?>
 
-            <div class="wp-custom-fields-dimensions-input">
+            <div class="wpcf-dimensions-input">
                 <?php if( $label ) { ?><label for="<?php echo $id; ?>"><?php echo $label; ?></label><?php } ?>
                 <?php if( $icon ) { ?><i class="material-icons"><?php echo $icon; ?></i><?php } ?>
                 <input id="<?php echo $id; ?>" type="number" name="<?php echo $name; ?>[amount]" value="<?php echo $amount; ?>" step="<?php echo $step; ?>" <?php echo $placeholder; ?> />

@@ -26,7 +26,7 @@ class Radio implements Field {
         // Accepts an optional .buttonset style, for a set of styled buttons or .switcher style for a switch display
         $style      = isset($field['style']) ? esc_attr($field['style']) : ''; ?>
         
-            <ul class="wp-custom-fields-field-radio-wrapper <?php echo $style; ?>">
+            <ul class="wpcf-field-radio-wrapper <?php echo $style; ?>">
         
                 <?php foreach( $options as $key => $option ) { ?>
 

@@ -82,7 +82,7 @@ class Select implements Field {
 
         } ?>
         
-            <select class="wp-custom-fields-select" id="<?php echo $id; ?>" name="<?php echo $name . $namekey; ?>" <?php echo $multiple; ?>>
+            <select class="wpcf-select" id="<?php echo $id; ?>" name="<?php echo $name . $namekey; ?>" <?php echo $multiple; ?>>
 
                 <?php if( $placeholder ) { ?>
                     <option value=""><?php echo $placeholder; ?></option>
