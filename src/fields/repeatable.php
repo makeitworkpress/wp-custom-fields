@@ -72,7 +72,7 @@ class Repeatable implements Field {
                                         }                
 
                                         // Render each field based upon the values
-                                        $subfield['classes']        = isset($subfield['columns']) ? ' wcf-' . esc_attr($subfield['columns']) : 'wcf-full';
+                                        $subfield['classes']        = isset($subfield['columns']) ? ' wpcf-' . esc_attr($subfield['columns']) : 'wpcf-full';
                                         $subfield['classes']       .= ' field-' . esc_attr($subfield['type']) . ' field-id-' . $subfield['id'];
                                         $subfield['values']         = isset($subfield['values']) ? $subfield['values'] : '';
                                         $subfield['name']           = $field['name'] . '[' . $key . ']' . '[' . esc_attr($subfield['id']) . ']';
