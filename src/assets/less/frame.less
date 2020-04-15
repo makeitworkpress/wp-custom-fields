@@ -68,9 +68,13 @@
     .wpfc-header-scrolling & {
         background: #fff;
         border-bottom: 1px solid @wp-lightborder;
+        display: flex;
         position: fixed;
         top: 32px;
         z-index: 11;
+        h1 {
+            flex-grow: 1;
+        }
     }
     .postbox-container {
         display: none;
