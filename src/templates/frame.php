@@ -86,7 +86,7 @@
 
                                 <?php foreach( $section['fields'] as $key => $field ) { ?>
 
-                                    <div class="wpcf-field <?php echo $field['column']; ?> field-<?php echo $field['type']; ?> field-id-<?php echo $field['id']; ?>">
+                                    <div class="wpcf-field <?php echo $field['classes']; ?>">
 
                                         <?php do_action('wcf_before_field', $field); ?>
                                         

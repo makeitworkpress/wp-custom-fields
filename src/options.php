@@ -180,17 +180,17 @@ class Options {
 
         // Save Button
         ob_start();
-        submit_button( __( 'Save Settings', 'wp-custom-fields' ), 'primary wp-custom-fields-save', $pageID . '_save', false );
+        submit_button( __( 'Save Settings', 'wp-custom-fields' ), 'primary button-hero wp-custom-fields-save', $pageID . '_save', false );
         $frame->saveButton      = ob_get_clean();
 
         // Reset Button
         ob_start();
-        submit_button( __( 'Reset Settings', 'wp-custom-fields' ), 'delete wp-custom-fields-reset', $pageID . '_reset', false );
+        submit_button( __( 'Reset Settings', 'wp-custom-fields' ), 'delete button-hero wp-custom-fields-reset', $pageID . '_reset', false );
         $frame->resetButton     = ob_get_clean();
 
         // Restore Button
         ob_start();
-        submit_button( __( 'Restore Section', 'wp-custom-fields' ), 'delete wp-custom-fields-reset-section', $pageID . '_restore', false );
+        submit_button( __( 'Restore Section', 'wp-custom-fields' ), 'delete button-hero wp-custom-fields-reset-section', $pageID . '_restore', false );
         $frame->restoreButton   = ob_get_clean();
 
         // Setting Fields

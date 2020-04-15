@@ -36,6 +36,16 @@
     }
 }
 
+.wpcf-dependent-field {
+    display: none;
+    opacity: 0;
+    transition: opacity 300ms ease-out;
+    &.active {
+        display: block;
+        opacity: 1;
+    }
+}
+
 .wpcf-field-title {
     border-bottom: 1px solid @light-grey;
     h4 {

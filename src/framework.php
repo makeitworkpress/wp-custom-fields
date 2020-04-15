@@ -286,6 +286,60 @@ class Framework extends Base {
             }
         }     
         
-    }     
+    }  
+    
+    
+    /**
+     * Looks for fields that for display depend on the values of other fields
+     * 
+     * @param   Array       $dependency The dependency values for the dependent field
+     * @param   Array       $sections The sections with fields to look in for
+     * @param   Array       $values The saved values for the fields
+     * @return  String      $class Returns active if a dependency is fulfilled on page load
+     */
+    public static function returnDependencyClass( $dependency, $sections = [], $values = [] ) {
+
+        $class          = '';
+        $sourceField    =  [];
+
+        // Checks if everything is there
+
+        foreach( ['equation', 'source', 'value'] as $key ) {
+            if( ! isset($dependency[$key]) || ! $dependency[$key] ) {
+                return $class;    
+            }           
+        }
+
+        // Let's find the field we're looking for
+        foreach( $sections as $section ) {
+            foreach( $section['fields'] as $field ) {
+                if( $field['id'] == $dependency['source'] ) {
+                    $sourceField = $field;
+                    break;
+                }    
+            }
+        }
+
+        // Let's return our field
+        if( ! $sourceField || ! isset($values[$sourceField['id']]) ) {
+            return $class;
+        }
+
+        $value = maybe_unserialize($values[$sourceField['id']]);
+
+        // Retrieve our equation
+        if( $dependency['equation'] == '=' ) {
+            if( $dependency['value'] == $value || (is_array($value) && in_array($dependency['value'], $value)) ) {
+                $class = ' active';
+            }
+        } else if( $dependency['equation'] == '!=' ) {
+            if( $dependency['value'] != $value || (is_array($value) && ! in_array($dependency['value'], $value)) ) {
+                $class = ' active';
+            }
+        }
+
+        return $class;
+
+    }    
        
 }

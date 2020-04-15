@@ -11,8 +11,11 @@ var media = require('./modules/media');
 var select = require('./modules/select');
 var slider = require('./modules/slider');
 
+var dependency = require('./modules/dependency');
+
 module.exports.init = function(framework) {
 
+    // Fields that require JS
     button.init(framework);
     code.init(framework);
     datepicker.init(framework);
@@ -20,12 +23,8 @@ module.exports.init = function(framework) {
     media.init(framework);
     select.init(framework);   
     slider.init(framework); 
-    
-    /**
-     * Enables data-dependencies for simple fields
-     */
-    jQuery('.wpcf-framework').on('change', 'select', function(event) {
-        console.log('change');
-    });
+
+    // Dependent fields
+    dependency.init(framework); 
     
 };

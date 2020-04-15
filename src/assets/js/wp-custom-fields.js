@@ -23,7 +23,7 @@ var init = function() {
 
 // Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);
-},{"./fields":2,"./modules/repeatable":8,"./modules/tabs":11,"./options":12}],2:[function(require,module,exports){
+},{"./fields":2,"./modules/repeatable":9,"./modules/tabs":12,"./options":13}],2:[function(require,module,exports){
 /**
  * Executes Field modules
  * @todo Convert in a loop
@@ -37,8 +37,11 @@ var media = require('./modules/media');
 var select = require('./modules/select');
 var slider = require('./modules/slider');
 
+var dependency = require('./modules/dependency');
+
 module.exports.init = function(framework) {
 
+    // Fields that require JS
     button.init(framework);
     code.init(framework);
     datepicker.init(framework);
@@ -46,14 +49,12 @@ module.exports.init = function(framework) {
     media.init(framework);
     select.init(framework);   
     slider.init(framework); 
-    
-    /**
-     * Enables data-dependencies for simple fields
-     */
-    
+
+    // Dependent fields
+    dependency.init(framework); 
     
 };
-},{"./modules/button":3,"./modules/code":4,"./modules/datepicker":5,"./modules/location":6,"./modules/media":7,"./modules/select":9,"./modules/slider":10}],3:[function(require,module,exports){
+},{"./modules/button":3,"./modules/code":4,"./modules/datepicker":5,"./modules/dependency":6,"./modules/location":7,"./modules/media":8,"./modules/select":10,"./modules/slider":11}],3:[function(require,module,exports){
 /**
  * Our button module, accepting custom ajax actions
  */
@@ -175,6 +176,86 @@ module.exports.init = function(framework) {
 }
 },{}],6:[function(require,module,exports){
 /**
+ * Our button module, accepting custom ajax actions
+ */
+module.exports = {
+
+    // Initializes the dependency module
+    init: function(framework) {
+
+        var self = this;
+
+        jQuery(framework).find('.wpcf-dependent-field').each( function(index, item) {
+        
+            // Values from our dependency field
+            var field = jQuery(item).hasClass('wpcf-repeatable-field') ? jQuery(item).find('.wpcf-repeatable-field-input') : jQuery(item).find('.wpcf-field-input'),
+                equation = jQuery(field).data('equation'),
+                source = jQuery(field).data('source'),
+                value = jQuery(field).data('value');
+
+            if( ! equation || ! source || ! value ) {
+                return;
+            } 
+            
+            // Target fields
+            var selector = jQuery(item).hasClass('wpcf-repeatable-field') ? '.wpcf-repeatable-group' : '.wpcf-fields',
+                target = jQuery(item).closest(selector).find('.field-id-' + source),
+                input = jQuery(target).find('input'),
+                select = jQuery(target).find('select');
+        
+            // Select fields (only supports single select fields)
+            if( select.length > 0 ) {
+                jQuery(select).change( function() {
+                    self.compare(this, item, equation, value);
+                });
+            }
+            
+            // Input fields (only supports simple input fields)
+            if( input.length > 0 ) {
+                jQuery(input).change( function(event) {
+                    self.compare(this, item, equation, value);
+                });   
+            }
+        
+        });      
+
+    },
+
+    // Compares values
+    compare: function(changedField, dependentField, equation, value) {
+ 
+        var changedFieldValue = changedField.value;
+
+        // Checkboxes
+        if( changedField.type == 'checkbox') {
+            if( changedField.checked && changedField.dataset.key == value ) {
+                changedFieldValue = value; 
+            } else if( ! changedField.checked && changedField.dataset.key == value ) {
+                changedFieldValue = '';    
+            } 
+        }
+        
+        if( equation == '=' ) {
+            if( changedFieldValue == value ) {
+                jQuery(dependentField).addClass('active');
+            } else {
+                jQuery(dependentField).removeClass('active');    
+            }
+        }
+
+        if( equation == '!=' ) {
+            if( changedFieldValue != value ) {
+                jQuery(dependentField).addClass('active');
+            } else {
+                jQuery(dependentField).removeClass('active');    
+            }
+        }
+
+    } 
+
+};
+},{}],7:[function(require,module,exports){
+/**
  * Our location field
  */
 module.exports.init = function(framework) {
@@ -256,7 +337,7 @@ module.exports.init = function(framework) {
 
     });  
 }
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -392,7 +473,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * Our repeatable fields module
  * @todo Rewrite this in a more efficient manner.
@@ -497,7 +578,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{"./../fields":2}],9:[function(require,module,exports){
+},{"./../fields":2}],10:[function(require,module,exports){
 /**
  * Our colorpicker module
  */
@@ -534,7 +615,7 @@ var formatState = function(state) {
     return newState; 
     
 }
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -563,7 +644,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports.init = function() {
     
     // Click handler for our tabs
@@ -589,7 +670,7 @@ module.exports.init = function() {
     });
  
 }
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  * Functions for option pages
  */
