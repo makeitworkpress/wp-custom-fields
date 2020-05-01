@@ -22,7 +22,7 @@ class Icons implements Field {
     public static function render( $field = [] ) {
         
         $configurations = self::configurations();
-        $exclude        = isset($field['exlude']) ? $field['exlude'] : [];
+        $exclude        = isset($field['exclude']) ? $field['exclude'] : [];
         $iconsets       = $configurations['properties']['icons'];
         $type           = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio'; ?>
         
@@ -30,7 +30,7 @@ class Icons implements Field {
 
                 <?php foreach( $iconsets as $set => $icons ) { ?>
 
-                    <?php if( in_array($set,$exclude) ) { 
+                    <?php if( in_array($set, $exclude) ) { 
                         continue; 
                     } ?>
 
