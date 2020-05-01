@@ -20,7 +20,9 @@ trait Validate {
      *
      * @param array $frame   The frame to format
      * @param array $input   The $_Post $input generated
-     * @param array $type    The type to format for
+     * @param array $type    The type to format for, either options, user, post or term
+     * 
+     * @return array $output The validated and sanitized fields
      */
     public static function format( $frame, $input, $type = '' ) {
 
@@ -30,19 +32,19 @@ trait Validate {
         }
 
         if( $type == 'options' && ! current_user_can('manage_options') ) {
-            return;
+            return [];
         } 
         
         if( $type == 'user' && ! current_user_can('edit_users') ) {
-            return;  
+            return [];  
         }
         
         if( $type == 'post' && (! current_user_can('edit_posts') || ! current_user_can('edit_pages')) ) {
-            return;
+            return [];
         } 
         
         if( $type == 'term' && (! current_user_can('edit_posts') || ! current_user_can('edit_pages')) ) {
-            return;
+            return [];
         }         
         
         // Checks in which tab we are

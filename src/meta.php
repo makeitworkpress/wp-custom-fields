@@ -257,6 +257,9 @@ class Meta {
             return;
         }
 
+        // Saves relations (before updating the actual meta values)
+        $this->saveRelations( $output, $id );        
+
         // Saves our metaboxes as seperate values
         if( $this->single ) {
 
@@ -282,8 +285,185 @@ class Meta {
             // Update meta data
             update_metadata( $this->type, $id, $this->metaBox['id'], $output);  
         
+        
         }
         
+    }
+
+    /**
+     * Searches for relational posts and saves relations
+     * 
+     * @param array $output The output that is being saved
+     * @param int $id The id of the current object being saved
+     * @return void
+     */
+    private function saveRelations( $output, $id ) {
+
+        /**
+         * Searches for relational fields and updates relations accordingly
+         */
+        foreach( $this->metaBox['sections'] as $section) {
+ 
+            foreach( $section['fields'] as $field ) {
+
+                // Key for retrieving and saving new values
+                $meta_key = $this->single ? $field['id'] : $this->metaBox['id'];
+
+                // Only select fields can be relational
+                if( $field['type'] != 'select') {
+                    continue;
+                }
+
+                // The field should be relational
+                if( ! isset($field['relational']) || ! $field['relational'] ) {
+                    continue;
+                }
+
+                // The field should have an object (user, post, term)
+                if( ! isset($field['object']) || ! $field['object'] || $field['object'] != $this->type ) {
+                    continue;
+                } 
+
+                // We should have updated output
+                if( ! isset($output[$field['id']]) ) {
+                    continue;
+                }
+
+                // The post we're saving should be from the same post type as the field source
+                if( $this->type == 'post' && (! isset($field['source']) || $field['source'] != get_post_type($id)) ) {
+                    continue;
+                }
+
+                // As well as the term...
+                if( $this->type == 'term' ) {
+
+                    if( ! isset($field['source']) ) {
+                        continue;
+                    }
+
+                    $term = get_term($id);
+                    if( $term->taxonomy != $field['source'] ) {
+                        continue;
+                    }
+
+                }
+
+                // First, remove our relations
+                $this->removeRelations($meta_key, $output[$field['id']], $field, $id);
+
+                // If there is no output, let's move on
+                if( ! $output[$field['id']] ) {
+                    continue;
+                }
+
+                // A field with multiple relational values
+                if( is_array($output[$field['id']]) ) {
+
+                    foreach( $output[$field['id']] as $target_id ) {
+
+                        // We can't enforce relations if the target is the same as the origin
+                        if( $target_id == $id ) {
+                            continue;
+                        }
+
+                        // The current value at the relational post
+                        $current_target = get_metadata( $this->type, $target_id, $meta_key, true ); 
+                        
+                        // Adds the id of the item we're saving to the array 
+                        if( $this->single ) {
+                            $current_target = is_array($current_target) ? array_push($current_target, $id) : [$id];
+                        } else {
+                            $current_target[$field['id']] = is_array($current_target[$field['id']]) ? array_push($current_target[$field['id']], $id) : [$id];
+                        }
+
+                        update_metadata( $this->type, $target_id, $meta_key, $current_target); 
+
+                    }
+
+                // We're just updating a single select value (the select can't have multiple options)
+                } elseif( is_numeric($output[$field['id']]) && $output[$field['id']] != $id ) {
+
+                    $target_id = intval($output[$field['id']]);
+
+                    if( $this->single ) {
+                        $current_target                = $id;
+                    } else {
+                        $current_target                = get_metadata( $this->type, $target_id, $meta_key, true ); 
+                        $current_target[$field['id']]  = $id;   
+                    }
+
+                    update_metadata( $this->type, $target_id, $meta_key, $current_target);
+                    
+                }                
+
+            }
+            
+        }        
+
+    }
+
+    /**
+     * Removes relations from certain posts
+     * 
+     * @param string $meta_key The output that is being saved
+     * @param array $output The output that is being saved
+     * @param array $field The current field we're saving for
+     * @param int $id The id of the current object being saved
+     * @return void
+     */
+    private function removeRelations( $meta_key, $output, $field, $id ) {
+
+        // Update our relations based on the current meta values
+        $current            = get_metadata( $this->type, $id, $meta_key, true );
+        $currentRelations   = $this->single ? $current : $current[$field['id']];
+
+        // There should be something to compare against
+        if( ! $currentRelations ) {
+            return;
+        }
+
+        // Multiple relations
+        if( is_array($currentRelations) ) {
+
+            $output = is_array($output) ? $output : [];
+
+            foreach( $currentRelations as $target_id ) {
+
+                // If the current relations are still in the future relations (output), we continue
+                if( in_array($target_id, $output) ) {
+                    continue;
+                }
+
+                // The current value at the relational post
+                $current_target = get_metadata( $this->type, $target_id, $meta_key, true ); 
+
+                // Otherwise, we remove our relations from the destination
+                if( $this->single ) {
+                    $current_target = is_array($current_target) ? array_diff($current_target, [$id]) : [];
+                } else {
+                    $current_target[$field['id']] = is_array($current_target[$field['id']]) ? array_diff($current_target[$field['id']], [$id]) : [];
+                }
+                
+                update_metadata( $this->type, $target_id, $meta_key, $current_target);
+                 
+            }
+
+        // Single relations with empty outputs
+        } elseif( ! is_array($currentRelations) && ! $output ) {
+
+            $target_id = $currentRelations;
+
+            if( $this->single ) {
+                $current_target = isset($field['multiple']) && $field['multiple'] ? [] : ''; 
+            } else {
+                $current_target = get_metadata( $this->type, $target_id, $meta_key, true );
+                $current_target[$field['id']] = isset($field['multiple']) && $field['multiple'] ? [] : ''; 
+            }
+            
+            update_metadata( $this->type, $target_id, $meta_key, $current_target);
+
+        }
+
     }
     
 }

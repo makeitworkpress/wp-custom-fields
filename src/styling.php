@@ -762,13 +762,37 @@ class Styling extends Base {
                         $target = 'css("' . array_keys($field['properties'])[0] . '", newValue)';
                     }
 
-                    $bind  .= 'value.bind( function( newValue ) {
-                        $("' . $selector . '").' . $target . ';
-                    } );';
+                    // console.log( wp.customize( "' . $field['group'] . '[' . $id . '][unit]") );
+
+
+                    switch( $field['type'] ) {
+                        case 'dimension':                       
+                            $script .= 'wp.customize( "' . $field['group'] . '[' . $id . '][unit]", function( value ) {
+                                value.bind( function( newValue ) {
+                                    newValue = wp.customize( "' . $field['group'] . '[' . $id . '][amount]" )._value + newValue;
+                                    $("' . $selector . '").' . $target . ';
+                                } );
+                            } );';
+                            $script .= 'wp.customize( "' . $field['group'] . '[' . $id . '][amount]", function( value ) {
+                                value.bind( function( newValue ) {
+                                    newValue = newValue + wp.customize( "' . $field['group'] . '[' . $id . '][unit]" )._value;
+                                    $("' . $selector . '").' . $target . ';
+                                } );
+                            } );';                             
+                            break;
+                        default:
+                            $script .= 'wp.customize( "' . $field['group'] . '[' . $id . ']", function( value ) {
+                                value.bind( function( newValue ) {
+                                    $("' . $selector . '").' . $target . ';
+                                } );
+                            } );';                      
+                    }
+
+                    if( $field['type'] == 'dimension' ) {
+
+                    } 
                     
-                    $script .= 'wp.customize( "' . $field['group'] . '[' . $id . ']' . '", function( value ) {
-                        ' . $bind . '
-                    } );';   
+
 
                 }
 

@@ -50,7 +50,7 @@ class Select implements Field {
                 $options = [];
 
                 // Load an array of posts
-                if( $object == 'posts' && $source ) {
+                if( ($object == 'posts' || $object == 'post') && $source ) {
 
                     $posts = get_posts( ['ep_integrate' => true, 'post_type' => $source, 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC'] );
                     
@@ -58,7 +58,7 @@ class Select implements Field {
                         $options[$post->ID] = $post->post_title;
                     }                
 
-                } elseif( $object == 'users' ) {
+                } elseif( $object == 'users' || $object == 'user' ) {
 
                     $users = get_users( ['fields' => ['ID', 'display_name'], 'orderby' => 'display_name', 'order' => 'ASC'] );
                     
@@ -66,7 +66,7 @@ class Select implements Field {
                         $options[$user->ID] = $user->display_name;
                     }
 
-                } elseif( $object == 'terms' && $source ) {
+                } elseif( ($object == 'terms' || $object == 'term') && $source ) {
 
                     $terms = get_terms( ['fields' => 'id=>name', 'hide_empty' => false, 'order' => 'ASC', 'taxonomy' => $source] );
                     
@@ -89,6 +89,7 @@ class Select implements Field {
                 <?php } ?>
 
                 <?php foreach ($options as $key => $option ) { ?>
+                    
                     <?php 
                         if( $multiple && is_array($field['values']) ) { 
                             $selected = in_array($key, $field['values']) ? 'selected="selected"' : '';
@@ -96,7 +97,16 @@ class Select implements Field {
                             $selected = selected( $key, $field['values'], false );
                         }
                     ?>
-                    <option value="<?php echo esc_attr($key); ?>" <?php echo $selected; ?>><?php esc_html_e($option); ?></option>
+
+                    <?php if( is_array($option) ) { ?>
+                        <optgroup label="<?php esc_attr_e( str_replace('_', '', $key) ); ?>">
+                        <?php foreach( $option as $value => $name ) { ?>
+                            <option value="<?php esc_attr_e($value); ?>" <?php echo $selected; ?>><?php esc_html_e($name); ?></option>
+                        <?php } ?>   
+                    <?php } else { ?>
+                        <option value="<?php esc_attr_e($key); ?>" <?php echo $selected; ?>><?php esc_html_e($option); ?></option>
+                    <?php } ?>
+
                 <?php } ?>
             </select>
         
