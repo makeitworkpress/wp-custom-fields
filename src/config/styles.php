@@ -9,12 +9,20 @@ if ( ! defined('ABSPATH') ) {
 }
 
 $styles[] = [
-    'handle'    => 'fontawesome-css',
+    'handle'    => 'material-css',
     'src'       => 'https://fonts.googleapis.com/icon?family=Material+Icons',
     'deps'      => [],
     'ver'       => null,
     'media'     => 'all'
-];     
+];  
+
+$styles[] = [
+    'handle'    => 'font-awesome-css',
+    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/font-awesome.min.css',
+    'deps'      => [],
+    'ver'       => null,
+    'media'     => 'all'
+];
 
 $styles[] = [
     'handle'    => 'wp-color-picker',

@@ -22,24 +22,32 @@ class Icons implements Field {
     public static function render( $field = [] ) {
         
         $configurations = self::configurations();
+        $exclude        = isset($field['exlude']) ? $field['exlude'] : [];
         $iconsets       = $configurations['properties']['icons'];
         $type           = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio'; ?>
         
             <div class="wpcf-icons">
 
                 <?php foreach( $iconsets as $set => $icons ) { ?>
+
+                    <?php if( in_array($set,$exclude) ) { 
+                        continue; 
+                    } ?>
+
                     <p class="wpcf-icons-title"><?php esc_html_e($set); ?></p>
                     <ul class="wpcf-icon-list">
             
                         <?php 
-                            foreach( $icons as $icon ) { 
+                            foreach( $icons as $key => $icon ) { 
 
                                 if( $set == 'dashicons' ) {
-                                    $display_icon = '<i class="dashicons ' . esc_attr($icon) . '"></i>';
-                                } elseif( $set == 'fontawesome' ) {
-                                    $display_icon = '<i class="fa ' . esc_attr($icon) . '"></i>';
+                                    $icon           = $key;
+                                    $display_icon = '<i class="dashicons dashicons-before ' . esc_attr($icon) . '"></i>';
+                                } elseif( $set == 'font-awesome' ) {
+                                    $icon           = $key;
+                                    $display_icon   = '<i class="fa ' . esc_attr($icon) . '"></i>';
                                 } elseif( $set == 'material' ) {
-                                    $display_icon = '<i class="material-icons">' . esc_html($icon) . '</i>';
+                                    $display_icon   = '<i class="material-icons">' . esc_html($icon) . '</i>';
                                 }                
                                 
                                 $display_icon   = apply_filters('wp_custom_fields_displayed_icon', $display_icon, $icon, $set);
