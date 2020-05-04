@@ -262,7 +262,10 @@ class Customizer {
                         break;
                     case 'heading':
                         $wp_customize->add_control( new Fields\Customizer\Heading($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
-                        break;                        
+                        break; 
+                    case 'section':
+                        $wp_customize->add_control( new Fields\Customizer\Section($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        break;
                     case 'textarea':
                         $wp_customize->add_control( new Fields\Customizer\TextArea($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
                         break;
