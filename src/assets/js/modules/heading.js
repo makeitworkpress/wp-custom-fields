@@ -3,31 +3,36 @@
  */
 module.exports.init = function(framework) {
 
-    var collapsibleSections = jQuery('.wpcf-heading-collapsible').data('sections');
 
-    // There are sections to collapse
-    if( ! collapsibleSections ) {
-        return;
-    }
+    jQuery('.wpcf-heading-collapsible').each( function() {
 
-    collapsibleSections = collapsibleSections.split(',');
+        var collapsibleSections = jQuery(this).data('sections');
 
-    // Hide on initiation
-    collapsibleSections.forEach( function(element) {
-        jQuery('li[id$="' + element + '"]').hide();
-        jQuery('.wpcf-field.field-id-' + element).hide();
-    } );
+        // There are sections to collapse
+        if( ! collapsibleSections ) {
+            return;
+        }
 
-    // Toggle on click
-    jQuery('.wpcf-heading-collapsible').click( function() {
+        collapsibleSections = collapsibleSections.split(',');
 
-        jQuery(this).toggleClass('active');
-        
+        // Hide on initiation
         collapsibleSections.forEach( function(element) {
-            jQuery('li[id$="' + element + '"]').toggle();
-            jQuery('.wpcf-field.field-id-' + element).toggle();
+            jQuery('li[id$="' + element + '"]').hide();
+            jQuery('.wpcf-field.field-id-' + element).hide();
         } );
 
-    } );
+        // Toggle on click
+        jQuery(this).click( function() {
+
+            jQuery(this).toggleClass('active');
+            
+            collapsibleSections.forEach( function(element) {
+                jQuery('li[id$="' + element + '"]').toggle();
+                jQuery('.wpcf-field.field-id-' + element).toggle();
+            } );
+
+        } );
+
+    });
     
 }
