@@ -126,6 +126,8 @@ class Frame {
         $field['placeholder']   = isset( $field['placeholder'] )        ? esc_attr($field['placeholder'])   : '';
         $field['title']         = isset( $field['title'] )              ? esc_html($field['title'])         : '';
         $field['titleTag']      = isset( $field['type'] ) && $field['type'] == 'heading'           ? 'h3'                              : 'h4';
+        $field['titleClass']    = isset( $field['type'] ) && isset( $field['collapse'] ) && $field['type'] == 'heading' ? ' wpcf-heading-collapsible' : '';
+        $field['titleSections'] = isset( $field['type'] ) && isset( $field['collapse'] ) && $field['type'] == 'heading' ? implode(',', $field['collapse']) : '';
 
         // Set-up additional classes and settings
         if( $field['dependency'] ) {

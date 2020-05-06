@@ -22,13 +22,16 @@ class Heading extends WP_Customize_Control {
 	 * @return  void
 	 */
 	public function render_content() {
-		?>
-		<label>
-			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-            <?php if( $this->description ) { ?>
-                <span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
-            <?php } ?>			
-		</label>
+
+		$sections = implode(',', $this->choices); ?>
+
+			<label class="wpcf-heading<?php if($sections) { ?> wpcf-heading-collapsible<?php }?>" <?php if($sections) { ?> data-sections="<?php esc_attr_e($sections); ?>" <?php } ?>>
+				<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+				<?php if( $this->description ) { ?>
+					<span class="description customize-control-description"><?php echo esc_html( $this->description ); ?></span>
+				<?php } ?>			
+			</label>
+
 		<?php
 	}
     

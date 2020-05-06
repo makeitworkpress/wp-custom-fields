@@ -23,7 +23,7 @@ var init = function() {
 
 // Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);
-},{"./fields":2,"./modules/repeatable":9,"./modules/tabs":12,"./options":13}],2:[function(require,module,exports){
+},{"./fields":2,"./modules/repeatable":10,"./modules/tabs":13,"./options":14}],2:[function(require,module,exports){
 /**
  * Executes Field modules
  * @todo Convert in a loop
@@ -32,6 +32,7 @@ jQuery(document).ready(init);
 var button = require('./modules/button');
 var datepicker = require('./modules/datepicker');
 var code = require('./modules/code');
+var heading = require('./modules/heading');
 var location = require('./modules/location');
 var media = require('./modules/media');
 var select = require('./modules/select');
@@ -45,6 +46,7 @@ module.exports.init = function(framework) {
     button.init(framework);
     code.init(framework);
     datepicker.init(framework);
+    heading.init(framework);
     location.init(framework);
     media.init(framework);
     select.init(framework);   
@@ -54,7 +56,7 @@ module.exports.init = function(framework) {
     dependency.init(framework); 
     
 };
-},{"./modules/button":3,"./modules/code":4,"./modules/datepicker":5,"./modules/dependency":6,"./modules/location":7,"./modules/media":8,"./modules/select":10,"./modules/slider":11}],3:[function(require,module,exports){
+},{"./modules/button":3,"./modules/code":4,"./modules/datepicker":5,"./modules/dependency":6,"./modules/heading":7,"./modules/location":8,"./modules/media":9,"./modules/select":11,"./modules/slider":12}],3:[function(require,module,exports){
 /**
  * Our button module, accepting custom ajax actions
  */
@@ -256,6 +258,40 @@ module.exports = {
 };
 },{}],7:[function(require,module,exports){
 /**
+ * Our heading module, supporting collapsible sections within the customizer
+ */
+module.exports.init = function(framework) {
+
+    var collapsibleSections = jQuery('.wpcf-heading-collapsible').data('sections');
+
+    // There are sections to collapse
+    if( ! collapsibleSections ) {
+        return;
+    }
+
+    collapsibleSections = collapsibleSections.split(',');
+
+    // Hide on initiation
+    collapsibleSections.forEach( function(element) {
+        jQuery('li[id$="' + element + '"]').hide();
+        jQuery('.wpcf-field.field-id-' + element).hide();
+    } );
+
+    // Toggle on click
+    jQuery('.wpcf-heading-collapsible').click( function() {
+
+        jQuery(this).toggleClass('active');
+        
+        collapsibleSections.forEach( function(element) {
+            jQuery('li[id$="' + element + '"]').toggle();
+            jQuery('.wpcf-field.field-id-' + element).toggle();
+        } );
+
+    } );
+    
+}
+},{}],8:[function(require,module,exports){
+/**
  * Our location field
  */
 module.exports.init = function(framework) {
@@ -337,7 +373,7 @@ module.exports.init = function(framework) {
 
     });  
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -473,7 +509,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * Our repeatable fields module
  * @todo Rewrite this in a more efficient manner.
@@ -578,7 +614,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{"./../fields":2}],10:[function(require,module,exports){
+},{"./../fields":2}],11:[function(require,module,exports){
 /**
  * Our colorpicker module
  */
@@ -615,7 +651,7 @@ var formatState = function(state) {
     return newState; 
     
 }
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -644,7 +680,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports.init = function() {
     
     // Click handler for our tabs
@@ -670,7 +706,7 @@ module.exports.init = function() {
     });
  
 }
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * Functions for option pages
  */
