@@ -3,13 +3,23 @@
 /**
  * Heading field within the customizer
  */
- .customize-control-heading .customize-control-title {
+ .customize-control-heading {
+    background: #fff;
     border-bottom: 1px solid @wp-border;
-    display: block;
-    font-size: 21px;
-    margin-top: 18px;
+    border-top: 4px solid @wp-greyer;  
+    margin: 0 -12px 12px -12px;
     overflow: hidden;
-    padding-bottom: 5px;
+    padding: 12px; 
+    .customize-control-title {
+        display: block;
+        font-size: 20px;
+        margin: 0;
+        overflow: hidden; 
+    }
+    .customize-control-description {
+        border-top: 1px solid @wp-border;
+        padding-top: 5px;
+    }
 }
 
 .wpcf-heading-collapsible {
@@ -23,14 +33,6 @@
             color: @wp-blueborder;
         }       
     }
-    .customize-control-heading & {
-        background: #fff;
-        border-bottom: 1px solid @wp-border;
-        border-top: 4px solid @wp-greyer;  
-        display: block;
-        margin: 0 -12px;
-        padding: 0 12px 12px 12px;
-    }
     .customize-control-title:after, h3:after {
         content: "\f343";
         font: normal 20px/42px dashicons;  
@@ -40,7 +42,9 @@
         position: relative;
         top: -9px;   
     }
-    &.active .customize-control-title:after, &.active h3:after {
-        content: "\f347";
+    &.active {
+        .customize-control-title:after, h3:after {
+            content: "\f347";
+        }
     }
 }
