@@ -26,14 +26,12 @@
     }
 }
 
-.wpcf-heading-collapsible {
-    border-top: 4px solid @wp-lightborder;    
+.wpcf-heading-collapsible { 
     overflow: hidden;
     transition: all 300ms ease-out;
     &:hover {
-        border-top: 4px solid @wp-blueborder;
         cursor: pointer;
-        .customize-control-title:after {
+        .customize-control-title:after, h3:after  {
             color: @wp-blueborder;
         }       
     }
