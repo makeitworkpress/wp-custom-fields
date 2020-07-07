@@ -14,6 +14,34 @@ if ( ! defined( 'ABSPATH' ) )
     die;
 
 trait Validate {
+
+    /**
+     * Displays an settings error message depending on the context, using the add_settings_error functionality
+     * Use the get_settings_errors and settings_errors function to display given errors
+     */
+    public static function addErrorMessage( $id = '', $type = 'update' ) {
+        
+        // An setting ID is required (the id of the option page)
+        if( ! $id ) {
+            return;
+        }
+
+        switch( $type ) {
+            case 'reset':
+                add_settings_error( $id, 'wp-custom-fields-notification', __('All settings are reset.', 'wp-custom-fields'), 'info' );
+                break;
+            case 'restore':
+                add_settings_error( $id, 'wp-custom-fields-notification', __('Settings restored for this section.', 'wp-custom-fields'), 'info' );
+                break;  
+            case 'update':
+                add_settings_error( $id, 'wp-custom-fields-notification', __('Settings saved!', 'wp-custom-fields'), 'success' );
+                break;                               
+            case 'import':  
+                add_settings_error( $id, 'wp-custom-fields-notification', __('Settings Imported!', 'wp-custom-fields'), 'info' );
+                break;  
+        }
+
+    }
     
     /**
      * Formats the output by sanitizing and validating
@@ -82,7 +110,7 @@ trait Validate {
             
             // Add a notification for option pages
             if( $type == 'options' ) {
-                add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings restored for this section.', 'wp-custom-fields'), 'update' );
+                self::addErrorMessage( $frame['id'], 'restore' );
             }
             
             return $output;
@@ -92,7 +120,7 @@ trait Validate {
         /**
          * Restore the complete section
          */
-        if( isset($input['wp_custom_fields_options_reset']) ) {
+        if( isset($input[$frame['id'] . '_reset']) ) {
             
             foreach($frame['sections'] as $section) {
                 
@@ -106,7 +134,7 @@ trait Validate {
             }
             
             if( $type == 'options' ) {
-                add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('All settings are restored.', 'wp-custom-fields'), 'update' );
+                self::addErrorMessage( $frame['id'], 'reset' );
             }
             
             return $output;
@@ -121,7 +149,7 @@ trait Validate {
             $output = unserialize( base64_decode($input['import_value']) );
             
             if( $type == 'options' ) {
-                add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings Imported!', 'wp-custom-fields'), 'update' );
+                self::addErrorMessage( $frame['id'], 'import' );
             }
             
             return $output;
@@ -145,8 +173,9 @@ trait Validate {
             
         }
         
+        // Add settings errors for option page (the update notification)
         if( $type == 'options' ) {
-            add_settings_error( $frame['id'], 'wp-custom-fields-notification', __('Settings saved!', 'wp-custom-fields'), 'update' );
+            self::addErrorMessage( $frame['id'], 'update' );
         }
         
         return $output;
@@ -365,7 +394,8 @@ trait Validate {
             // Typographic field
             case 'typography':
 
-                
+                $return_value                       = [];
+
                 // Font-family
                 $return_value['font']               = sanitize_text_field( $field_value['font'] );
                 
@@ -385,7 +415,7 @@ trait Validate {
                 // Styles
                 $styles                             = ['italic', 'line_through', 'underline', 'uppercase', 'text_align'];
                 foreach( $styles as $style ) {
-                    $return_value[$style]           = sanitize_key( $field_value[$style] );     
+                    $return_value[$style]           = isset( $field_value[$style] ) ? sanitize_key( $field_value[$style] ) : '';
                 }
                 
                 break; 

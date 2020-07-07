@@ -30,14 +30,15 @@ class Frame {
         $this->values   = $values;
         
         // Default public variables
+        $this->action           = 'options.php'; // Used within option pages, adapted by options.php
         $this->class            = isset($frame['class']) ? esc_attr($frame['class']) : '';
-        $this->errors           = ''; // Used within option pages
+        $this->errors           = ''; // Used within option pages, set by options.php
         $this->id               = esc_attr($frame['id']);
-        $this->resetButton      = ''; // Used within option pages
-        $this->restoreButton    = ''; // Used within option pages
-        $this->saveButton       = ''; // Used within option pages
+        $this->resetButton      = ''; // Used within option pages, set by options.php
+        $this->restoreButton    = ''; // Used within option pages, set by options.php
+        $this->saveButton       = ''; // Used within option pages, set by options.php
         $this->sections         = [];
-        $this->settingFields    = ''; // Used within option pages
+        $this->settingFields    = ''; // Used within option pages, set by options.php
         $this->title            = esc_html($frame['title']);
         $this->type             = '';
 

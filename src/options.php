@@ -43,6 +43,11 @@ class Options {
             return;
         }
 
+        // Limiting access for network pages
+        if ( isset($group['context']) && $group['context'] == 'network' && ! current_user_can( 'manage_network_options' ) ) {
+            return;
+        }
+
         $this->optionPage   = $group;
 
         $allowed            = ['menu', 'submenu', 'dashboard', 'posts', 'media', 'links', 'pages', 'comments', 'theme', 'users', 'management', 'options'];
@@ -72,14 +77,22 @@ class Options {
      * Register WordPress Hooks
      */
     protected function registerHooks() {
-        add_action( 'admin_init', [$this, 'addSettings'] );
-        add_action( 'admin_menu', [$this, 'optionsPage'] );
+
+        if( isset($this->optionPage['context']) && $this->optionPage['context'] == 'network' ) {
+            $this->optionPage['action'] = isset($this->optionPage['action']) ? $this->optionPage['action'] : 'edit.php?action=wpcf_update';
+            add_action( 'network_admin_menu', [$this, 'addPage'] );
+            add_action( 'network_admin_edit_wpcf_update', [$this, 'saveNetwork'] );
+        } else {
+            add_action( 'admin_init', [$this, 'addSettings'] );
+            add_action( 'admin_menu', [$this, 'addPage'] );
+        }
+
     }
     
     /**
      * Controls the display of the options page
      */
-    public function optionsPage() {
+    public function addPage() {
   
         // Check if a proper ID is set and add a menu page
         if( ! isset($this->optionPage['id']) || ! $this->optionPage['id'] ) {
@@ -163,18 +176,38 @@ class Options {
      * @parram array $args The arguments passed to this callback.
      */
     public function renderPage( $args ) {
+
+        // Again, check the access for users
+        if( ! current_user_can( 'manage_options' ) ) {
+            wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+            return;
+        }
+
+        // Limiting access for network pages
+        if ( isset($this->optionPage['context']) && $this->optionPage['context'] == 'network' && ! current_user_can( 'manage_network_options' ) ) {
+            wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+            return;
+        }        
                         
         $pageID                 = $this->optionPage['id'];
-        $values                 = get_option( $pageID );
+        $values                 = isset($this->optionPage['context']) && $this->optionPage['context'] == 'network' ? get_site_option( $pageID ) : get_option( $pageID );
         
         $frame                  = new Frame( $this->optionPage, $values );
+        $frame->action          = isset($this->optionPage['action']) ? esc_attr( $this->optionPage['action'] ) : 'options.php';
         $frame->type            = 'options';
+
+        // Network pages handle errors differently
+        if ( isset($this->optionPage['context']) && $this->optionPage['context'] == 'network' ) {
+            if( isset($_GET['wpcf-action']) ) {
+                Validate::addErrorMessage($pageID, sanitize_key($_GET['wpcf-action']));
+            }
+        }
 
         // Errors - they are already implemented automatically at option screens.
         $screen                 = get_current_screen();
         if( $screen->parent_base != 'options-general' ) {
             ob_start();
-            settings_errors(); 
+            settings_errors( $pageID ); 
             $frame->errors          = ob_get_clean();
         }
 
@@ -196,21 +229,59 @@ class Options {
         // Setting Fields
         ob_start();
         settings_fields( $pageID . '_group' );
-        $frame->settingsFields  = ob_get_clean();              
+        $frame->settingsFields  = ob_get_clean();   
 
         // Render our options page;
         $frame->render();
         
         return; 
  
-    }   
+    }  
+    
+    /**
+     * Handles the saving of options within network admin pages
+     * 
+     * Could also be converted to a generic save function if we incorporate update_option
+     */
+    public function saveNetwork() {
+
+        // Checks the security nonce
+        check_admin_referer( $this->optionPage['id'] . '_group-options');
+
+        // Checks if the user has the correct capabilities
+        if( ! current_user_can( 'manage_network_options' ) ) {
+            wp_die( __( 'Sorry, you are not allowed to save data.' ), 403 );
+            return;
+        }
+
+        // Sanitizes the $_POST global variable and saves the site option
+        $values = $this->sanitize(); 
+        update_site_option( $this->optionPage['id'], $values);
+
+        // Determines our slug to display custom error messages for network pages
+        if( isset($_POST[$this->optionPage['id'] . '_restore']) ) {
+            $action = 'restore';
+        } elseif( isset($_POST[$this->optionPage['id'] . '_reset']) ) {
+            $action = 'reset';
+        } elseif( isset($_POST['import_submit']) ) {
+            $action = 'import';
+        } else {
+            $action = 'update';
+        }
+
+        // Redirects back to the given page
+        $page = 'admin.php';
+        wp_redirect( add_query_arg( 'wpcf-action', $action, network_admin_url( $page . '?page=' . $this->optionPage['id'] ) ) );
+        
+        // Exits
+        exit();        
+
+    }
     
     /**
      * Function for sanitizing the saved data. Hooks upon sanitizing the option directly.
-     *
-     * @param $value The output from the saved form. 
      */
-    public function sanitize( $value ) {
+    public function sanitize() {
         
         $value = Validate::format( $this->optionPage, $_POST, 'options' );
         
