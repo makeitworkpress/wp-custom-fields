@@ -91,7 +91,7 @@
                                         <?php do_action('wcf_before_field', $field); ?>
                                         
                                         <?php if( $field['title'] ) { ?>
-                                            <div class="wpcf-field-title<?php echo $field['titleClass']; ?>"<?php if($field['titleSections']) { ?> data-sections="<?php esc_attr_e($field['titleSections']); ?>" <?php } ?>>
+                                            <div class="wpcf-field-title<?php echo $field['titleClass']; ?>"<?php if($field['titleSections']) { ?> data-sections="<?php echo esc_attr($field['titleSections']); ?>" <?php } ?>>
                                                 <?php           
                                                     echo '<' . $field['titleTag'] . '>' . $field['title'] . '</' . $field['titleTag'] .'>';
                                                 ?>

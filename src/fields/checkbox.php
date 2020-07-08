@@ -45,7 +45,7 @@ class Checkbox implements Field {
                         $label  = isset($option['label']) ? esc_html($option['label']) : '';
                         $icon   = isset($option['icon']) ? '<i class="material-icons">' . esc_html($option['icon'])  . '</i>' : ''; ?> 
                         <li class="wpcf-field-checkbox-input">
-                            <input type="checkbox" id="<?php echo $id; ?>" name="<?php echo $name; ?>" <?php checked($value, true); ?> data-key="<?php esc_attr_e($key); ?>" />
+                            <input type="checkbox" id="<?php echo $id; ?>" name="<?php echo $name; ?>" <?php checked($value, true); ?> data-key="<?php echo esc_attr($key); ?>" />
                             <?php if( ! empty($label) ) { ?>
                                 <label for="<?php echo $id; ?>"><?php echo $icon . $label; ?></label>  
                             <?php } ?>

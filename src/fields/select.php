@@ -99,12 +99,12 @@ class Select implements Field {
                     ?>
 
                     <?php if( is_array($option) ) { ?>
-                        <optgroup label="<?php esc_attr_e( str_replace('_', '', $key) ); ?>">
+                        <optgroup label="<?php echo esc_attr( str_replace('_', '', $key) ); ?>">
                         <?php foreach( $option as $value => $name ) { ?>
-                            <option value="<?php esc_attr_e($value); ?>" <?php echo $selected; ?>><?php esc_html_e($name); ?></option>
+                            <option value="<?php echo esc_attr($value); ?>" <?php echo $selected; ?>><?php esc_html_e($name); ?></option>
                         <?php } ?>   
                     <?php } else { ?>
-                        <option value="<?php esc_attr_e($key); ?>" <?php echo $selected; ?>><?php esc_html_e($option); ?></option>
+                        <option value="<?php echo esc_attr($key); ?>" <?php echo $selected; ?>><?php esc_html_e($option); ?></option>
                     <?php } ?>
 
                 <?php } ?>

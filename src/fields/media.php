@@ -64,15 +64,16 @@ class Media implements Field {
                             <a href="#" class="wpcf-upload-remove"><i class="material-icons">clear</i></a>                  
                         </div>        
                     <?php } ?>
+            
+                    <div class="wpcf-single-media empty">
+                        <a href="#" class="wpcf-upload-add" title="<?php echo $add; ?>">
+                            <i class="material-icons">add</i>
+                            <?php echo $add; ?>
+                        </a>
+                    </div>
 
                 </div>
-            
-                <div class="wpcf-single-media empty">
-                    <a href="#" class="wpcf-upload-add" title="<?php echo $add; ?>">
-                        <i class="material-icons">add</i>
-                        <?php echo $add; ?>
-                    </a>
-                </div>
+
                 <input id="<?php echo $id; ?>" name="<?php echo $name; ?>" class="wpcf-upload-value" type="hidden" value="<?php echo $value; ?>" /> 
             </div>
         
