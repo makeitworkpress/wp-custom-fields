@@ -229,7 +229,7 @@ trait Validate {
                 $texts = ['attachment', 'color', 'position', 'upload', 'repeat', 'size'];
                 
                 foreach( $texts as $text ) {
-                    $return_value[$text] = sanitize_text_field( $field_value[$text] );    
+                    $return_value[$text] = isset($field_value[$text]) ? sanitize_text_field( $field_value[$text] ) : '';
                 }
                 break;
             
