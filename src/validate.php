@@ -457,7 +457,7 @@ trait Validate {
                 break; 
             case 'text':                
             case 'textarea':
-                $sanitize = 'wp_filter_kses';
+                $sanitize = 'wp_kses_data';
                 break;
             case 'email':
                 $sanitize = 'sanitize_email';
