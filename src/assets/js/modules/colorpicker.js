@@ -3,10 +3,8 @@
  */
 module.exports.init = function(framework) {
     
-    var colorOptions = {
+    jQuery(framework).find('.wpcf-colorpicker').wpColorPicker({
         palettes: true
-    };
+    });
     
-    jQuery(framework).find('.wpcf-colorpicker').alphaColorPicker();
-    
-}
+};

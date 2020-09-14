@@ -213,7 +213,7 @@ class Typography implements Field {
                 '[underline]', 
                 '[uppercase]'
             ]
-            ];
+        ];
             
         return apply_filters( 'wp_custom_fields_typography_config', $configurations );
         

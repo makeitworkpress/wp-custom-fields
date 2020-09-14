@@ -2,10 +2,10 @@
  * Executes Field modules
  * @todo Convert in a loop
  */
-// var colorpicker = require('./modules/colorpicker');
 var button = require('./modules/button');
-var datepicker = require('./modules/datepicker');
 var code = require('./modules/code');
+var colorpicker = require('./modules/colorpicker');
+var datepicker = require('./modules/datepicker');
 var heading = require('./modules/heading');
 var location = require('./modules/location');
 var media = require('./modules/media');
@@ -18,6 +18,7 @@ module.exports.init = function(framework) {
 
     // Fields that require JS
     button.init(framework);
+    colorpicker.init(framework);
     code.init(framework);
     datepicker.init(framework);
     heading.init(framework);

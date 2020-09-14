@@ -20,10 +20,10 @@ class Border implements Field {
     public static function render( $field = [] ) {
         
         // Basic Variables
-        $border = isset( $field['borders'] ) ? esc_attr($field['borders']) : '';
+        $borders = isset( $field['borders'] ) ? esc_attr($field['borders']) : '';
         $configurations = self::configurations();
 
-        if( $border == 'all' ) { 
+        if( $borders == 'all' ) { 
             foreach( $configurations['properties']['sides'] as $key => $side ) { ?>
                 <div class="wpcf-single-border">
                     <div class="wpcf-field-left">

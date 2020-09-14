@@ -32,13 +32,21 @@ class Radio implements Field {
 
                     <li>
                 
-                        <?php $label  = isset($option['label']) ? esc_html($option['label']) : ''; ?>
-                        <?php $icon   = isset($option['icon']) ? '<i class="material-icons">' . esc_html($option['icon']) . '</i> ' : ''; ?>
+                        <?php
+                            $label  = isset($option['label']) ? esc_html($option['label']) : ''; 
+                            $icon   = isset($option['icon']) ? '<i class="material-icons">' . esc_html($option['icon']) . '</i> ' : ''; 
+                            $image  = isset($option['image']) ? $option['image'] : ''; 
+                        ?>
                     
                         <input type="radio" id="<?php echo esc_attr($id . $key); ?>" name="<?php echo $name; ?>" value="<?php echo esc_attr($key); ?>" <?php checked($field['values'], $key); ?> />
                     
-                        <?php if( ! empty($label) ) { ?>
-                            <label for="<?php echo esc_attr($id . $key); ?>"><?php echo $icon . $label; ?></label>
+                        <?php if( ! empty($label) || ! empty($image) ) { ?>
+                            <label for="<?php echo esc_attr($id . $key); ?>">
+                                <?php if( $image ) { ?>
+                                    <img src="<?php echo esc_url($image['src']); ?>" height="<?php echo intval($image['height']); ?>" width="<?php echo intval($image['width']); ?>" />
+                                <?php } ?>                              
+                                <span><?php echo $icon . $label; ?></span>
+                            </label>
                         <?php } ?>
 
                     </li>

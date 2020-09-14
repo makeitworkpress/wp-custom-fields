@@ -742,7 +742,7 @@ class Styling extends Base {
             foreach( $this->fields as $id => $field ) {
                 
                 // The messages should be transported
-                if( ! $field['transport'] ) {
+                if( ! isset($field['transport']) || ! $field['transport'] ) {
                     continue;
                 }
                 
@@ -761,9 +761,6 @@ class Styling extends Base {
                     } elseif($field['properties']) {
                         $target = 'css("' . array_keys($field['properties'])[0] . '", newValue)';
                     }
-
-                    // console.log( wp.customize( "' . $field['group'] . '[' . $id . '][unit]") );
-
 
                     switch( $field['type'] ) {
                         case 'dimension':                       
@@ -787,12 +784,6 @@ class Styling extends Base {
                                 } );
                             } );';                      
                     }
-
-                    if( $field['type'] == 'dimension' ) {
-
-                    } 
-                    
-
 
                 }
 

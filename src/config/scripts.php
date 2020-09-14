@@ -17,12 +17,12 @@ $scripts[] = [
     'ver'       => '',
     'in_footer' => 'true', 
     'action'    => 'register',
-];      
+];
 
 $scripts[] = [
     'handle'    => 'wp-custom-fields-js',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/wp-custom-fields' . $suffix . '.js',
-    'deps'      => [ 'jquery' ],
+    'deps'      => [ 'jquery', 'wp-color-picker' ],
     'ver'       => null,
     'in_footer' => true,  
     'action'    => 'register',

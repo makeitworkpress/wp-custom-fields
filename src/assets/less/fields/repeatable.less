@@ -5,8 +5,54 @@
     border: 1px solid @wp-lightborder;
     border-radius: @base-radius;
     margin-bottom: 10px; 
-    min-height: @grid-space;
+    min-height: @grid-space*1.5;
     position: relative;
+}
+
+.wpcf-repeatable-fields {
+    padding: @grid-space;
+}
+
+.wpcf-repeatable-toggle, .wpcf-repeatable-remove-group  {
+    display: block;
+    position: absolute;
+    top: 3px;
+    &:focus {
+        box-shadow: none;
+        outline: none;
+    }
+}
+
+.wpcf-repeatable-toggle {
+    left: 3px;
+}
+
+.wpcf-repeatable-remove-group {
+    background-color: @wp-red;
+    border-radius: 3px;
+    color: #fff;
+    height: 24px;
+    padding: 3px;
+    right: 3px;
+    width: 24px;
+    &:hover {
+        color: #fff;
+    }
+}
+
+.wpcf-repeatable-field {
+    h5 {
+        margin: 0 0 0.25em 0;
+    }
+    p {
+        margin-top: 0;
+    }
+}
+
+.wpcf-highlight {
+    border: 1px dashed @wp-btnborder;
+    height: @grid-space * 2;
+    margin-bottom: @grid-space/3;
 }
 
 .wpcf-repeatable-buttons {
@@ -24,37 +70,4 @@
     .dashicons-minus {
         color: @wp-red;
     }    
-}
-
-.wpcf-repeatable-fields {
-    padding: @grid-space;
-}
-
-.wpcf-repeatable-toggle {
-    position: absolute;
-    right: 1px;
-    top: 1px;
-    &:focus {
-        box-shadow: none;
-        outline: none;
-    }
-    i {
-        position: relative;
-        top: -2px;
-    }
-}
-
-.wpcf-repeatable-field {
-    h5 {
-        margin: 0 0 0.25em 0;
-    }
-    p {
-        margin-top: 0;
-    }
-}
-
-.wpcf-highlight {
-    border: 1px dashed @wp-btnborder;
-    height: @grid-space * 2;
-    margin-bottom: @grid-space/3;
 }

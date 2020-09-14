@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 /**
  * This script bundles all the modules from the WP_Custom_Fields Application
  */
@@ -23,15 +23,15 @@ var init = function() {
 
 // Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);
-},{"./fields":2,"./modules/repeatable":10,"./modules/tabs":13,"./options":14}],2:[function(require,module,exports){
+},{"./fields":2,"./modules/repeatable":11,"./modules/tabs":14,"./options":15}],2:[function(require,module,exports){
 /**
  * Executes Field modules
  * @todo Convert in a loop
  */
-// var colorpicker = require('./modules/colorpicker');
 var button = require('./modules/button');
-var datepicker = require('./modules/datepicker');
 var code = require('./modules/code');
+var colorpicker = require('./modules/colorpicker');
+var datepicker = require('./modules/datepicker');
 var heading = require('./modules/heading');
 var location = require('./modules/location');
 var media = require('./modules/media');
@@ -44,6 +44,7 @@ module.exports.init = function(framework) {
 
     // Fields that require JS
     button.init(framework);
+    colorpicker.init(framework);
     code.init(framework);
     datepicker.init(framework);
     heading.init(framework);
@@ -56,7 +57,7 @@ module.exports.init = function(framework) {
     dependency.init(framework); 
     
 };
-},{"./modules/button":3,"./modules/code":4,"./modules/datepicker":5,"./modules/dependency":6,"./modules/heading":7,"./modules/location":8,"./modules/media":9,"./modules/select":11,"./modules/slider":12}],3:[function(require,module,exports){
+},{"./modules/button":3,"./modules/code":4,"./modules/colorpicker":5,"./modules/datepicker":6,"./modules/dependency":7,"./modules/heading":8,"./modules/location":9,"./modules/media":10,"./modules/select":12,"./modules/slider":13}],3:[function(require,module,exports){
 /**
  * Our button module, accepting custom ajax actions
  */
@@ -140,6 +141,17 @@ module.exports.init = function(framework) {
 };
 },{}],5:[function(require,module,exports){
 /**
+ * Our colorpicker module - because we included the alpha colorpicker script, this is already included by default
+ */
+module.exports.init = function(framework) {
+    
+    jQuery(framework).find('.wpcf-colorpicker').wpColorPicker({
+        palettes: true
+    });
+    
+};
+},{}],6:[function(require,module,exports){
+/**
  * Initializes our datepicker using the flatpickr library
  * @param {The class for the framework} framework 
  */
@@ -176,7 +188,7 @@ module.exports.init = function(framework) {
     }
 
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * Our button module, accepting custom ajax actions
  */
@@ -256,7 +268,7 @@ module.exports = {
     } 
 
 };
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  * Our heading module, supporting collapsible sections within the customizer
  */
@@ -295,7 +307,7 @@ module.exports.init = function(framework) {
     });
     
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * Our location field
  */
@@ -314,11 +326,12 @@ module.exports.init = function(framework) {
             zoom = 7;            
 
         // Map
-        if (latitude.val().length > 0 && longitude.val().length > 0) {
+        if( latitude.val() && longitude.val() ) {
             latLng = new google.maps.LatLng(latitude.val(), longitude.val());
             zoom = 15;
         }
 
+        // Map Options
         var mapOptions = {
                 scrollwheel: false,
                 center: latLng,
@@ -378,7 +391,7 @@ module.exports.init = function(framework) {
 
     });  
 }
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -514,7 +527,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * Our repeatable fields module
  * @todo Rewrite this in a more efficient manner.
@@ -591,20 +604,58 @@ module.exports.init = function(framework) {
         
     });
     
-    // Remove the container
-    jQuery('.wpcf-repeatable-remove').on('click', function (e) {
+    // Remove the latest group
+    jQuery('.wpcf-repeatable-remove-latest').on('click', function (e) {
         e.preventDefault();
-        var length = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
+        var groupLength = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
             group = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').last();
         
         // Keep the first group
-        if (length > 1) {
-            group.fadeOut();
-            setTimeout( function() {
-                group.remove();
-            }, 500);
+        if( groupLength < 2 ) {
+            return;
         }
+        
+        group.fadeOut();
+        setTimeout( function() {
+            group.remove();
+        }, 500);
+
     });
+
+    /**
+     * Remove the current group
+     * @todo Make this dry - a lot of overlap with some earlier functions
+     */
+    jQuery(document).on('click', '.wpcf-repeatable-remove-group', function(e) {
+
+        console.log(e);
+
+        e.preventDefault();
+        var groupLength = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
+            group = jQuery(this).closest('.wpcf-repeatable-group');
+            groupContainer = jQuery(this).closest('.wpcf-repeatable-container');        
+        
+        // Only remove if not the first group
+        if( groupLength < 2 ) {
+            return;
+        }
+
+        // Fade-out and remove after a certain timeout
+        group.fadeOut();
+
+        setTimeout( function() {
+            group.remove();
+
+            // Update the numbering of items
+            groupContainer.find('.wpcf-repeatable-group').each( function(index, node) {
+                jQuery(node).html( function(n, node) {
+                    return node.replace(/\[\d+\]/g, '[' + index + ']').replace(/\_\d+\_/g, '_' + index + '_');
+                });
+            });
+
+        }, 500);
+
+    });    
     
     // Open or close a group
     jQuery('body').on('click', '.wpcf-repeatable-toggle', function (e) {
@@ -619,7 +670,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{"./../fields":2}],11:[function(require,module,exports){
+},{"./../fields":2}],12:[function(require,module,exports){
 /**
  * Our colorpicker module
  */
@@ -656,7 +707,7 @@ var formatState = function(state) {
     return newState; 
     
 }
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -685,7 +736,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports.init = function() {
     
     // Click handler for our tabs
@@ -711,7 +762,7 @@ module.exports.init = function() {
     });
  
 }
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * Functions for option pages
  */

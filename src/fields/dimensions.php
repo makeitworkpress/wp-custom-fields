@@ -22,14 +22,14 @@ class Dimensions implements Field {
         
         // Basic Variables
         $configurations = self::configurations();
-        $border         = isset( $field['borders'] ) ? esc_attr($field['borders']) : '';
+        $borders        = isset( $field['borders'] ) ? esc_attr($field['borders']) : '';
         $step           = isset( $field['step'] ) ? floatval($field['step']) : 1;
         $units          = isset( $field['units'] ) && is_array($field['units']) ? $field['units'] : false;
         
         // Control each side of the box model
-        if( $border == 'all' ) {
+        if( $borders == 'all' ) {
             
-            foreach( $sides as $key => $side ) { ?>
+            foreach( $configurations['properties']['sides'] as $key => $side ) { ?>
              
                 <div class="wpcf-field-left">
                     <?php 
@@ -75,7 +75,10 @@ class Dimensions implements Field {
             'defaults'      => [],
             'properties'    => [
                 'sides' => [
-
+                    'top'       => __('Top', 'wp-custom-fields'), 
+                    'right'     => __('Right', 'wp-custom-fields'), 
+                    'bottom'    => __('Bottom', 'wp-custom-fields'), 
+                    'left'      => __('Left', 'wp-custom-fields')      
                 ]
             ]
         ];

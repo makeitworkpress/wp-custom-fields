@@ -74,20 +74,58 @@ module.exports.init = function(framework) {
         
     });
     
-    // Remove the container
-    jQuery('.wpcf-repeatable-remove').on('click', function (e) {
+    // Remove the latest group
+    jQuery('.wpcf-repeatable-remove-latest').on('click', function (e) {
         e.preventDefault();
-        var length = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
+        var groupLength = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
             group = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').last();
         
         // Keep the first group
-        if (length > 1) {
-            group.fadeOut();
-            setTimeout( function() {
-                group.remove();
-            }, 500);
+        if( groupLength < 2 ) {
+            return;
         }
+        
+        group.fadeOut();
+        setTimeout( function() {
+            group.remove();
+        }, 500);
+
     });
+
+    /**
+     * Remove the current group
+     * @todo Make this dry - a lot of overlap with some earlier functions
+     */
+    jQuery(document).on('click', '.wpcf-repeatable-remove-group', function(e) {
+
+        console.log(e);
+
+        e.preventDefault();
+        var groupLength = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
+            group = jQuery(this).closest('.wpcf-repeatable-group');
+            groupContainer = jQuery(this).closest('.wpcf-repeatable-container');        
+        
+        // Only remove if not the first group
+        if( groupLength < 2 ) {
+            return;
+        }
+
+        // Fade-out and remove after a certain timeout
+        group.fadeOut();
+
+        setTimeout( function() {
+            group.remove();
+
+            // Update the numbering of items
+            groupContainer.find('.wpcf-repeatable-group').each( function(index, node) {
+                jQuery(node).html( function(n, node) {
+                    return node.replace(/\[\d+\]/g, '[' + index + ']').replace(/\_\d+\_/g, '_' + index + '_');
+                });
+            });
+
+        }, 500);
+
+    });    
     
     // Open or close a group
     jQuery('body').on('click', '.wpcf-repeatable-toggle', function (e) {

@@ -55,6 +55,7 @@ class Repeatable implements Field {
 
                         <div class="wpcf-repeatable-group">
                             <a class="wpcf-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>
+                            <a class="wpcf-repeatable-remove-group" href="#"><i class="material-icons">clear</i></a>
                             <div class="wpcf-repeatable-fields grid flex <?php echo $display; ?>">
 
                                 <?php 
@@ -111,7 +112,7 @@ class Repeatable implements Field {
                 </div><!-- .wpcf-repeatable-groups -->           
         
                 <div class="wpcf-repeatable-buttons">
-                    <a href="#" class="button wpcf-repeatable-remove" title="<?php echo $configurations['labels']['remove_title']; ?>"><?php echo $remove; ?></a>
+                    <a href="#" class="button wpcf-repeatable-remove-latest" title="<?php echo $configurations['labels']['remove_title']; ?>"><?php echo $remove; ?></a>
                     <a href="#" class="button wpcf-repeatable-add button-primary" title="<?php echo $configurations['labels']['add_title']; ?>"><?php echo $add; ?></a>
                 </div>
 

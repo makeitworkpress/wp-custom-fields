@@ -241,17 +241,17 @@ trait Validate {
                     $sides = ['top', 'right', 'bottom', 'left'];
                     
                     foreach($sides as $side) {
-                        $return_value[$side]['color']           = sanitize_text_field( $field_value[$side]['color'] ); 
-                        $return_value[$side]['style']           = sanitize_key( $field_value[$side]['style'] );                            
-                        $return_value[$side]['width']['amount'] = intval( $field_value[$side]['width']['amount'] );
-                        $return_value[$side]['width']['unit']   = sanitize_text_field( $field_value[$side]['width']['unit'] );                       
+                        $return_value[$side]['color']           = isset($field_value[$side]['color']) ? sanitize_text_field( $field_value[$side]['color'] ) : ''; 
+                        $return_value[$side]['style']           = isset($field_value[$side]['style']) ? sanitize_key( $field_value[$side]['style'] ) : '';                            
+                        $return_value[$side]['width']['amount'] = isset($field_value[$side]['width']['amount']) ? intval( $field_value[$side]['width']['amount'] ) : '';
+                        $return_value[$side]['width']['unit']   = isset($field_value[$side]['width']['unit']) ? sanitize_text_field( $field_value[$side]['width']['unit'] ): '';                       
                     }
                     
                 } else {
-                    $return_value['color']           = sanitize_text_field( $field_value['color'] ); 
-                    $return_value['style']           = sanitize_key( $field_value['style'] );     
-                    $return_value['width']['amount'] = intval( $field_value['width']['amount'] );
-                    $return_value['width']['unit']   = sanitize_text_field( $field_value['width']['unit'] );                                      
+                    $return_value['color']           = isset($field_value['color']) ? sanitize_text_field( $field_value['color'] ) : ''; 
+                    $return_value['style']           = isset($field_value['style']) ? sanitize_key( $field_value['style'] ) : '';     
+                    $return_value['width']['amount'] = isset($field_value['width']['amount']) ? intval( $field_value['width']['amount'] ) : '';
+                    $return_value['width']['unit']   = isset($field_value['width']['unit']) ? sanitize_text_field( $field_value['width']['unit'] ) : '';
                 }
                 
                 break;
@@ -264,8 +264,8 @@ trait Validate {
                 foreach($ints as $int) {
                     $return_value[$int] = isset($field_value[$int]) ? intval( $field_value[$int] ) : '';    
                 }
-                $return_value['color']  = sanitize_text_field( $field_value['color'] );
-                $return_value['type']   = sanitize_text_field( $field_value['type'] );
+                $return_value['color']  = isset($field_value['color']) ? sanitize_text_field( $field_value['color'] ) : '';
+                $return_value['type']   = isset($field_value['type']) ? sanitize_text_field( $field_value['type'] ) : '';
                 break;
                 
             // Checkboxes
@@ -294,22 +294,23 @@ trait Validate {
             case 'dimensions':
             case 'dimension':
                 
-                if( isset($field['border']) && $field['border'] == 'all' ) {
+                if( isset($field['borders']) && $field['borders'] == 'all' ) {
                     $sides = ['top', 'right', 'bottom', 'left'];
                     
                     foreach($sides as $side) {
-                        $return_value[$side]['amount'] = intval( $field_value[$side]['amount'] );
-                        $return_value[$side]['unit']   = sanitize_text_field( $field_value[$side]['unit'] );                       
+                        $return_value[$side]['amount'] = isset($field_value[$side]['amount']) ? intval( $field_value[$side]['amount'] ) : '';
+                        $return_value[$side]['unit']   = isset($field_value[$side]['unit']) ? sanitize_text_field( $field_value[$side]['unit'] ) : '';
                     }
                 } else {
-                    $return_value['amount'] = intval( $field_value['amount'] );
-                    $return_value['unit']   = sanitize_text_field( $field_value['unit'] );                    
+                    $return_value['amount'] = isset($field_value['amount']) ? intval( $field_value['amount'] ) : '';
+                    $return_value['unit']   = isset($field_value['unit']) ? sanitize_text_field( $field_value['unit'] ) : '';
                 }
 
                 break;
                 
             // Editor field    
             case 'editor':
+            case 'html':
             case 'textarea':
                     
                 global $allowedposttags;
@@ -337,12 +338,12 @@ trait Validate {
                 
             // Editor field    
             case 'location':
-                $return_value['lat']            = floatval( $field_value['lat'] );
-                $return_value['lng']            = floatval( $field_value['lng'] );
-                $return_value['number']         = sanitize_key( $field_value['number'] );
-                $return_value['street']         = sanitize_text_field( $field_value['number'] );
-                $return_value['city']           = sanitize_text_field( $field_value['number'] );
-                $return_value['postal_code']    = sanitize_key( $field_value['number'] );
+                $return_value['lat']            = isset($field_value['lat']) ? floatval( $field_value['lat'] ) : '';
+                $return_value['lng']            = isset($field_value['lng']) ? floatval( $field_value['lng'] ) : '';
+                $return_value['number']         = isset($field_value['number']) ? sanitize_key( $field_value['number'] ) : '';
+                $return_value['street']         = isset($field_value['street']) ? sanitize_text_field( $field_value['street'] ) : '';
+                $return_value['city']           = isset($field_value['city']) ? sanitize_text_field( $field_value['city'] ) : '';
+                $return_value['postal_code']    = isset($field_value['postal_code']) ? sanitize_text_field( $field_value['postal_code'] ) : '';
                 break; 
               
             // Media field
@@ -402,13 +403,13 @@ trait Validate {
                 // Sizes
                 $sizes                              = ['size', 'line_spacing'];
                 foreach($sizes as $size) {
-                    $return_value[$size]['amount']  = is_numeric( $field_value[$size]['amount'] ) ? intval( $field_value[$size]['amount'] ) : '';
-                    $return_value[$size]['unit']    = sanitize_text_field( $field_value[$size]['unit'] );                  
+                    $return_value[$size]['amount']  = isset($field_value[$size]['amount']) && is_numeric( $field_value[$size]['amount'] ) ? intval( $field_value[$size]['amount'] ) : '';
+                    $return_value[$size]['unit']    = isset($field_value[$size]['unit']) ? sanitize_text_field( $field_value[$size]['unit'] ) : '';                  
                 }
 
                 // Font-weight
                 $return_value['font_weight']        = is_numeric( $field_value['font_weight'] ) ? intval( $field_value['font_weight'] ) : '';
-                $return_value['color']              = sanitize_text_field( $field_value['color'] );
+                $return_value['color']              = isset($field_value['color']) ? sanitize_text_field( $field_value['color'] ) : '';
                 $return_value['load']['normal']     = isset($field_value['load']['normal']) && $field_value['load']['normal'] == 'on' ? true : false;
                 $return_value['load']['italic']     = isset($field_value['load']['italic']) && $field_value['load']['italic'] == 'on' ? true : false;
                 
@@ -455,12 +456,16 @@ trait Validate {
             case '[size][amount]':         
                 $sanitize = 'sanitize_text_field';
                 break; 
+            case 'html':                
             case 'text':                
             case 'textarea':
                 $sanitize = 'wp_kses_data';
                 break;
             case 'email':
                 $sanitize = 'sanitize_email';
+                break;
+            case 'code-editor': 
+                $sanitize = 'sanitize_textarea_field';
                 break;
             case 'cropped-image':
             case 'image':
@@ -480,14 +485,7 @@ trait Validate {
             case '[font]':
             case '[text_align]':
                 $sanitize = 'sanitize_key';
-                break;
-            // case 'checkbox':                
-            // case '[italic]': 
-            // case '[load][italic]':
-            // case '[load][normal]':
-            // case '[underline]':
-            // case '[uppercase]':                                        
-            //     $sanitize = 'sanitize_key'; // boolval may give problems in some instances, a sanitized key also evals to true.                       
+                break;                      
             default:
                 $sanitize = 'sanitize_text_field';
         }

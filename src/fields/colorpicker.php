@@ -20,13 +20,14 @@ class Colorpicker implements Field {
      */     
     public static function render( $field = [] ) {
         
-        $alpha  = isset($field['alpha']) ? esc_attr($field['alpha']) : 'true';
-        $id     = esc_attr($field['id']);
-        $name   = esc_attr($field['name']);
-        $value  = esc_attr($field['values']); ?>
+        $alpha      = isset($field['alpha']) ? esc_attr($field['alpha']) : 'true';
+        $default    = isset($field['default']) ? esc_attr($field['default']) : 'true';
+        $id         = esc_attr($field['id']);
+        $name       = esc_attr($field['name']);
+        $value      = esc_attr($field['values']); ?>
         
             <div class="wpcf-colorpicker-wrapper">
-                <input id="<?php echo $id; ?>" class="wpcf-colorpicker color-picker" name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" data-alpha="<?php echo $alpha; ?>" /> 
+                <input id="<?php echo $id; ?>" class="wpcf-colorpicker" name="<?php echo $name; ?>" type="text" value="<?php echo $value; ?>" data-alpha="<?php echo $alpha; ?>" data-default="<?php echo $default; ?>" /> 
             </div> 
             
         <?php

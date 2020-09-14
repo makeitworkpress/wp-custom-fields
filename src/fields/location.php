@@ -22,8 +22,8 @@ class Location implements Field {
 
         $config = self::configurations();
         $id     = esc_attr($field['id']);
-        $lat    = floatval($field['values']['lat']);
-        $lng    = floatval($field['values']['lng']);
+        $lat    = isset($field['values']['lat']) ? floatval($field['values']['lat']) : '';
+        $lng    = isset($field['values']['lng']) ? floatval($field['values']['lng']) : '';
         $name   = esc_attr($field['name']);        
         
         // Retrieve scripts
@@ -35,12 +35,12 @@ class Location implements Field {
                 <input class="regular-text wpcf-map-search" type="text" />
                 <div class="wpcf-map-canvas"></div>        
                 <input class="latitude" id="<?php echo $id; ?>-lat" name="<?php echo $name; ?>[lat]" type="hidden" value="<?php echo $lat; ?>" />
-                <input class="longitude" id="<?php echo $id; ?>-long" name="<?php echo $name; ?>[lng]" type="hidden" value="<?php echo $lng; ?>'" />
+                <input class="longitude" id="<?php echo $id; ?>-long" name="<?php echo $name; ?>[lng]" type="hidden" value="<?php echo $lng; ?>" />
             
-                <?php foreach( $config['properties'] as $key => $label ) { ?>
+                <?php foreach( $config['labels'] as $key => $label ) { ?>
                     <div class="wpcf-field-left">
                         <label for="<?php echo $id . '-' . $key; ?>"><?php echo $label; ?></label>
-                        <input type="text" class="regular-text <?php echo $key; ?>'" id="<?php echo $id . '-' . $key; ?>" name="<?php echo $name .'[' . $key .']'; ?>" value="<?php echo esc_attr($field['values'][$key]); ?>" />
+                        <input type="text" class="regular-text <?php echo $key; ?>'" id="<?php echo $id . '-' . $key; ?>" name="<?php echo $name .'[' . $key .']'; ?>" value="<?php if( isset($field['values'][$key]) ) { echo esc_attr($field['values'][$key]); } ?>" />
                     </div>
                 <?php } ?>
             
@@ -65,7 +65,7 @@ class Location implements Field {
                 'postal_code'   => '',                
                 'street'        => ''
             ],
-            'properties' => [
+            'labels' => [
                 'street'        => __('Street Address', 'wp-custom-fields'),
                 'number'        => __('Street Number', 'wp-custom-fields'),
                 'postal_code'   => __('Postal Code', 'wp-custom-fields'),

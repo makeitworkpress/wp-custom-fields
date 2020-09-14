@@ -164,7 +164,7 @@ class Framework extends Base {
                 }
 
                 // If our configurations are not valid, we report back with an error
-                if( is_wp_error($instance->validated ) ) {
+                if( isset($instance->validated) && is_wp_error($instance->validated ) ) {
                     add_action( 'admin_notices', function() use($instance) {
                         echo '<div class="error notice">';
                         echo '  <p>' . sprintf( __('Error in WP Custom Fields: %s', 'wp-custom-fields'), $instance->validated->get_error_message() ) . '</p>';

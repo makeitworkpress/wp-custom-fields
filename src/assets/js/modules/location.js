@@ -16,11 +16,12 @@ module.exports.init = function(framework) {
             zoom = 7;            
 
         // Map
-        if (latitude.val().length > 0 && longitude.val().length > 0) {
+        if( latitude.val() && longitude.val() ) {
             latLng = new google.maps.LatLng(latitude.val(), longitude.val());
             zoom = 15;
         }
 
+        // Map Options
         var mapOptions = {
                 scrollwheel: false,
                 center: latLng,
