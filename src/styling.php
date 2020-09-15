@@ -310,12 +310,16 @@ class Styling extends Base {
                 if( $field['values'] ) {
                 
                     foreach( $field['values'] as $key => $content  ) {
-                        if( ! isset($field['values'][$key]) || ! $field['values'][$key] || $key == 'upload' )
+                        
+                        if( ! $content || $key == 'upload' ) {
                             continue;
+                        }
 
                         $properties['background-' . $key] = $content;
+
                     }
 
+                    // Upload fields
                     if( isset($field['values']['upload']) && $field['values']['upload'] ) {
 
                         // Only uses the first one as media
@@ -331,12 +335,39 @@ class Styling extends Base {
                 }
                 
                 break;
+
+            // Background field
+            case 'background-properties': {
+
+                if( $field['values'] ) {
+                    foreach( ['repeat', 'attachment', 'size', 'position'] as $property ) {
+                        
+                        // Fields should have values
+                        if( ! isset($field['values'][$property]) || ! $field['values'][$property] ) {
+                            continue;
+                        }
+
+                        $properties['background-' . $property] = $field['values'][$property];
+
+                    }
+                } else {
+                    $properties['background-repeat'] = $field['values']; // Default values
+                }
+
+                break;
+
+            }                
                 
             // Boxshadow field    
             case 'boxshadow':
                 
-                $shadow                  = $field['values'];
-                $properties['boxshadow'] = $shadow ? $shadow['x'] . 'px ' . $shadow['y'] . 'px ' . $shadow['blur'] . 'px ' . $shadow['spread'] . 'px ' . $shadow['type'] : '';
+                $properties['boxshadow'] = '';
+                foreach( ['x', 'y', 'blur', 'spread', 'type'] as $bsp ) {
+                    if( ! $field['values'][$bsp] ) {
+                        continue;
+                    }
+                    $properties['boxshadow'] .= $bsp == 'type' ? $field['values'][$bsp] : $field['values'][$bsp] . 'px ';
+                }     
                 
                 break; 
                 
@@ -473,11 +504,13 @@ class Styling extends Base {
 
                     foreach( $styles as $key => $property ) {
                         
-                        if( ! isset($field['values'][$key]) )
-                            continue;                        
-
-                        if( ! $field['values'][$key] )
+                        if( ! isset($field['values'][$key]) ) {
                             continue;
+                        }                        
+
+                        if( ! $field['values'][$key] ) {
+                            continue;
+                        }
 
                         $properties[$property] = $key == 'text_align' ? $field['values'][$key] : str_replace( '_', '-', $key );
 

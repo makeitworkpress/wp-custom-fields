@@ -446,12 +446,18 @@ trait Validate {
             case 'date':
             case 'datetime':
             case 'week':
-            case '[unit]': // Used for the dimensions field, as it has multidimensional settings  
+            case '[repeat]':
+            case '[attachment]':
+            case '[size]':
+            case '[position]':
+            case '[unit]': 
+            case '[unit]':
+            case '[unit]':
             case '[line_spacing][unit]': 
             case '[size][unit]': 
             case 'number':
             case 'range':
-            case '[amount]': // Used for the dimensions field, as it has multidimensional settings            
+            case '[amount]':      
             case '[line_spacing][amount]':         
             case '[size][amount]':         
                 $sanitize = 'sanitize_text_field';

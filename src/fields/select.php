@@ -82,10 +82,10 @@ class Select implements Field {
 
         } ?>
         
-            <select class="wpcf-select" id="<?php echo $id; ?>" name="<?php echo $name . $namekey; ?>" <?php echo $multiple; ?>>
+            <select class="wpcf-select" id="<?php echo $id; ?>" name="<?php echo $name . $namekey; ?>" <?php echo $multiple; if( $placeholder ) { ?> data-placeholder="<?php echo $placeholder; ?>"<?php } ?>>
 
                 <?php if( $placeholder ) { ?>
-                    <option value=""><?php echo $placeholder; ?></option>
+                    <option class="wpcf-placeholder" value=""><?php echo $placeholder; ?></option>
                 <?php } ?>
 
                 <?php foreach ($options as $key => $option ) { ?>

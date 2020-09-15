@@ -1,6 +1,6 @@
 <?php
  /** 
-  * Displays a custom typography field
+  * Displays a custom dimension field for the customizer
   */
 namespace MakeitWorkPress\WP_Custom_Fields\Fields\Customizer;
 use WP_Customize_Control as WP_Customize_Control;

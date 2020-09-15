@@ -75,14 +75,15 @@ class Background implements Field {
             'defaults'      => [],
             // Default labels
             'labels'        => [
-                'add'       => __('Select', 'wp-custom-fields'),
-                'button'    => __('Add Background', 'wp-custom-fields'),
-                'title'     => __('Select a Background', 'wp-custom-fields')
+                'add'           => __('Select', 'wp-custom-fields'),
+                'button'        => __('Add Background', 'wp-custom-fields'),
+                'placeholder'   => __('— Select —', 'wp-custom-fields'),
+                'title'         => __('Select a Background', 'wp-custom-fields')
             ],
             // Properties
             'properties'    => [
                 'repeat' => [
-                    'placeholder'   => __('Repeat', 'wp-custom-fields'),
+                    'placeholder'   => __('Background Repeat', 'wp-custom-fields'),
                     'options'       => [
                         'no-repeat' => __('No Repeat', 'wp-custom-fields'),
                         'repeat'    => __('Repeat', 'wp-custom-fields'),
@@ -92,7 +93,7 @@ class Background implements Field {
                     ]
                 ],
                 'attachment' => [
-                    'placeholder'   => __('Attachment', 'wp-custom-fields'),
+                    'placeholder'   => __('Background Attachment', 'wp-custom-fields'),
                     'options'       => [
                         'fixed'     => __('Fixed', 'wp-custom-fields'),
                         'scroll'    => __('Scroll', 'wp-custom-fields'),
@@ -100,7 +101,7 @@ class Background implements Field {
                     ]
                 ],
                 'size' => [
-                    'placeholder'   => __('Size', 'wp-custom-fields'),
+                    'placeholder'   => __('Background Size', 'wp-custom-fields'),
                     'options'       => [
                         'cover'     => __('Cover', 'wp-custom-fields'),
                         'contain'   => __('Contain', 'wp-custom-fields'),
@@ -109,7 +110,7 @@ class Background implements Field {
                     ]
                 ],            
                 'position' => [
-                    'placeholder'   => __('Position', 'wp-custom-fields'),
+                    'placeholder'   => __('Background Position', 'wp-custom-fields'),
                     'options'       => [
                         'center top' => __('Center Top', 'wp-custom-fields'),
                         'center center' => __('Center Center', 'wp-custom-fields'),

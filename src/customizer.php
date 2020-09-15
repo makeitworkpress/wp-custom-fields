@@ -197,13 +197,15 @@ class Customizer {
                  * Add our settings. Elaborate controls have multiple settings.
                  */
                 switch( $field['type'] ) {
-                    case 'background':
+                    case 'background-properties':
                     case 'dimension':
                     case 'typography':
 
  
-                        if( $field['type'] == 'background') {
+                        if( $field['type'] == 'background-properties') {
                             $configurations = Fields\Background::configurations();
+                            unset($configurations['settings'][0]); // Remove the upload setting field, as it is not used as a setting (key = 0)
+                            unset($configurations['settings'][1]); // Remove the color setting field, as it is not used as a setting (key = 1)
                         } 
                         
                         if( $field['type'] == 'dimension') {
@@ -277,13 +279,12 @@ class Customizer {
                         break;
                     case 'heading':
                         $wp_customize->add_control( new Fields\Customizer\Heading($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
-                        break; 
-                    case 'section':
-                        $wp_customize->add_control( new Fields\Customizer\Section($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
                         break;
                     case 'textarea':
                         $wp_customize->add_control( new Fields\Customizer\TextArea($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
                         break;
+                    // Fields with multiple input fields
+                    case 'background-properties':                          
                     case 'dimension':                          
                     case 'typography':
                         
@@ -293,13 +294,17 @@ class Customizer {
                             $link = str_replace( ['[', ']'], '', $setting );
                             $controlArgs['settings'][$link] = $panel['id'] . '[' . $field['id'] . ']' . $setting;
                         }
-                        
-                        if( $field['type'] == 'typography' ) {
-                            $wp_customize->add_control( new Fields\Customizer\Typography($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
-                        }
+
+                        if( $field['type'] == 'background-properties' ) {
+                            $wp_customize->add_control( new Fields\Customizer\Background_Properties($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        }                         
 
                         if( $field['type'] == 'dimension' ) {
                             $wp_customize->add_control( new Fields\Customizer\Dimension($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        }                        
+                        
+                        if( $field['type'] == 'typography' ) {
+                            $wp_customize->add_control( new Fields\Customizer\Typography($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
                         }
 
                         break;                         
