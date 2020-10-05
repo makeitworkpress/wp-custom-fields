@@ -337,7 +337,7 @@ class Styling extends Base {
                 break;
 
             // Background field
-            case 'background-properties': {
+            case 'background-properties': 
 
                 if( $field['values'] ) {
                     foreach( ['repeat', 'attachment', 'size', 'position'] as $property ) {
@@ -354,9 +354,7 @@ class Styling extends Base {
                     $properties['background-repeat'] = $field['values']; // Default values
                 }
 
-                break;
-
-            }                
+                break;               
                 
             // Boxshadow field    
             case 'boxshadow':

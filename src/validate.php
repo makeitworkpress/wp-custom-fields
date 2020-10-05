@@ -450,8 +450,6 @@ trait Validate {
             case '[attachment]':
             case '[size]':
             case '[position]':
-            case '[unit]': 
-            case '[unit]':
             case '[unit]':
             case '[line_spacing][unit]': 
             case '[size][unit]': 
