@@ -101,10 +101,10 @@ class Select implements Field {
                     <?php if( is_array($option) ) { ?>
                         <optgroup label="<?php echo esc_attr( str_replace('_', '', $key) ); ?>">
                         <?php foreach( $option as $value => $name ) { ?>
-                            <option value="<?php echo esc_attr($value); ?>" <?php echo $selected; ?>><?php esc_html_e($name); ?></option>
+                            <option value="<?php echo esc_attr($value); ?>" <?php echo $selected; ?>><?php echo esc_html($name); ?></option>
                         <?php } ?>   
                     <?php } else { ?>
-                        <option value="<?php echo esc_attr($key); ?>" <?php echo $selected; ?>><?php esc_html_e($option); ?></option>
+                        <option value="<?php echo esc_attr($key); ?>" <?php echo $selected; ?>><?php echo esc_html($option); ?></option>
                     <?php } ?>
 
                 <?php } ?>

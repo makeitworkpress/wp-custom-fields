@@ -34,7 +34,7 @@ class Icons implements Field {
                         continue; 
                     } ?>
 
-                    <p class="wpcf-icons-title"><?php esc_html_e($set); ?></p>
+                    <p class="wpcf-icons-title"><?php echo esc_html($set); ?></p>
                     <ul class="wpcf-icon-list">
             
                         <?php 

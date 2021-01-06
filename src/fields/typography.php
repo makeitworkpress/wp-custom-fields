@@ -43,7 +43,7 @@ class Typography implements Field {
                         <?php foreach( $types as $key => $font ) { ?>         
                             <?php $display = isset($font['example']) ? esc_url($font['example']) : WP_CUSTOM_FIELDS_ASSETS_URL . 'img/' . $key . '.png'; // Allows for custom fonts ?> 
                             <option data-display="<?php echo $display; ?>" value="<?php echo esc_attr($key); ?>" <?php selected( isset($field['values']['font']) ? $field['values']['font'] : '', $key); ?>>
-                                <?php esc_html_e( $font['name'] ); ?>
+                                <?php echo esc_html( $font['name'] ); ?>
                             </option>
                         <?php } ?>
                         
@@ -109,7 +109,7 @@ class Typography implements Field {
                             <li>
                                 <input type="<?php echo esc_attr($type); ?>" name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($field['id'] . '-' . $value); ?>" value="<?php echo esc_attr($value); ?>" <?php echo $checked; ?> />
                                 <label for="<?php echo esc_attr($field['id'] . '-' . $value); ?>">
-                                <i class="material-icons"><?php esc_html_e($icon); ?></i>
+                                <i class="material-icons"><?php echo esc_html($icon); ?></i>
                                 </label>
                             </li>
 

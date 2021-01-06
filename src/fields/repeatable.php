@@ -92,7 +92,7 @@ class Repeatable implements Field {
                                     
                                     if( class_exists($class) ) { ?>
                                         <div class="wpcf-repeatable-field wpcf-field <?php echo $subfield['classes']; ?>">
-                                            <h5><?php esc_html_e($subfield['title']); ?></h5>
+                                            <h5><?php echo esc_html($subfield['title']); ?></h5>
                                             <div class="wpcf-repeatable-field-input" <?php foreach($subfield['dependency'] as $k => $v) { ?> data-<?php echo $k; ?>="<?php echo $v; ?>" <?php } ?>>
                                                 <?php $class::render($subfield); ?>
                                             </div>
