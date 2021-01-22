@@ -70,8 +70,8 @@ class Select implements Field {
 
                     $terms = get_terms( ['fields' => 'id=>name', 'hide_empty' => false, 'order' => 'ASC', 'taxonomy' => $source] );
                     
-                    foreach( $terms as $ID => $name ) {
-                        $options[$ID] = $name;
+                    foreach( $terms as $term_id => $term_name ) {
+                        $options[$term_id] = $term_name;
                     }                
                     
                 }                
