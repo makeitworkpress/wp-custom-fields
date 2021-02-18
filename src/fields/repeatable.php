@@ -39,7 +39,7 @@ class Repeatable implements Field {
                 foreach($field['fields'] as $subkey => $subfield) {
 
                     $groups[$key][$subfield['id']]           = $subfield;    
-                    $groups[$key][$subfield['id']]['values'] = $groupValues[$subfield['id']];    
+                    $groups[$key][$subfield['id']]['values'] = isset($groupValues[$subfield['id']]) ? $groupValues[$subfield['id']] : '';
 
                 }
 
