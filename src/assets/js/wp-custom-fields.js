@@ -176,8 +176,8 @@ module.exports.init = function(framework) {
             propertyValue = jQuery(datePicker).data(attribute);
 
             if( propertyValue ) {
-                propertyName = value.replace( /-([a-z])/g, function (g) { return g[1].toUpperCase(); } );
-                config[propertyName] = propertyValue;
+                propertyName            = attribute.replace( /-([a-z])/g, function (g) { return g[1].toUpperCase(); } );
+                config[propertyName]    = propertyValue;
             }
 
         });
