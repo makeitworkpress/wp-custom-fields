@@ -390,7 +390,7 @@ module.exports.init = function(framework) {
         }); 
 
     });  
-}
+};
 },{}],10:[function(require,module,exports){
 /**
  * Our jquery UI slider

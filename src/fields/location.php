@@ -59,6 +59,7 @@ class Location implements Field {
         $configurations = [
             'defaults'  => [
                 'city'          => '',
+                'country'       => '',
                 'lat'           => '',
                 'lng'           => '',
                 'number'        => '',
@@ -69,7 +70,8 @@ class Location implements Field {
                 'street'        => __('Street Address', 'wp-custom-fields'),
                 'number'        => __('Street Number', 'wp-custom-fields'),
                 'postal_code'   => __('Postal Code', 'wp-custom-fields'),
-                'city'          => __('City', 'wp-custom-fields')
+                'city'          => __('City', 'wp-custom-fields'),
+                'country'       => __('Country', 'wp-custom-fields')
             ],
             'type'      => 'location'
         ];
