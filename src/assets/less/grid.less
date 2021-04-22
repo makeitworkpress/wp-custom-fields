@@ -15,12 +15,12 @@
 
 /* Grid Columns */
 @marge: 1%;
-@half: 49.5%;
-@third: 32.6666666667%;
+@half: (100% - @marge)*0.5;
+@third: (100% - 2*@marge)*0.3333333;
 @two-third: @third*2 + @marge;
-@fourth: 24.25%;
+@fourth: (100% - 3*@marge)*0.25;
 @three-fourth: @fourth * 3 + @marge*2;
-@fifth: (100% - 4*@marge)/5;
+@fifth: (100% - 4*@marge)*0.2;
 
 /* Individual Grids */
 .wpcf-full {
@@ -65,7 +65,7 @@
 }
 
 .wpcf-full, .wpcf-half, .wpcf-third, .wpcf-two-third, .wpcf-three-fourth, .wpcf-fourth, .wpcf-fifth {
-    margin-bottom: @grid-space/4;  
+    margin-bottom: @grid-space*0.25;  
     @media screen and (max-width: 767px) {
         width: 100%;
     }    
