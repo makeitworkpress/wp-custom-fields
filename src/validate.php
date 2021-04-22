@@ -344,6 +344,7 @@ trait Validate {
                 $return_value['street']         = isset($field_value['street']) ? sanitize_text_field( $field_value['street'] ) : '';
                 $return_value['city']           = isset($field_value['city']) ? sanitize_text_field( $field_value['city'] ) : '';
                 $return_value['postal_code']    = isset($field_value['postal_code']) ? sanitize_text_field( $field_value['postal_code'] ) : '';
+                $return_value['country']        = isset($field_value['country']) ? sanitize_text_field( $field_value['country'] ) : '';
                 break; 
               
             // Media field
