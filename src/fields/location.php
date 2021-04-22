@@ -40,7 +40,7 @@ class Location implements Field {
                 <?php foreach( $config['labels'] as $key => $label ) { ?>
                     <div class="wpcf-field-left">
                         <label for="<?php echo $id . '-' . $key; ?>"><?php echo $label; ?></label>
-                        <input type="text" class="regular-text <?php echo $key; ?>'" id="<?php echo $id . '-' . $key; ?>" name="<?php echo $name .'[' . $key .']'; ?>" value="<?php if( isset($field['values'][$key]) ) { echo esc_attr($field['values'][$key]); } ?>" />
+                        <input type="text" class="regular-text <?php echo $key; ?>" id="<?php echo $id . '-' . $key; ?>" name="<?php echo $name .'[' . $key .']'; ?>" value="<?php if( isset($field['values'][$key]) ) { echo esc_attr($field['values'][$key]); } ?>" />
                     </div>
                 <?php } ?>
             
