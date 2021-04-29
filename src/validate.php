@@ -47,7 +47,7 @@ trait Validate {
      * Formats the output by sanitizing and validating
      *
      * @param array $frame   The frame to format
-     * @param array $input   The $_Post $input generated
+     * @param array $input   The $_POST $input generated
      * @param array $type    The type to format for, either options, user, post or term
      * 
      * @return array $output The validated and sanitized fields
@@ -344,6 +344,7 @@ trait Validate {
                 $return_value['street']         = isset($field_value['street']) ? sanitize_text_field( $field_value['street'] ) : '';
                 $return_value['city']           = isset($field_value['city']) ? sanitize_text_field( $field_value['city'] ) : '';
                 $return_value['postal_code']    = isset($field_value['postal_code']) ? sanitize_text_field( $field_value['postal_code'] ) : '';
+                $return_value['state']          = isset($field_value['state']) ? sanitize_text_field( $field_value['state'] ) : '';
                 $return_value['country']        = isset($field_value['country']) ? sanitize_text_field( $field_value['country'] ) : '';
                 break; 
               

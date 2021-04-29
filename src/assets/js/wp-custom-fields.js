@@ -322,6 +322,7 @@ module.exports.init = function(framework) {
             country = jQuery('.country', this),
             zip = jQuery('.postal_code', this),
             street = jQuery('.street', this),
+            state = jQuery('.state', this),
             number = jQuery('.number', this),
             latLng = new google.maps.LatLng(52.2129918, 5.2793703),
             zoom = 7;            
@@ -386,6 +387,8 @@ module.exports.init = function(framework) {
                         city.val(component.long_name);
                     } else if (types.indexOf('postal_code') != -1) {
                         zip.val(component.long_name);
+                    } else if (types.indexOf('administrative_area_level_1') != -1) {
+                        state.val(component.long_name);
                     } else if (types.indexOf('country') != -1) {
                         country.val(component.long_name);
                     }

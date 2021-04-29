@@ -40,7 +40,7 @@ class Location implements Field {
                 <div class="wpcf-map-canvas"></div>       
                 <div class="wpcf-location-details grid flex">
                     <?php foreach( $config['labels'] as $key => $label ) { ?>
-                        <?php $column = in_array($key, ['country']) ? 'full' : 'fourth'; ?>
+                        <?php $column = in_array($key, ['country', 'state']) ? 'half' : 'fourth'; ?>
                         <div class="wpcf-location-detail wpcf-<?php echo $column; ?>">
                             <label for="<?php echo $id . '-' . $key; ?>"><?php echo $label; ?></label>
                             <input type="text" class="regular-text <?php echo $key; ?>" id="<?php echo $id . '-' . $key; ?>" name="<?php echo $name .'[' . $key .']'; ?>" value="<?php if( isset($field['values'][$key]) ) { echo esc_attr($field['values'][$key]); } ?>" />
@@ -67,6 +67,7 @@ class Location implements Field {
                 'lng'           => '',
                 'number'        => '',
                 'postal_code'   => '',                
+                'state'         => '',                
                 'street'        => ''
             ],
             'labels' => [
@@ -74,6 +75,7 @@ class Location implements Field {
                 'number'        => __('Street Number', 'wp-custom-fields'),
                 'postal_code'   => __('Postal Code', 'wp-custom-fields'),
                 'city'          => __('City', 'wp-custom-fields'),
+                'state'         => __('State', 'wp-custom-fields'),
                 'country'       => __('Country', 'wp-custom-fields')
             ],
             'placeholders'      => [
