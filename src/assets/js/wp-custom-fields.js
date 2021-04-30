@@ -467,7 +467,7 @@ module.exports.init = function(framework) {
                     attachment_ids += attachment.id + ',';
 
                     if( attachment.type === 'image') {
-                        src = attachment.sizes.thumbnail.url;
+                        src = typeof(attachment.sizes.thumbnail) !== 'undefined' ? attachment.sizes.thumbnail.url : attachment.sizes.full.url;
                     } else {
                         src = attachment.icon;
                     }
