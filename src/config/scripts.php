@@ -8,8 +8,6 @@ if ( ! defined('ABSPATH') ) {
     die; 
 }
 
-$suffix = defined('WP_DEBUG') && WP_DEBUG ? '' : '.min';
-
 $scripts[] = [
     'handle'    => 'alpha-color-picker',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/alpha-color-picker.min.js',
@@ -21,7 +19,7 @@ $scripts[] = [
 
 $scripts[] = [
     'handle'    => 'wp-custom-fields-js',
-    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/wp-custom-fields' . $suffix . '.js',
+    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/wp-custom-fields.js',
     'deps'      => [ 'jquery', 'wp-color-picker' ],
     'ver'       => null,
     'in_footer' => true,  
