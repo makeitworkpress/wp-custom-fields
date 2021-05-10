@@ -19,7 +19,7 @@ $scripts[] = [
 
 $scripts[] = [
     'handle'    => 'wp-custom-fields-js',
-    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/wp-custom-fields.js',
+    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/wpcf.js',
     'deps'      => [ 'jquery', 'wp-color-picker' ],
     'ver'       => null,
     'in_footer' => true,  

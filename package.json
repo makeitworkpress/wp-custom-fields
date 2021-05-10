@@ -14,7 +14,7 @@
         "watchify": "latest"
     },
     "scripts": {
-        "build-js": "browserify src/assets/js/app.js -o src/assets/js/wp-custom-fields.js && uglifyjs src/assets/js/wp-custom-fields.js -o src/assets/js/wp-custom-fields.min.js -c -m",
-        "watch-js": "watchify src/assets/js/app.js -o src/assets/js/wp-custom-fields.js -v"
-    }    
+        "build-js": "browserify src/assets/js/app.js -o src/assets/js/wpcf.js && uglifyjs src/assets/js/wpcf.js -o src/assets/js/wpcf.min.js -c -m",
+        "watch-js": "watchify src/assets/js/app.js -o src/assets/js/wpcf.js -v"
+    }
 }
