@@ -20,16 +20,28 @@
 /**
  * Overwrite some of flatpickers defaults
  */
+.flatpickr-months .flatpickr-month {
+    height: 36px;
+}
+
 .flatpickr-current-month {
     font-size: 1.1em;
+    height: 36px;
+    padding: 4px 0 0 0;
+    .numInputWrapper {
+        border: 1px solid #8c8f94;
+        border-radius: 3px;
+        vertical-align: middle;
+    }
+    input.cur-year {
+        appearance: textfield;
+        box-shadow: none;
+        margin: 0 0 0 0.5ch;
+        padding: 0;
+    }    
 }
 
-.flatpickr-current-month input.cur-year {
-    box-shadow: none;
-    margin: 0 0 0 0.5ch;
-    padding: 0;
-}
-
+.flatpickr-current-month 
 .flatpickr-day.selected, 
 .flatpickr-day.startRange, 
 .flatpickr-day.endRange, 
