@@ -75,10 +75,10 @@ class Dimensions implements Field {
             'defaults'      => [],
             'properties'    => [
                 'sides' => [
-                    'top'       => __('Top', 'wp-custom-fields'), 
-                    'right'     => __('Right', 'wp-custom-fields'), 
-                    'bottom'    => __('Bottom', 'wp-custom-fields'), 
-                    'left'      => __('Left', 'wp-custom-fields')      
+                    'top'       => __('Top', 'wpcf'), 
+                    'right'     => __('Right', 'wpcf'), 
+                    'bottom'    => __('Bottom', 'wpcf'), 
+                    'left'      => __('Left', 'wpcf')      
                 ]
             ]
         ];

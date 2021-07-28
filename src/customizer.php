@@ -58,27 +58,27 @@ class Customizer {
 
         // Validate for errors
         if( ! isset($group['id']) || ! isset($group['sections']) ) {
-            $this->validated = new WP_Error( 'wrong', __( 'Your customizer configurations are missing sections or an id.', 'wp-custom-fields' ) ); 
+            $this->validated = new WP_Error( 'wrong', __( 'Your customizer configurations are missing sections or an id.', 'wpcf' ) ); 
         }
     
         // Prohibited names
         if( in_array($group['id'], ['widget_', 'sidebars_widgets', 'nav_menu', 'nav_menu_item']) ) {
-            $this->validated = new WP_Error( 'wrong', __( 'It is forbidden to use widget_, sidebars_widget, nav_menu or nav_menu_item for customizer ids.', 'wp-custom-fields' ) );
+            $this->validated = new WP_Error( 'wrong', __( 'It is forbidden to use widget_, sidebars_widget, nav_menu or nav_menu_item for customizer ids.', 'wpcf' ) );
         }
 
         if( is_wp_error($this->validated) ) {
             return;
         }
 
-        $this->registerHooks();
+        $this->register_hooks();
 
     }
     
     /**
      * Register WordPress Hooks
      */
-    protected function registerHooks() {
-        add_action( 'customize_register', [$this, 'addSettings'] );
+    protected function register_hooks() {
+        add_action( 'customize_register', [$this, 'add_settings'] );
         add_action( 'admin_enqueue_scripts', [$this, 'enqueue'] );             
     }
     
@@ -107,7 +107,7 @@ class Customizer {
      *
      * @return void
      */
-    public function addSettings( $wp_customize ) {
+    public function add_settings( $wp_customize ) {
         
         // Check
         $panel = $this->panel;
@@ -218,7 +218,7 @@ class Customizer {
 
                         // Add all custom settings for the given field
                         foreach( $configurations['settings'] as $setting ) {  
-                            $settingArgs['sanitize_callback'] = Validate::sanitizeCustomizerField($setting);
+                            $settingArgs['sanitize_callback'] = Validate::sanitize_customizer_field($setting);
                             $wp_customize->add_setting($panel['id'] . '[' . $field['id'] . ']' . $setting, $settingArgs );    
                         }
                         
@@ -227,7 +227,7 @@ class Customizer {
 
                         // Sanitize values.
                         if( ! isset($field['sanitize']) ) {
-                            $settingArgs['sanitize_callback'] = Validate::sanitizeCustomizerField($field['type']);
+                            $settingArgs['sanitize_callback'] = Validate::sanitize_customizer_field($field['type']);
                         }
 
                         $wp_customize->add_setting( $panel['id'] . '[' . $field['id'] . ']', $settingArgs );
@@ -335,17 +335,13 @@ class Customizer {
      * @parram array $validity  The The validity of the setting
      * @parram array $value     The value passed
      */
-    public function validateCustomizerField( $validity, $value ) {
-        
-    }
+    public function validate_customizer_field( $validity, $value ) {}
     
     /**
      * Default fallback for sanitization
      * 
      * @parram array $value     The value passed
      */
-    public function sanitizeCustomizerField( $value ) {
-
-    }
+    public function sanitize_customizer_field( $value ) {}
     
 }

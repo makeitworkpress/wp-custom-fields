@@ -34,11 +34,11 @@ class Frame {
         $this->class            = isset($frame['class']) ? esc_attr($frame['class']) : '';
         $this->errors           = ''; // Used within option pages, set by options.php
         $this->id               = esc_attr($frame['id']);
-        $this->resetButton      = ''; // Used within option pages, set by options.php
-        $this->restoreButton    = ''; // Used within option pages, set by options.php
-        $this->saveButton       = ''; // Used within option pages, set by options.php
+        $this->reset_button      = ''; // Used within option pages, set by options.php
+        $this->restore_button   = ''; // Used within option pages, set by options.php
+        $this->save_button      = ''; // Used within option pages, set by options.php
         $this->sections         = [];
-        $this->settingFields    = ''; // Used within option pages, set by options.php
+        $this->setting_fields   = ''; // Used within option pages, set by options.php
         $this->title            = esc_html($frame['title']);
         $this->type             = '';
 
@@ -68,7 +68,7 @@ class Frame {
         
         // Current section
         $transient              = get_transient( 'wp_custom_fields_current_section_' . $this->frame['id'] );
-        $this->currentSection   = ! empty( $transient ) ? $transient : array_values($this->frame['sections'])[0]['id'];   
+        $this->current_section  = ! empty( $transient ) ? $transient : array_values($this->frame['sections'])[0]['id'];   
         
         // Loop through our sections
         foreach( $this->frame['sections'] as $key => $section ) {
@@ -77,13 +77,13 @@ class Frame {
                 continue;
             
             $this->sections[$key]                  = $section;
-            $this->sections[$key]['active']        = $this->currentSection == $section['id'] ? 'active'          : '';
+            $this->sections[$key]['active']        = $this->current_section == $section['id'] ? 'active'          : '';
             $this->sections[$key]['description']   = isset( $section['description'] ) ? esc_textarea($section['description']) : '';
             $this->sections[$key]['fields']        = [];
             $this->sections[$key]['icon']          = ! empty( $section['icon'] ) ? esc_html($section['icon'])  : false;
             $this->sections[$key]['id']            = esc_attr($section['id']);
             $this->sections[$key]['tabs']          = isset( $section['tabs'] ) && $section['tabs'] == false ? false : true;
-            $this->sections[$key]['title']         = isset( $section['title'] ) ? esc_html($section['title'])  : __( 'Titleless Section', 'wp-custom-fields' );
+            $this->sections[$key]['title']         = isset( $section['title'] ) ? esc_html($section['title'])  : __( 'Titleless Section', 'wpcf' );
 
             if( ! isset($section['fields']) || ! is_array($section['fields']) ) {
                 continue;
@@ -116,7 +116,7 @@ class Frame {
         $field['classes']       = isset( $field['columns'] )            ?  'wpcf-' . esc_attr($field['columns']) : 'wpcf-full';
         $field['description']   = isset( $field['description'] )        ?  esc_textarea($field['description'])      : '';
         $field['dependency']    = isset( $field['dependency'] ) && $field['dependency'] ?  $field['dependency'] : [];
-        $field['form']          = '<div class="error notice"><p>' . sprintf( __('The given field class does not exist for the field with id: %s', 'wp-custom-fields'), $field['id']) . '</p></div>';
+        $field['form']          = '<div class="error notice"><p>' . sprintf( __('The given field class does not exist for the field with id: %s', 'wpcf'), $field['id']) . '</p></div>';
         $field['type']          = isset($field['type']) ? esc_attr($field['type']) : 'unknown';
 
         // Make sure our IDs do not contain brackets
@@ -132,14 +132,14 @@ class Frame {
 
         // Set-up additional classes and settings
         if( $field['dependency'] ) {
-            $field['classes']  .= ' wpcf-dependent-field' . Framework::returnDependencyClass($field['dependency'], $this->sections, $this->values);
+            $field['classes']  .= ' wpcf-dependent-field' . Framework::return_dependency_class($field['dependency'], $this->sections, $this->values);
         }
 
         $field['classes']       .= ' field-' . $field['type'] . ' field-id-' . $field['id'];
 
         // We should have a field type
         if( $field['type'] == 'unknown' ) {
-            $field['form']      = '<div class="error notice"><p>' . sprintf( __('The type is not defined for the field with id: %s', 'wp-custom-fields'), $field['id']) . '</p></div>';
+            $field['form']      = '<div class="error notice"><p>' . sprintf( __('The type is not defined for the field with id: %s', 'wpcf'), $field['id']) . '</p></div>';
             return $field;
         }
 

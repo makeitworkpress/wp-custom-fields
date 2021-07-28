@@ -36,16 +36,16 @@ class Styling extends Base {
     /**
      * Adds functions to WordPress hooks - is automatically performed at a new instance
      */
-    protected function registerHooks() {  
+    protected function register_hooks() {  
 
         $this->actions = [
-            ['save_post', 'saveFields', 20, 1],
-            ['updated_option', 'saveFields', 20, 1],
-            ['customize_save_after', 'saveFields', 20, 1],
-            ['wp_head', 'retrieveFields'],                  // Retrieve the fields
-            ['wp_head', 'outputCSS', 20],                   // Render the output
-            ['wp_enqueue_scripts', 'customFonts'],          // Enqueue fonts, if necessary
-            ['customize_preview_init', 'customizerJS']      // Enqueue JS for customizer, if necessary
+            ['save_post', 'save_fields', 20, 1],
+            ['updated_option', 'save_fields', 20, 1],
+            ['customize_save_after', 'save_fields', 20, 1],
+            ['wp_head', 'retrieve_fields'],                  // Retrieve the fields
+            ['wp_head', 'output_CSS', 20],                   // Render the output
+            ['wp_enqueue_scripts', 'custom_fonts'],          // Enqueue fonts, if necessary
+            ['customize_preview_init', 'customizer_JS']      // Enqueue JS for customizer, if necessary
         ];
 
     }
@@ -55,7 +55,7 @@ class Styling extends Base {
      * @param mixed     $key    A certain key, id (which can be an option page id) or hooked argument, based upon the hook
      * @param string    $hook   A hook string, to manually trigger a certain save action from outside the hooks
      */
-    public function saveFields( $key, $hook = '' ) {
+    public function save_fields( $key, $hook = '' ) {
 
         // If we're saving fields, look what hook we're in
         $hook       = $hook ? $hook : current_filter();
@@ -549,9 +549,9 @@ class Styling extends Base {
 
     /**
      * Retrieves our css fields and properties from the database.
-     * Also used in later functions (customFonts and customizerJS) to load specific assets.
+     * Also used in later functions (custom_fonts and customizer_JS) to load specific assets.
      */
-    public function retrieveFields() {
+    public function retrieve_fields() {
 
         /**
          * Load our customizer fields manually if we're previewing. 
@@ -596,7 +596,7 @@ class Styling extends Base {
     /**
      * Retrieve values if we have css fields for them.
      */
-    public function outputCSS() {
+    public function output_CSS() {
 
         // We should have fields with styles
         if( ! isset($this->fields) || ! $this->fields ) {
@@ -662,7 +662,7 @@ class Styling extends Base {
     /**
      * Determine the enqueueing of our custom fonts
      */
-    public function customFonts() {
+    public function custom_fonts() {
         
         // We should have fields with styles
         if( ! isset($this->fields) || ! $this->fields ) {
@@ -753,7 +753,7 @@ class Styling extends Base {
     /**
      * Custom Javascript for Transported fields. For now, only works for fields with single values. But is quite awesome nevertheless. 
      */
-    public function customizerJS() {
+    public function customizer_JS() {
         
         // Are we in the customizer preview?
         if( ! is_customize_preview() ) {

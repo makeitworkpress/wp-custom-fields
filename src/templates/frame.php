@@ -25,13 +25,13 @@
                                 <h2><?php echo $frame->title; ?></h2>
                             <?php } ?>                        
                         
-                            <?php if( $frame->restoreButton || $frame->saveButton ) { ?>
+                            <?php if( $frame->restore_button || $frame->save_button ) { ?>
                                 <div class="wpcf-buttons">
                                     <?php 
                                         // Displays any errors
                                         echo $frame->errors; 
-                                        echo $frame->restoreButton;
-                                        echo $frame->saveButton; 
+                                        echo $frame->restore_button;
+                                        echo $frame->save_button; 
                                     ?>
                                 </div>
                             <?php } ?>
@@ -126,9 +126,9 @@
                 
                 <footer class="wpcf-buttons">
                     <?php 
-                        echo $frame->resetButton;
-                        echo $frame->restoreButton;
-                        echo $frame->saveButton; 
+                        echo $frame->reset_button;
+                        echo $frame->restore_button;
+                        echo $frame->save_button; 
                     ?>                
                 </footer>
 
@@ -138,10 +138,10 @@
                 /**
                  * Echo settings fields, such as those that are rendered by the options page or the nonce fields for meta box pages
                  */
-                echo $frame->settingsFields; 
+                echo $frame->settings_fields; 
             ?>
             
-            <input type="hidden" name="wp_custom_fields_section_<?php echo $frame->id; ?>" id="wp_custom_fields_section_<?php echo $frame->id; ?>" value="<?php echo $frame->currentSection; ?>" />
+            <input type="hidden" name="wp_custom_fields_section_<?php echo $frame->id; ?>" id="wp_custom_fields_section_<?php echo $frame->id; ?>" value="<?php echo $frame->current_section; ?>" />
 
             <?php if( $frame->type == 'options' ) { ?>
 

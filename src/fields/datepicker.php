@@ -80,8 +80,8 @@ class Datepicker implements Field {
             'type'      => 'datepicker',
             'defaults'  => '',         
             'labels'        => [
-                'clear'     => __('Clear', 'wp-custom-fields'),
-                'toggle'    => __('Toggle', 'wp-custom-fields')
+                'clear'     => __('Clear', 'wpcf'),
+                'toggle'    => __('Toggle', 'wpcf')
             ],
         ];
             

@@ -48,16 +48,19 @@ class Background implements Field {
                 ] ); 
             ?>
              
-            <?php foreach($configurations['properties'] as $key => $attribute) { 
-                // We use the select field class to display our recurring select fields.
-                Select::render( [
-                    'options'       => $attribute['options'],
-                    'placeholder'   => $attribute['placeholder'],
-                    'id'            => $field['id']  . '-' . $key,
-                    'name'          => $field['name']. '[' . $key . ']',
-                    'values'        => isset($field['values'][$key]) ? $field['values'][$key] : ''
-                ] );
-            } ?>
+            <?php 
+                $properties = isset($field['properties']) ? $field['properties'] : $configurations['properties'];
+                foreach($properties as $key => $attribute) { 
+                    // We use the select field class to display our recurring select fields.
+                    Select::render( [
+                        'options'       => $attribute['options'],
+                        'placeholder'   => $attribute['placeholder'],
+                        'id'            => $field['id']  . '-' . $key,
+                        'name'          => $field['name']. '[' . $key . ']',
+                        'values'        => isset($field['values'][$key]) ? $field['values'][$key] : ''
+                    ] );
+                } 
+            ?>
         
         </div>
   
@@ -75,52 +78,52 @@ class Background implements Field {
             'defaults'      => [],
             // Default labels
             'labels'        => [
-                'add'           => __('Select', 'wp-custom-fields'),
-                'button'        => __('Add Background', 'wp-custom-fields'),
-                'placeholder'   => __('— Select —', 'wp-custom-fields'),
-                'title'         => __('Select a Background', 'wp-custom-fields')
+                'add'           => __('Select', 'wpcf'),
+                'button'        => __('Add Background', 'wpcf'),
+                'placeholder'   => __('— Select —', 'wpcf'),
+                'title'         => __('Select a Background', 'wpcf')
             ],
             // Properties
             'properties'    => [
                 'repeat' => [
-                    'placeholder'   => __('Background Repeat', 'wp-custom-fields'),
+                    'placeholder'   => __('Background Repeat', 'wpcf'),
                     'options'       => [
-                        'no-repeat' => __('No Repeat', 'wp-custom-fields'),
-                        'repeat'    => __('Repeat', 'wp-custom-fields'),
-                        'repeat-x'  => __('Repeat Horizontally', 'wp-custom-fields'),
-                        'repeat-y'  => __('Repeat Vertically', 'wp-custom-fields'),
-                        'inherit'   => __('Inherit', 'wp-custom-fields')
+                        'no-repeat' => __('No Repeat', 'wpcf'),
+                        'repeat'    => __('Repeat', 'wpcf'),
+                        'repeat-x'  => __('Repeat Horizontally', 'wpcf'),
+                        'repeat-y'  => __('Repeat Vertically', 'wpcf'),
+                        'inherit'   => __('Inherit', 'wpcf')
                     ]
                 ],
                 'attachment' => [
-                    'placeholder'   => __('Background Attachment', 'wp-custom-fields'),
+                    'placeholder'   => __('Background Attachment', 'wpcf'),
                     'options'       => [
-                        'fixed'     => __('Fixed', 'wp-custom-fields'),
-                        'scroll'    => __('Scroll', 'wp-custom-fields'),
-                        'inherit'   => __('Inherit', 'wp-custom-fields') 
+                        'fixed'     => __('Fixed', 'wpcf'),
+                        'scroll'    => __('Scroll', 'wpcf'),
+                        'inherit'   => __('Inherit', 'wpcf') 
                     ]
                 ],
                 'size' => [
-                    'placeholder'   => __('Background Size', 'wp-custom-fields'),
+                    'placeholder'   => __('Background Size', 'wpcf'),
                     'options'       => [
-                        'cover'     => __('Cover', 'wp-custom-fields'),
-                        'contain'   => __('Contain', 'wp-custom-fields'),
-                        '100%'      => __('100%', 'wp-custom-fields'),
-                        'inherit'   => __('Inherit', 'wp-custom-fields')
+                        'cover'     => __('Cover', 'wpcf'),
+                        'contain'   => __('Contain', 'wpcf'),
+                        '100%'      => __('100%', 'wpcf'),
+                        'inherit'   => __('Inherit', 'wpcf')
                     ]
                 ],            
                 'position' => [
-                    'placeholder'   => __('Background Position', 'wp-custom-fields'),
+                    'placeholder'   => __('Background Position', 'wpcf'),
                     'options'       => [
-                        'center top' => __('Center Top', 'wp-custom-fields'),
-                        'center center' => __('Center Center', 'wp-custom-fields'),
-                        'center bottom' => __('Center Bottom', 'wp-custom-fields'),
-                        'left top' => __('Left Top', 'wp-custom-fields'),
-                        'left center' => __('Left Center', 'wp-custom-fields'),   
-                        'left bottom' => __('Left Bottom', 'wp-custom-fields'), 
-                        'right top' => __('Right Top', 'wp-custom-fields'), 
-                        'right center' => __('Right Center', 'wp-custom-fields'), 
-                        'right bottom' => __('Right Bottom', 'wp-custom-fields')
+                        'center top' => __('Center Top', 'wpcf'),
+                        'center center' => __('Center Center', 'wpcf'),
+                        'center bottom' => __('Center Bottom', 'wpcf'),
+                        'left top' => __('Left Top', 'wpcf'),
+                        'left center' => __('Left Center', 'wpcf'),   
+                        'left bottom' => __('Left Bottom', 'wpcf'), 
+                        'right top' => __('Right Top', 'wpcf'), 
+                        'right center' => __('Right Center', 'wpcf'), 
+                        'right bottom' => __('Right Bottom', 'wpcf')
                     ]
                 ]
             ],

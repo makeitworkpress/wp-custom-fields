@@ -19,6 +19,8 @@ class Boxshadow implements Field {
                 <div class="wpcf-boxshadow-dimensions wpcf-field-left">
                     <label><?php echo isset($field['labels']['dimensions']) ? $field['labels']['dimensions'] : $configurations['labels']['dimensions']; ?></label>
                         <?php 
+                            
+                            $pixels = isset($field['pixels']) && $field['pixels'] ? $field['pixels'] : $configurations['properties']['pixels'];
                             foreach( $configurations['properties']['pixels'] as $key => $label ) {
                                 $id     = esc_attr($field['id'] . '-' . $key);
                                 $name   = esc_attr($field['name']  . '['.$key.']');
@@ -45,7 +47,7 @@ class Boxshadow implements Field {
                         Select::render( [
                             'id'            => $field['id']  . '-type',
                             'name'          => $field['name']. '[type]',
-                            'options'       => ['' => __('Default', 'wp-custom-fields'), 'inset' => __('Inset', 'wp-custom-fields')],             
+                            'options'       => isset($field['types']) && $field['types'] ? $field['types'] : $configurations['properties']['types'],             
                             'placeholder'   => isset($field['labels']['placeholder']) ? $field['labels']['placeholder'] : $configurations['labels']['placeholder'],         
                             'values'        => isset($field['values']['type']) ? $field['values']['type'] : ''
                         ] );
@@ -67,19 +69,19 @@ class Boxshadow implements Field {
             'type'      => 'boxshadow',
             'defaults'  => [],
             'labels'    => [
-                'color'         => __('Boxshadow Color', 'wp-custom-fields'),
-                'dimensions'    => __('Boxshadow X-Offset, Y-Offset, Blur and Spread', 'wp-custom-fields'), 
-                'placeholder'   => __('Select Type', 'wp-custom-fields'),
-                'type'          => __('Boxshadow Type', 'wp-custom-fields'),
+                'color'         => __('Boxshadow Color', 'wpcf'),
+                'dimensions'    => __('Boxshadow X-Offset, Y-Offset, Blur and Spread', 'wpcf'), 
+                'placeholder'   => __('Select Type', 'wpcf'),
+                'type'          => __('Boxshadow Type', 'wpcf'),
             ],
             'properties'    => [
                 'pixels'    => [
-                    'x'         => __('x-offset', 'wp-custom-fields'),
-                    'y'         => __('y-offset', 'wp-custom-fields'),
-                    'blur'      => __('blur', 'wp-custom-fields'),
-                    'spread'    => __('spread', 'wp-custom-fields')
+                    'x'         => __('x-offset', 'wpcf'),
+                    'y'         => __('y-offset', 'wpcf'),
+                    'blur'      => __('blur', 'wpcf'),
+                    'spread'    => __('spread', 'wpcf')
                 ],
-                'types'     => [ '' => __('Default', 'wp-custom-fields'), 'inset' => __('Inset', 'wp-custom-fields') ],              
+                'types'     => [ '' => __('Default', 'wpcf'), 'inset' => __('Inset', 'wpcf') ],              
             ]
         ];
             

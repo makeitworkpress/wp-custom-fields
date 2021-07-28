@@ -92,9 +92,9 @@ class Media implements Field {
             'type'      => 'media',
             'defaults'  => '',
             'labels'    => [
-                'add'       => __('Add', 'wp-custom-fields'),
-                'button'    => __('Insert', 'wp-custom-fields'),
-                'title'     => __('Add Media', 'wp-custom-fields')
+                'add'       => __('Add', 'wpcf'),
+                'button'    => __('Insert', 'wpcf'),
+                'title'     => __('Add Media', 'wpcf')
             ]
         ];
             

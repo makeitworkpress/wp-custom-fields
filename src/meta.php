@@ -20,10 +20,10 @@ class Meta {
     use Validate;
     
     /**
-     * Contains the $metaBox array for each of the option pages
+     * Contains the $meta_box array for each of the option pages
      * @access public
      */
-    public $metaBox;
+    public $meta_box;
 
     /**
      * If we are saving as single keys, this value is true
@@ -52,9 +52,9 @@ class Meta {
     public function __construct( $group = [] ) {
 
         // Default properties
-        $this->metaBox  = $group;
-        $this->single   = isset( $this->metaBox['single'] ) ? $this->metaBox['single'] : false;
-        $this->type     = isset( $this->metaBox['type'] ) ? $this->metaBox['type'] : 'post';        
+        $this->meta_box  = $group;
+        $this->single   = isset( $this->meta_box['single'] ) ? $this->meta_box['single'] : false;
+        $this->type     = isset( $this->meta_box['type'] ) ? $this->meta_box['type'] : 'post';        
 
         // This can only be executed with the right capabilities
         if( ! current_user_can('edit_posts') || ! current_user_can('edit_pages') ) {
@@ -68,12 +68,12 @@ class Meta {
 
         // Our type should be in a predefined array
         if( ! in_array($this->type, ['post', 'term', 'user']) ) {
-            $this->validated = new WP_Error( 'wrong', __('You are using a wrong type for adding meta fields! Use either post, term or user.', 'wp-custom-fields') );
+            $this->validated = new WP_Error( 'wrong', __('You are using a wrong type for adding meta fields! Use either post, term or user.', 'wpcf') );
         }
 
         // We should have an id
         if( ! isset($group['id']) || ! $group['id'] ) {
-            $this->validated = new WP_Error( 'wrong', __('Your meta configurations require an id.', 'wp-custom-fields') );
+            $this->validated = new WP_Error( 'wrong', __('Your meta configurations require an id.', 'wpcf') );
         }    
         
         // Validate for our type being post
@@ -86,7 +86,7 @@ class Meta {
             return;
         }        
 
-        $this->registerHooks();
+        $this->register_hooks();
 
     }   
     
@@ -95,7 +95,7 @@ class Meta {
      * 
      * @access protected
      */
-    protected function registerHooks() {
+    protected function register_hooks() {
         
         // Post type metabox
         if( $this->type == 'post' ) {
@@ -104,9 +104,9 @@ class Meta {
         }
         
         // Taxonomy metabox @todo add check for existing taxonomies
-        if( $this->type == 'term' && isset($this->metaBox['taxonomy']) ) {
-            add_action( $this->metaBox['taxonomy'] . '_edit_form', [$this, 'add'], 20, 1 );
-            add_action( 'edited_' . $this->metaBox['taxonomy'], [$this, 'save'], 10, 1 );   
+        if( $this->type == 'term' && isset($this->meta_box['taxonomy']) ) {
+            add_action( $this->meta_box['taxonomy'] . '_edit_form', [$this, 'add'], 20, 1 );
+            add_action( 'edited_' . $this->meta_box['taxonomy'], [$this, 'save'], 10, 1 );   
         }
 
         // User metabox
@@ -128,13 +128,13 @@ class Meta {
     public function add( $object ) {
         
         // We should have an id
-        if( ! isset($this->metaBox['id']) ) {
+        if( ! isset($this->meta_box['id']) ) {
             return;
         }
         
         // Post type metabox uses the add meta box function
         if( $this->type == 'post' ) {
-            add_meta_box( $this->metaBox['id'], $this->metaBox['title'], [$this, 'render'], $this->metaBox['screen'], $this->metaBox['context'], $this->metaBox['priority'] );
+            add_meta_box( $this->meta_box['id'], $this->meta_box['title'], [$this, 'render'], $this->meta_box['screen'], $this->meta_box['context'], $this->meta_box['priority'] );
         }
 
         // We just render for other types
@@ -169,11 +169,11 @@ class Meta {
             $values = [];
 
             // We should have sections
-            if( ! isset($this->metaBox['sections']) ) {
+            if( ! isset($this->meta_box['sections']) ) {
                 return;
             }
 
-            foreach( $this->metaBox['sections'] as $section ) {
+            foreach( $this->meta_box['sections'] as $section ) {
 
                 // We should have fields
                 if( ! isset($section['fields']) ) {
@@ -202,12 +202,12 @@ class Meta {
 
         } else {
 
-            $values             = get_metadata( $this->type, $object->ID, $this->metaBox['id'], true );
+            $values             = get_metadata( $this->type, $object->ID, $this->meta_box['id'], true );
         }
         
-        $frame                  = new Frame( $this->metaBox, $values );
+        $frame                  = new Frame( $this->meta_box, $values );
         $frame->type            = $this->type;
-        $frame->settingsFields  = wp_nonce_field( 'wp-custom-fields-metaboxes-' . $frame->id, 'wp-custom-fields-metaboxes-nonce-' . $frame->id, true, false );
+        $frame->settings_fields = wp_nonce_field( 'wp-custom-fields-metaboxes-' . $frame->id, 'wp-custom-fields-metaboxes-nonce-' . $frame->id, true, false );
         
         // Render our output
         $frame->render();
@@ -229,7 +229,7 @@ class Meta {
         }
         
         // Some pages do not have the nonce
-        if( ! isset($_POST['wp-custom-fields-metaboxes-nonce-' . $this->metaBox['id']]) ) {
+        if( ! isset($_POST['wp-custom-fields-metaboxes-nonce-' . $this->meta_box['id']]) ) {
             return;
         }
 
@@ -244,13 +244,13 @@ class Meta {
         }  
          
         // Check our nonces
-        if( ! wp_verify_nonce( $_POST['wp-custom-fields-metaboxes-nonce-' . $this->metaBox['id']], 'wp-custom-fields-metaboxes-' . $this->metaBox['id'] ) ) {
+        if( ! wp_verify_nonce( $_POST['wp-custom-fields-metaboxes-nonce-' . $this->meta_box['id']], 'wp-custom-fields-metaboxes-' . $this->meta_box['id'] ) ) {
             return;
         }
         
         // Retrieve our current meta values
-        $current    = get_metadata( $this->type, $id, $this->metaBox['id'], true ); 
-        $output     = Validate::format( $this->metaBox, $_POST, $this->type );
+        $current    = get_metadata( $this->type, $id, $this->meta_box['id'], true ); 
+        $output     = Validate::format( $this->meta_box, $_POST, $this->type );
         
         // Return if nothing has changed
         if( $current == $output ) {
@@ -258,7 +258,7 @@ class Meta {
         }
 
         // Saves relations (before updating the actual meta values)
-        $this->saveRelations( $output, $id );        
+        $this->save_relations( $output, $id );        
 
         // Saves our metaboxes as seperate values
         if( $this->single ) {
@@ -278,12 +278,12 @@ class Meta {
         
             // Delete metadata if the output is empty
             if( empty($output) ) {
-                delete_metadata( $this->type, $id, $this->metaBox['id'] );
+                delete_metadata( $this->type, $id, $this->meta_box['id'] );
                 return;
             } 
             
             // Update meta data
-            update_metadata( $this->type, $id, $this->metaBox['id'], $output);  
+            update_metadata( $this->type, $id, $this->meta_box['id'], $output);  
         
         
         }
@@ -297,17 +297,17 @@ class Meta {
      * @param int $id The id of the current object being saved
      * @return void
      */
-    private function saveRelations( $output, $id ) {
+    private function save_relations( $output, $id ) {
 
         /**
          * Searches for relational fields and updates relations accordingly
          */
-        foreach( $this->metaBox['sections'] as $section) {
+        foreach( $this->meta_box['sections'] as $section) {
  
             foreach( $section['fields'] as $field ) {
 
                 // Key for retrieving and saving new values
-                $meta_key = $this->single ? $field['id'] : $this->metaBox['id'];
+                $meta_key = $this->single ? $field['id'] : $this->meta_box['id'];
 
                 // Only select fields can be relational
                 if( $field['type'] != 'select') {
@@ -349,7 +349,7 @@ class Meta {
                 }
 
                 // First, remove our relations
-                $this->removeRelations($meta_key, $output[$field['id']], $field, $id);
+                $this->remove_relations($meta_key, $output[$field['id']], $field, $id);
 
                 // If there is no output, let's move on
                 if( ! $output[$field['id']] ) {
@@ -411,7 +411,7 @@ class Meta {
      * @param int $id The id of the current object being saved
      * @return void
      */
-    private function removeRelations( $meta_key, $output, $field, $id ) {
+    private function remove_relations( $meta_key, $output, $field, $id ) {
 
         // Update our relations based on the current meta values
         $current            = get_metadata( $this->type, $id, $meta_key, true );

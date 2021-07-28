@@ -53,8 +53,8 @@ abstract class Base {
             self::$instance[$c] = new $c();
             self::$instance[$c]->params = $params;
             self::$instance[$c]->initialize();
-            self::$instance[$c]->registerHooks();
-            self::$instance[$c]->addHooks();
+            self::$instance[$c]->register_hooks();
+            self::$instance[$c]->add_hooks();
         }
 
         return self::$instance[$c];
@@ -63,7 +63,7 @@ abstract class Base {
     /**
      * Adds registered hooks
      */
-    private function addHooks() {
+    private function add_hooks() {
         
         // Filters
         if( isset($this->filters) && is_array($this->filters) )  {
@@ -101,6 +101,6 @@ abstract class Base {
      *      ['string filter_or_action_name', 'string method_or_function', 'int priority', 'int number_of_arguments']
      * ]
      */
-    abstract protected function registerHooks();    
+    abstract protected function register_hooks();    
 
 }

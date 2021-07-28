@@ -62,7 +62,7 @@ class Framework extends Base {
     /**
      * Adds functions to WordPress hooks - is automatically performed at a new instance
      */
-    protected function registerHooks() {  
+    protected function register_hooks() {  
 
         $this->actions = [
             ['after_setup_theme', 'setup', 20],
@@ -81,7 +81,7 @@ class Framework extends Base {
     final public function setup() {    
         
         // Load our default configurations
-        $this->addConfigurations();          
+        $this->add_configurations();          
 
         // Setup our framework, but only in the environment where needed. The correct access is determined by each module individually
         if( is_admin() || is_customize_preview() ) {           
@@ -96,7 +96,7 @@ class Framework extends Base {
     /**
      * Adds necessary filters for adjusting configurations and load our basic configurations
      */
-    private function addConfigurations() {
+    private function add_configurations() {
         
         // Back-end assets
         if( is_admin() || is_customize_preview() ) {  
@@ -106,12 +106,12 @@ class Framework extends Base {
                     
             $this->scripts              = $scripts;
             $this->styles               = $styles;        
-            self::$icons            = apply_filters( 'wp_custom_fields_icons', $icons );
+            self::$icons                = apply_filters( 'wp_custom_fields_icons', $icons );
         }
         
         // Fonts are also used in front-end styling
         require_once( WP_CUSTOM_FIELDS_PATH . 'config/fonts.php' );
-        self::$fonts                = apply_filters( 'wp_custom_fields_fonts', $fonts ); 
+        self::$fonts                    = apply_filters( 'wp_custom_fields_fonts', $fonts ); 
                 
         if( is_admin() || is_customize_preview() ) { 
             
@@ -128,7 +128,7 @@ class Framework extends Base {
     }
     
     /**
-     * Set-up the option pages for the framework
+     * Set-up the option frames for the framework
      */
     private function frame() {
         
@@ -167,7 +167,7 @@ class Framework extends Base {
                 if( isset($instance->validated) && is_wp_error($instance->validated ) ) {
                     add_action( 'admin_notices', function() use($instance) {
                         echo '<div class="error notice">';
-                        echo '  <p>' . sprintf( __('Error in WP Custom Fields: %s', 'wp-custom-fields'), $instance->validated->get_error_message() ) . '</p>';
+                        echo '  <p>' . sprintf( __('Error in WP Custom Fields: %s', 'wpcf'), $instance->validated->get_error_message() ) . '</p>';
                         echo '</div>';
                     });
                 }
@@ -297,7 +297,7 @@ class Framework extends Base {
      * @param   Array       $values The saved values for the fields
      * @return  String      $class Returns active if a dependency is fulfilled on page load
      */
-    public static function returnDependencyClass( $dependency, $sections = [], $values = [] ) {
+    public static function return_dependency_Class( $dependency, $sections = [], $values = [] ) {
 
         $class          = '';
         $sourceField    =  [];

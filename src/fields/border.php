@@ -95,25 +95,25 @@ class Border implements Field {
             'type'          => 'border',
             'defaults'      => [],
             'labels'        => [
-                'style' => __('Border Style', 'wp-custom-fields'),
-                'width' => __('Border Width', 'wp-custom-fields')
+                'style' => __('Border Style', 'wpcf'),
+                'width' => __('Border Width', 'wpcf')
             ],
             'properties'    => [
                 'sides' => [
-                    'top'       => __('Top Width', 'wp-custom-fields'), 
-                    'right'     => __('Right Width', 'wp-custom-fields'), 
-                    'bottom'    => __('Bottom Width', 'wp-custom-fields'), 
-                    'left'      => __('Left Width', 'wp-custom-fields')                    
+                    'top'       => __('Top Width', 'wpcf'), 
+                    'right'     => __('Right Width', 'wpcf'), 
+                    'bottom'    => __('Bottom Width', 'wpcf'), 
+                    'left'      => __('Left Width', 'wpcf')                    
                 ],
                 'styles' => [
-                    'solid'     => __('Solid', 'wp-custom-fields'), 
-                    'dotted'    => __('Dotted', 'wp-custom-fields'),  
-                    'dashed'    => __('Dashed', 'wp-custom-fields'),  
-                    'double'    => __('Double', 'wp-custom-fields'),  
-                    'groove'    => __('Groove', 'wp-custom-fields'),  
-                    'ridge'     => __('Ridge', 'wp-custom-fields'), 
-                    'inset'     => __('Inset', 'wp-custom-fields'),  
-                    'outset'    => __('Outset', 'wp-custom-fields')
+                    'solid'     => __('Solid', 'wpcf'), 
+                    'dotted'    => __('Dotted', 'wpcf'),  
+                    'dashed'    => __('Dashed', 'wpcf'),  
+                    'double'    => __('Double', 'wpcf'),  
+                    'groove'    => __('Groove', 'wpcf'),  
+                    'ridge'     => __('Ridge', 'wpcf'), 
+                    'inset'     => __('Inset', 'wpcf'),  
+                    'outset'    => __('Outset', 'wpcf')
                 ]
             ]
         ];

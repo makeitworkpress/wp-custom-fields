@@ -22,7 +22,7 @@ class Options {
      * Contains the option values for each of the option pages
      * @access public
      */
-    public $optionPage;
+    public $option_page;
 
     /**
      * Examines if we have validated
@@ -48,10 +48,10 @@ class Options {
             return;
         }
 
-        $this->optionPage   = $group;
+        $this->option_page  = $group;
 
         $allowed            = ['menu', 'submenu', 'dashboard', 'posts', 'media', 'links', 'pages', 'comments', 'theme', 'users', 'management', 'options'];
-        $this->location     = isset( $this->optionPage['location'] ) && in_array( $this->optionPage['location'], $allowed ) ? $this->optionPage['location'] : 'menu';
+        $this->location     = isset( $this->option_page['location'] ) && in_array( $this->option_page['location'], $allowed ) ? $this->option_page['location'] : 'menu';
         
         // Validate our configurations and return if we don't
         switch( $this->location ) {
@@ -69,22 +69,22 @@ class Options {
             return;
         }        
 
-        $this->registerHooks();
+        $this->register_hooks();
 
     }
     
     /**
      * Register WordPress Hooks
      */
-    protected function registerHooks() {
+    protected function register_hooks() {
 
-        if( isset($this->optionPage['context']) && $this->optionPage['context'] == 'network' ) {
-            $this->optionPage['action'] = isset($this->optionPage['action']) ? $this->optionPage['action'] : 'edit.php?action=wpcf_update';
-            add_action( 'network_admin_menu', [$this, 'addPage'] );
-            add_action( 'network_admin_edit_wpcf_update', [$this, 'saveNetwork'] );
+        if( isset($this->option_page['context']) && $this->option_page['context'] == 'network' ) {
+            $this->option_page['action'] = isset($this->option_page['action']) ? $this->option_page['action'] : 'edit.php?action=wpcf_update';
+            add_action( 'network_admin_menu', [$this, 'add_page'] );
+            add_action( 'network_admin_edit_wpcf_update', [$this, 'save_network'] );
         } else {
-            add_action( 'admin_init', [$this, 'addSettings'] );
-            add_action( 'admin_menu', [$this, 'addPage'] );
+            add_action( 'admin_init', [$this, 'add_settings'] );
+            add_action( 'admin_menu', [$this, 'add_page'] );
         }
 
     }
@@ -92,44 +92,44 @@ class Options {
     /**
      * Controls the display of the options page
      */
-    public function addPage() {
+    public function add_page() {
   
         // Check if a proper ID is set and add a menu page
-        if( ! isset($this->optionPage['id']) || ! $this->optionPage['id'] ) {
-            return new WP_Error( 'wrong', __( 'Your options configurations require an id.', 'wp-custom-fields' ) );
+        if( ! isset($this->option_page['id']) || ! $this->option_page['id'] ) {
+            return new WP_Error( 'wrong', __( 'Your options configurations require an id.', 'wpcf' ) );
         } 
           
-        $addPage    = 'add_' . $this->location . '_page';
+        $add_page   = 'add_' . $this->location . '_page';
         
         switch( $this->location ) {
             case 'menu':
                 add_menu_page(
-                    $this->optionPage['title'], 
-                    $this->optionPage['menu_title'], 
-                    $this->optionPage['capability'], 
-                    $this->optionPage['id'], 
-                    [$this, 'renderPage'], 
-                    $this->optionPage['menu_icon'],
-                    $this->optionPage['menu_position']                
+                    $this->option_page['title'], 
+                    $this->option_page['menu_title'], 
+                    $this->option_page['capability'], 
+                    $this->option_page['id'], 
+                    [$this, 'render_page'], 
+                    $this->option_page['menu_icon'],
+                    $this->option_page['menu_position']                
                 );
                 break;
             case 'submenu':
                 add_submenu_page( 
-                    $this->optionPage['slug'], 
-                    $this->optionPage['title'], 
-                    $this->optionPage['menu_title'], 
-                    $this->optionPage['capability'], 
-                    $this->optionPage['id'], 
-                    [$this, 'renderPage'] 
+                    $this->option_page['slug'], 
+                    $this->option_page['title'], 
+                    $this->option_page['menu_title'], 
+                    $this->option_page['capability'], 
+                    $this->option_page['id'], 
+                    [$this, 'render_page'] 
                 );                
                 break;
             default:
-                $addPage( 
-                    $this->optionPage['title'], 
-                    $this->optionPage['menu_title'], 
-                    $this->optionPage['capability'], 
-                    $this->optionPage['id'], 
-                    [$this, 'renderPage'] 
+                $add_page( 
+                    $this->option_page['title'], 
+                    $this->option_page['menu_title'], 
+                    $this->option_page['capability'], 
+                    $this->option_page['id'], 
+                    [$this, 'render_page'] 
                 );                 
         }
 
@@ -138,22 +138,22 @@ class Options {
     /**
      * Adds the settings using the settings api
      */
-    public function addSettings() {
+    public function add_settings() {
     
         // Check if a proper ID is set
-        if( ! isset($this->optionPage['id']) || empty($this->optionPage['id']) )
+        if( ! isset($this->option_page['id']) || empty($this->option_page['id']) )
             return;
 
         // Register the setting so it can be retrieved under a single option name. Sanitization is done on field level and executed by the sanitize method.
-        register_setting( $this->optionPage['id'] . '_group', $this->optionPage['id'], ['sanitize_callback' => [$this, 'sanitize']] );
+        register_setting( $this->option_page['id'] . '_group', $this->option_page['id'], ['sanitize_callback' => [$this, 'sanitize']] );
 
-        foreach( $this->optionPage['sections'] as $section ) {
+        foreach( $this->option_page['sections'] as $section ) {
 
             if( ! isset($section['id']) || empty($section['id']) )
                 continue;                
 
             // Add the settings sections. We use a custom function for displaying the sections
-            add_settings_section( $section['id'], $section['title'], [$this, 'renderSection'], $this->optionPage['id'] );
+            add_settings_section( $section['id'], $section['title'], [$this, 'renderSection'], $this->option_page['id'] );
 
             // Add the settings per field
             foreach($section['fields'] as $field) {
@@ -161,7 +161,7 @@ class Options {
                 if( ! isset($field['id']) )
                     continue;
 
-                add_settings_field( $field['id'], isset($field['title']) ? $field['title'] : '', [$this, 'renderField'], $this->optionPage['id'], $section['id'] );
+                add_settings_field( $field['id'], isset($field['title']) ? $field['title'] : '', [$this, 'renderField'], $this->option_page['id'], $section['id'] );
 
             }                        
 
@@ -175,31 +175,31 @@ class Options {
      * 
      * @parram array $args The arguments passed to this callback.
      */
-    public function renderPage( $args ) {
+    public function render_page( $args ) {
 
         // Again, check the access for users
         if( ! current_user_can( 'manage_options' ) ) {
-            wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+            wp_die( __( 'Sorry, you are not allowed to access this page.', 'wpcf' ), 403 );
             return;
         }
 
         // Limiting access for network pages
-        if ( isset($this->optionPage['context']) && $this->optionPage['context'] == 'network' && ! current_user_can( 'manage_network_options' ) ) {
-            wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+        if ( isset($this->option_page['context']) && $this->option_page['context'] == 'network' && ! current_user_can( 'manage_network_options' ) ) {
+            wp_die( __( 'Sorry, you are not allowed to access this page.', 'wpcf' ), 403 );
             return;
         }        
                         
-        $pageID                 = $this->optionPage['id'];
-        $values                 = isset($this->optionPage['context']) && $this->optionPage['context'] == 'network' ? get_site_option( $pageID ) : get_option( $pageID );
+        $page_ID                = $this->option_page['id'];
+        $values                 = isset($this->option_page['context']) && $this->option_page['context'] == 'network' ? get_site_option( $page_ID ) : get_option( $page_ID );
         
-        $frame                  = new Frame( $this->optionPage, $values );
-        $frame->action          = isset($this->optionPage['action']) ? esc_attr( $this->optionPage['action'] ) : 'options.php';
+        $frame                  = new Frame( $this->option_page, $values );
+        $frame->action          = isset($this->option_page['action']) ? esc_attr( $this->option_page['action'] ) : 'options.php';
         $frame->type            = 'options';
 
         // Network pages handle errors differently
-        if ( isset($this->optionPage['context']) && $this->optionPage['context'] == 'network' ) {
+        if ( isset($this->option_page['context']) && $this->option_page['context'] == 'network' ) {
             if( isset($_GET['wpcf-action']) ) {
-                Validate::addErrorMessage($pageID, sanitize_key($_GET['wpcf-action']));
+                Validate::add_error_message($this->option_page, sanitize_key($_GET['wpcf-action']));
             }
         }
 
@@ -207,29 +207,38 @@ class Options {
         $screen                 = get_current_screen();
         if( $screen->parent_base != 'options-general' ) {
             ob_start();
-            settings_errors( $pageID ); 
+            settings_errors( $page_ID ); 
             $frame->errors          = ob_get_clean();
         }
 
+        /**
+         * Buttons
+         */
+        $labels = [
+            'save'      => isset($this->option_page['labels']['save']) ? $this->option_page['labels']['save'] : __( 'Save Settings', 'wpcf' ),
+            'reset'     => isset($this->option_page['labels']['reset']) ? $this->option_page['labels']['reset'] : __( 'Reset Settings', 'wpcf' ),
+            'restore'   => isset($this->option_page['labels']['restore']) ? $this->option_page['labels']['restore'] : __( 'Restore Settings', 'wpcf' )
+        ];
+
         // Save Button
         ob_start();
-        submit_button( __( 'Save Settings', 'wp-custom-fields' ), 'primary button-hero wp-custom-fields-save', $pageID . '_save', false );
-        $frame->saveButton      = ob_get_clean();
+        submit_button( $labels['save'], 'primary button-hero wp-custom-fields-save', $page_ID . '_save', false );
+        $frame->save_button      = ob_get_clean();
 
         // Reset Button
         ob_start();
-        submit_button( __( 'Reset Settings', 'wp-custom-fields' ), 'delete button-hero wp-custom-fields-reset', $pageID . '_reset', false );
-        $frame->resetButton     = ob_get_clean();
+        submit_button( $labels['reset'], 'delete button-hero wp-custom-fields-reset', $page_ID . '_reset', false );
+        $frame->reset_button     = ob_get_clean();
 
         // Restore Button
         ob_start();
-        submit_button( __( 'Restore Section', 'wp-custom-fields' ), 'delete button-hero wp-custom-fields-reset-section', $pageID . '_restore', false );
-        $frame->restoreButton   = ob_get_clean();
+        submit_button( $labels['restore'], 'delete button-hero wp-custom-fields-reset-section', $page_ID . '_restore', false );
+        $frame->restore_button   = ob_get_clean();
 
         // Setting Fields
         ob_start();
-        settings_fields( $pageID . '_group' );
-        $frame->settingsFields  = ob_get_clean();   
+        settings_fields( $page_ID . '_group' );
+        $frame->settings_fields  = ob_get_clean();   
 
         // Render our options page;
         $frame->render();
@@ -243,10 +252,10 @@ class Options {
      * 
      * Could also be converted to a generic save function if we incorporate update_option
      */
-    public function saveNetwork() {
+    public function save_network() {
 
         // Checks the security nonce
-        check_admin_referer( $this->optionPage['id'] . '_group-options');
+        check_admin_referer( $this->option_page['id'] . '_group-options');
 
         // Checks if the user has the correct capabilities
         if( ! current_user_can( 'manage_network_options' ) ) {
@@ -256,12 +265,12 @@ class Options {
 
         // Sanitizes the $_POST global variable and saves the site option
         $values = $this->sanitize(); 
-        update_site_option( $this->optionPage['id'], $values);
+        update_site_option( $this->option_page['id'], $values);
 
         // Determines our slug to display custom error messages for network pages
-        if( isset($_POST[$this->optionPage['id'] . '_restore']) ) {
+        if( isset($_POST[$this->option_page['id'] . '_restore']) ) {
             $action = 'restore';
-        } elseif( isset($_POST[$this->optionPage['id'] . '_reset']) ) {
+        } elseif( isset($_POST[$this->option_page['id'] . '_reset']) ) {
             $action = 'reset';
         } elseif( isset($_POST['import_submit']) ) {
             $action = 'import';
@@ -271,7 +280,7 @@ class Options {
 
         // Redirects back to the given page
         $page = 'admin.php';
-        wp_redirect( add_query_arg( 'wpcf-action', $action, network_admin_url( $page . '?page=' . $this->optionPage['id'] ) ) );
+        wp_redirect( add_query_arg( 'wpcf-action', $action, network_admin_url( $page . '?page=' . $this->option_page['id'] ) ) );
         
         // Exits
         exit();        
@@ -283,7 +292,7 @@ class Options {
      */
     public function sanitize() {
         
-        $value = Validate::format( $this->optionPage, $_POST, 'options' );
+        $value = Validate::format( $this->option_page, $_POST, 'options' );
         
         return $value;
 
