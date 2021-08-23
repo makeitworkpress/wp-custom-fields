@@ -68,6 +68,7 @@ $fonts = [
         'pacifico'          => ['name' => 'Pacifico', 'family' => 'Pacifico, cursive', 'styles' => ['normal'], 'weights' => [400]],                             
         'play'              => ['name' => 'Play', 'family' => 'Play, sans-serif', 'styles' => ['normal'], 'weights' => [400, 700]],                
         'playfairdisplay'   => ['name' => 'Playfair Display', 'family'  => 'Playfair Display, serif', 'styles' => ['normal', 'italic'], 'weights' => [400, 700, 900]],                
+        'poppins'           => ['name' => 'Poppins', 'family' => 'Poppins, sans-serif', 'styles' => ['normal', 'italic'], 'weights' => [100, 200, 300, 400, 500, 600, 700, 800, 900]],
         'ptsans'            => ['name' => 'PT Sans', 'family' => 'PT Sans, sans-serif', 'styles' => ['normal', 'italic'], 'weights' => [400, 700]],                
         'ptsansnarrow'      => ['name' => 'PT Sans Narrow', 'family'  => 'PT Sans Narrow, sans-serif', 'styles' => ['normal'], 'weights' => [400, 700]],               
         'ptserif'           => ['name' => 'PT Serif', 'family' => 'PT Serif, serif', 'styles' => ['normal', 'italic'], 'weights' => [400, 700]],                
