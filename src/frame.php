@@ -135,6 +135,10 @@ class Frame {
             $field['classes']  .= ' wpcf-dependent-field' . Framework::return_dependency_class($field['dependency'], $this->sections, $this->values);
         }
 
+        if( isset($field['class']) ) {
+            $field['classes']   .= ' ' . esc_attr($field['class']);
+        }
+
         $field['classes']       .= ' field-' . $field['type'] . ' field-id-' . $field['id'];
 
         // We should have a field type
