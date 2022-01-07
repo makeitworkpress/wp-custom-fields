@@ -19,8 +19,9 @@ class button implements Field {
      * The style attribute accepts additional button classes, such as button-primary
      * 
      * @param array $field The array with field attributes
+     * @return void
      */
-    public static function render($field = array()) {
+    public static function render( array $field = [] ): void {
         
         // At least, an action should be provided
         if( ! isset($field['action']) ) {
@@ -44,7 +45,7 @@ class button implements Field {
      *
      * @return array $configurations The configurations
      */      
-    public static function configurations() {
+    public static function configurations(): array {
 
         $configurations = [
             'type'      => 'button',

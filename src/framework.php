@@ -39,7 +39,7 @@ class Framework extends Base {
     /**
      * Initializes the plugin 
      */
-    protected function initialize() {
+    protected function initialize(): void {
 
         $defaults = ['google_maps_key' => ''];
         
@@ -62,7 +62,7 @@ class Framework extends Base {
     /**
      * Adds functions to WordPress hooks - is automatically performed at a new instance
      */
-    protected function register_hooks() {  
+    protected function register_hooks(): void {  
 
         $this->actions = [
             ['after_setup_theme', 'setup', 20],
@@ -78,7 +78,7 @@ class Framework extends Base {
      * Set-ups the filters that allow external configurations to drip. This is hooked upon after_theme_setup so themes can take advantage.
      * Set-ups all back-end option screens, providing they are requested by the configurations
      */
-    final public function setup() {    
+    final public function setup(): void {    
         
         // Load our default configurations
         $this->add_configurations();          
@@ -96,7 +96,7 @@ class Framework extends Base {
     /**
      * Adds necessary filters for adjusting configurations and load our basic configurations
      */
-    private function add_configurations() {
+    private function add_configurations(): void {
         
         // Back-end assets
         if( is_admin() || is_customize_preview() ) {  
@@ -130,10 +130,10 @@ class Framework extends Base {
     /**
      * Set-up the option frames for the framework
      */
-    private function frame() {
+    private function frame(): void {
         
         // Initiates the various option or meta types
-        foreach( $this->frames as $frame => $optionsGroups ) {
+        foreach( $this->frames as $frame => $options_groups ) {
             
             // Only predefined frames are allowed            
             if( ! in_array($frame, $this->types) ) {
@@ -141,7 +141,7 @@ class Framework extends Base {
             }
             
             // We should have something defined
-            if( empty($optionsGroups) ) {
+            if( empty($options_groups) ) {
                 continue;
             }
             
@@ -156,7 +156,7 @@ class Framework extends Base {
             }
             
             // Create a new instance for each group
-            foreach( $optionsGroups as $group ) {
+            foreach( $options_groups as $group ) {
                 $class    = 'MakeitWorkPress\WP_Custom_Fields\\' . ucfirst( $frame );
 
                 if( class_exists($class ) && $group ) {
@@ -180,7 +180,7 @@ class Framework extends Base {
     /**
      * Enqueues our scripts and styles
      */
-    final public function enqueue() {
+    final public function enqueue(): void {
 
         // Enqueue Styles
         foreach( $this->styles as $style ) {
@@ -208,7 +208,7 @@ class Framework extends Base {
      * @param string $type The kind of configurations to get
      * @return array $configurations The array of configurations for the respective type, accepts 'meta', 'options', 'customizer' or 'all'
      */
-    public function get( $type ) {
+    public function get( string $type ): array {
         if( $type == 'all' ) {
             return $this->frames;
         } elseif( isset($this->frames[$type]) ) {
@@ -225,7 +225,7 @@ class Framework extends Base {
      * @param string    $type   The type to which you want to add, accepts 'meta', 'options', 'customizer'
      * @param array     $values The respective values in form of an associative array
      */
-    public function add( $type, $values ) {
+    public function add( string $type, array $values ): void {
         
         // Only predefined frames are allowed            
         if( ! in_array($type, $this->types) )
@@ -246,7 +246,7 @@ class Framework extends Base {
      * @param string    $field      The field id of the option to edit
      * @param string    $key        The key of the field to edit
      */
-    public function edit( $type, $values, $id = '', $section = '', $field = '', $key = '' ) {
+    public function edit( string $type, array $values, string $id = '', string $section = '', string $field = '', string $key = '' ): void {
         
         // Only predefined frames are allowed            
         if( ! in_array($type, $this->types) )
@@ -286,24 +286,22 @@ class Framework extends Base {
             }
         }     
         
-    }  
-    
+    }
     
     /**
      * Looks for fields that for display depend on the values of other fields
      * 
-     * @param   Array       $dependency The dependency values for the dependent field
-     * @param   Array       $sections The sections with fields to look in for
-     * @param   Array       $values The saved values for the fields
-     * @return  String      $class Returns active if a dependency is fulfilled on page load
+     * @param   array       $dependency The dependency values for the dependent field
+     * @param   array       $sections The sections with fields to look in for
+     * @param   array       $values The saved values for the fields
+     * @return  string      $class Returns active if a dependency is fulfilled on page load
      */
-    public static function return_dependency_Class( $dependency, $sections = [], $values = [] ) {
+    public static function return_dependency_Class( array $dependency, array $sections = [], array $values = [] ): string {
 
         $class          = '';
-        $sourceField    =  [];
+        $source_field   =  [];
 
         // Checks if everything is there
-
         foreach( ['equation', 'source', 'value'] as $key ) {
             if( ! isset($dependency[$key]) || ! $dependency[$key] ) {
                 return $class;    
@@ -314,18 +312,18 @@ class Framework extends Base {
         foreach( $sections as $section ) {
             foreach( $section['fields'] as $field ) {
                 if( $field['id'] == $dependency['source'] ) {
-                    $sourceField = $field;
+                    $source_field = $field;
                     break;
                 }    
             }
         }
 
         // Let's return our field
-        if( ! $sourceField || ! isset($values[$sourceField['id']]) ) {
+        if( ! $source_field || ! isset($values[$source_field['id']]) ) {
             return $class;
         }
 
-        $value = maybe_unserialize($values[$sourceField['id']]);
+        $value = maybe_unserialize($values[$source_field['id']]);
 
         // Retrieve our equation
         if( $dependency['equation'] == '=' ) {

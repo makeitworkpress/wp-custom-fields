@@ -18,7 +18,7 @@ class Divider implements Field {
      * @param   array $field The array with field attributes data-alpha
      * @return  void
      */     
-    public static function render( $field = [] ) { ?>
+    public static function render( array $field = [] ): void { ?>
         <hr />    
     <?php }
     
@@ -27,7 +27,7 @@ class Divider implements Field {
      *
      * @return array $configurations The configurations
      */      
-    public static function configurations() {
+    public static function configurations(): array {
         
         $configurations = [
             'type'      => 'divider',

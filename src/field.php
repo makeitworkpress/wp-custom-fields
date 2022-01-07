@@ -5,13 +5,13 @@
 namespace MakeitWorkPress\WP_Custom_Fields;
 
 // Bail if accessed directly
-if ( ! defined( 'ABSPATH' ) ) 
+if ( ! defined( 'ABSPATH' ) ) {
     die; 
-
+}
 interface Field {
     
-    public static function render( $field = [] );
+    public static function render( array $field = [] ): void;
     
-    public static function configurations();
+    public static function configurations(): array;
     
 }

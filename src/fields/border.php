@@ -17,7 +17,7 @@ class Border implements Field {
      * @param array $field The array with field attributes
      * @return void
      */    
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
         
         // Basic Variables
         $borders = isset( $field['borders'] ) ? esc_attr($field['borders']) : '';
@@ -90,7 +90,7 @@ class Border implements Field {
      *
      * @return array $configurations The configurations
      */    
-    public static function configurations() {
+    public static function configurations(): array {
         $configurations = [
             'type'          => 'border',
             'defaults'      => [],

@@ -21,7 +21,7 @@ class Heading extends WP_Customize_Control {
 	 *
 	 * @return  void
 	 */
-	public function render_content() {
+	public function render_content(): void {
 
 		$sections = implode(',', $this->choices); ?>
 

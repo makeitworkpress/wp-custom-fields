@@ -21,7 +21,7 @@ class Textarea extends WP_Customize_Control {
 	 *
 	 * @return  void
 	 */
-	public function render_content() {
+	public function render_content(): void {
 		?>
 		<label>
 			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>

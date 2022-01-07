@@ -14,7 +14,12 @@ if ( ! defined('ABSPATH') ) {
 
 class Frame {
     
-    // Contains our frame
+    /**
+     * Contains our frame with all configured option fields
+     * 
+     * @var array
+     * @access private
+     */
     private $frame;
     
     /**
@@ -54,14 +59,14 @@ class Frame {
         }       
         
         // Populate Variables
-        $this->populateSections();
+        $this->populate_sections();
         
     }
     
     /**
      * Populates the sections and their fields
      */
-    private function populateSections() {
+    private function populate_sections(): void {
     
         if( ! isset($this->frame['sections']) || ! is_array($this->frame['sections']) )
             return;
@@ -95,7 +100,7 @@ class Frame {
                 if( ! isset($field['id']) )
                     continue;
 
-                $this->sections[$key]['fields'][]  = $this->populateField( $field );
+                $this->sections[$key]['fields'][]  = $this->populate_field( $field );
 
             }
                 
@@ -104,12 +109,12 @@ class Frame {
     }
     
     /**
-     * Populates the fields. Is executed by $this->populateSections
+     * Populates the fields. Is executed by $this->populate_sections
      *
      * @param array $fields The array from a single field
+     * @return array The populated field
      */
-    private function populateField( Array $field = [] ) {
-        
+    private function populate_field( array $field = [] ): array {
         
         // Populate our variables
         $field                  = $field;
@@ -177,7 +182,7 @@ class Frame {
     /**
      * Displays the frame
      */
-    public function render() {
+    public function render(): void {
 
         // If we have nothing, return the nothing 
         if( empty($this->sections) ) {

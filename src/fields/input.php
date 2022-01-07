@@ -18,7 +18,7 @@ class Input implements Field {
      * @param   array $field The array with field attributes data-alpha
      * @return  void
      */       
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
         
         $attributes     = '';
         $class          = isset($field['style']) && $field['style'] ? esc_attr($field['style']) : 'regular-text';
@@ -47,7 +47,7 @@ class Input implements Field {
      *
      * @return array $configurations The configurations
      */      
-    public static function configurations() {
+    public static function configurations(): array {
         
         $configurations = [
             'type'      => 'input',

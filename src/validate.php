@@ -19,10 +19,10 @@ trait Validate {
      * Displays an settings error message depending on the context, using the add_settings_error functionality
      * Use the get_settings_errors and settings_errors function to display given errors
      * 
-     * @param Array     $frame_options  The options for the frame to format
-     * @param Boolean   $type           The type of error to add
+     * @param array     $frame_options  The options for the frame to format
+     * @param bool   $type           The type of error to add
      */
-    public static function add_error_message( $frame_options = '', $type = 'update' ) {
+    public static function add_error_message( array $frame_options = [], string $type = 'update' ): void {
         
         // An setting ID is required (the id of the option page)
         if( ! $frame_options['id'] ) {
@@ -58,15 +58,15 @@ trait Validate {
      *
      * @param array $frame_options  The options for the frame to format
      * @param array $input          The $_POST $input generated
-     * @param array $type           The type to format for, either options, user, post or term
+     * @param string $type           The type to format for, either options, user, post or term
      * 
      * @return array $output The validated and sanitized fields
      */
-    public static function format( $frame_options, $input, $type = '' ) {
+    public static function format( array $frame_options, array $input, string $type = '' ): array {
 
         // Validate our users before formating any data
         if( ! is_user_logged_in() ) {
-            return;
+            return [];
         }
 
         if( $type == 'options' && ! current_user_can('manage_options') ) {
@@ -195,17 +195,19 @@ trait Validate {
     /**
      * Sanitizes our fields and looks if we have a repeatable field
      *
-     * @param array     $input The input data for the field
-     * @param string    $field The field array     
+     * @param mixed    $input The input data for the field
+     * @param array    $field The field array    
+     * 
+     * @param mixed    The sanitized output for all inputs and matching fields 
      */
-    private static function sanitize_fields( $input, $field ) {
+    private static function sanitize_fields( $input, array $field ) {
         
         if( $field['type'] == 'repeatable' ) {
             
-            foreach( $input as $key => $groupValues ) {
+            foreach( $input as $key => $group_values ) {
             
                 foreach( $field['fields'] as $subfield ) {
-                    $return[$key][$subfield['id']] = self::sanitize_field( $groupValues[$subfield['id']], $subfield );
+                    $return[$key][$subfield['id']] = self::sanitize_field( $group_values[$subfield['id']], $subfield );
                 }
                 
             }
@@ -219,12 +221,11 @@ trait Validate {
     /**
      * Sanitizes input
      *
-     * @param array     $input The input data for the field
-     * @param string    $field The field array
-     *
-     * @todo Improve sanitization for borders and special types
+     * @param   mixed   $input  The input data for the field
+     * @param   array   $field  The field array
+     * @return  mixed   The sanized field
      */
-    private static function sanitize_field( $input, $field ) {
+    private static function sanitize_field( $input, array $field ) {
             
         $field_type     = $field['type'];
         $field_subtype  = isset($field['subtype']) ? $field['subtype'] : '';
@@ -445,10 +446,10 @@ trait Validate {
     /**
      * Returns the correct sanitization for any customizer fields
      * 
-     * @param   array $field        The field type;
-     * @return string $function     The built-in WordPress sanitization function
+     * @param   string $type        The field type;
+     * @return  string $function    The built-in WordPress sanitization function
      */
-    public static function sanitize_customizer_field( $type = '' ) { 
+    public static function sanitize_customizer_field( string $type = '' ): string { 
         
         switch( $type ) {
             case 'hidden':
@@ -517,7 +518,7 @@ trait Validate {
      * @param array $required   The array with required configuration keys
      * @return WP_Error|true    True if we pass the test, a WP_Error if we fail
      */
-    public static function configurations( $options = [], $required = [] ) {
+    public static function configurations( array $options = [], array $required = [] ) {
 
         foreach( $required as $requirement ) {
             if( ! isset($options[$requirement]) ) {

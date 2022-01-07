@@ -11,7 +11,13 @@ if ( ! defined( 'ABSPATH' ) )
 
 class Boxshadow implements Field {
     
-    public static function render( $field = [] ) {
+    /**
+     * Prepares the variables and renders the field
+     * 
+     * @param array $field The array with field attributes
+     * @return void
+     */        
+    public static function render( array $field = [] ): void {
 
         $configurations = self::configurations(); ?>
 
@@ -64,7 +70,7 @@ class Boxshadow implements Field {
      *
      * @return array $configurations The configurations
      */     
-    public static function configurations() {
+    public static function configurations(): array {
         $configurations = [
             'type'      => 'boxshadow',
             'defaults'  => [],

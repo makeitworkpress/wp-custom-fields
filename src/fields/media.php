@@ -20,7 +20,7 @@ class Media implements Field {
      * @param   array $field The array with field attributes data-alpha
      * @return  void
      */     
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
         
         $config     = self::configurations();
         $add        = isset($field['labels']['add']) ? esc_attr($field['labels']['add']) : $config['labels']['add'];
@@ -86,7 +86,7 @@ class Media implements Field {
      *
      * @return array $configurations The configurations
      */          
-    public static function configurations() {
+    public static function configurations(): array {
 
         $configurations = [
             'type'      => 'media',

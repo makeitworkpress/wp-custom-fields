@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */  
 class Datepicker implements Field {
     
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
 
         // Only enqueue if it is not enqueued yet
         if( apply_filters('wp_custom_fields_datepicker_field_js', true) && ! wp_script_is('flatpicker-js', 'enqueued') ) {
@@ -74,7 +74,7 @@ class Datepicker implements Field {
      *
      * @return array $configurations The configurations
      */    
-    public static function configurations() {
+    public static function configurations(): array {
 
         $configurations = [
             'type'      => 'datepicker',

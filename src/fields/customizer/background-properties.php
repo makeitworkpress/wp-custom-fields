@@ -22,7 +22,7 @@ class Background_Properties extends WP_Customize_Control {
 	 *
 	 * @return  void
 	 */
-	public function render_content() {
+	public function render_content(): void {
     
         $configurations     = BackgroundField::configurations(); ?>
 

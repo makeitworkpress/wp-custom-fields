@@ -18,7 +18,7 @@ class Editor implements Field {
      * @param   array $field The array with field attributes data-alpha
      * @return  void
      */     
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
 
         // Implements the settings for the wp_editor as defined in the codex
         if( isset($field['settings']) ) {
@@ -41,7 +41,7 @@ class Editor implements Field {
      *
      * @return array $configurations The configurations
      */        
-    public static function configurations() {
+    public static function configurations(): array {
 
         $configurations = [
             'type'      => 'editor',

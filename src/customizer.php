@@ -31,12 +31,16 @@ class Customizer {
       
     /**
      * Contains the option values for each of the panels
+     * 
+     * @var array
      * @access public
      */
     public $panel; 
     
     /**
      * Examines if we have validated
+     * 
+     * @var bool|WP_Error
      * @access public
      */
     public $validated = false;     
@@ -45,9 +49,9 @@ class Customizer {
      * Constructor
      *
      * @param array $group      The array with settings, sections and fields 
-     * @return WP_Error|void    Returns a WP_Error if something is wrong in the configurations, otherwise nothing    
+     * @return void Sets a WP_Error if something is wrong in the configurations, otherwise nothing    
      */    
-    public function __construct( $group = [] ) {
+    public function __construct( array $group = [] ) {
 
         // Only users that may customize are allowed here
         if( ! current_user_can('customize') ) {
@@ -77,7 +81,7 @@ class Customizer {
     /**
      * Register WordPress Hooks
      */
-    protected function register_hooks() {
+    protected function register_hooks(): void {
         add_action( 'customize_register', [$this, 'add_settings'] );
         add_action( 'admin_enqueue_scripts', [$this, 'enqueue'] );             
     }
@@ -85,7 +89,7 @@ class Customizer {
     /**
      * Enqueue custom scripts used in the customizer
      */
-    public function enqueue() {
+    public function enqueue(): void {
         
         // Load the select2 script, but only if not yet enqueued
         if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') ) {
@@ -103,11 +107,11 @@ class Customizer {
      * Built in types: input (text, hidden, number, range, url, tel, email, search, time, date, datetime, week), 
      * checkbox, textarea, radio, select, dropdown-pages
      *
-     * @param object $wp_customize The WP Customize Object
+     * @param WP_Customize_Manager $wp_customize The WP_Customize_Manager Object
      *
      * @return void
      */
-    public function add_settings( $wp_customize ) {
+    public function add_settings( WP_Customize_Manager $wp_customize ): void {
         
         // Check
         $panel = $this->panel;
@@ -332,16 +336,16 @@ class Customizer {
     /**
      * Default fallback for validation
      * 
-     * @parram array $validity  The The validity of the setting
-     * @parram array $value     The value passed
+     * @param array $validity  The The validity of the setting
+     * @param array $value     The value passed
      */
-    public function validate_customizer_field( $validity, $value ) {}
+    public function validate_customizer_field( array $validity, array $value ) {}
     
     /**
      * Default fallback for sanitization
      * 
-     * @parram array $value     The value passed
+     * @param array $value     The value passed
      */
-    public function sanitize_customizer_field( $value ) {}
+    public function sanitize_customizer_field( array $value ) {}
     
 }

@@ -18,7 +18,7 @@ class Background implements Field {
      * @param array $field The array with field attributes
      * @return void
      */
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
              
         // Properties
         $configurations = self::configurations(); ?>
@@ -71,7 +71,7 @@ class Background implements Field {
      *
      * @return array $configurations The configurations
      */ 
-    public static function configurations() {
+    public static function configurations(): array {
         $configurations = [
             'type'          => 'background',
             // Default values

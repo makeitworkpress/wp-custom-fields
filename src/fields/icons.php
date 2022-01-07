@@ -19,7 +19,7 @@ class Icons implements Field {
      * @param   array $field The array with field attributes data-alpha
      * @return  void
      */     
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
         
         $configurations = self::configurations();
         $exclude        = isset($field['exclude']) ? $field['exclude'] : [];
@@ -82,7 +82,7 @@ class Icons implements Field {
      *
      * @return array $configurations The configurations
      */      
-    public static function configurations() {
+    public static function configurations(): array {
 
         $configurations = [
             'type'          => 'icons',

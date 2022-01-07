@@ -18,7 +18,7 @@ class Slider implements Field {
      * @param   array $field The array with field attributes data-alpha
      * @return  void
      */      
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
         
         $id     = esc_attr($field['id']);
         $name   = esc_attr($field['name']);        
@@ -41,7 +41,7 @@ class Slider implements Field {
      *
      * @return array $configurations The configurations
      */      
-    public static function configurations() {
+    public static function configurations(): array {
         $configurations = [
             'type'      => 'slider',
             'defaults'  => ''

@@ -18,7 +18,7 @@ class Colorpicker implements Field {
      * @param   array $field The array with field attributes data-alpha
      * @return  void
      */     
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
         
         $alpha      = isset($field['alpha']) ? esc_attr($field['alpha']) : 'true';
         $default    = isset($field['default']) ? esc_attr($field['default']) : 'true';
@@ -38,7 +38,7 @@ class Colorpicker implements Field {
      *
      * @return array $configurations The configurations
      */    
-    public static function configurations() {
+    public static function configurations(): array {
         
         $configurations = [
             'type'      => 'colorpicker',

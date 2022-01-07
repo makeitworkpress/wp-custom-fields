@@ -20,12 +20,16 @@ class Options {
      
     /**
      * Contains the option values for each of the option pages
+     * 
+     * @var array
      * @access public
      */
     public $option_page;
 
     /**
      * Examines if we have validated
+     * 
+     * @var bool
      * @access public
      */
     public $validated = false;    

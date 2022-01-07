@@ -19,7 +19,7 @@ class Typography implements Field {
      * @param   array $field The array with field attributes
      * @return  void
      */   
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
         
         // Load the select2 script, but only if not yet enqueued
         if( apply_filters('wp_custom_fields_select_field_js', true) && ! wp_script_is('select2-js', 'enqueued') )
@@ -148,7 +148,7 @@ class Typography implements Field {
      *
      * @return array $configurations The configurations
      */      
-    public static function configurations() {
+    public static function configurations(): array {
 
         $configurations = [
             'type'          => 'typography',

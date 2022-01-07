@@ -22,7 +22,7 @@ class Dimension extends WP_Customize_Control {
 	 *
 	 * @return  void
 	 */
-	public function render_content() {
+	public function render_content(): void {
     
         $dimensions     = DimensionField::configurations();
         

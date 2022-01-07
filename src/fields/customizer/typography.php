@@ -23,7 +23,7 @@ class Typography extends WP_Customize_Control {
 	 *
 	 * @return  void
 	 */
-	public function render_content() {
+	public function render_content(): void {
     
         $configurations = TypographyField::configurations();
         $dimensions     = DimensionField::configurations();

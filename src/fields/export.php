@@ -18,7 +18,7 @@ class Export implements Field {
      * @param   array $field The array with field attributes data-alpha
      * @return  void
      */      
-    public static function render( $field = [] ) {
+    public static function render( array $field = [] ): void {
         
         // Check before proceeding
         if( ! isset($field['key']) || ! isset($field['context']) || ! is_user_logged_in() ) {
@@ -91,7 +91,7 @@ class Export implements Field {
      *
      * @return array $configurations The configurations
      */     
-    public static function configurations() {
+    public static function configurations(): array {
 
         $configurations = [
             'type'      => 'export',

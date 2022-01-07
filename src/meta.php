@@ -21,24 +21,32 @@ class Meta {
     
     /**
      * Contains the $meta_box array for each of the option pages
+     * 
+     * @var array
      * @access public
      */
     public $meta_box;
 
     /**
      * If we are saving as single keys, this value is true
+     * 
+     * @var bool
      * @access public
      */
     public $single = false;    
 
     /**
      * Saves the type of metabox (user, term or post)
+     * 
+     * @var string
      * @access public
      */
     public $type;
 
     /**
      * Examines if we have validated
+     * 
+     * @var bool
      * @access public
      */
     public $validated = false;     
@@ -49,7 +57,7 @@ class Meta {
      * @param array $group The array with settings, sections and fields
      * @return WP_Error|void Returns a WP_Error if something is wrong in the configurations, otherwise nothing
      */    
-    public function __construct( $group = [] ) {
+    public function __construct( array $group = [] ) {
 
         // Default properties
         $this->meta_box  = $group;
@@ -95,7 +103,7 @@ class Meta {
      * 
      * @access protected
      */
-    protected function register_hooks() {
+    protected function register_hooks(): void {
         
         // Post type metabox
         if( $this->type == 'post' ) {
@@ -122,7 +130,6 @@ class Meta {
     /**
      * Adds the specific metaboxes to a certain post or any other type
      * 
-     * @access  public
      * @param   object $object  The object as passed through the save function
      */    
     public function add( $object ) {
