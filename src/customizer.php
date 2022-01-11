@@ -111,7 +111,7 @@ class Customizer {
      *
      * @return void
      */
-    public function add_settings( WP_Customize_Manager $wp_customize ): void {
+    public function add_settings( \WP_Customize_Manager $wp_customize ): void {
         
         // Check
         $panel = $this->panel;
