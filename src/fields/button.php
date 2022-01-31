@@ -9,7 +9,7 @@ use MakeitWorkPress\WP_Custom_Fields\Field as Field;
 if ( ! defined( 'ABSPATH' ) )
     die;
 
-class button implements Field {
+class Button implements Field {
 
     /**
      * This field supports action, label, message and style as attributes

@@ -10,8 +10,8 @@ For the installation procedure, look into [the Wiki of this Repository](https://
 
 ## Adding option pages, custom metaboxes and customizer fields
 WP Custom Fields allows you to:
-* Adds amazing **custom option pages** in the admin dashboard
-* Adds awesome **custom metaboxes** to posts, taxonomies and users
+* Add amazing **custom option pages** in the admin dashboard
+* Add awesome **custom metaboxes** to posts, taxonomies and users
 * Add (custom) **customizer fields** and panels
 * Easily develop custom integrations, fields and extensions for adding information to WordPress
 * Have relational metaboxes, which can have two way connections between posts from the same post type, terms from the same taxonomies and users
@@ -20,4 +20,4 @@ WP Custom Fields allows you to:
 How to do this? Look into [the Wiki of this Repository](https://github.com/makeitworkpress/wp-custom-fields/wiki)!
 
 ## Author & Usage
-WP Custom Fields is maintained by [Make it WorkPress](https://makeitwork.press/scripts/wp-custom-fields/). For usage and installation, please visit [the Wiki of this Repository](https://github.com/makeitworkpress/wp-custom-fields/wiki)
+WP Custom Fields is maintained by Michiel from [Make it WorkPress](https://makeitwork.press/scripts/wp-custom-fields/). For usage and installation, please visit [the Wiki of this Repository](https://github.com/makeitworkpress/wp-custom-fields/wiki)

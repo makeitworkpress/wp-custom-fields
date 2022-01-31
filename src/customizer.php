@@ -300,7 +300,7 @@ class Customizer {
                         }
 
                         if( $field['type'] == 'background-properties' ) {
-                            $wp_customize->add_control( new Fields\Customizer\Background_Properties($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                            $wp_customize->add_control( new Fields\Customizer\BackgroundProperties($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
                         }                         
 
                         if( $field['type'] == 'dimension' ) {
