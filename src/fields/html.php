@@ -35,8 +35,6 @@ class Html implements Field {
      */      
     public static function configurations(): array {
 
-        // var_dump( wp_kses_allowed_html() );
-
         $configurations = [
             'type'          => 'html',
             'defaults'      => ''
