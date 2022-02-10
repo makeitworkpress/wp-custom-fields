@@ -32,9 +32,7 @@ module.exports.init = function(framework) {
             
         // Destroy our select2 instances, if it is defined of course
         if( typeof jQuery.fn.select2 !== 'undefined' && jQuery.fn.select2 ) {
-            jQuery(group).find('.wpcf-select').select2('destroy');
-
-            console.log( jQuery(group).find('.wpcf-select') );
+            jQuery(group).find('.wpcf-select-advanced').select2('destroy');
         }     
 
         // Destroy current codemirror instances
