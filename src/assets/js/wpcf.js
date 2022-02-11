@@ -652,11 +652,8 @@ module.exports.init = function(framework) {
 
     /**
      * Remove the current group
-     * @todo Make this dry - a lot of overlap with some earlier functions
      */
     jQuery(document).on('click', '.wpcf-repeatable-remove-group', function(e) {
-
-        console.log(e);
 
         e.preventDefault();
         var groupLength = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
@@ -673,14 +670,6 @@ module.exports.init = function(framework) {
 
         setTimeout( function() {
             group.remove();
-
-            // Update the numbering of items
-            groupContainer.find('.wpcf-repeatable-group').each( function(index, node) {
-                jQuery(node).html( function(n, node) {
-                    return node.replace(/\[\d+\]/g, '[' + index + ']').replace(/\_\d+\_/g, '_' + index + '_');
-                });
-            });
-
         }, 500);
 
     });    
