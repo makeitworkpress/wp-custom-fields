@@ -44,6 +44,14 @@
     left: @grid-space*0.25;
     margin-top: -12px;
     top: 50%;
+    &:hover {
+        cursor: grab;
+    }
+    .ui-sortable-helper & {
+        &:hover {
+            cursor: grabbing;
+        }
+    }
 }
 
 .wpcf-repeatable-toggle {
