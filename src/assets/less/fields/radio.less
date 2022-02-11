@@ -62,7 +62,10 @@
         label {
             margin: 0;
             position: relative;
-            vertical-align: middle;
+            span {
+                position: relative;
+                top: -7px;
+            }
             &:before {
                 background-color: @wp-btnback;
                 border: 1px solid @wp-btnborder;
@@ -72,7 +75,6 @@
                 height: @grid-space - 2;
                 margin-right: 6px;
                 position: relative;
-                top: 7px;
                 transition: all 200ms ease-out;
                 width: @grid-space*2;                
             }
@@ -88,7 +90,7 @@
                 height: @grid-space - 2;
                 left: 1px;
                 position: absolute;
-                top: 8px;
+                top: 1px;
                 transition: all 200ms ease-out;
                 width: @grid-space - 2;
             }
