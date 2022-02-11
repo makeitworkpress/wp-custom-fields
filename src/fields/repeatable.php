@@ -24,7 +24,7 @@ class Repeatable implements Field {
 
         $configurations     = self::configurations();
         $add                = isset($field['labels']['add']) ? esc_html($field['labels']['add']) : $configurations['labels']['add'];
-        $narrow             = isset($field['narrow']) ? ' wpcf-mode-narrow' : ' wpcf-mode-default';
+        $collapse           = isset($field['collapse']) ? $field['collapse'] : false;
         $remove             = isset($field['labels']['remove']) ? esc_html($field['labels']['remove']) : $configurations['labels']['remove'];
         $closed             = isset($field['closed']) && $field['closed'] ? ' hidden' : '';
         
@@ -54,12 +54,11 @@ class Repeatable implements Field {
         
                     <?php foreach( $groups as $key => $fields) { ?>
 
-                        <div class="wpcf-repeatable-group<?php echo $narrow; ?>">
-                            <?php if( $narrow === ' wpcf-mode-narrow') { ?>
-                                <i class="wpcf-repeatable-drag material-icons">drag_indicator</i>
-                            <?php } else { ?>
+                        <div class="wpcf-repeatable-group">
+                            <?php if( $collapse ) { ?>
                                 <a class="wpcf-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>
                             <?php } ?>
+                            <i class="wpcf-repeatable-drag material-icons">drag_indicator</i>
                             <a class="wpcf-repeatable-remove-group" href="#"><i class="material-icons">clear</i></a>
                             <div class="wpcf-repeatable-fields grid flex<?php echo $closed; ?>">
 
@@ -91,7 +90,6 @@ class Repeatable implements Field {
                                         }
 
                                         // If our dependency is fullfilled, the active class should be added
-                                    
                                         $class                = 'MakeitWorkPress\WP_Custom_Fields\Fields\\' . ucfirst( $subfield['type'] );
                                     
                                     
