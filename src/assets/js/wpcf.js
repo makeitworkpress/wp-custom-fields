@@ -552,9 +552,9 @@ module.exports.init = function(framework) {
         placeholder: 'wpcf-highlight',
         update: function( event, ui ) { 
             jQuery(this).find('.wpcf-repeatable-group').each( function(index, node) {
-                jQuery(node).html( function(n, node) {
-                    return node.replace(/\[\d+\]/g, '[' + index + ']').replace(/\_\d+\_/g, '_' + index + '_');
-                });
+                // jQuery(node).html( function(n, node) {
+                //     return node.replace(/\[\d+\]/g, '[' + index + ']').replace(/\_\d+\_/g, '_' + index + '_');
+                // });
             });
         }
     });

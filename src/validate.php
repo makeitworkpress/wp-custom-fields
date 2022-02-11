@@ -203,13 +203,19 @@ trait Validate {
     private static function sanitize_fields( $input, array $field ) {
         
         if( $field['type'] == 'repeatable' ) {
-            
-            foreach( $input as $key => $group_values ) {
-            
+
+            /**
+             * Since our repeatable fields are draggable, keys may get sorted in JS. 
+             * Altering the keys on the front-end breaks the value binding to fields, hence we reset the keys here based on the array order. 
+             * 
+             * Thus, for repeatable fields an array will be saved, where the keys always will match the field order.
+             */
+            $key = 0;
+            foreach( $input as $group_values ) {
                 foreach( $field['fields'] as $subfield ) {
                     $return[$key][$subfield['id']] = self::sanitize_field( $group_values[$subfield['id']], $subfield );
                 }
-                
+                $key++;
             }
         } else {
             $return = self::sanitize_field( $input, $field );

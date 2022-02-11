@@ -23,9 +23,10 @@ class Repeatable implements Field {
     public static function render( array $field = [] ): void {
 
         $configurations     = self::configurations();
-        $add                = isset($field['labels']['add'])      ? esc_html($field['labels']['add'])     : $configurations['labels']['add'];
-        $remove             = isset($field['labels']['remove'])   ? esc_html($field['labels']['remove'])  : $configurations['labels']['remove'];
-        $display            = isset($field['closed']) && $field['closed']   ? ' hidden'         : '';
+        $add                = isset($field['labels']['add']) ? esc_html($field['labels']['add']) : $configurations['labels']['add'];
+        $narrow             = isset($field['narrow']) ? ' wpcf-mode-narrow' : ' wpcf-mode-default';
+        $remove             = isset($field['labels']['remove']) ? esc_html($field['labels']['remove']) : $configurations['labels']['remove'];
+        $closed             = isset($field['closed']) && $field['closed'] ? ' hidden' : '';
         
         // Prepare the array with data
         if( empty($field['values']) ) {
@@ -53,10 +54,14 @@ class Repeatable implements Field {
         
                     <?php foreach( $groups as $key => $fields) { ?>
 
-                        <div class="wpcf-repeatable-group">
-                            <a class="wpcf-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>
+                        <div class="wpcf-repeatable-group<?php echo $narrow; ?>">
+                            <?php if( $narrow === ' wpcf-mode-narrow') { ?>
+                                <i class="wpcf-repeatable-drag material-icons">drag_indicator</i>
+                            <?php } else { ?>
+                                <a class="wpcf-repeatable-toggle" href="#"><i class="material-icons">arrow_drop_down</i></a>
+                            <?php } ?>
                             <a class="wpcf-repeatable-remove-group" href="#"><i class="material-icons">clear</i></a>
-                            <div class="wpcf-repeatable-fields grid flex <?php echo $display; ?>">
+                            <div class="wpcf-repeatable-fields grid flex<?php echo $closed; ?>">
 
                                 <?php 
                                     // Loop through each of the saved fields

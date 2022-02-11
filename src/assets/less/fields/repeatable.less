@@ -7,13 +7,44 @@
     margin-bottom: 10px; 
     min-height: @grid-space*1.5;
     position: relative;
+    .wpcf-repeatable-fields.hidden {
+        display: none;
+    }
+    &.wpcf-mode-narrow {
+        border-bottom: none;
+        margin-bottom: 0;
+        &:last-of-type {
+            border-bottom: 1px solid @wp-lightborder;
+            margin-bottom: 10px;
+        }
+        .wpcf-repeatable-remove-group {
+            right: 12px;
+            top: 12px;
+        }
+        .wpcf-repeatable-fields {
+            padding: 12px 36px 6px 36px;
+        }
+        .wpcf-field {
+            padding: 0;
+        }
+        h5, .wpcf-field-description {
+            display: none;
+        }
+    }
+    &.ui-sortable-handle:hover {
+        cursor: grab;
+    }
+    &.ui-sortable-helper:hover {
+        cursor: grabbing;
+    }
 }
+
 
 .wpcf-repeatable-fields {
     padding: @grid-space;
 }
 
-.wpcf-repeatable-toggle, .wpcf-repeatable-remove-group  {
+.wpcf-repeatable-toggle, .wpcf-repeatable-remove-group, .wpcf-repeatable-drag  {
     display: block;
     position: absolute;
     top: 3px;
@@ -21,6 +52,12 @@
         box-shadow: none;
         outline: none;
     }
+}
+
+.wpcf-repeatable-drag  {
+    color: @wp-greyborder;
+    left: 6px;
+    top: 15px;
 }
 
 .wpcf-repeatable-toggle {

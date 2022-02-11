@@ -293,10 +293,10 @@ class Framework extends Base {
      * 
      * @param   array       $dependency The dependency values for the dependent field
      * @param   array       $sections The sections with fields to look in for
-     * @param   array       $values The saved values for the fields
+     * @param   array|null  $values The saved values for the fields
      * @return  string      $class Returns active if a dependency is fulfilled on page load
      */
-    public static function return_dependency_Class( array $dependency, array $sections = [], array $values = [] ): string {
+    public static function return_dependency_class( array $dependency, array $sections = [], $values = [] ): string {
 
         $class          = '';
         $source_field   =  [];
