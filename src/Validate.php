@@ -288,9 +288,9 @@ trait Validate {
             // Checkboxes
             case 'checkbox':
                 
-                if( isset($field['single']) && $field['single'] == true && count($field['options']) == 1 ) {
+                if( isset($field['single']) && $field['single'] == true && is_array($field['options']) && count($field['options']) == 1 ) {
                     $return_value = isset($field_value) && $field_value == 'on' ? true : false;       
-                } else {
+                } elseif( is_array($field['options']) ) {
                     foreach( $field['options'] as $key => $option ) {
                         $return_value[$key] = isset($field_value[$key]) && $field_value[$key] == 'on' ? true : false;
                     }
