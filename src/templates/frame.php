@@ -76,7 +76,9 @@
                     
                         <section id="<?php echo $section['id']; ?>" class="wpcf-section <?php echo $section['active']; ?>">
                             
-                            <h3 class="wpcf-section-title"><?php echo $section['title']; ?></h3>
+                            <?php if( $section['display_title']) { ?>
+                                <h3 class="wpcf-section-title"><?php echo $section['title']; ?></h3>
+                            <?php } ?>    
                             
                             <?php if( $section['description'] ) { ?>
                                 <p class="wpcf-section-description"><?php echo $section['description']; ?></p>

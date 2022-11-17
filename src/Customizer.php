@@ -222,7 +222,7 @@ class Customizer {
 
                         // Add all custom settings for the given field
                         foreach( $configurations['settings'] as $setting ) {  
-                            $settingArgs['sanitize_callback'] = Validate::sanitize_customizer_field($setting);
+                            $settingArgs['sanitize_callback'] = $this->sanitize_customizer_field($setting);
                             $wp_customize->add_setting($panel['id'] . '[' . $field['id'] . ']' . $setting, $settingArgs );    
                         }
                         
@@ -231,7 +231,7 @@ class Customizer {
 
                         // Sanitize values.
                         if( ! isset($field['sanitize']) ) {
-                            $settingArgs['sanitize_callback'] = Validate::sanitize_customizer_field($field['type']);
+                            $settingArgs['sanitize_callback'] = $this->sanitize_customizer_field($field['type']);
                         }
 
                         $wp_customize->add_setting( $panel['id'] . '[' . $field['id'] . ']', $settingArgs );
@@ -285,7 +285,7 @@ class Customizer {
                         $wp_customize->add_control( new Fields\Customizer\Heading($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
                         break;
                     case 'textarea':
-                        $wp_customize->add_control( new Fields\Customizer\TextArea($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
+                        $wp_customize->add_control( new Fields\Customizer\Textarea($wp_customize, $panel['id'] . '[' . $field['id'] . ']', $controlArgs) );
                         break;
                     // Fields with multiple input fields
                     case 'background-properties':                          
@@ -340,12 +340,5 @@ class Customizer {
      * @param array $value     The value passed
      */
     public function validate_customizer_field( array $validity, array $value ) {}
-    
-    /**
-     * Default fallback for sanitization
-     * 
-     * @param array $value     The value passed
-     */
-    public function sanitize_customizer_field( array $value ) {}
     
 }

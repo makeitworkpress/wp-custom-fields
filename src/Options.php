@@ -60,13 +60,13 @@ class Options {
         // Validate our configurations and return if we don't
         switch( $this->location ) {
             case 'menu':
-                $this->validated = Validate::configurations( $group, ['title', 'menu_title', 'capability', 'id', 'menu_icon', 'menu_position'] );
+                $this->validated = $this->validate_configurations( $group, ['title', 'menu_title', 'capability', 'id', 'menu_icon', 'menu_position'] );
                 break;
             case 'submenu':
-                $this->validated = Validate::configurations( $group, ['title', 'menu_title', 'capability', 'id', 'slug'] );                         
+                $this->validated = $this->validate_configurations( $group, ['title', 'menu_title', 'capability', 'id', 'slug'] );                         
                 break;
             default:
-                $this->validated = Validate::configurations( $group, ['title', 'menu_title', 'capability', 'id'] );       
+                $this->validated = $this->validate_configurations( $group, ['title', 'menu_title', 'capability', 'id'] );       
         } 
         
         if( is_wp_error($this->validated) ) {
@@ -203,7 +203,7 @@ class Options {
         // Network pages handle errors differently
         if ( isset($this->option_page['context']) && $this->option_page['context'] == 'network' ) {
             if( isset($_GET['wpcf-action']) ) {
-                Validate::add_error_message($this->option_page, sanitize_key($_GET['wpcf-action']));
+                $this->add_network_error_message($this->option_page, sanitize_key($_GET['wpcf-action']));
             }
         }
 
@@ -296,7 +296,7 @@ class Options {
      */
     public function sanitize() {
         
-        $value = Validate::format( $this->option_page, $_POST, 'options' );
+        $value = $this->format( $this->option_page, $_POST, 'options' );
         
         return $value;
 

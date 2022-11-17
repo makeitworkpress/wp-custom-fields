@@ -585,8 +585,10 @@ class Styling extends Base {
 
         if( is_array($optionFrames) ) {
             foreach( $optionFrames as $page ) {
-                $optionValues   = maybe_unserialize( get_option('wpcf_options_css_fields_' . $page['id']) );
-                $optionFields   = is_array($optionValues) ? $optionValues: [];
+                if( isset($page['id']) && $page['id'] ) {
+                    $optionValues   = maybe_unserialize( get_option('wpcf_options_css_fields_' . $page['id']) );
+                }
+                $optionFields   = isset($optionValues) && is_array($optionValues) ? $optionValues: [];
                 $this->fields   = $optionFields + $this->fields; // Customizerfields precede over optionFields
             }
         }         

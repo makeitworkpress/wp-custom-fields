@@ -81,14 +81,15 @@ class Frame {
             if( ! isset($section['id']) )
                 continue;
             
-            $this->sections[$key]                  = $section;
-            $this->sections[$key]['active']        = $this->current_section == $section['id'] ? 'active'          : '';
-            $this->sections[$key]['description']   = isset( $section['description'] ) ? esc_textarea($section['description']) : '';
-            $this->sections[$key]['fields']        = [];
-            $this->sections[$key]['icon']          = ! empty( $section['icon'] ) ? esc_html($section['icon'])  : false;
-            $this->sections[$key]['id']            = esc_attr($section['id']);
-            $this->sections[$key]['tabs']          = isset( $section['tabs'] ) && $section['tabs'] == false ? false : true;
-            $this->sections[$key]['title']         = isset( $section['title'] ) ? esc_html($section['title'])  : __( 'Titleless Section', 'wpcf' );
+            $this->sections[$key]                   = $section;
+            $this->sections[$key]['active']         = $this->current_section == $section['id'] ? 'active'          : '';
+            $this->sections[$key]['description']    = isset( $section['description'] ) ? esc_textarea($section['description']) : '';
+            $this->sections[$key]['fields']         = [];
+            $this->sections[$key]['icon']           = ! empty( $section['icon'] ) ? esc_html($section['icon'])  : false;
+            $this->sections[$key]['id']             = esc_attr($section['id']);
+            $this->sections[$key]['tabs']           = isset( $section['tabs'] ) && $section['tabs'] == false ? false : true;
+            $this->sections[$key]['title']          = isset( $section['title'] ) ? esc_html($section['title'])  : __( 'Titleless Section', 'wpcf' );
+            $this->sections[$key]['display_title']  = isset( $section['display_title'] ) ? $section['display_title'] : true;
 
             if( ! isset($section['fields']) || ! is_array($section['fields']) ) {
                 continue;

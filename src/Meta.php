@@ -86,7 +86,7 @@ class Meta {
         
         // Validate for our type being post
         if( $this->type == 'post' ) {
-            $this->validated = Validate::configurations( $group, ['id', 'title', 'screen', 'context', 'priority'] );
+            $this->validated = $this->validate_configurations( $group, ['id', 'title', 'screen', 'context', 'priority'] );
         } 
 
         // if there is an error, return the error
@@ -257,7 +257,7 @@ class Meta {
         
         // Retrieve our current meta values
         $current    = get_metadata( $this->type, $id, $this->meta_box['id'], true ); 
-        $output     = Validate::format( $this->meta_box, $_POST, $this->type );
+        $output     = $this->format( $this->meta_box, $_POST, $this->type );
         
         // Return if nothing has changed
         if( $current == $output ) {

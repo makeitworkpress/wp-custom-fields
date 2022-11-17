@@ -19,7 +19,7 @@ trait Validate {
      * Displays an settings error message depending on the context, using the add_settings_error functionality
      * Use the get_settings_errors and settings_errors function to display given errors
      * 
-     * @param array     $frame_options  The options for the frame to format
+     * @param array  $frame_options  The options for the frame to format
      * @param bool   $type           The type of error to add
      */
     public static function add_error_message( array $frame_options = [], string $type = 'update' ): void {
@@ -52,6 +52,16 @@ trait Validate {
         }
 
     }
+
+    /**
+     * Invokes the internal static method for generating an error message for network option pages
+     * 
+     * @param array  $frame_options  The options for the frame to format
+     * @param bool   $type           The type of error to add
+     */    
+    public function add_network_error_message( array $frame_options = [], string $type = 'update' ): void {
+        self::add_error_message($frame_options, $type);
+    }
     
     /**
      * Formats the output by sanitizing and validating
@@ -62,7 +72,7 @@ trait Validate {
      * 
      * @return array $output The validated and sanitized fields
      */
-    public static function format( array $frame_options, array $input, string $type = '' ): array {
+    public function format( array $frame_options, array $input, string $type = '' ): array {
 
         // Validate our users before formating any data
         if( ! is_user_logged_in() ) {
@@ -524,7 +534,7 @@ trait Validate {
      * @param array $required   The array with required configuration keys
      * @return WP_Error|true    True if we pass the test, a WP_Error if we fail
      */
-    public static function configurations( array $options = [], array $required = [] ) {
+    public function validate_configurations( array $options = [], array $required = [] ): bool | WP_Error {
 
         foreach( $required as $requirement ) {
             if( ! isset($options[$requirement]) ) {
