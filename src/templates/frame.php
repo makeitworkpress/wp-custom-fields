@@ -88,7 +88,7 @@
 
                                 <?php foreach( $section['fields'] as $key => $field ) { ?>
 
-                                    <div class="wpcf-field <?php echo $field['classes']; ?>">
+                                    <div class="wpcf-field <?php echo $field['classes']; ?>" data-id="<?php echo $field['id']; ?>">
 
                                         <?php do_action('wcf_before_field', $field); ?>
                                         
@@ -126,13 +126,15 @@
                     
                 </div> 
                 
-                <footer class="wpcf-buttons">
-                    <?php 
-                        echo $frame->reset_button;
-                        echo $frame->restore_button;
-                        echo $frame->save_button; 
-                    ?>                
-                </footer>
+                <?php if( $frame->reset_button || $frame->restore_button_bottom || $frame->save_button_bottom ) { ?>
+                    <footer class="wpcf-buttons">
+                        <?php 
+                            echo $frame->reset_button;
+                            echo $frame->restore_button_bottom;
+                            echo $frame->save_button_bottom; 
+                        ?>                
+                    </footer>
+                <?php } ?>
 
             </div>
             

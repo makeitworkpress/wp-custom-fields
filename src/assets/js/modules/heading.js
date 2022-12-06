@@ -3,7 +3,6 @@
  */
 module.exports.init = function(framework) {
 
-
     jQuery('.wpcf-heading-collapsible').each( function() {
 
         var collapsibleSections = jQuery(this).data('sections');

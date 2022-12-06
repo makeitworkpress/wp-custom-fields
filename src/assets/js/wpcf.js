@@ -23,7 +23,7 @@ var init = function() {
 
 // Boot WP_Custom_Fields on Document Ready
 jQuery(document).ready(init);
-},{"./fields":2,"./modules/repeatable":11,"./modules/tabs":14,"./options":15}],2:[function(require,module,exports){
+},{"./fields":2,"./modules/repeatable":12,"./modules/tabs":15,"./options":16}],2:[function(require,module,exports){
 /**
  * Executes Field modules
  * @todo Convert in a loop
@@ -33,6 +33,7 @@ var code = require('./modules/code');
 var colorpicker = require('./modules/colorpicker');
 var datepicker = require('./modules/datepicker');
 var heading = require('./modules/heading');
+var icons = require('./modules/icons');
 var location = require('./modules/location');
 var media = require('./modules/media');
 var select = require('./modules/select');
@@ -48,6 +49,7 @@ module.exports.init = function(framework) {
     code.init(framework);
     datepicker.init(framework);
     heading.init(framework);
+    icons.init(framework);
     location.init(framework);
     media.init(framework);
     select.init(framework);   
@@ -57,7 +59,7 @@ module.exports.init = function(framework) {
     dependency.init(framework); 
     
 };
-},{"./modules/button":3,"./modules/code":4,"./modules/colorpicker":5,"./modules/datepicker":6,"./modules/dependency":7,"./modules/heading":8,"./modules/location":9,"./modules/media":10,"./modules/select":12,"./modules/slider":13}],3:[function(require,module,exports){
+},{"./modules/button":3,"./modules/code":4,"./modules/colorpicker":5,"./modules/datepicker":6,"./modules/dependency":7,"./modules/heading":8,"./modules/icons":9,"./modules/location":10,"./modules/media":11,"./modules/select":13,"./modules/slider":14}],3:[function(require,module,exports){
 /**
  * Our button module, accepting custom ajax actions
  */
@@ -274,7 +276,6 @@ module.exports = {
  */
 module.exports.init = function(framework) {
 
-
     jQuery('.wpcf-heading-collapsible').each( function() {
 
         var collapsibleSections = jQuery(this).data('sections');
@@ -308,6 +309,41 @@ module.exports.init = function(framework) {
     
 }
 },{}],9:[function(require,module,exports){
+/**
+ * Our heading module, supporting collapsible sections within the customizer
+ */
+module.exports.init = function(framework) {
+
+    var searchFields = jQuery(framework).find('.wpcf-icons-search');
+    var iconNodes = {};
+
+    jQuery(searchFields).on('input', function(event) {
+
+        var fieldId = event.currentTarget.closest('.wpcf-field').dataset.id;
+        var search = event.currentTarget.value;
+
+        if( typeof iconNodes[fieldId] === 'undefined' ) {
+            iconNodes[fieldId] = jQuery(event.currentTarget).closest('.wpcf-field-input').find('.wpcf-icon-list li');
+        }
+
+        for( var icon of iconNodes[fieldId] ) {
+            // Reset visibility
+            if( ! search ) {
+                icon.classList.remove('hidden');
+                continue;
+            }
+
+            // Hide non matching icons
+            if( icon.dataset.icon.includes(search) ) {
+                icon.classList.remove('hidden');
+            } else {
+                icon.classList.add('hidden');
+            }
+        }
+    });
+    
+}
+},{}],10:[function(require,module,exports){
 /**
  * Our location field
  */
@@ -399,7 +435,7 @@ module.exports.init = function(framework) {
 
     });  
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -535,7 +571,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  * Our repeatable fields module
  * @todo Rewrite this in a more efficient manner.
@@ -687,7 +723,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{"./../fields":2,"./datepicker":6}],12:[function(require,module,exports){
+},{"./../fields":2,"./datepicker":6}],13:[function(require,module,exports){
 /**
  * Our colorpicker module
  */
@@ -724,7 +760,7 @@ var formatState = function(state) {
     return newState; 
     
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * Our jquery UI slider
  */
@@ -753,7 +789,7 @@ module.exports.init = function(framework) {
     });
     
 };
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports.init = function() {
     
     // Click handler for our tabs
@@ -779,7 +815,7 @@ module.exports.init = function() {
     });
  
 }
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * Functions for option pages
  */

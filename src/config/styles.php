@@ -9,7 +9,7 @@ if ( ! defined('ABSPATH') ) {
 }
 
 $styles[] = [
-    'handle'    => 'material-css',
+    'handle'    => 'wpc-material-css',
     'src'       => 'https://fonts.googleapis.com/icon?family=Material+Icons',
     'deps'      => [],
     'ver'       => null,
@@ -17,7 +17,7 @@ $styles[] = [
 ];  
 
 $styles[] = [
-    'handle'    => 'font-awesome-css',
+    'handle'    => 'wpc-font-awesome-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/font-awesome.min.css',
     'deps'      => [],
     'ver'       => null,
@@ -33,7 +33,7 @@ $styles[] = [
 ];  
 
 $styles[] = [
-    'handle'    => 'flatpicker-css',
+    'handle'    => 'wpc-flatpicker-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/flatpicker.min.css',
     'deps'      => [],
     'ver'       => '',
@@ -41,7 +41,7 @@ $styles[] = [
 ]; 
 
 $styles[] = [
-    'handle'    => 'mirror-css',
+    'handle'    => 'wpc-mirror-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/codemirror.min.css',
     'deps'      => [],
     'ver'       => '',
@@ -49,7 +49,7 @@ $styles[] = [
 ]; 
 
 $styles[] = [
-    'handle'    => 'select2-css',
+    'handle'    => 'wpc-select2-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/select2.min.css',
     'deps'      => [],
     'ver'       => '',
@@ -57,7 +57,7 @@ $styles[] = [
 ]; 
 
 $styles[] = [
-    'handle'    => 'wp-custom-fields-css',
+    'handle'    => 'wpc-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/wp-custom-fields.min.css',
     'deps'      => [],
     'ver'       => null,

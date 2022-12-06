@@ -24,8 +24,11 @@ class Icons implements Field {
         $configurations = self::configurations();
         $exclude        = isset($field['exclude']) ? $field['exclude'] : [];
         $iconsets       = $configurations['properties']['icons'];
+        $search         = isset($field['search']) ? esc_attr($field['search']) : $configurations['labels']['search'];
         $type           = isset($field['multiple']) && $field['multiple'] == true ? 'checkbox' : 'radio'; ?>
         
+            <input class="wpcf-icons-search" placeholder="<?php echo $search; ?>" type="search" />
+
             <div class="wpcf-icons">
 
                 <?php foreach( $iconsets as $set => $icons ) { ?>
@@ -38,14 +41,16 @@ class Icons implements Field {
                     <ul class="wpcf-icon-list">
             
                         <?php 
-                            foreach( $icons as $key => $icon ) { 
+                            foreach( $icons as $icon => $label ) {
 
                                 if( $set == 'dashicons' ) {
-                                    $icon           = $key;
                                     $display_icon = '<i class="dashicons dashicons-before ' . esc_attr($icon) . '"></i>';
-                                } elseif( $set == 'font-awesome' ) {
-                                    $icon           = $key;
-                                    $display_icon   = '<i class="fa ' . esc_attr($icon) . '"></i>';
+                                } elseif( $set == 'font-awesome-regular' ) {
+                                    $display_icon   = '<i class="far fa-' . esc_attr($icon) . '"></i>';
+                                } elseif( $set == 'font-awesome-solid' ) {
+                                    $display_icon   = '<i class="fas fa-' . esc_attr($icon) . '"></i>';
+                                } elseif( $set == 'font-awesome-brands' ) {
+                                    $display_icon   = '<i class="fab fa-' . esc_attr($icon) . '"></i>';
                                 } elseif( $set == 'material' ) {
                                     $display_icon   = '<i class="material-icons">' . esc_html($icon) . '</i>';
                                 }                
@@ -62,7 +67,7 @@ class Icons implements Field {
                                 }
 
                         ?>
-                            <li>
+                            <li data-icon="<?php echo $icon; ?>">
                                 <input type="<?php echo $type; ?>" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $icon; ?>" <?php echo $selected; ?> />               
                                 <label for="<?php echo $id; ?>"><?php echo $display_icon; ?></label>
                             </li>                  
@@ -87,6 +92,9 @@ class Icons implements Field {
         $configurations = [
             'type'          => 'icons',
             'defaults'      => '',
+            'labels'        => [
+                'search'        => __('Search Icons', 'wpcf')
+            ],
             'properties'    => [
                 'icons' => Framework::$icons
             ]

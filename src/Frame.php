@@ -35,17 +35,19 @@ class Frame {
         $this->values   = $values;
         
         // Default public variables
-        $this->action           = 'options.php'; // Used within option pages, adapted by options.php
-        $this->class            = isset($frame['class']) ? esc_attr($frame['class']) : '';
-        $this->errors           = ''; // Used within option pages, set by options.php
-        $this->id               = esc_attr($frame['id']);
-        $this->reset_button      = ''; // Used within option pages, set by options.php
-        $this->restore_button   = ''; // Used within option pages, set by options.php
-        $this->save_button      = ''; // Used within option pages, set by options.php
-        $this->sections         = [];
-        $this->setting_fields   = ''; // Used within option pages, set by options.php
-        $this->title            = esc_html($frame['title']);
-        $this->type             = '';
+        $this->action                   = 'options.php'; // Used within option pages, adapted by options.php
+        $this->class                    = isset($frame['class']) ? esc_attr($frame['class']) : '';
+        $this->errors                   = ''; // Used within option pages, set by options.php
+        $this->id                       = esc_attr($frame['id']);
+        $this->reset_button             = ''; // Used within option pages, set by options.php
+        $this->restore_button           = ''; // Used within option pages, set by options.php
+        $this->restore_button_bottom    = ''; // Used within option pages, set by options.php
+        $this->save_button              = ''; // Used within option pages, set by options.php
+        $this->save_button_bottom       = ''; // Used within option pages, set by options.php
+        $this->sections                 = [];
+        $this->setting_fields           = ''; // Used within option pages, set by options.php
+        $this->title                    = esc_html($frame['title']);
+        $this->type                     = '';
 
         // Include our scripts and media
         wp_enqueue_media();  

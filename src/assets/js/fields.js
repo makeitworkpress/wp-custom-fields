@@ -7,6 +7,7 @@ var code = require('./modules/code');
 var colorpicker = require('./modules/colorpicker');
 var datepicker = require('./modules/datepicker');
 var heading = require('./modules/heading');
+var icons = require('./modules/icons');
 var location = require('./modules/location');
 var media = require('./modules/media');
 var select = require('./modules/select');
@@ -22,6 +23,7 @@ module.exports.init = function(framework) {
     code.init(framework);
     datepicker.init(framework);
     heading.init(framework);
+    icons.init(framework);
     location.init(framework);
     media.init(framework);
     select.init(framework);   

@@ -100,7 +100,7 @@ class Options {
   
         // Check if a proper ID is set and add a menu page
         if( ! isset($this->option_page['id']) || ! $this->option_page['id'] ) {
-            return new WP_Error( 'wrong', __( 'Your options configurations require an id.', 'wpcf' ) );
+            return new \WP_Error( 'wrong', __( 'Your options configurations require an id.', 'wpcf' ) );
         } 
           
         $add_page   = 'add_' . $this->location . '_page';
@@ -220,29 +220,40 @@ class Options {
          */
         $labels = [
             'save'      => isset($this->option_page['labels']['save']) ? $this->option_page['labels']['save'] : __( 'Save Settings', 'wpcf' ),
-            'reset'     => isset($this->option_page['labels']['reset']) ? $this->option_page['labels']['reset'] : __( 'Reset Settings', 'wpcf' ),
-            'restore'   => isset($this->option_page['labels']['restore']) ? $this->option_page['labels']['restore'] : __( 'Restore Settings', 'wpcf' )
+            'reset'     => isset($this->option_page['labels']['reset']) ? $this->option_page['labels']['reset'] : __( 'Reset All Settings', 'wpcf' ),
+            'restore'   => isset($this->option_page['labels']['restore']) ? $this->option_page['labels']['restore'] : __( 'Restore Section', 'wpcf' )
         ];
 
         // Save Button
         ob_start();
         submit_button( $labels['save'], 'primary button-hero wp-custom-fields-save', $page_ID . '_save', false );
-        $frame->save_button      = ob_get_clean();
+        $frame->save_button             = ob_get_clean();
 
-        // Reset Button
         ob_start();
-        submit_button( $labels['reset'], 'delete button-hero wp-custom-fields-reset', $page_ID . '_reset', false );
-        $frame->reset_button     = ob_get_clean();
+        submit_button( $labels['save'], 'primary button-hero wp-custom-fields-save', $page_ID . '_save_bottom', false );
+        $frame->save_button_bottom      = ob_get_clean();
+
 
         // Restore Button
         ob_start();
         submit_button( $labels['restore'], 'delete button-hero wp-custom-fields-reset-section', $page_ID . '_restore', false );
-        $frame->restore_button   = ob_get_clean();
+        $frame->restore_button          = ob_get_clean();
+
+        // Restore Button
+        ob_start();
+        submit_button( $labels['restore'], 'delete button-hero wp-custom-fields-reset-section', $page_ID . '_restore_bottom', false );
+        $frame->restore_button_bottom   = ob_get_clean();        
+
+ 
+        // Reset Button
+        ob_start();
+        submit_button( $labels['reset'], 'delete button-hero wp-custom-fields-reset', $page_ID . '_reset', false );
+        $frame->reset_button            = ob_get_clean();       
 
         // Setting Fields
         ob_start();
         settings_fields( $page_ID . '_group' );
-        $frame->settings_fields  = ob_get_clean();   
+        $frame->settings_fields         = ob_get_clean();
 
         // Render our options page;
         $frame->render();

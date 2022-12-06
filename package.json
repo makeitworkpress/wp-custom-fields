@@ -3,14 +3,9 @@
     "version": "1.0.0",
     "author": "Michiel Tramper",
     "description": "The package for the WP Custom Fields Framework",
-    "dependencies": {
-        "codemirror": "latest",
-        "flatpicker": "latest",
-        "select2": "latest"
-    },
     "devDependencies": {
         "browserify": "latest",
-        "uglifyjs": "latest",
+        "uglify-js": "latest",
         "watchify": "latest"
     },
     "scripts": {
