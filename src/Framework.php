@@ -31,10 +31,10 @@ class Framework extends Base {
     private $types;    
     
     // Contains the styles that need to be enqueued
-    private $styles;
+    private $styles = [];
     
     // Contains the scripts  that need to be enqueued
-    private $scripts;      
+    private $scripts = [];    
     
     /**
      * Initializes the plugin 
