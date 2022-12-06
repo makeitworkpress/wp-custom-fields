@@ -343,11 +343,6 @@ trait Validate {
                 global $allowedposttags;
                 $return_value = wp_kses( $field_value, $allowedposttags );
                 
-                break;  
-                
-            // Editor field    
-            case 'gallery':
-                $return_value = $return_value;
                 break; 
                  
             // Editor field    
@@ -534,7 +529,7 @@ trait Validate {
      * @param array $required   The array with required configuration keys
      * @return WP_Error|true    True if we pass the test, a WP_Error if we fail
      */
-    public function validate_configurations( array $options = [], array $required = [] ): bool | WP_Error {
+    public function validate_configurations( array $options = [], array $required = [] ) {
 
         foreach( $required as $requirement ) {
             if( ! isset($options[$requirement]) ) {
