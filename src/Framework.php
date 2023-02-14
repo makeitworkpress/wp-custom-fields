@@ -225,7 +225,7 @@ class Framework extends Base {
      * @param string    $type   The type to which you want to add, accepts 'meta', 'options', 'customizer'
      * @param array     $values The respective values in form of an associative array
      */
-    public function add( string $type, array $values ): void {
+    public function add( $type, array $values ): void {
         
         // Only predefined frames are allowed            
         if( ! in_array($type, $this->types) )
