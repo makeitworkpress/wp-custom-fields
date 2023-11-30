@@ -27,6 +27,14 @@ class Options {
     public $option_page;
 
     /**
+     * Contains the location of the option page
+     * 
+     * @var string
+     * @access public
+     */
+    public $location;    
+
+    /**
      * Examines if we have validated
      * 
      * @var bool
@@ -193,12 +201,12 @@ class Options {
             return;
         }        
                         
-        $page_ID                = $this->option_page['id'];
-        $values                 = isset($this->option_page['context']) && $this->option_page['context'] == 'network' ? get_site_option( $page_ID ) : get_option( $page_ID );
+        $page_ID                        = $this->option_page['id'];
+        $values                         = isset($this->option_page['context']) && $this->option_page['context'] == 'network' ? get_site_option( $page_ID ) : get_option( $page_ID );
         
-        $frame                  = new Frame( $this->option_page, $values );
-        $frame->action          = isset($this->option_page['action']) ? esc_attr( $this->option_page['action'] ) : 'options.php';
-        $frame->type            = 'options';
+        $frame                          = new Frame( $this->option_page, $values );
+        $frame->option_props['action']  = isset($this->option_page['action']) ? esc_attr( $this->option_page['action'] ) : 'options.php';
+        $frame->type                    = 'options';
 
         // Network pages handle errors differently
         if ( isset($this->option_page['context']) && $this->option_page['context'] == 'network' ) {
@@ -212,7 +220,7 @@ class Options {
         if( $screen->parent_base != 'options-general' ) {
             ob_start();
             settings_errors( $page_ID ); 
-            $frame->errors          = ob_get_clean();
+            $frame->option_props['errors'] = ob_get_clean();
         }
 
         /**
@@ -227,28 +235,28 @@ class Options {
         // Save Button
         ob_start();
         submit_button( $labels['save'], 'primary button-hero wp-custom-fields-save', $page_ID . '_save', false );
-        $frame->save_button             = ob_get_clean();
+        $frame->option_props['save_button']             = ob_get_clean();
 
         ob_start();
         submit_button( $labels['save'], 'primary button-hero wp-custom-fields-save', $page_ID . '_save_bottom', false );
-        $frame->save_button_bottom      = ob_get_clean();
+        $frame->option_props['save_button_bottom']      = ob_get_clean();
 
 
         // Restore Button
         ob_start();
         submit_button( $labels['restore'], 'delete button-hero wp-custom-fields-reset-section', $page_ID . '_restore', false );
-        $frame->restore_button          = ob_get_clean();
+        $frame->option_props['restore_button']          = ob_get_clean();
 
         // Restore Button
         ob_start();
         submit_button( $labels['restore'], 'delete button-hero wp-custom-fields-reset-section', $page_ID . '_restore_bottom', false );
-        $frame->restore_button_bottom   = ob_get_clean();        
+        $frame->option_props['restore_button_bottom']   = ob_get_clean();        
 
  
         // Reset Button
         ob_start();
         submit_button( $labels['reset'], 'delete button-hero wp-custom-fields-reset', $page_ID . '_reset', false );
-        $frame->reset_button            = ob_get_clean();       
+        $frame->option_props['reset_button']            = ob_get_clean();       
 
         // Setting Fields
         ob_start();

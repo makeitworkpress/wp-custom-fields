@@ -47,11 +47,13 @@ class Framework extends Base {
         $this->params = wp_parse_args( $this->params, $defaults );
         
         // Set the folder for the framework, assuming it will be within wp-content.
-        $folder = wp_normalize_path( substr( dirname(__FILE__), strpos(__FILE__, 'wp-content') + strlen('wp-content') ) );      
+        $root_dir = dirname(__DIR__, 1);
+        $is_in_plugin = str_contains($root_dir, WP_PLUGIN_DIR) ? true : false; 
+        $root_path = $is_in_plugin ? substr($root_dir, strpos($root_dir, '/plugins')) : substr($root_dir, strpos($root_dir, '/themes'));
         
         // Define Constants
-        defined( 'WP_CUSTOM_FIELDS_ASSETS_URL' ) or define( 'WP_CUSTOM_FIELDS_ASSETS_URL', content_url() . $folder . '/assets/' );
-        defined( 'WP_CUSTOM_FIELDS_PATH' ) or define( 'WP_CUSTOM_FIELDS_PATH', plugin_dir_path( __FILE__ ) );
+        defined( 'WP_CUSTOM_FIELDS_ASSETS_URL' ) or define( 'WP_CUSTOM_FIELDS_ASSETS_URL', content_url() . $root_path . '/public/' );
+        defined( 'WP_CUSTOM_FIELDS_PATH' ) or define( 'WP_CUSTOM_FIELDS_PATH', $root_dir . '/src/' );
         defined( 'GOOGLE_MAPS_KEY' ) or define( 'GOOGLE_MAPS_KEY', $this->params['google_maps_key'] );
         
         // Our default frame types

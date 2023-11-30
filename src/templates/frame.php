@@ -6,7 +6,7 @@
 
 <?php if( $frame->type == 'options' ) { ?>
     <div class="wrap">
-        <form method="post" action="<?php echo $frame->action; ?>" enctype="multipart/form-data"> 
+        <form method="POST" action="<?php echo $frame->option_props['action']; ?>" enctype="multipart/form-data"> 
 <?php } ?>
 
 <div class="wpcf-framework <?php if( $frame->type == 'options' ) { ?>wpcf-options-page <?php } echo $frame->class; ?>" id="<?php echo $frame->id; ?>">
@@ -25,13 +25,13 @@
                                 <h2><?php echo $frame->title; ?></h2>
                             <?php } ?>                        
                         
-                            <?php if( $frame->restore_button || $frame->save_button ) { ?>
+                            <?php if( $frame->option_props['restore_button'] || $frame->option_props['save_button'] ) { ?>
                                 <div class="wpcf-buttons">
                                     <?php 
                                         // Displays any errors
-                                        echo $frame->errors; 
-                                        echo $frame->restore_button;
-                                        echo $frame->save_button; 
+                                        echo $frame->option_props['errors']; 
+                                        echo $frame->option_props['restore_button'];
+                                        echo $frame->option_props['save_button']; 
                                     ?>
                                 </div>
                             <?php } ?>
@@ -126,12 +126,12 @@
                     
                 </div> 
                 
-                <?php if( $frame->reset_button || $frame->restore_button_bottom || $frame->save_button_bottom ) { ?>
+                <?php if( $frame->option_props['reset_button'] || $frame->option_props['restore_button_bottom'] || $frame->option_props['save_button_bottom'] ) { ?>
                     <footer class="wpcf-buttons">
                         <?php 
-                            echo $frame->reset_button;
-                            echo $frame->restore_button_bottom;
-                            echo $frame->save_button_bottom; 
+                            echo $frame->option_props['reset_button'];
+                            echo $frame->option_props['restore_button_bottom'];
+                            echo $frame->option_props['save_button_bottom']; 
                         ?>                
                     </footer>
                 <?php } ?>

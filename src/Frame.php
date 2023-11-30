@@ -15,13 +15,86 @@ if ( ! defined('ABSPATH') ) {
 class Frame {
     
     /**
+     * Contains the custom HTML selector class for the frame
+     * 
+     * @var string
+     * @access public
+     */
+    public $class;
+
+    /**
+     * Contains the current active section
+     * 
+     * @var string
+     * @access private
+     */
+    private $current_section;    
+
+    /**
      * Contains our frame with all configured option fields
      * 
      * @var array
      * @access private
      */
     private $frame;
+
+
+    /**
+     * Contains the id for the given option frame
+     * 
+     * @var string
+     * @access public
+     */
+    public $id;
+
+    /**
+     * Contains the properties that are option page specific
+     * 
+     * @var array
+     * @access public
+     */
+    public $option_props;    
     
+    /**
+     * Contains the various sections for the option page
+     * 
+     * @var array
+     * @access public
+     */
+    public $sections;
+
+    /**
+     * Contain the nonce for saving option pages or verifying custom post fields
+     * 
+     * @var string
+     * @access public
+     */
+    public $settings_fields;
+    
+    /**
+     * Contains the title for our frame
+     * 
+     * @var string
+     * @access public
+     */
+    public $title;
+
+    /**
+     * Contains the type of frame
+     * 
+     * @var string
+     * @access public
+     */
+    public $type;    
+    
+     /**
+     * Contains our vsaved values for the fields
+     * 
+     * @var array
+     * @access private
+     */
+    private $values;
+
     /**
      * Set our values
      *
@@ -35,19 +108,24 @@ class Frame {
         $this->values   = $values;
         
         // Default public variables
-        $this->action                   = 'options.php'; // Used within option pages, adapted by options.php
         $this->class                    = isset($frame['class']) ? esc_attr($frame['class']) : '';
-        $this->errors                   = ''; // Used within option pages, set by options.php
+        $this->current_section          = '';
         $this->id                       = esc_attr($frame['id']);
-        $this->reset_button             = ''; // Used within option pages, set by options.php
-        $this->restore_button           = ''; // Used within option pages, set by options.php
-        $this->restore_button_bottom    = ''; // Used within option pages, set by options.php
-        $this->save_button              = ''; // Used within option pages, set by options.php
-        $this->save_button_bottom       = ''; // Used within option pages, set by options.php
         $this->sections                 = [];
-        $this->setting_fields           = ''; // Used within option pages, set by options.php
         $this->title                    = esc_html($frame['title']);
         $this->type                     = '';
+
+        // Default option page settings
+        $this->option_props             = [
+            'action'                => 'options.php',
+            'errors'                => '',
+            'reset_button'          => '',
+            'restore_button'        => '',
+            'restore_button_bottom' => '',
+            'save_button'           => '',
+            'save_button_bottom'    => '',
+            'setting_fields'        => ''
+        ];
 
         // Include our scripts and media
         wp_enqueue_media();  

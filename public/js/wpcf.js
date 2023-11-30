@@ -4,10 +4,10 @@
  */
 'use strict';
 
-var fields          = require('./fields');
-var options         = require('./options');
-var repeatable      = require('./modules/repeatable');
-var tabs            = require('./modules/tabs');
+var fields          = require('../../src/assets/js/fields');
+var options         = require('../../src/assets/js/options');
+var repeatable      = require('../../src/assets/js/modules/repeatable');
+var tabs            = require('../../src/assets/js/modules/tabs');
 
 window.wcfCodeMirror   = {}; // Contains all the global wcfCodeMirror instance
 
@@ -28,18 +28,18 @@ jQuery(document).ready(init);
  * Executes Field modules
  * @todo Convert in a loop
  */
-var button = require('./modules/button');
-var code = require('./modules/code');
-var colorpicker = require('./modules/colorpicker');
-var datepicker = require('./modules/datepicker');
-var heading = require('./modules/heading');
-var icons = require('./modules/icons');
-var location = require('./modules/location');
-var media = require('./modules/media');
-var select = require('./modules/select');
-var slider = require('./modules/slider');
+var button = require('../../src/assets/js/modules/button');
+var code = require('../../src/assets/js/modules/code');
+var colorpicker = require('../../src/assets/js/modules/colorpicker');
+var datepicker = require('../../src/assets/js/modules/datepicker');
+var heading = require('../../src/assets/js/modules/heading');
+var icons = require('../../src/assets/js/modules/icons');
+var location = require('../../src/assets/js/modules/location');
+var media = require('../../src/assets/js/modules/media');
+var select = require('../../src/assets/js/modules/select');
+var slider = require('../../src/assets/js/modules/slider');
 
-var dependency = require('./modules/dependency');
+var dependency = require('../../src/assets/js/modules/dependency');
 
 module.exports.init = function(framework) {
 
