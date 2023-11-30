@@ -211,9 +211,12 @@ trait Validate {
      * @param mixed    The sanitized output for all inputs and matching fields 
      */
     private static function sanitize_fields( $input, array $field ) {
+
         
         if( $field['type'] == 'repeatable' ) {
-
+            
+            $return = [];
+            
             /**
              * Since our repeatable fields are draggable, keys may get sorted in JS. 
              * Altering the keys on the front-end breaks the value binding to fields, hence we reset the keys here based on the array order. 
@@ -223,7 +226,8 @@ trait Validate {
             $key = 0;
             foreach( $input as $group_values ) {
                 foreach( $field['fields'] as $subfield ) {
-                    $return[$key][$subfield['id']] = self::sanitize_field( $group_values[$subfield['id']], $subfield );
+                    $group_field_input = isset($group_values[$subfield['id']]) ? $group_values[$subfield['id']] : null;
+                    $return[$key][$subfield['id']] = self::sanitize_field( $group_field_input, $subfield );
                 }
                 $key++;
             }
@@ -242,6 +246,10 @@ trait Validate {
      * @return  mixed   The sanized field
      */
     private static function sanitize_field( $input, array $field ) {
+
+        if( ! isset($input) ) {
+            return;
+        }        
             
         $field_type     = $field['type'];
         $field_subtype  = isset($field['subtype']) ? $field['subtype'] : '';
