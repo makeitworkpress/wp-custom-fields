@@ -50,13 +50,11 @@ module.exports.init = function(framework) {
         var datepickers = jQuery(group).find('.wpcf-datepicker');
 
         if( datepickers.length > 0 ) {
-
             jQuery(datepickers).each( function() {
                 if( typeof this._flatpickr !== 'undefined' ) {
                     this._flatpickr.destroy();    
                 }
             });
-
         }
        
 
@@ -88,7 +86,7 @@ module.exports.init = function(framework) {
         // Reinitialize old codemirror groups
         codeNodes.forEach( function(node) {
             if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
-                window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {mode: node.dataset.mode, lineNumbers: true});
+                window.wcfCodeMirror[node.id] = wp.codeEditor.initialize(node, {mode: node.dataset.mode, lineNumbers: true});
             }
         });
         

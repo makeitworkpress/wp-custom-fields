@@ -25,8 +25,9 @@ class Code implements Field {
         $values     = html_entity_decode( $field['values'] );
         
         // Only Enqueue if it is not enqueued yet
-        if( apply_filters('wp_custom_fields_code_field_js', true) && ! wp_script_is('mirror-js', 'enqueued') ) {
-            wp_enqueue_script('mirror-js');
+        if( apply_filters('wp_custom_fields_code_field_js', true) && ! wp_script_is('wp-theme-plugin-editor', 'enqueued') ) {
+            wp_enqueue_script('wp-theme-plugin-editor');
+            wp_enqueue_style('wp-codemirror');
         } ?>
         
             <textarea class="wpcf-code-editor-value" id="<?php echo $id; ?>" name="<?php echo $name; ?>" data-mode="<?php echo $mode; ?>"><?php echo $values; ?></textarea>

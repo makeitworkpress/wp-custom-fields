@@ -5,7 +5,7 @@ module.exports.init = function(framework) {
  
     jQuery(framework).find('.wpcf-code-editor-value').each(function (index, node) {
 
-        window.wcfCodeMirror[node.id] = CodeMirror.fromTextArea(node, {
+        window.wcfCodeMirror[node.id] = wp.codeEditor.initialize(node, {
                 mode: node.dataset.mode,
                 lineNumbers: true
         });

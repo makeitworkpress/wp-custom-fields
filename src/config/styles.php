@@ -41,14 +41,6 @@ $styles[] = [
 ]; 
 
 $styles[] = [
-    'handle'    => 'wpc-mirror-css',
-    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/codemirror.min.css',
-    'deps'      => [],
-    'ver'       => '',
-    'media'     => ''
-]; 
-
-$styles[] = [
     'handle'    => 'wpc-select2-css',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'css/vendor/select2.min.css',
     'deps'      => [],

@@ -60,15 +60,6 @@ $scripts[] = [
 ];
 
 $scripts[] = [
-    'handle'    => 'mirror-js',
-    'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/codemirror.min.js',
-    'deps'      => [],
-    'ver'       => null,
-    'in_footer' => true,  
-    'action'    => 'register'
-];
-
-$scripts[] = [
     'handle'    => 'select2-js',
     'src'       => WP_CUSTOM_FIELDS_ASSETS_URL . 'js/vendor/select2.min.js',
     'deps'      => [],
