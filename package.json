@@ -4,12 +4,10 @@
     "author": "Michiel Tramper",
     "description": "The package for the WP Custom Fields Framework",
     "devDependencies": {
-        "browserify": "latest",
-        "uglify-js": "latest",
-        "watchify": "latest"
+        "@esbuild-plugins/node-resolve": "^0.2.2",
+        "esbuild": "^0.20.2"
     },
     "scripts": {
-        "build-js": "browserify src/assets/js/app.js -o public/js/wpcf.js && uglifyjs public/js/wpcf.js -o public/js/wpcf.min.js -c -m",
-        "watch-js": "watchify src/assets/js/app.js -o public/js/wpcf.js -v"
+        "bundle": "node esbuild.config.js"
     }
 }

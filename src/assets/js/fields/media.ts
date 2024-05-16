@@ -1,7 +1,10 @@
 /**
- * Our jquery UI slider
+ * Our Media upload element
+ * @param {HTMLElement} framework The parent framework element
  */
-module.exports.init = function(framework) {
+declare var wp;
+
+export const media = (framework: HTMLElement) => {
     
     /**
      * Enables Uploading using the Media-Uploader

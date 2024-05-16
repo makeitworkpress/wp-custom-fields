@@ -317,7 +317,8 @@ trait Validate {
                  
             // Code field    
             case 'code':
-                $return_value = htmlentities(stripslashes($field_value));
+                global $allowedposttags;
+                $return_value = wp_kses( $field_value, $allowedposttags );
                 break; 
                 
             // Colorpicker     

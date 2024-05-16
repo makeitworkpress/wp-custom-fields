@@ -1,7 +1,9 @@
 /**
- * Our colorpicker module
+ * Our select field
  */
-module.exports.init = function(framework) {
+declare var jQuery;
+
+export const select = (framework) => {
 
     // Execute if we do have select2 defined
     if( typeof jQuery.fn.select2 !== 'undefined' && jQuery.fn.select2 ) {
@@ -22,12 +24,12 @@ module.exports.init = function(framework) {
 /**
  *  Formats a state for the select2 toolbox, allowing us to add custom images
  */
-var formatState = function(state) {
+const formatState = (state) => {
     if ( ! state.id ) { 
         return state.text; 
     }
     
-    var newState = jQuery(
+    const newState = jQuery(
         '<img src="' + state.element.dataset.display + '" class="img-typography" />'
     );
     

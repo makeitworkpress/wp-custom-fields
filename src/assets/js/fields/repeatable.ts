@@ -1,11 +1,14 @@
 /**
  * Our repeatable fields module
  * @todo Rewrite this in a more efficient manner.
+ * @param {HTMLElement} framework The parent framework element
  */
-var fields = require('./../fields');
-var datepicker = require('./datepicker');
+import { fields } from '../modules/fields';
+import { datepicker } from './datepicker';
 
-module.exports.init = function(framework) {
+declare var jquery;
+
+export const repeatable = (framework: HTMLElement) => {
 
     /**
      * Groups are sortable
