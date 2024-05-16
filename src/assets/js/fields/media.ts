@@ -2,120 +2,96 @@
  * Our Media upload element
  * @param {HTMLElement} framework The parent framework element
  */
-declare var wp;
+declare var wp, jQuery;
 
 export const media = (framework: HTMLElement) => {
-    
-    /**
-     * Enables Uploading using the Media-Uploader
-     */
-    jQuery(framework).find('.wpcf-upload-wrapper').each(function (index) {
+      
+    const uploadWrappers = framework.querySelectorAll('.wpcf-upload-wrapper') as NodeListOf<HTMLElement>;
 
-        // Define the buttons for this specific group
-        var add_media = jQuery(this).find('.wpcf-upload-add'),
-            add_wrap = jQuery(this).find('.wpcf-single-media.empty'),
-            button = jQuery(this).data('button'),
-            multiple = jQuery(this).data('multiple'),   
-            title = jQuery(this).data('title'),
-            type = jQuery(this).data('type'),         
-            url = jQuery(this).data('url'),         
-            value_input = jQuery(this).find('.wpcf-upload-value'),
-            frame;
+    uploadWrappers.forEach((uploadWrapper: HTMLElement) => {
 
-        // Click function
-        add_media.on('click', function (e) {
+        const addMedia = uploadWrapper.querySelector('.wpcf-upload-add') as HTMLElement;
+        const addWrap = uploadWrapper.querySelector('.wpcf-single-media.empty') as HTMLElement;
+        const button = uploadWrapper.dataset.button;
+        const multiple = uploadWrapper.dataset.multiple === 'true';
+        const title = uploadWrapper.dataset.title;
+        const type = uploadWrapper.dataset.type;
+        const url = uploadWrapper.dataset.url;
+        const valueInput = uploadWrapper.querySelector('.wpcf-upload-value')as HTMLInputElement;
+        let frame: any;
 
+        addMedia.addEventListener('click', (e: Event) => {
             e.preventDefault();
 
-            // If the media frame already has been opened before, it can just be reopened.
             if (frame) {
                 frame.open();
                 return;
             }
 
-            // Create the media frame.
             frame = wp.media({
-
-                // Determine the title for the modal window
                 title: title,
-
-                // Show only the provided types
                 library: {
                     type: type
                 },
-
-                // Determine the submit button text
                 button: {
                     text: button
                 },
-
-                // Can we select multiple or only one?
                 multiple: multiple
-
             });
 
-            // If media is selected, add the input value
-            frame.on('select', function () {
+            frame.on('select', () => {
+                const attachments = frame.state().get('selection').toJSON();
+                let attachmentIds = valueInput.value;
+                let urlWrapper = '';
+                let src: string;
 
-                // Grab the selected attachment.
-                var attachments     = frame.state().get('selection').toJSON(),
-                    attachment_ids  = value_input.val(),
-                    urlWrapper      = '',
-                    src;
+                attachments.forEach((attachment: any) => {
+                    attachmentIds += attachment.id + ',';
 
-                // We store the ids for each image
-                attachments.forEach(function (attachment) {
-                    attachment_ids += attachment.id + ',';
+                    src = attachment.type === 'image' ? 
+                        (attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.sizes.full.url) :
+                        attachment.icon;
 
-                    if( attachment.type === 'image') {
-                        src = typeof(attachment.sizes.thumbnail) !== 'undefined' ? attachment.sizes.thumbnail.url : attachment.sizes.full.url;
-                    } else {
-                        src = attachment.icon;
-                    }
-
-                    // Return the url wrapper, if url is defined as a feature
-                    if( url ) {
+                    if (url) {
                         urlWrapper = '<div class="wpcf-media-url"><i class="material-icons">link</i><input type="text" value="' + attachment.url + '"></div>';
                     }
 
-                    add_wrap.before('<div class="wpcf-single-media type-' + type + '" data-id="' + attachment.id + '"><img src="' + src + '" />' + urlWrapper + '<a href="#" class="wpcf-upload-remove"><i class="material-icons">clear</i></a></div>');
-                
+                    addWrap.before('<div class="wpcf-single-media type-' + type + '" data-id="' + attachment.id + '"><img src="' + src + '" />' + urlWrapper + '<a href="#" class="wpcf-upload-remove"><i class="material-icons">clear</i></a></div>');
                 });
 
-                // Remove the , for single attachments
-                if( ! multiple ) {
-                    attachment_ids.replace(',', '');
+                if (!multiple) {
+                    attachmentIds.replace(',', '');
                 }
 
-                value_input.val(attachment_ids);
-
+                valueInput.value = attachmentIds;
             });
 
-            // Open the media upload modal
             frame.open();
-
         });
 
-        /**
-         * Remove attachments
-         */
-        jQuery(this).on('click', '.wpcf-upload-remove', function (e) {
-            e.preventDefault();
+        uploadWrapper.addEventListener('click', (event: Event) => {
+            const target = event.target as HTMLElement;
 
-            var target = jQuery(this).closest('.wpcf-single-media'),
-                target_id = target.data('id'),
-                current_values = value_input.val(),
-                new_values = current_values.replace(target_id + ',', '');
+            if (! target.classList.contains('wpcf-upload-remove')) {
+                return;
+            }
 
-            target.remove();
+            event.preventDefault();
+
+            const singleMedia = target.closest('.wpcf-single-media') as HTMLElement;;
+            const targetId = singleMedia.dataset.id;
+            let currentValues = valueInput.value;
+            const newValues = currentValues.replace(targetId + ',', '');
+
+            singleMedia.remove();
+
+            if (!multiple) {
+                jQuery(addWrap).fadeIn();
+            }
+
+            valueInput.value = newValues;
             
-            if( ! multiple )
-                add_wrap.fadeIn();            
-
-            value_input.val(new_values);
-
         });
-
     });
 
     /**
@@ -123,15 +99,16 @@ export const media = (framework: HTMLElement) => {
      */
     jQuery('.wpcf-media').sortable({
         placeholder: "wpcf-media-highlight",
-        update: function(event, ui) {
-            var input = jQuery(this).closest('.wpcf-upload-wrapper').find('.wpcf-upload-value'), values = [];
+        update: function(event: Event, ui: any) {
+            const targetElement = event.target as HTMLElement;
+            const inputElement = (targetElement.closest('.wpcf-upload-wrapper') as HTMLElement).querySelector('.wpcf-upload-value') as HTMLInputElement;
+            const values: string[] = [];
             
-            jQuery(this).find('.wpcf-single-media').each( function(index, node) {
-                values.push(node.dataset.id);        
-            } );
-
-            input.val( values.join(',') );
-
+            (event.target as HTMLElement).querySelectorAll('.wpcf-single-media').forEach((node: any) => {
+                values.push(node.dataset.id || '');
+            });
+        
+            inputElement.value = values.join(',');
         }
     });
     

@@ -6,7 +6,7 @@
 import { fields } from '../modules/fields';
 import { datepicker } from './datepicker';
 
-declare var jquery;
+declare var jQuery, wp;
 
 export const repeatable = (framework: HTMLElement) => {
 
@@ -16,137 +16,124 @@ export const repeatable = (framework: HTMLElement) => {
     jQuery('.wpcf-repeatable-groups').sortable({
         placeholder: 'wpcf-highlight',
         update: function( event, ui ) { 
-            jQuery(this).find('.wpcf-repeatable-group').each( function(index, node) {
+            // This updating does not matter anymore
+            // jQuery(this).find('.wpcf-repeatable-group').each( function(index, node) {
                 // jQuery(node).html( function(n, node) {
                 //     return node.replace(/\[\d+\]/g, '[' + index + ']').replace(/\_\d+\_/g, '_' + index + '_');
                 // });
-            });
+            // });
         }
     });
     
     /**
      * Repeatable Groups 
      */
-    jQuery('.wpcf-repeatable-add').on('click', function (e) {
-        e.preventDefault();
-        var codeNodes   = [],
-            length      = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
-            group       = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').last();
-            
-        // Destroy our select2 instances, if it is defined of course
-        if( typeof jQuery.fn.select2 !== 'undefined' && jQuery.fn.select2 ) {
-            jQuery(group).find('.wpcf-select-advanced').select2('destroy');
-        }     
-
-        // Destroy current codemirror instances
-        jQuery(framework).find('.wpcf-code-editor-value').each(function (index, node) {
-
-            if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
-                window.wcfCodeMirror[node.id].toTextArea(node);
-
-                codeNodes.push(node);
-            }
-
-        });
-        
-        // Destroy our datepicker instances before re-adding
-        var datepickers = jQuery(group).find('.wpcf-datepicker');
-
-        if( datepickers.length > 0 ) {
-            jQuery(datepickers).each( function() {
-                if( typeof this._flatpickr !== 'undefined' ) {
-                    this._flatpickr.destroy();    
+    document.querySelectorAll('.wpcf-repeatable-add').forEach((button) => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const codeNodes: HTMLElement[] = [];
+            const length = (button.closest('.wpcf-repeatable-container') as HTMLElement).querySelectorAll('.wpcf-repeatable-group').length;
+            const group = (button.closest('.wpcf-repeatable-container') as HTMLElement).querySelector('.wpcf-repeatable-group:last-child') as HTMLElement;
+    
+            // Destroy our select2 instances, if defined
+            const selectAdvancedFields = group.querySelectorAll('.wpcf-select-advanced');
+            selectAdvancedFields.forEach((field: any) => {
+                if (typeof field.select2 !== 'undefined' && field.select2) {
+                    field.select2.destroy();
                 }
             });
-        }
-       
-
-        // Build our newgroup
-        var newGroup = group.clone(true, true);
-        
-        // Clone the current group and replace the current keys by new ones. The length is always one bigger as the current array, so it matches the key for the new group.
-        newGroup.html(function (i, oldGroup) {
-            return oldGroup.replace(/\[\d+\]/g, '[' + length + ']').replace(/\_\d+\_/g, '_' + length + '_');
-        });             
-
-        // Empty inputs in our  new group
-        newGroup.find('input').val('');
-        newGroup.find('textarea').val('');
-        newGroup.find('option').attr('selected', false); 
-        newGroup.find('.wpcf-single-media').not('.empty').remove(); // Removes the media from the cloned group            
-                
-        // Finally, insert the newGroup after the current group
-        group.after(newGroup);         
-
-        // Redraw all the fields within the group
-        fields.init(newGroup);  
-
-        // Reinit old datepicker groups
-        if( datepickers.length > 0 ) {
-            datepicker.init(group);
-        }
-        
-        // Reinitialize old codemirror groups
-        codeNodes.forEach( function(node) {
-            if( typeof(window.wcfCodeMirror[node.id]) !== 'undefined' ) {
-                window.wcfCodeMirror[node.id] = wp.codeEditor.initialize(node, {mode: node.dataset.mode, lineNumbers: true});
-            }
+    
+            // Destroy current codemirror instances
+            (document.querySelectorAll('.wpcf-code-editor-value') as NodeListOf<HTMLElement>).forEach((node: HTMLElement) => {
+                if ((window as any).wcfCodeMirror[node.id]) {
+                    (window as any).wcfCodeMirror[node.id].toTextArea(node);
+                    codeNodes.push(node);
+                }
+            });
+    
+            // Destroy our datepicker instances before re-adding
+            const datepickers = group.querySelectorAll('.wpcf-datepicker') as NodeListOf<HTMLElement>;
+            datepickers.forEach((datepickerInstance: any) => {
+                if (datepickerInstance._flatpickr) {
+                    datepickerInstance._flatpickr.destroy();
+                }
+            });
+    
+            // Build our new group
+            const newGroup = group.cloneNode(true) as HTMLElement;
+    
+            // Replace current keys with new ones in the new group
+            newGroup.innerHTML = newGroup.innerHTML.replace(/\[\d+\]/g, `[${length}]`).replace(/\_\d+\_/g, `_${length}_`);
+    
+            // Empty inputs in our new group
+            (newGroup.querySelectorAll('input, textarea') as NodeListOf<HTMLInputElement>).forEach((input: HTMLInputElement) => input.value = '');
+            newGroup.querySelectorAll('option').forEach((option: HTMLOptionElement) => option.selected = false);
+            (newGroup.querySelectorAll('.wpcf-single-media:not(.empty)') as NodeListOf<HTMLElement>).forEach((media: HTMLElement) => media.remove());
+    
+            // Insert the newGroup after the current group
+            group.after(newGroup);
+    
+            // Redraw all the fields within the group
+            fields(newGroup, true);
+    
+            // Reinit old datepicker groups
+            datepickers.forEach((element: HTMLElement) => {
+                datepicker(group);
+            });
+    
+            // Reinitialize old codemirror groups
+            codeNodes.forEach((node: HTMLElement) => {
+                const settings = JSON.parse( node.dataset.settings as string );
+                (window as any).wcfCodeMirror[node.id] = wp.codeEditor.initialize(node, settings);
+            });
         });
-        
     });
     
     // Remove the latest group
-    jQuery('.wpcf-repeatable-remove-latest').on('click', function (e) {
-        e.preventDefault();
-        var groupLength = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
-            group = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').last();
-        
-        // Keep the first group
-        if( groupLength < 2 ) {
-            return;
-        }
-        
-        group.fadeOut();
-        setTimeout( function() {
-            group.remove();
-        }, 500);
-
+    document.querySelectorAll('.wpcf-repeatable-remove-latest').forEach((button) => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const groupLength = (button.closest('.wpcf-repeatable-container') as HTMLElement).querySelectorAll('.wpcf-repeatable-group').length;
+            const group = (button.closest('.wpcf-repeatable-container') as HTMLElement).querySelector('.wpcf-repeatable-group:last-child') as HTMLElement;
+    
+            // Keep the first group
+            if (groupLength < 2) return;
+    
+            group.style.display = 'none';
+            setTimeout(() => group.remove(), 500);
+        });
     });
-
-    /**
-     * Remove the current group
-     */
-    jQuery(document).on('click', '.wpcf-repeatable-remove-group', function(e) {
-
-        e.preventDefault();
-        var groupLength = jQuery(this).closest('.wpcf-repeatable-container').find('.wpcf-repeatable-group').length,
-            group = jQuery(this).closest('.wpcf-repeatable-group');
-            groupContainer = jQuery(this).closest('.wpcf-repeatable-container');        
-        
-        // Only remove if not the first group
-        if( groupLength < 2 ) {
-            return;
+    
+    // Remove the current group
+    document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.classList.contains('wpcf-repeatable-remove-group')) {
+            e.preventDefault();
+            const groupLength = (target.closest('.wpcf-repeatable-container') as HTMLElement).querySelectorAll('.wpcf-repeatable-group').length;
+            const group = target.closest('.wpcf-repeatable-group') as HTMLElement;
+    
+            // Only remove if not the first group
+            if (groupLength < 2) return;
+    
+            group.style.display = 'none';
+            setTimeout(() => group.remove(), 500);
         }
-
-        // Fade-out and remove after a certain timeout
-        group.fadeOut();
-
-        setTimeout( function() {
-            group.remove();
-        }, 500);
-
-    });    
+    });
     
     // Open or close a group
-    jQuery('body').on('click', '.wpcf-repeatable-toggle', function (e) {
-        e.preventDefault();
-        
-        if( jQuery(this).find('i').text() === 'arrow_drop_down' ) {
-            jQuery(this).find('i').text('arrow_drop_up');        
-        } else if( jQuery(this).find('i').text() === 'arrow_drop_up' ) {
-            jQuery(this).find('i').text('arrow_drop_down');    
-        }
-        jQuery(this).closest('.wpcf-repeatable-group').find('.wpcf-repeatable-fields').slideToggle('closed');
+    document.querySelectorAll('.wpcf-repeatable-toggle').forEach((button) => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const icon = button.querySelector('i') as HTMLElement;
+            const group = (button.closest('.wpcf-repeatable-group') as HTMLElement).querySelector('.wpcf-repeatable-fields') as HTMLElement;
+    
+            if (icon.textContent === 'arrow_drop_down') {
+                icon.textContent = 'arrow_drop_up';
+            } else if (icon.textContent === 'arrow_drop_up') {
+                icon.textContent = 'arrow_drop_down';
+            }
+            group.style.display = group.style.display === 'none' ? 'block' : 'none';
+        });
     });
     
 };
