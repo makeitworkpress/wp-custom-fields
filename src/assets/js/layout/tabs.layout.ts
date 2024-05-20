@@ -1,4 +1,4 @@
-export const tabs = function() {
+export const TabsLayout = function() {
     const tabs = document.querySelectorAll('.wpcf-tabs a');
 
     tabs.forEach(tab => {

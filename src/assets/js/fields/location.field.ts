@@ -38,15 +38,12 @@ declare namespace google {
         } 
         
         namespace event {}
-
         namespace places {}
 
     }
 }
 
-
-
-export const location = (framework: HTMLElement) => {
+export const LocationField = (framework: HTMLElement) => {
     
     framework.querySelectorAll('.wpcf-location').forEach((locationElement: Element) => {
         const searchInput = locationElement.querySelector('.wpcf-map-search') as HTMLInputElement,
@@ -60,8 +57,8 @@ export const location = (framework: HTMLElement) => {
             state = locationElement.querySelector('.state') as HTMLInputElement,
             number = locationElement.querySelector('.number') as HTMLInputElement;
         
-            let latLng = new google.maps.LatLng(52.2129918, 5.2793703),
-        zoom = 7;
+        let latLng = new google.maps.LatLng(52.2129918, 5.2793703),
+            zoom = 7;
     
         // Map
         if (latitude.value && longitude.value) {

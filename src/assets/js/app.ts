@@ -4,11 +4,11 @@
  */
 'use strict';
 
-import { fields } from './modules/fields';
-import { options } from './modules/options';
-import { tabs } from './modules/tabs';
+import { FieldsModule } from './modules/fields.module';
+import { OptionsLayout } from './layout/options.layout';
+import { TabsLayout } from './layout/tabs.layout';
 
-const initWPCF = () => {
+const InitWPCF = () => {
     const framework = document.querySelector('.wpcf-framework') as HTMLElement;
 
     if( ! framework ) {
@@ -17,10 +17,10 @@ const initWPCF = () => {
 
     (window as any).wpcfCodeMirror = {};
 
-    fields(framework);    
-    options(framework);
-    tabs();
+    FieldsModule(framework);    
+    OptionsLayout(framework);
+    TabsLayout();
 }
 
 // Boot after document is loaded
-document.addEventListener('DOMContentLoaded', () => initWPCF());
+document.addEventListener('DOMContentLoaded', () => InitWPCF());

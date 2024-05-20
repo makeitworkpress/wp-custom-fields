@@ -4,7 +4,7 @@
  */
 declare var wp, jQuery;
 
-export const media = (framework: HTMLElement) => {
+export const MediaField = (framework: HTMLElement) => {
       
     const uploadWrappers = framework.querySelectorAll('.wpcf-upload-wrapper') as NodeListOf<HTMLElement>;
 
@@ -56,7 +56,7 @@ export const media = (framework: HTMLElement) => {
                         urlWrapper = '<div class="wpcf-media-url"><i class="material-icons">link</i><input type="text" value="' + attachment.url + '"></div>';
                     }
 
-                    addWrap.before('<div class="wpcf-single-media type-' + type + '" data-id="' + attachment.id + '"><img src="' + src + '" />' + urlWrapper + '<a href="#" class="wpcf-upload-remove"><i class="material-icons">clear</i></a></div>');
+                    addWrap.insertAdjacentHTML('beforebegin', '<div class="wpcf-single-media type-' + type + '" data-id="' + attachment.id + '"><img src="' + src + '" />' + urlWrapper + '<a href="#" class="wpcf-upload-remove"><i class="material-icons">clear</i></a></div>');
                 });
 
                 if (!multiple) {

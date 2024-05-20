@@ -4,10 +4,9 @@
  */
 declare var flatpickr;
 
-export const datepicker = (framework: HTMLElement) => {
+export const DatepickerField = (framework: HTMLElement) => {
 
     if (typeof flatpickr !== 'function') {
-        console.error('flatpickr function is not defined.');
         return;
     }
 

@@ -1,7 +1,7 @@
 /**
  * Functions for option pages
  */
-export const options = (framework) => {
+export const OptionsLayout = (framework) => {
     if (! framework.classList.contains('wpcf-options-page')) {
         return;
     }

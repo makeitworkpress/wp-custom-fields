@@ -3,7 +3,7 @@
  * 
  * @param {HTMLElement} framework The framework root element
  */
-export const dependency = (framework: HTMLElement) => {
+export const DependencyHelper = (framework: HTMLElement) => {
 
     framework.querySelectorAll('.wpcf-dependent-field').forEach((item: Element) => {
         // Values from our dependency field

@@ -3,12 +3,12 @@
  * @todo Rewrite this in a more efficient manner.
  * @param {HTMLElement} framework The parent framework element
  */
-import { fields } from '../modules/fields';
-import { datepicker } from './datepicker';
+import { FieldsModule } from '../modules/fields.module';
+import { DatepickerField } from './datepicker.field';
 
 declare var jQuery, wp;
 
-export const repeatable = (framework: HTMLElement) => {
+export const RepeatableField = (framework: HTMLElement) => {
 
     /**
      * Groups are sortable
@@ -74,11 +74,11 @@ export const repeatable = (framework: HTMLElement) => {
             group.after(newGroup);
     
             // Redraw all the fields within the group
-            fields(newGroup, true);
+            FieldsModule(newGroup, true);
     
             // Reinit old datepicker groups
             datepickers.forEach((element: HTMLElement) => {
-                datepicker(group);
+                DatepickerField(group);
             });
     
             // Reinitialize old codemirror groups

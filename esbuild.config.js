@@ -6,8 +6,8 @@ const config = {
     },
     outdir: './public/js/',
     bundle: true,
-    minify: true,
-    format: 'esm',
+    minify: false,
+    format: 'iife',
     platform: 'browser',
     target: 'es2022',
     loader: {

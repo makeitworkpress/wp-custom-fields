@@ -4,7 +4,7 @@
  */
 declare var wpcf;
 
-export const button = (framework: HTMLElement) => {
+export const ButtonField = (framework: HTMLElement) => {
     framework.querySelectorAll('.wpcf-button').forEach(async (button: Element) => {
         button.addEventListener('click', async function(event) {
             event.preventDefault();

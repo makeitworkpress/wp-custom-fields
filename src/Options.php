@@ -314,6 +314,8 @@ class Options {
      * Function for sanitizing the saved data. Hooks upon sanitizing the option directly.
      */
     public function sanitize() {
+
+        // wp_die( var_dump($_POST) );
         
         $value = $this->format( $this->option_page, $_POST, 'options' );
         

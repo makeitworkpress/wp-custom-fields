@@ -2,7 +2,7 @@
  * Our icon field, allowing search or icons
  * @param {HTMLElement} framework The parent framework element
  */
-export const icon = (framework: HTMLElement) => {
+export const IconsField = (framework: HTMLElement) => {
 
     const searchFields = framework.querySelectorAll('.wpcf-icons-search') as NodeListOf<HTMLInputElement>;
     const iconNodes: { [key: string]: NodeListOf<HTMLLIElement> } = {};

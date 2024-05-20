@@ -4,7 +4,7 @@
  */
 declare var jQuery;
 
-export const colorpicker = (framework: HTMLElement) => {
+export const ColorpickerField = (framework: HTMLElement) => {
     const colorpickers = framework.querySelectorAll('.wpcf-colorpicker');
     colorpickers.forEach((element: Element) => {
         jQuery(element as any).wpColorPicker({
