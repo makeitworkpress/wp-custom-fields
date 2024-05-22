@@ -72,7 +72,7 @@ export const MediaField = (framework: HTMLElement) => {
         uploadWrapper.addEventListener('click', (event: Event) => {
             const target = event.target as HTMLElement;
 
-            if (! target.classList.contains('wpcf-upload-remove')) {
+            if (! target.classList.contains('wpcf-upload-remove') || target.parentElement?.classList.contains('wpcf-upload-remove') ) {
                 return;
             }
 

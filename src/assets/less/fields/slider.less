@@ -1,50 +1,58 @@
 // main: ../wp-custom-fields.less
 
-/* Slider */
-.wpcf-slider {
-    background: @dark-white;
-    border: 1px solid @wp-btnborder;
+/**
+ * Styling for the slider field
+ */
+.wpcf-slider-input {
+    -webkit-appearance: none; 
+    appearance: none;
+    background: @dark-white; 
     border-radius: @base-radius;
-    height: 10px;
-    float: left;
+    height: 15px;
     margin: 7px 10px 7px 0;
     max-width: 140px;
-    min-width: 60px;
-    position: relative;
-    width: 80%;
-    .ui-slider-handle {
-        background:@wp-lightblue;
-        box-shadow: @wp-boxshadow;
-        border: 1px solid @light-grey;
-        border-radius: @base-radius;
-        display: block;
-        height: 14px;
-        margin: -3px 0 0 -7px;
-        position: absolute;
-        width: 14px;
-        &:after {
-            border-left: 1px solid @light-white;
-            border-right: 1px solid @light-white;
-            content: '';
-            display: block;
-            height: 8px;
-            margin: 3px 4px;
-            width: 4px;
-            
-        }       
-        &:hover, &:focus {
-            background: @wp-blue; 
-            box-shadow: @wp-boxshadow-hover;
-        }
-    }
+    min-width: 60px;     
+    outline: none; 
+    opacity: 0.8;
+    transition: opacity 350ms ease-out;
+    width: 80%; 
 }
-.wpcf-slider-wrapper label {
-    color: @wp-greyborder;  
-    position: relative;
-    top: -3px;
+
+/* Mouse-over effects */
+.wpcf-slider-input:hover {
+    opacity: 1; /* Fully shown on hover */
 }
+
+/* The slider handle (the knob that you move) */
+.wpcf-slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background:@wp-blue;
+    box-shadow: @wp-boxshadow;
+    border: 2px solid @light-grey;
+    border-radius: @base-radius * 4;
+    cursor: pointer; 
+    height: 25px; 
+    width: 25px; 
+}
+
+/* Same styling for Firefox */
+.wpcf-slider-input::-moz-range-thumb {
+    background:@wp-blue;
+    box-shadow: @wp-boxshadow;
+    border: 2px solid @light-grey;
+    border-radius: @base-radius * 4;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+}
+
 .wpcf-slider-value {
-    max-width: 140px;
-    min-width: 70px;
+    display: inline-block;
+    font-size: 1.25em;
+    font-weight: bold;
+    margin-top: 2px;
+    max-width: 60px;
+    padding: 0.25rem;
     width: 20%;
 }
