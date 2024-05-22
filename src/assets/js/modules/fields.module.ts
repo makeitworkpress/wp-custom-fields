@@ -27,8 +27,8 @@ export const FieldsModule = (framework: HTMLElement, isRepeatable = false) => {
     IconsField(framework);
     LocationField(framework);
     MediaField(framework);
-    SelectField(framework);
     SliderField(framework);
+    SelectField(framework);
 
     // Dependent fields helper
     DependencyHelper(framework); 

@@ -24,29 +24,28 @@ export const RepeatableField = (framework: HTMLElement) => {
             // });
         }
     });
-    
+
     /**
      * Repeatable Groups 
      */
     document.querySelectorAll('.wpcf-repeatable-add').forEach((button) => {
+        const repeatableGroup = button.closest('.wpcf-repeatable-container') as HTMLElement;
         button.addEventListener('click', (e) => {
             e.preventDefault();
             const codeNodes: HTMLElement[] = [];
-            const length = (button.closest('.wpcf-repeatable-container') as HTMLElement).querySelectorAll('.wpcf-repeatable-group').length;
-            const group = (button.closest('.wpcf-repeatable-container') as HTMLElement).querySelector('.wpcf-repeatable-group:last-child') as HTMLElement;
+            const length = repeatableGroup.querySelectorAll('.wpcf-repeatable-group').length;
+            const group = repeatableGroup.querySelector('.wpcf-repeatable-group:last-child') as HTMLElement;
     
             // Destroy our select2 instances, if defined
             const selectAdvancedFields = group.querySelectorAll('.wpcf-select-advanced');
             selectAdvancedFields.forEach((field: any) => {
-                if (typeof field.select2 !== 'undefined' && field.select2) {
-                    field.select2.destroy();
-                }
+                jQuery(field).select2('destroy');
             });
     
             // Destroy current codemirror instances
-            (document.querySelectorAll('.wpcf-code-editor-value') as NodeListOf<HTMLElement>).forEach((node: HTMLElement) => {
-                if ((window as any).wcfCodeMirror[node.id]) {
-                    (window as any).wcfCodeMirror[node.id].toTextArea(node);
+            (repeatableGroup.querySelectorAll('.wpcf-code-editor-value') as NodeListOf<HTMLElement>).forEach((node: HTMLElement) => {
+                if ((window as any).wpcfCodeMirror[node.id]) {    
+                    (window as any).wpcfCodeMirror[node.id].codemirror.toTextArea(node);
                     codeNodes.push(node);
                 }
             });
@@ -84,7 +83,7 @@ export const RepeatableField = (framework: HTMLElement) => {
             // Reinitialize old codemirror groups
             codeNodes.forEach((node: HTMLElement) => {
                 const settings = JSON.parse( node.dataset.settings as string );
-                (window as any).wcfCodeMirror[node.id] = wp.codeEditor.initialize(node, settings);
+                (window as any).wpcfCodeMirror[node.id] = wp.codeEditor.initialize(node, settings);
             });
         });
     });

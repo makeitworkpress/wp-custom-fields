@@ -306,20 +306,19 @@
       }
     });
     document.querySelectorAll(".wpcf-repeatable-add").forEach((button) => {
+      const repeatableGroup = button.closest(".wpcf-repeatable-container");
       button.addEventListener("click", (e) => {
         e.preventDefault();
         const codeNodes = [];
-        const length = button.closest(".wpcf-repeatable-container").querySelectorAll(".wpcf-repeatable-group").length;
-        const group = button.closest(".wpcf-repeatable-container").querySelector(".wpcf-repeatable-group:last-child");
+        const length = repeatableGroup.querySelectorAll(".wpcf-repeatable-group").length;
+        const group = repeatableGroup.querySelector(".wpcf-repeatable-group:last-child");
         const selectAdvancedFields = group.querySelectorAll(".wpcf-select-advanced");
         selectAdvancedFields.forEach((field) => {
-          if (typeof field.select2 !== "undefined" && field.select2) {
-            field.select2.destroy();
-          }
+          jQuery(field).select2("destroy");
         });
-        document.querySelectorAll(".wpcf-code-editor-value").forEach((node) => {
-          if (window.wcfCodeMirror[node.id]) {
-            window.wcfCodeMirror[node.id].toTextArea(node);
+        repeatableGroup.querySelectorAll(".wpcf-code-editor-value").forEach((node) => {
+          if (window.wpcfCodeMirror[node.id]) {
+            window.wpcfCodeMirror[node.id].codemirror.toTextArea(node);
             codeNodes.push(node);
           }
         });
@@ -341,7 +340,7 @@
         });
         codeNodes.forEach((node) => {
           const settings = JSON.parse(node.dataset.settings);
-          window.wcfCodeMirror[node.id] = wp.codeEditor.initialize(node, settings);
+          window.wpcfCodeMirror[node.id] = wp.codeEditor.initialize(node, settings);
         });
       });
     });
@@ -475,8 +474,8 @@
     IconsField(framework);
     LocationField(framework);
     MediaField(framework);
-    SelectField(framework);
     SliderField(framework);
+    SelectField(framework);
     DependencyHelper(framework);
     if (!isRepeatable) {
       RepeatableField(framework);
