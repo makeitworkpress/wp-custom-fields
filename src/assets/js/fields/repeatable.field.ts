@@ -96,26 +96,28 @@ export const RepeatableField = (framework: HTMLElement) => {
             const group = (button.closest('.wpcf-repeatable-container') as HTMLElement).querySelector('.wpcf-repeatable-group:last-child') as HTMLElement;
     
             // Keep the first group
-            if (groupLength < 2) return;
-    
-            group.style.display = 'none';
-            setTimeout(() => group.remove(), 500);
+            if (groupLength < 2) { 
+                return;
+            }
+
+            jQuery(group).fadeIn();
         });
     });
     
     // Remove the current group
     document.addEventListener('click', (e) => {
         const target = e.target as HTMLElement;
-        if (target.classList.contains('wpcf-repeatable-remove-group')) {
+        if (target.classList.contains('wpcf-repeatable-remove-group') || target.closest('a')?.classList.contains('wpcf-repeatable-remove-group')) {
             e.preventDefault();
             const groupLength = (target.closest('.wpcf-repeatable-container') as HTMLElement).querySelectorAll('.wpcf-repeatable-group').length;
             const group = target.closest('.wpcf-repeatable-group') as HTMLElement;
     
             // Only remove if not the first group
-            if (groupLength < 2) return;
-    
-            group.style.display = 'none';
-            setTimeout(() => group.remove(), 500);
+            if (groupLength < 2) { 
+                return;
+            }
+
+            jQuery(group).fadeIn();
         }
     });
     

@@ -349,22 +349,22 @@
         e.preventDefault();
         const groupLength = button.closest(".wpcf-repeatable-container").querySelectorAll(".wpcf-repeatable-group").length;
         const group = button.closest(".wpcf-repeatable-container").querySelector(".wpcf-repeatable-group:last-child");
-        if (groupLength < 2)
+        if (groupLength < 2) {
           return;
-        group.style.display = "none";
-        setTimeout(() => group.remove(), 500);
+        }
+        jQuery(group).fadeIn();
       });
     });
     document.addEventListener("click", (e) => {
       const target = e.target;
-      if (target.classList.contains("wpcf-repeatable-remove-group")) {
+      if (target.classList.contains("wpcf-repeatable-remove-group") || target.closest("a")?.classList.contains("wpcf-repeatable-remove-group")) {
         e.preventDefault();
         const groupLength = target.closest(".wpcf-repeatable-container").querySelectorAll(".wpcf-repeatable-group").length;
         const group = target.closest(".wpcf-repeatable-group");
-        if (groupLength < 2)
+        if (groupLength < 2) {
           return;
-        group.style.display = "none";
-        setTimeout(() => group.remove(), 500);
+        }
+        jQuery(group).fadeIn();
       }
     });
     document.querySelectorAll(".wpcf-repeatable-toggle").forEach((button) => {
