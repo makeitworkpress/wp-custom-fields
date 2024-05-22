@@ -100,7 +100,7 @@ export const RepeatableField = (framework: HTMLElement) => {
                 return;
             }
 
-            jQuery(group).fadeIn();
+            jQuery(group).fadeOut(350, () => group.remove());
         });
     });
     
@@ -117,7 +117,7 @@ export const RepeatableField = (framework: HTMLElement) => {
                 return;
             }
 
-            jQuery(group).fadeIn();
+            jQuery(group).fadeOut(350, () => group.remove());
         }
     });
     

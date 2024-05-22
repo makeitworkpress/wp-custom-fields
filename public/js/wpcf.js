@@ -352,7 +352,7 @@
         if (groupLength < 2) {
           return;
         }
-        jQuery(group).fadeIn();
+        jQuery(group).fadeOut(350, () => group.remove());
       });
     });
     document.addEventListener("click", (e) => {
@@ -364,7 +364,7 @@
         if (groupLength < 2) {
           return;
         }
-        jQuery(group).fadeIn();
+        jQuery(group).fadeOut(350, () => group.remove());
       }
     });
     document.querySelectorAll(".wpcf-repeatable-toggle").forEach((button) => {
