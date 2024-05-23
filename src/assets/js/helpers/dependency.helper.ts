@@ -3,6 +3,8 @@
  * 
  * @param {HTMLElement} framework The framework root element
  */
+declare var jQuery;
+
 export const DependencyHelper = (framework: HTMLElement) => {
 
     framework.querySelectorAll('.wpcf-dependent-field').forEach((item: Element) => {
@@ -12,6 +14,7 @@ export const DependencyHelper = (framework: HTMLElement) => {
         const source = field?.getAttribute('data-source');
         const value = field?.getAttribute('data-value');
 
+        
         if (!equation || !source || !value) {
             return;
         }
@@ -22,16 +25,17 @@ export const DependencyHelper = (framework: HTMLElement) => {
         const input = target?.querySelector('input');
         const select = target?.querySelector('select');
 
+
         // Select fields (only supports single select fields)
         if (select) {
-            select.addEventListener('change', function() {
+            jQuery(select).on('change', function() {
                 compare(this, item, equation, value);
             });
         }
 
         // Input fields (only supports simple input fields)
         if (input) {
-            input.addEventListener('change', function(event) {
+            jQuery(input).on('change', function() {
                 compare(this, item, equation, value);
             });
         }

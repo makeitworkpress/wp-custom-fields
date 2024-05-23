@@ -306,8 +306,8 @@ class Framework extends Base {
         // Checks if everything is there
         foreach( ['equation', 'source', 'value'] as $key ) {
             if( ! isset($dependency[$key]) || ! $dependency[$key] ) {
-                return $class;    
-            }           
+                return $class;
+            }
         }
 
         // Let's find the field we're looking for
@@ -316,7 +316,7 @@ class Framework extends Base {
                 if( $field['id'] == $dependency['source'] ) {
                     $source_field = $field;
                     break;
-                }    
+                }
             }
         }
 
@@ -332,7 +332,7 @@ class Framework extends Base {
             if( $dependency['value'] == $value || (is_array($value) && in_array($dependency['value'], $value)) ) {
                 $class = ' active';
             }
-        } else if( $dependency['equation'] == '!=' ) {
+        } elseif( $dependency['equation'] == '!=' ) {
             if( $dependency['value'] != $value || (is_array($value) && ! in_array($dependency['value'], $value)) ) {
                 $class = ' active';
             }
@@ -340,6 +340,6 @@ class Framework extends Base {
 
         return $class;
 
-    }    
+    }
        
 }

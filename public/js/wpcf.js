@@ -427,12 +427,12 @@
       const input = target?.querySelector("input");
       const select = target?.querySelector("select");
       if (select) {
-        select.addEventListener("change", function() {
+        jQuery(select).on("change", function() {
           compare(this, item, equation, value);
         });
       }
       if (input) {
-        input.addEventListener("change", function(event) {
+        jQuery(input).on("change", function() {
           compare(this, item, equation, value);
         });
       }
