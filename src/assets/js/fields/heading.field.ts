@@ -1,13 +1,14 @@
 /**
  * Our heading module, supporting collapsible sections within the customizer
- * @param {HTMLElement} framework The parent framework element
  */
-export const HeadingField = (framework: HTMLElement) => {
+export const HeadingField = () => {
 
     const collapsibleElements = document.querySelectorAll('.wpcf-heading-collapsible');
-
+    console.log(collapsibleElements);
+   
     collapsibleElements.forEach((element: any) => {
         const collapsibleSections = element.dataset.sections;
+
     
         if (!collapsibleSections) {
             return;

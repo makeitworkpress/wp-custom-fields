@@ -3,7 +3,7 @@
  */
 declare var jQuery;
 
-export const SelectField = (framework) => {
+export const SelectField = () => {
 
     // Execute if we do have select2 defined
     if( typeof jQuery.fn.select2 !== 'undefined' && jQuery.fn.select2 ) {

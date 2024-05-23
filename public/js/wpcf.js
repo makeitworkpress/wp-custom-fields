@@ -105,8 +105,9 @@
   };
 
   // src/assets/js/fields/heading.field.ts
-  var HeadingField = (framework) => {
+  var HeadingField = () => {
     const collapsibleElements = document.querySelectorAll(".wpcf-heading-collapsible");
+    console.log(collapsibleElements);
     collapsibleElements.forEach((element) => {
       const collapsibleSections = element.dataset.sections;
       if (!collapsibleSections) {
@@ -384,7 +385,7 @@
   };
 
   // src/assets/js/fields/select.field.ts
-  var SelectField = (framework) => {
+  var SelectField = () => {
     if (typeof jQuery.fn.select2 !== "undefined" && jQuery.fn.select2) {
       jQuery(".wpcf-select-advanced").select2({});
       jQuery(".wpcf-typography-fonts").select2({
@@ -467,16 +468,21 @@
 
   // src/assets/js/modules/fields.module.ts
   var FieldsModule = (framework, isRepeatable = false) => {
+    setTimeout(() => {
+      HeadingField();
+      SelectField();
+    }, 10);
+    if (!framework) {
+      return;
+    }
     ButtonField(framework);
     CodeField(framework);
     ColorpickerField(framework);
     DatepickerField(framework);
-    HeadingField(framework);
     IconsField(framework);
     LocationField(framework);
     MediaField(framework);
     SliderField(framework);
-    SelectField(framework);
     DependencyHelper(framework);
     if (!isRepeatable) {
       RepeatableField(framework);
@@ -531,13 +537,12 @@
 
   // src/assets/js/app.ts
   var InitWPCF = () => {
-    const framework = document.querySelector(".wpcf-framework");
-    if (!framework) {
-      return;
-    }
+    const framework = document.querySelector(".wpcf-framework") ?? void 0;
     window.wpcfCodeMirror = {};
     FieldsModule(framework);
-    OptionsLayout(framework);
+    if (framework) {
+      OptionsLayout(framework);
+    }
     TabsLayout();
   };
   document.addEventListener("DOMContentLoaded", () => InitWPCF());

@@ -18,17 +18,26 @@ import { DependencyHelper } from '../helpers/dependency.helper';
 
 export const FieldsModule = (framework: HTMLElement, isRepeatable = false) => {
 
+    // Those fields can also live in the customizer, without a framework element, 
+    // executed after a small time-out to hack loading after customizer
+    setTimeout(() => {
+        HeadingField();
+        SelectField();
+    }, 10)
+    
     // Fields that require JS
+    if (! framework) {
+        return;
+    }
+
     ButtonField(framework);
     CodeField(framework);
     ColorpickerField(framework);
     DatepickerField(framework);
-    HeadingField(framework);
     IconsField(framework);
     LocationField(framework);
     MediaField(framework);
     SliderField(framework);
-    SelectField(framework);
 
     // Dependent fields helper
     DependencyHelper(framework); 
