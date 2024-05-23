@@ -25,14 +25,16 @@ export const ButtonField = (framework: HTMLElement) => {
                 const response = await fetch(wpcf.ajaxUrl, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                     },
-                    body: JSON.stringify({
+                    body: new URLSearchParams({
                         action: action,
                         data: data,
-                        nonce: wpcf.nonce,
-                    }),
+                        nonce: wpcf.nonce
+                    })
                 });
+                
+                console.log(response);
 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

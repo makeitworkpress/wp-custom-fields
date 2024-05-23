@@ -196,9 +196,9 @@ class Framework extends Base {
             $action( $script['handle'], $script['src'], $script['deps'], $script['ver'], $script['in_footer'] );
             
             // Localize a script
-            // if( isset($script['localize']) && isset($script['object']) ) {
-            //     wp_localize_script( $script['handle'], $script['object'], $script['localize'] );
-            // }
+            if( isset($script['localize']) && isset($script['object']) ) {
+                wp_localize_script( $script['handle'], $script['object'], $script['localize'] );
+            }
             
         }
         
