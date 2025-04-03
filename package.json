@@ -5,7 +5,7 @@
     "description": "The package for the WP Custom Fields Framework",
     "devDependencies": {
         "@esbuild-plugins/node-resolve": "^0.2.2",
-        "esbuild": "^0.20.2"
+        "esbuild": "^0.25.0"
     },
     "scripts": {
         "bundle": "node esbuild.config.js"
