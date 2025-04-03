@@ -7,6 +7,7 @@ declare var wp, jQuery;
 export const MediaField = (framework: HTMLElement) => {
       
     const uploadWrappers = framework.querySelectorAll('.wpcf-upload-wrapper') as NodeListOf<HTMLElement>;
+    console.log(uploadWrappers);
 
     uploadWrappers.forEach((uploadWrapper: HTMLElement) => {
 

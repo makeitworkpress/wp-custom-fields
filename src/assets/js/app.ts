@@ -9,13 +9,15 @@ import { OptionsLayout } from './layout/options.layout';
 import { TabsLayout } from './layout/tabs.layout';
 
 const InitWPCF = () => {
-    const framework = document.querySelector('.wpcf-framework') as HTMLElement ?? undefined;
+    const frameworks = document.querySelectorAll('.wpcf-framework') as NodeListOf<HTMLElement> ?? undefined;
     (window as any).wpcfCodeMirror = {};
 
-    FieldsModule(framework);  
-    
-    if(framework) {
-        OptionsLayout(framework);
+    // Multiple frameworks can exist for each page
+    if(frameworks) {
+        frameworks.forEach(framework => {
+            FieldsModule(framework);  
+        OptionsLayout(framework);   
+        });
     }
 
     TabsLayout();

@@ -25,7 +25,6 @@
               nonce: wpcf.nonce
             })
           });
-          console.log(response);
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
@@ -107,7 +106,6 @@
   // src/assets/js/fields/heading.field.ts
   var HeadingField = () => {
     const collapsibleElements = document.querySelectorAll(".wpcf-heading-collapsible");
-    console.log(collapsibleElements);
     collapsibleElements.forEach((element) => {
       const collapsibleSections = element.dataset.sections;
       if (!collapsibleSections) {
@@ -222,6 +220,7 @@
   // src/assets/js/fields/media.field.ts
   var MediaField = (framework) => {
     const uploadWrappers = framework.querySelectorAll(".wpcf-upload-wrapper");
+    console.log(uploadWrappers);
     uploadWrappers.forEach((uploadWrapper) => {
       const addMedia = uploadWrapper.querySelector(".wpcf-upload-add");
       const addWrap = uploadWrapper.querySelector(".wpcf-single-media.empty");
@@ -537,11 +536,13 @@
 
   // src/assets/js/app.ts
   var InitWPCF = () => {
-    const framework = document.querySelector(".wpcf-framework") ?? void 0;
+    const frameworks = document.querySelectorAll(".wpcf-framework") ?? void 0;
     window.wpcfCodeMirror = {};
-    FieldsModule(framework);
-    if (framework) {
-      OptionsLayout(framework);
+    if (frameworks) {
+      frameworks.forEach((framework) => {
+        FieldsModule(framework);
+        OptionsLayout(framework);
+      });
     }
     TabsLayout();
   };

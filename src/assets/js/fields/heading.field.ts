@@ -4,8 +4,6 @@
 export const HeadingField = () => {
 
     const collapsibleElements = document.querySelectorAll('.wpcf-heading-collapsible');
-    console.log(collapsibleElements);
-   
     collapsibleElements.forEach((element: any) => {
         const collapsibleSections = element.dataset.sections;
 
