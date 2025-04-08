@@ -1,7 +1,7 @@
 {
     "name": "wp-custom-fields",
     "version": "1.0.0",
-    "author": "Michiel Tramper",
+    "author": "Make it WorkPress",
     "description": "The package for the WP Custom Fields Framework",
     "devDependencies": {
         "@esbuild-plugins/node-resolve": "^0.2.2",
